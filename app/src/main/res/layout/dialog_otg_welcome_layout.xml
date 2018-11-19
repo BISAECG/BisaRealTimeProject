@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context="com.bisa.health.ecg.OTGActivity"
+    android:background="@drawable/shape_dialog_corner_white"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_weight="9"
+        android:id="@+id/rl_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/otg_conn_title"
+            android:textColor="@color/color_main_deldev"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_daily"
+            android:layout_width="301dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_dialog_corner_child"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:tag="9">
+
+            <TextView
+                android:id="@+id/txt_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/otg_conn_title_a"
+                android:textColor="@color/report_depth"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_otg_a"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/txt_a"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/otg_setting"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/otg_switch" />
+
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/txt_b"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_otg_a"
+                android:layout_marginTop="15dp"
+                android:text="@string/otg_conn_title_b"
+                android:textColor="@color/report_depth"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_otg_b"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/txt_b"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:padding="5dp">
+
+
+                <ImageView
+                    android:id="@+id/iv_otgformat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/otg_format" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/iv_otgformat"
+                    android:gravity="center"
+                    android:text="@string/otg_format_tip"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txt_c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_otg_b"
+                android:layout_marginTop="15dp"
+                android:text="@string/otg_conn_title_c"
+                android:textColor="@color/report_depth"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_otg_c"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/txt_c"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:padding="5dp">
+
+
+                <ImageView
+                    android:id="@+id/iv_otgdel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/otg_file" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/iv_otgdel"
+                    android:gravity="center"
+                    android:text="@string/otg_deldat_tip"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/txt_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_otg_c"
+                android:layout_marginTop="15dp"
+                android:text="@string/otg_conn_title_d"
+                android:textColor="@color/report_depth"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_otg_d"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/txt_d"
+                android:layout_above="@+id/tv_warnning"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:padding="10dp">
+
+
+                <ImageView
+                    android:id="@+id/iv_otg_left_line"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="75dp"
+                    android:src="@drawable/left_otg_line" />
+
+                <ImageView
+                    android:id="@+id/iv_otg_right_line"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="115dp"
+                    android:src="@drawable/right_otg_line" />
+
+
+                <ImageView
+                    android:id="@+id/iv_otg_conn"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/otg_iphone" />
+
+
+                <ImageView
+                    android:id="@+id/iv_otg_conn_iphone"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/otg_ecg" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_warnning"
+                android:text="@string/otg_conn_warnning"
+                tools:text="注:插入设备20秒无法检测到设备请重新插入设备"
+                android:textSize="12sp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/red"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_width="match_parent">
+
+        <Button
+            android:id="@+id/positiveButton"
+            android:layout_width="290dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_gray_click"
+            android:text="@string/otg_conn_commit"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</LinearLayout>

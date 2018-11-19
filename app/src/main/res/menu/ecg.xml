@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.bisa.health.ecg.ECGActivity" >
+
+
+    <item
+        android:id="@+id/signal"
+        android:orderInCategory="30"
+        android:title=""
+        android:enabled="false"
+        android:icon="@drawable/signal"
+        android:showAsAction="always"/>
+
+    <item  
+        android:id="@+id/up_cloud"  
+        android:orderInCategory="40"  
+        android:title=""
+        android:enabled="false"
+        android:icon="@drawable/up_success"
+        android:showAsAction="always"/>
+
+    <item
+        android:id="@+id/battery"
+        android:orderInCategory="50"
+        android:title=""
+        android:enabled="false"
+        android:icon="@drawable/battery_5"
+        android:showAsAction="always"/>
+
+</menu>

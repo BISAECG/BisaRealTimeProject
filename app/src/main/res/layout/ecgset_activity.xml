@@ -1,0 +1,208 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bisa.health.ecg.ECGSetAcitvity">
+
+
+    <fragment
+        android:id="@+id/abar_title"
+        android:name="com.bisa.health.cust.ActionBarBackFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="@string/tip_accout_title" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/abar_title"
+        android:layout_marginTop="1dp"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
+
+        <LinearLayout
+            android:id="@+id/ll_webview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true">
+
+                    <TextView
+                        android:id="@+id/txt_aevent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="26dp"
+                        android:layout_marginTop="9dp"
+                        android:text="@string/auto_alarm"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:layout_below="@+id/txt_aevent"
+                        android:id="@+id/txt_aevent_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginLeft="26dp"
+                        android:text="@string/auto_alarm_desc"
+                        android:textColor="@color/color_get_pwd"
+                        android:textSize="12sp" />
+
+                    <Switch
+                        android:id="@+id/sw_a"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textOff=""
+                        android:textOn=""
+                        android:background="@color/white"
+                        android:theme="@style/SwitchTheme"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="25dp"
+                        android:checked="true"
+                        android:thumb="@drawable/switch_ios_thumb"
+                        android:track="@drawable/switch_ios_track_selector" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_aling"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/rl_top"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/color_bar_bg" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_mid"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/view_aling"
+                    android:background="@color/white">
+
+
+                    <TextView
+                        android:id="@+id/txt_mdevice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="26dp"
+                        android:layout_marginTop="9dp"
+                        android:text="@string/manua_app_alarm"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:layout_below="@+id/txt_mdevice"
+                        android:id="@+id/txt_mdeviced_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginLeft="26dp"
+                        android:text="@string/manua_appalarm_desc"
+                        android:textColor="@color/color_get_pwd"
+                        android:textSize="12sp" />
+
+                    <Switch
+                        android:id="@+id/sw_app"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textOff=""
+                        android:textOn=""
+                        android:background="@color/white"
+                        android:theme="@style/SwitchTheme"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="25dp"
+                        android:thumb="@drawable/switch_ios_thumb"
+                        android:track="@drawable/switch_ios_track_selector" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_mid"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/rl_mid"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/color_bar_bg" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_below"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/view_mid"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/txt_mapp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="26dp"
+                        android:layout_marginTop="9dp"
+                        android:text="@string/manua_device_alarm"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:layout_below="@+id/txt_mapp"
+                        android:id="@+id/txt_mapp_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginLeft="26dp"
+                        android:text="@string/manua_devicealarm_desc"
+                        android:textColor="@color/color_get_pwd"
+                        android:textSize="12sp" />
+
+                    <Switch
+                        android:id="@+id/sw_m"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textOff=""
+                        android:textOn=""
+                        android:theme="@style/SwitchTheme"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="25dp"
+                        android:background="@color/white"
+                        android:thumb="@drawable/switch_ios_thumb"
+                        android:track="@drawable/switch_ios_track_selector" />
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_bot"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/rl_below"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/color_bar_bg" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

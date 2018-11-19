@@ -1,0 +1,45 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/color_default_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.bisa.health.cust.ActionBarBackFragment">
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="47dp">
+
+        <ImageButton
+            android:id="@+id/ibtn_back"
+            android:background="@drawable/menu_back_bg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/color_search_title"
+            tools:text="中间位置"
+            android:text="" />
+
+
+        <ImageButton
+            android:id="@+id/ibtn_del"
+            android:background="@drawable/del_dev_enabled"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+    </RelativeLayout>
+    
+
+
+</FrameLayout>

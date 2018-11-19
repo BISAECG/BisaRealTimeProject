@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/rl_main"
+      android:layout_width="334dp"
+      android:layout_height="355dp"
+      android:layout_gravity="center"
+      android:orientation="vertical"
+      android:background="@drawable/shape_dialog_corner_white">
+
+    <TextView
+        android:id="@+id/txt_del_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/title_pls_report_type"
+        android:textColor="@color/color_main_deldev"
+        android:textSize="20sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_daily"
+        android:layout_width="301dp"
+        android:layout_height="84dp"
+        android:layout_below="@+id/txt_del_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginRight="17dp"
+        android:tag="9"
+        android:background="@drawable/shape_dialog_corner_child"
+        android:orientation="vertical">
+
+      <ImageView
+          android:id="@+id/iv_daily_logo"
+          android:layout_width="42dp"
+          android:layout_height="42dp"
+          android:layout_centerVertical="true"
+          android:src="@drawable/daily_report_ico"
+          android:layout_marginLeft="17dp" />
+
+      <TextView
+          android:id="@+id/tv_daily_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="72dp"
+          android:layout_marginTop="21dp"
+          android:text="@string/title_helath_daily_report"
+          android:textColor="@color/color_main_deldev"
+          android:textSize="16sp" />
+
+      <TextView
+          android:id="@+id/tv_daily_chlid_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/tv_daily_title"
+          android:layout_marginLeft="72dp"
+          android:layout_marginTop="10dp"
+          android:text="@string/title_helath_child_daily_report"
+          android:textColor="@color/color_main_deldev"
+          android:textSize="12sp" />
+
+      <TextView
+          android:id="@+id/tv_daily_chlid_free"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:layout_marginLeft="245dp"
+          android:text="@string/title_free"
+          android:textColor="@color/color_main_deldev"
+          android:textSize="14sp" />
+
+      <ImageView
+          android:id="@+id/iv_daily_opt"
+          android:layout_width="9dp"
+          android:layout_height="17dp"
+          android:layout_centerVertical="true"
+          android:src="@drawable/left_arrow"
+          android:layout_marginLeft="280dp"/>
+
+    </RelativeLayout>
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_depth"-->
+        <!--android:layout_width="301dp"-->
+        <!--android:layout_height="84dp"-->
+        <!--android:layout_below="@+id/rl_daily"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="18dp"-->
+        <!--android:layout_marginLeft="17dp"-->
+        <!--android:layout_marginRight="17dp"-->
+        <!--android:tag="10"-->
+        <!--android:background="@drawable/shape_dialog_corner_child"-->
+        <!--android:orientation="vertical">-->
+
+      <!--<ImageView-->
+          <!--android:id="@+id/iv_depth_logo"-->
+          <!--android:layout_width="42dp"-->
+          <!--android:layout_height="54dp"-->
+          <!--android:layout_marginLeft="17dp"-->
+          <!--android:layout_centerVertical="true"-->
+          <!--android:src="@drawable/depth_report_ico" />-->
+
+      <!--<TextView-->
+          <!--android:id="@+id/tv_depth_title"-->
+          <!--android:layout_width="wrap_content"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--android:layout_marginLeft="72dp"-->
+          <!--android:layout_marginTop="21dp"-->
+          <!--android:text="@string/title_helath_depth_report"-->
+          <!--android:textColor="@color/color_main_deldev"-->
+          <!--android:textSize="16sp" />-->
+
+      <!--<TextView-->
+          <!--android:id="@+id/tv_depth_chlid_title"-->
+          <!--android:layout_width="wrap_content"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--android:layout_below="@+id/tv_depth_title"-->
+          <!--android:layout_marginLeft="72dp"-->
+          <!--android:layout_marginTop="16dp"-->
+          <!--android:text="@string/title_helath_child_depth_report"-->
+          <!--android:textColor="@color/color_main_deldev"-->
+          <!--android:textSize="12sp" />-->
+
+      <!--<TextView-->
+          <!--android:id="@+id/tv_depth_chlid_free"-->
+          <!--android:layout_width="wrap_content"-->
+          <!--android:layout_height="wrap_content"-->
+          <!--android:layout_centerVertical="true"-->
+          <!--android:layout_marginLeft="245dp"-->
+          <!--android:text="@string/title_unit"-->
+          <!--android:textColor="@color/color_main_deldev"-->
+          <!--android:textSize="14sp" />-->
+
+      <!--<ImageView-->
+          <!--android:id="@+id/iv_depth_opt"-->
+          <!--android:layout_width="9dp"-->
+          <!--android:layout_height="17dp"-->
+          <!--android:layout_centerVertical="true"-->
+          <!--android:src="@drawable/left_arrow"-->
+          <!--android:layout_marginLeft="280dp"/>-->
+
+    <!--</RelativeLayout>-->
+
+    <RelativeLayout
+        android:id="@+id/rl_all"
+        android:layout_width="301dp"
+        android:layout_height="84dp"
+        android:layout_below="@+id/rl_daily"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:tag="11"
+        android:background="@drawable/shape_dialog_corner_child"
+        android:orientation="vertical">
+
+      <ImageView
+          android:id="@+id/iv_all_logo"
+          android:layout_width="42dp"
+          android:layout_height="54dp"
+          android:layout_marginLeft="17dp"
+          android:layout_centerVertical="true"
+          android:src="@drawable/all_report_ico"/>
+
+      <TextView
+          android:id="@+id/tv_all_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="72dp"
+          android:layout_marginTop="21dp"
+          android:text="@string/title_helath_all_report"
+          android:textColor="@color/color_main_deldev"
+          android:textSize="16sp" />
+
+      <TextView
+          android:id="@+id/tv_all_chlid_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/tv_all_title"
+          android:layout_marginLeft="72dp"
+          android:layout_marginTop="10dp"
+          android:text="@string/title_helath_child_all_report"
+          android:textColor="@color/color_main_deldev"
+          android:textSize="12sp" />
+
+
+      <ImageView
+          android:id="@+id/iv_all_opt"
+          android:layout_width="9dp"
+          android:layout_height="17dp"
+          android:layout_centerVertical="true"
+          android:src="@drawable/left_arrow"
+          android:layout_marginLeft="280dp"/>
+
+    </RelativeLayout>
+
+
+  </RelativeLayout>

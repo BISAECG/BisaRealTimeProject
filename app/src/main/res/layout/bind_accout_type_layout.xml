@@ -1,0 +1,170 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bisa.health.UserProActivity">
+
+
+    <fragment
+        android:id="@+id/abar_title"
+        android:name="com.bisa.health.cust.ActionBarBackFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="@string/tip_accout_title" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/abar_title"
+        android:layout_marginTop="1dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_webview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_wechat"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true">
+
+                    <TextView
+                        android:id="@+id/txt_wechat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="47dp"
+                        android:layout_toRightOf="@+id/img_wechat_logo"
+                        android:text="@string/tip_vail_type"
+                        android:textColor="@color/color_get_pwd"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_sos_callme"
+                    android:layout_width="314dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/rl_wechat"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/color_bar_bg" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_iphone"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/view_sos_callme"
+                    android:background="@color/white">
+
+
+                    <TextView
+                        android:id="@+id/txt_title_iphone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="47dp"
+                        android:layout_toRightOf="@+id/img_callme_logo"
+                        android:text="@string/title_getpwd_iphone_type"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        tools:text="绑定手机" />
+
+                    <TextView
+                        android:id="@+id/txt_iphone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="14dp"
+                        android:layout_toLeftOf="@+id/iv_arrow"
+                        android:text=""
+                        android:textColor="@color/color_get_pwd_value"
+                        android:textSize="14sp"
+                        tools:text="138***138000" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow"
+                        android:layout_width="7dp"
+                        android:layout_height="14dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="24dp"
+                        android:src="@drawable/left_arrow" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_sos"
+                    android:layout_width="314dp"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/rl_iphone"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/color_bar_bg" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/view_sos"
+                    android:background="@color/white">
+
+
+                    <TextView
+                        android:id="@+id/txt_mail_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="47dp"
+                        android:layout_toRightOf="@+id/img_sos_logo"
+                        android:text="@string/title_getpwd_mail_type"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        tools:text="绑定邮箱" />
+
+                    <TextView
+                        android:id="@+id/txt_mail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="14dp"
+                        android:layout_toLeftOf="@+id/iv_arrow_mail"
+                        android:text=""
+                        android:textColor="@color/color_get_pwd_value"
+                        android:textSize="14sp"
+                        tools:text="无" />
+
+                    <ImageView
+                        android:id="@+id/iv_arrow_mail"
+                        android:layout_width="7dp"
+                        android:layout_height="14dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="24dp"
+                        android:src="@drawable/left_arrow" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

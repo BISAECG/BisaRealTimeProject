@@ -1,0 +1,126 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_main_all"
+    android:layout_width="334dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    tools:context="com.bisa.health.ecg.OTGActivity"
+    android:background="@drawable/shape_dialog_corner_white">
+
+
+    <LinearLayout
+        android:background="@drawable/shape_dialog_corner_left_right"
+        android:id="@+id/ll_title"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/otg_ico"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+        
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/tv_title"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/otg_conn_update"
+            android:textColor="@color/color_main_deldev"
+            tools:text="数据上传进度"
+            android:gravity="center"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_main_a"
+        android:visibility="gone"
+        android:layout_below="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ProgressBar
+            android:layout_centerHorizontal="true"
+            android:progressDrawable="@drawable/custom_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:id="@+id/pb_Circle"
+            android:max="100"
+            android:progress="22"/>
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/pb_Circle"
+            android:id="@+id/tv_desc"
+            android:text="@string/otg_conn_update_tip"
+            tools:text="正在上传数据请等待,切勿操作手机和设备."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/report_daily"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_main_b"
+        android:visibility="visible"
+        android:layout_below="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/tv_desc_error"
+            android:text="@string/otg_conn_update_error_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/report_daily"
+            android:textSize="20sp" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_below="@+id/tv_desc_error"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_marginLeft="10dp"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/shape_btn_gray"
+                android:text="@string/cancel_cancel"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_commit"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/shape_btn_gray"
+                android:text="@string/commit_submit"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

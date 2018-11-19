@@ -1,0 +1,21 @@
+
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+      <LinearLayout
+        android:id="@+id/T1"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/y455"
+        android:background="#08088A"
+        android:orientation="horizontal" >
+        
+           <Button
+                    android:id="@+id/btnSetting"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="0.0dip"
+                    android:text="TEST"
+                    android:textSize="13.0dip"
+                    android:textStyle="bold|italic" />
+    </LinearLayout>
+
+    </menu>
+

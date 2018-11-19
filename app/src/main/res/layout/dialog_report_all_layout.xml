@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main_all"
+    android:layout_width="334dp"
+    android:layout_height="355dp"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_dialog_corner_white"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+
+    <TextView
+        android:id="@+id/txt_all_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/title_helath_all_report_color"
+        android:textColor="@color/color_main_deldev"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txt_all_content"
+        android:layout_width="294dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_all_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:text="@string/title_helath_child_all_content"
+        android:textColor="@color/color_main_deldev"
+        android:lineSpacingExtra="8dp"
+        android:lineSpacingMultiplier="1"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/img_all_ico"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@id/txt_all_content"
+        android:layout_below="@+id/txt_all_content"
+        android:src="@drawable/all_report_ico_big"
+        android:layout_marginTop="58dp" />
+
+
+    <RelativeLayout
+        android:layout_width="169dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_all_content"
+        android:layout_toRightOf="@+id/img_all_ico"
+        android:layout_alignRight="@id/txt_all_content"
+        android:background="@drawable/shape_dialog_corner_white">
+
+        <TextView
+            android:id="@+id/txt_all_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="18dp"
+            android:lineSpacingExtra="5dp"
+            android:lineSpacingMultiplier="1"
+            android:text="@string/title_helath_child_all_desc"
+            android:textColor="@color/report_all"
+            android:textSize="14sp" />
+        <Button
+            android:id="@+id/btn_commit_report_all"
+            android:tag="24"
+            android:layout_marginTop="9dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/txt_all_desc"
+            android:textColor="@color/color_start_report"
+            android:background="@drawable/report_commit"
+            android:text="@string/title_start_report"
+            android:textSize="16sp"
+            android:layout_width="151dp"
+            android:layout_height="50dp" />
+    </RelativeLayout>
+</RelativeLayout>
+

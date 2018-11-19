@@ -1,0 +1,53 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+     <color name="red">#FF0000</color>
+      <color name="yellow">#FFFF00</color>
+       <color name="blue">#0000FF</color>
+        <color name="white">#FFFFFF</color>
+         <color name="black">#000000</color>
+			<color name="transparent">#00000000</color>
+          <color name="cyan_blue">#00FFFF</color>
+           <color name="green">#00FF00</color>
+			<color name="color_default_bg">#e0e0e0</color>
+           <color name="color_ecg_title">#7a7a7a</color>
+			<color name="color_ecg_time">#7ed3c0</color>
+			<color name="color_bpmcounttext">#009adf</color>
+			<color name="color_a4a4a4">#A4A4A4</color>
+
+			<color name="color_bpm_value">#2f1658</color>
+            <color name="color_heart_value">#dc4849</color>
+			<color name="color_bar_bg">#efeff0</color>
+			<color name="color_main_deldev">#646464</color>
+			<color name="color_list_devnum">#8B8B8B</color>
+			<color name="color_search_title">#7A7A7A</color>
+			<color name="color_default_tip">#d1d1d4</color>
+			<color name="color_centre_device">#7f7f7f</color>
+			<color name="color_main_footer_bg">#f7f7f7</color>
+			<color name="color_login_tip">#545454</color>
+			<color name="color_line">#dfdfdf</color>
+			<color name="color_login_type">#9F9F9F</color>
+			<color name="color_get_pwd">#9B9B9B</color>
+			<color name="color_get_pwd_value">#6C6C6C</color>
+			<color name="color_rule_text">#7c7c7c</color>
+			<color name="dark">#FF222222</color>
+			<color name="light">#FFEEEEEE</color>
+            <color name="color_base_bg">#efeff0</color>
+			<color name="color_tips">#FFF5DB</color>
+			<color name="color_tips_text">#E5934C</color>
+			<color name="color_btn_default">#0098DC</color>
+			<color name="color_start_report">#53A55E</color>
+			<color name="coloe_split_line">#f3f3f3</color>
+			<color name="color_listecd">#5f5f5f</color>
+			<color name="color_listecdtime">#a0a0a0</color>
+			<color name="report_timing">#7C7C7C</color>
+			<color name="report_daily">#579ADF</color>
+			<color name="report_depth">#08B39B</color>
+			<color name="report_all">#334D5C</color>
+			<color name="run_color">#4AB4A0</color>
+			<color name="colorPrimary">#3F51B5</color>
+			<color name="colorPrimaryDark">#303F9F</color>
+			<color name="colorAccent">#FF4081</color>
+			<color name="color_9ce8d7">#9ce8d7</color>
+
+</resources>

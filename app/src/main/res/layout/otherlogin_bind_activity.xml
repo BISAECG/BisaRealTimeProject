@@ -1,0 +1,124 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.bisa.health.UserProActivity">
+
+    <fragment
+        android:id="@+id/abar_title"
+        android:name="com.bisa.health.cust.ActionBarBackFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="@string/bind_iphone_title"
+        tools:layout="@layout/fragment_action_bar" />
+
+
+    <fragment
+        android:id="@+id/ll_pwd"
+        android:name="com.bisa.health.cust.AreaNameFragment"
+        android:layout_width="309dp"
+        android:layout_height="41dp"
+        android:layout_below="@+id/abar_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="63dp"
+        android:background="@drawable/shape_login"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:tag="-1"
+        tools:layout="@layout/area_name_fragment" />
+
+
+    <LinearLayout
+        android:layout_below="@+id/ll_pwd"
+        android:id="@+id/ll_iphone"
+        android:layout_width="309dp"
+        android:layout_height="41dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:background="@drawable/shape_login"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <LinearLayout
+            android:id="@+id/ll_iphone_ico"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="27dp"
+            android:background="#fff"
+            android:orientation="horizontal"
+            android:layout_weight="0.00">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="17dp"
+                    android:background="@drawable/iphone_ico" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="33dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/yline" />
+        </LinearLayout>
+
+        <!-- 18682268551-->
+        <EditText
+            android:id="@+id/tv_code"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:gravity="fill"
+            android:hint="@string/tip_input_code"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:maxLength="20"
+            android:nextFocusForward="@+id/tv_verify"
+            android:text=""
+            android:textSize="16sp">
+
+        </EditText>
+
+        <LinearLayout
+            android:id="@+id/bt_dropdown"
+            android:layout_width="94dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <Button
+                android:id="@+id/imgbtn_smsSend"
+                android:layout_width="94dp"
+                android:layout_height="27dp"
+                android:background="@drawable/sms_enabled"
+                android:gravity="center"
+                android:text="@string/tip_restart_code"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="309dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/ll_iphone"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:background="@drawable/login_btn"
+        android:text="@string/commit_submit"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+
+
+</RelativeLayout>

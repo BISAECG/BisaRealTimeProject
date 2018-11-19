@@ -1,0 +1,53 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/abar_title"
+            android:name="com.bisa.health.cust.ActionBarBackFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="@string/login_title_forgetpwd" />
+
+        <fragment
+            android:id="@+id/ll_pwd"
+            android:name="com.bisa.health.cust.LoginPwdFragment"
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:layout_below="@+id/abar_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="63dp"
+            android:background="@drawable/shape_login"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:tag="-1" />
+
+        <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/comfigpwd_btn"
+            android:text="@string/tip_next"
+            android:textColor="@color/white"
+            android:layout_below="@+id/ll_pwd"
+            android:layout_alignStart="@+id/ll_pwd" />
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_commit"
+            android:layout_marginLeft="44dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/title_getpwd_tip"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</FrameLayout>

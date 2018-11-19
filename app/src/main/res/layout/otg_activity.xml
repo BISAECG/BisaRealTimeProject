@@ -1,0 +1,121 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_default_bg"
+    tools:context="com.bisa.health.ecg.OTGActivity" >
+
+    <fragment
+        android:tag="@string/report_select_data"
+        android:id="@+id/abar_title"
+        android:name="com.bisa.health.cust.ActionBarBackFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/ll_otg_title"
+        android:layout_below="@+id/abar_title"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:background="@color/white" >
+
+        <Button
+            android:id="@+id/btn_report_title"
+            android:background="@color/white"
+            android:text="@string/report_title_24"
+            android:textColor="@color/color_ecg_title"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="47dp" />
+        <View
+            android:layout_width="2dp"
+            android:layout_height="34dp"
+            android:background="@color/coloe_split_line"
+            android:layout_gravity="center_vertical"
+            />
+        <Button
+            android:id="@+id/btn_order"
+            android:layout_weight="1"
+            android:textColor="@color/color_ecg_title"
+            android:text="@string/ecd_file_order_asc"
+            android:background="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="47dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_below="@+id/ll_otg_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="4">-->
+            <!--<ScrollView-->
+                <!--android:id="@+id/main_sv"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginTop="10dp">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/main_tv_msg"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content" />-->
+            <!--</ScrollView>-->
+        <!--</RelativeLayout>-->
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8">
+            <ListView
+                android:layout_marginTop="10dp"
+                android:divider="@null"
+                android:id="@+id/listOtgView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5">
+
+            <TextView
+                android:id="@+id/tv_report_desc"
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="1dp"
+                android:layout_centerVertical="true"
+                android:lineSpacingMultiplier="1"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="14dp"
+                android:scrollbars="vertical"
+                android:textColor="@color/color_main_deldev"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="@string/report_content"/>
+
+
+            <Button
+                android:id="@+id/btn_report_commit"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="14dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="@string/titl_report_create"
+                android:background="@drawable/shape_btn_create_report"
+                android:layout_width="117dp"
+                android:layout_height="38dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

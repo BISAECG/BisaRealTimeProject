@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:descendantFocusability="blocksDescendants"
+        android:id="@+id/rl_file_name"
+        android:layout_width="337dp"
+        android:layout_height="56dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/txt_filename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="29dp"
+            android:text=""
+            android:textColor="@color/color_listecdtime"
+            android:textSize="20sp"
+            tools:text="2017/6/20" />
+        
+        <ImageView
+            android:tag="0"
+            android:id="@+id/iv_select"
+            android:layout_width="20dp"
+            android:focusable="false"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="1dp"
+            android:src="@drawable/ecdcheck"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

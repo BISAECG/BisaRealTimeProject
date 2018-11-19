@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <!-- necessary -->
+    <meta name="keywords" content="1,2,3">
+    <meta name="description" content="">
+    <!-- description -->
+    <meta name="renderer" content="webkit">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>免费报告-第二版</title>
+    <!-- base -->
+
+    <link href="../../css/comm/bootstrap.css" rel="stylesheet">
+    <link href="../../css/comm/base.css" rel="stylesheet">
+    <link href="../../css/bisserve/bisserve.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+
+        #div_try{ margin:0 auto;text-align:center;}
+		#img_try{ margin:0 0 100px 0;}
+		.pro-img img
+		{position: absolute;
+			top: 40%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			-webkit-transform: translate(-50%, -50%);
+			 -moz-transform: translate(-50%, -50%);
+			max-height: 100%;
+		}
+		.pro-img div
+		{position: absolute;
+			top: 51%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			-webkit-transform: translate(-50%, -50%);
+			 -moz-transform: translate(-50%, -50%);
+			max-height: 100%;
+			letter-spacing:4px;
+			font-size:14px;
+		}
+    </style>
+</head>
+
+<body>
+<div  id="div_try" onclick="callTry()" class="clear free_re_box pos-r full-w pd-10 min-h-100s pos-r pro-img" style="background-color:#e0e0e0">
+    <img id="img_try"  src="../../img/report/refresh.png" class="img-60"  />
+    <div>
+        <p>页面加载失效</p>
+        <p style="margin-top:5px">请点击页面刷新</p>
+    </div>
+
+    <script>
+
+		var u = navigator.userAgent, app = navigator.appVersion;
+		var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端或者uc浏览器
+		var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+
+		function callTry(){
+
+		  	if(isAndroid){
+               CallAndroid.callTry();
+            }else{
+                window.webkit.messageHandlers.ReportCalendarVC.postMessage({
+                    "method":"callTry",
+                    "parameters":{}
+                 });
+            }
+
+		}
+
+
+	</script>
+
+
+</body>
+
+</html>

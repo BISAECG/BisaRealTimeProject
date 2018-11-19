@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <!-- necessary -->
+    <meta name="keywords" content="1,2,3">
+    <meta name="description" content="">
+    <!-- description -->
+    <meta name="renderer" content="webkit">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>免费报告-第二版</title>
+    <!-- base -->
+
+    <link href="../../css/comm/bootstrap.css" rel="stylesheet">
+    <link href="../../css/comm/base.css" rel="stylesheet">
+    <link href="../../css/bisserve/bisserve.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+   
+    <div class="clear free_re_box pos-r full-w pd-10 min-h-100s pos-r">
+        <div class="clear full-wh radius-5 bg-white sha-freereportv2 overflow-h free_re_c">
+            <div class="clear bg-53A6FF">
+                <div class="clear col-xs-5 pl-0 pr-0">
+                    <canvas id="myChart" width="100%" height="100%"></canvas>
+                    <div class="clear full-w">
+                        <p class="text-center col-white f-18 line-h-25">
+                            心搏总数：
+                        </p>
+                        <p class="text-center col-white f-18 line-h-25 mb-10 cardiac_total">
+                            
+                        </p>
+                    </div>
+                </div>
+                <div class="clear col-xs-7 pr-10 pl-0 pt-15-5-iphone5">
+                    <div class="clear pull-right">
+                        <div class=" h-60-50-iphone5 clear pb-10 pl-30-20-iphone5 pos-r f-16-15-iphone5">
+                            <div class="clear pos-a t-0 l-0 img-30-20-iphone5 bg-B4EBFF radius-5">
+                            </div>
+                            <p class=" mt-5 pl-10 clear text-overflow-1">
+                                <span class="col-white">正常心搏总数：</span>
+                            </p>
+                            <p class="line-h-25 mb-5 pl-10 clear text-overflow-1">
+                                 <span class="col-white normal-cardiac"></span>
+                            </p>
+                        </div>
+                        <div class=" h-60-50-iphone5 clear pb-10 pl-30-20-iphone5 pos-r f-16-15-iphone5">
+                            <div class="clear pos-a t-0 l-0 img-30-20-iphone5 bg-9CCDFE radius-5">
+                            </div>
+                            <p class=" mt-5 pl-10 clear text-overflow-1">
+                                <span class="col-white">过慢心搏总数：</span>
+                            </p>
+                            <p class="line-h-25 mb-5 pl-10 clear text-overflow-1">
+                                 <span class="col-white toLow-cardiac"></span>
+                            </p>
+                        </div>
+                        <div class=" h-60-50-iphone5 clear pb-10 pl-30-20-iphone5 pos-r f-16-15-iphone5">
+                            <div class="clear pos-a t-0 l-0 img-30-20-iphone5 bg-258DFB radius-5">
+                            </div>
+                            <p class=" mt-5 pl-10 clear text-overflow-1">
+                                <span class="col-white">过快心搏总数：</span>
+                            </p>
+                            <p class="line-h-25 mb-5 pl-10 clear text-overflow-1">
+                                 <span class="col-white dizzy-cardiac"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear pl-20 pr-20 render-yem">
+                <div class="clear full-w">
+                    <div class="clear full-w pl-10 pr-10 pt-10 pb-10 bor bor-col-f7f4f8 bor-b">
+                        <div class="clear col-xs-2 pl-0 pr-0">
+                            <img class="img-20 mt-10" src="../../img/report/freereportv2-tipsv1.png" alt="">
+                        </div>
+                        <div class="clear col-xs-8 pl-0 pr-0">
+                            <p class="col-679dd8 f-16 line-h-40">
+                                最高心率
+                            </p>
+                        </div>
+                        <div class="clear col-xs-2 pl-0 pr-0">
+                            <p class="col-b4cbe5 f-20 line-h-40 text-right max_heart_rate">
+                                
+                            </p>
+                        </div>
+                    </div>
+                    <div class="clear full-w pl-10 pr-10 pt-10 pb-10 bor bor-col-f7f4f8 bor-b">
+                        <div class="clear col-xs-2 pl-0 pr-0">
+                            <img class="img-20 mt-10" src="../../img/report/freereportv2-tipsv2.png" alt="">
+                        </div>
+                        <div class="clear col-xs-8 pl-0 pr-0">
+                            <p class="col-679dd8 f-16 line-h-40">
+                                平均心率
+                            </p>
+                        </div>
+                        <div class="clear col-xs-2 pl-0 pr-0">
+                            <p class="col-b4cbe5 f-20 line-h-40 text-right average_heart_rate">
+                                
+                            </p>
+                        </div>
+                    </div>
+                    <div class="clear full-w pl-10 pr-10 pt-10 pb-10 bor bor-col-f7f4f8 bor-b">
+                        <div class="clear col-xs-2 pl-0 pr-0">
+                            <img class="img-20 mt-10" src="../../img/report/freereportv2-tipsv3.png" alt="">
+                        </div>
+                        <div class="clear col-xs-8 pl-0 pr-0">
+                            <p class="col-679dd8 f-16 line-h-40">
+                                最低心率
+                            </p>
+                        </div>
+                        <div class="clear col-xs-2 pl-0 pr-0">
+                            <p class="col-b4cbe5 f-20 line-h-40 text-right min_heart_rate">
+                                
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear full-w pt-5 pb-5">
+                    <p class="f-20 text-center pt-5 pb-5 col-53a6ff">
+                        总结建议
+                    </p>
+                    <div class="clear full-w bg-white radius-5">
+                        <p id="layer-testv1" class="f-16 col-53a6ff line-h-25 text-line-3 pt-5 pb-5 pl-10 pr-10 suggest">
+                            
+                        </p>
+                    </div>
+                    <!-- 弹出层的内容 -->
+                    <div class="clear dis-n layerfortestv1">
+                        <p id="layer-testv1" class="f-16 col-333 line-h-25 pt-5 pd-15 suggest-tanchu">
+                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/comm/jquery.min.js"></script>
+    <script src="../../js/comm/bootstrap.js"></script>
+    <script src="../../ctrl/layer/layer.js"></script>
+    <script src="../../js/comm/Chart.bundle.min.js"></script>
+    
+<script>
+
+    /*渲染化页面*/
+  function render(txt){
+
+    var normal_cardiac,normal_cardiac_num,toLow_cardiac,toLow_cardiac_num,dizzy_cardiac,dizzy_cardiac_num,cardiac_total;
+    var jsonDto = JSON.parse(txt);
+
+    //初始化数据
+    normal_cardiac=jsonDto.normal_cardiac;
+    normal_cardiac_num=jsonDto.normal_cardiac_num;
+    toLow_cardiac=jsonDto.toLow_cardiac;
+    toLow_cardiac_num=jsonDto.toLow_cardiac_num;
+    dizzy_cardiac=jsonDto.dizzy_cardiac;
+    dizzy_cardiac_num=jsonDto.dizzy_cardiac_num;
+    //cardiac_total=jsonDto.cardiac_total;
+    //饼图参数渲染
+    $(".normal-cardiac").html(normal_cardiac+"%"+"("+normal_cardiac_num+"次"+")");
+    $(".toLow-cardiac").html(toLow_cardiac+"%"+"("+toLow_cardiac_num+"次"+")");
+    $(".dizzy-cardiac").html(dizzy_cardiac+"%"+"("+dizzy_cardiac_num+"次"+")");
+    cardiac_total=parseInt(normal_cardiac_num)+parseInt(toLow_cardiac_num)+parseInt(dizzy_cardiac_num);
+    //console.log(cardiac_total);
+    $(".cardiac_total").html(cardiac_total);
+
+    $(".max_heart_rate").html(jsonDto.max_heart_rate);
+    $(".average_heart_rate").html(jsonDto.average_heart_rate);
+    $(".min_heart_rate").html(jsonDto.min_heart_rate);
+    $(".suggest").html(jsonDto.suggest);
+    $(".suggest-tanchu").html(jsonDto.suggest);   
+    /*绘图*/
+     var freebox_h = $(".free_re_box").height();
+     
+    $(".free_re_c").height(freebox_h);
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx,{
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: [normal_cardiac,toLow_cardiac,dizzy_cardiac],
+                backgroundColor: [
+                    'rgba(180,235,255, 1)',
+                    'rgba(37,141,251, 1)',
+                    'rgba(156,205,254, 1)'
+                ],
+                borderColor: [
+                    'rgba(83,166,255,1)',
+                    'rgba(83,166,255,1)',
+                    'rgba(83,166,255,1)'
+                ],
+            }],
+            labels: [
+                '正常（%）',
+                '过慢（%）',
+                '过快（%）',
+            ]
+        },
+        options: {
+            legend: {
+                display: false,
+                labels: {
+                    boxWidth: 0,
+                },
+                position: 'right',
+            },
+            cutoutPercentage: 0,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 20,
+                    top: 5,
+                    bottom: 0
+                }
+            },
+        }
+    });
+    //弹出层
+     var contentval = $(".layerfortestv1").html();
+        $('#layer-testv1').on('click', function(){
+          layer.open({
+              type: 1,
+              title :['总结建议','font-size:18px;'],
+              skin: 'layui-layer-rim', //加上边框
+              area: ['90%'], //宽高
+              content: contentval,
+            });
+        });
+}
+   
+</script>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+{
+	"version": "20171111",
+	"list": [{
+		"phoneCode": "852",
+		"countryCode": "HK",
+		"domain": "192.168.1.3:9443/health-app",
+		"status": 2,
+		"time_zone": "GMT+08",
+		"en_country": "Hongkong",
+		"country": "中国香港",
+		"datserver": "192.168.1.3:9443/health-app",
+		"shopserver": "192.168.1.3:9443/health-app"
+	}]
+}

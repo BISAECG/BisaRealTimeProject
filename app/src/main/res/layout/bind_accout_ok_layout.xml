@@ -1,0 +1,169 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bisa.health.UserProActivity">
+
+    <fragment
+        android:id="@+id/abar_title"
+        android:name="com.bisa.health.cust.ActionBarBackFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="@string/title_new_accout" />
+
+    <LinearLayout
+        android:id="@+id/ll_titlemain"
+        android:layout_width="309dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="vertical"
+        android:padding="2dp"
+        android:layout_below="@+id/abar_title"
+        android:layout_alignStart="@+id/ll_main">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/title_forgetpwd_auth"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_tip_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/color_login_tip"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_titlemain"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <fragment
+            android:id="@+id/fl_iphone"
+            android:name="com.bisa.health.cust.AreaNameFragment"
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:background="@drawable/shape_login"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:tag="1" />
+
+        <LinearLayout
+            android:id="@+id/ll_mail"
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:background="@drawable/shape_login"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="gone">
+
+            <!-- 18682268551-->
+            <EditText
+                android:id="@+id/tv_mail"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="17dp"
+                android:background="#fff"
+                android:gravity="fill"
+                android:hint="@string/title_input_mail"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:maxLength="20"
+                android:nextFocusForward="@+id/tv_verify"
+                android:paddingLeft="20dp"
+                android:text=""
+                android:textSize="16sp">
+
+            </EditText>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/ll_vcode"
+        android:layout_width="309dp"
+        android:layout_height="41dp"
+        android:layout_below="@+id/ll_main"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:background="@drawable/shape_login"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+
+        <EditText
+            android:id="@+id/tv_code"
+            android:layout_width="190dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="17dp"
+            android:background="#fff"
+            android:gravity="fill"
+            android:hint="@string/tip_input_code"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLength="20"
+            android:nextFocusForward="@+id/tv_verify"
+            android:paddingLeft="20dp"
+            android:text=""
+            android:textSize="16sp">
+
+        </EditText>
+
+        <LinearLayout
+            android:id="@+id/bt_dropdown"
+            android:layout_width="94dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/imgbtn_smsSend"
+                android:layout_width="94dp"
+                android:layout_height="27dp"
+                android:background="@drawable/sms_enabled"
+                android:gravity="center"
+                android:text="@string/tip_restart_code"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="309dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/ll_vcode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:background="@drawable/login_btn"
+        android:text="@string/commit_submit"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_error_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/report_all"
+        android:textSize="14dp"
+        tools:text="无法验证请联系客服申诉" />
+
+
+</RelativeLayout>

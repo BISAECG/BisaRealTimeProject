@@ -1,0 +1,46 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/color_default_bg"
+    android:id="@+id/bolck_bar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+        <ImageButton
+            android:id="@+id/ibtn_back"
+            android:background="@drawable/menu_back_bg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <ImageView
+            android:id="@+id/iv_signal"
+            android:src="@drawable/signal"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_colud"
+            android:layout_width="30dp"
+            android:layout_height="20dp" />
+
+        <ImageView
+            android:id="@+id/iv_colud"
+            android:src="@drawable/up_success"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_battery"
+            android:layout_width="22dp"
+            android:layout_height="22dp" />
+        
+        <ImageView
+            android:id="@+id/iv_battery"
+            android:src="@drawable/battery_5"
+            android:layout_marginRight="23dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="22dp"
+            android:layout_height="22dp" />
+
+
+</RelativeLayout>

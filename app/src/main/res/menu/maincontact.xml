@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.bisa.health.ecg.MainActivity" >
+
+    <item  
+        android:id="@+id/add_contact"
+        android:orderInCategory="10"  
+        android:title="signal"  
+        android:icon="@drawable/menu_add_dev"
+        android:showAsAction="always"/>
+</menu>

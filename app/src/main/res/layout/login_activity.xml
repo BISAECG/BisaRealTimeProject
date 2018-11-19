@@ -1,0 +1,191 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bisa.health.LoginActivity">
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="177dp"
+        android:layout_height="158dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:src="@drawable/logo" />
+
+    <RelativeLayout
+        android:id="@+id/rl_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_logo"
+        android:layout_alignParentStart="true">
+
+
+        <fragment
+            android:tag="1"
+            android:id="@+id/ll_iphone"
+            android:name="com.bisa.health.cust.LoginNameFragment"
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="63dp"
+            android:background="@drawable/shape_login"
+            android:orientation="horizontal"
+            android:padding="2dp" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_verify"
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:layout_below="@+id/ll_iphone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp"
+            android:background="@drawable/shape_login"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:padding="2dp"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/ll_iphone_ico"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="27dp"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:layout_weight="0.00">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="#fff"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="17dp"
+                        android:background="@drawable/iphone_ico" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="33dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/yline" />
+            </LinearLayout>
+
+
+
+
+            <EditText
+                android:id="@+id/tv_verify"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:background="#fff"
+                android:gravity="fill"
+                android:hint="@string/login_hint_sms_verify"
+                android:inputType="number|numberSigned"
+                android:maxLength="20"
+                android:textSize="16sp"
+                tools:text="短信验证码" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="309dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/ll_verify"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:text="@string/tip_login_run"
+            android:background="@drawable/login_btn" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_regedit"
+            android:layout_width="309dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_login"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+
+
+            <TextView
+                android:id="@+id/txt_switch_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:tag="1"
+                android:text="@string/app_switch_county"
+                android:textColor="@color/color_login_tip"
+                android:textSize="14sp"
+                tools:text="切换地区" />
+
+            <TextView
+                android:id="@+id/txt_regedit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:tag="1"
+                android:text="@string/tip_login_regeidt"
+                android:textColor="@color/color_login_tip"
+                android:textSize="14sp"
+                tools:text="注册" />
+
+            <TextView
+                android:id="@+id/txt_login_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="20dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:tag="1"
+                android:text="@string/login_title_pwd"
+                android:textColor="@color/color_login_tip"
+                android:textSize="14sp"
+                tools:text="@string/login_title_pwd" />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:id="@+id/ll_wechat"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_width="309dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_login"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:padding="1dp">
+
+        <fragment
+            android:id="@+id/other_login_fragment"
+            android:name="com.bisa.health.cust.OtherLoginFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

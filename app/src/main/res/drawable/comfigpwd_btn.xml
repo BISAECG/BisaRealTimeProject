@@ -1,0 +1,16 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_window_focused="false" android:state_enabled="true"
+        android:drawable="@drawable/comfigpwd_normal" />
+
+    <item android:state_enabled="false"
+        android:drawable="@drawable/comfigpwd_disabled" />
+
+    <item android:state_pressed="true"
+        android:drawable="@drawable/comfigpwd_pressed" />
+
+    <item android:state_enabled="true"
+        android:drawable="@drawable/comfigpwd_normal" />
+
+    <item
+        android:drawable="@drawable/comfigpwd_normal" />
+</selector>

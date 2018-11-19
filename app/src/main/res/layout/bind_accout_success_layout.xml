@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.bisa.health.UserProActivity">
+
+
+    <fragment
+        android:id="@+id/abar_title"
+        android:name="com.bisa.health.cust.ActionBarBackFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="@string/login_title_forgetpwd" />
+
+
+    <ImageView
+        android:layout_below="@+id/abar_title"
+        android:src="@drawable/mail"
+        android:id="@+id/iv_mail"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="152dp"
+        android:layout_height="119dp" />
+
+
+    <TextView
+        android:textColor="@color/color_get_pwd"
+        android:id="@+id/tv_title_tip"
+        tools:text="@string/tip_bind_success_mail"
+        android:text="@string/tip_bind_success_mail"
+        android:textSize="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="309dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_mail"
+        android:layout_alignStart="@+id/btn_login" />
+
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="309dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/tv_title_tip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/login_btn"
+        android:text="@string/commit_submit"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+
+
+</RelativeLayout>

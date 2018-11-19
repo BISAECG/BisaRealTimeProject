@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_main_daily"
+    android:layout_width="334dp"
+    android:layout_height="355dp"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_dialog_corner_white"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+
+    <TextView
+        android:id="@+id/txt_daily_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/title_helath_daily_report_color"
+        android:textColor="@color/color_main_deldev"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txt_daily_content"
+        android:layout_width="294dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_daily_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp"
+        android:text="@string/title_helath_child_daily_content"
+        android:textColor="@color/color_main_deldev"
+        android:lineSpacingExtra="8dp"
+        android:lineSpacingMultiplier="1"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/img_daily_ico"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@id/txt_daily_content"
+        android:layout_below="@+id/txt_daily_content"
+        android:src="@drawable/daily_report_ico_big"
+        android:layout_marginTop="58dp" />
+
+
+    <RelativeLayout
+        android:layout_width="169dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_daily_content"
+        android:layout_toRightOf="@+id/img_daily_ico"
+        android:layout_alignRight="@id/txt_daily_content"
+        android:background="@drawable/shape_dialog_corner_white">
+
+    <TextView
+        android:id="@+id/txt_daily_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="18dp"
+        android:lineSpacingExtra="5dp"
+        android:lineSpacingMultiplier="1"
+        android:text="@string/title_helath_child_daily_desc"
+        android:textColor="@color/report_daily"
+        android:textSize="14sp" />
+    <Button
+        android:id="@+id/btn_commit_report_daily"
+        android:tag="1"
+        android:layout_marginTop="9dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/txt_daily_desc"
+        android:textColor="@color/color_start_report"
+        android:background="@drawable/report_commit"
+        android:text="@string/title_start_report"
+        android:textSize="16sp"
+        android:layout_width="151dp"
+        android:layout_height="50dp" />
+    </RelativeLayout>
+</RelativeLayout>

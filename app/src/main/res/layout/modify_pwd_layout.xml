@@ -1,0 +1,174 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.bisa.health.ModifyPwdActivity">
+
+    <fragment
+        android:id="@+id/abar_title"
+        android:name="com.bisa.health.cust.ActionBarBackFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="@string/bind_modify_pwd" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/abar_title"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_curpwd"
+            android:layout_marginTop="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_cur_pwd"
+            android:textColor="@color/color_login_tip"
+            android:textSize="18sp"
+            tools:text="当前密码" />
+
+        <!-- 18682268551-->
+
+        <LinearLayout
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:layout_below="@+id/ll_iphone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shape_login"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="visible"
+            android:weightSum="1">
+
+            <EditText
+                android:id="@+id/etxt_curpwd"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv_curpwd"
+                android:layout_marginLeft="20dp"
+                android:background="#fff"
+                android:gravity="fill"
+                android:hint="@string/title_cur_pwd_tip"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="20"
+                android:nextFocusForward="@+id/tv_verify"
+                android:text=""
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_marginTop="14dp"
+            android:id="@+id/tv_newpwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_new_pwd"
+            android:textColor="@color/color_login_tip"
+            android:textSize="18sp"
+            tools:text="新密码" />
+
+        <!-- 18682268551-->
+
+        <LinearLayout
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:layout_below="@+id/ll_iphone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shape_login"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="visible"
+            android:weightSum="1">
+
+            <EditText
+                android:id="@+id/etext_newpwd"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv_curpwd"
+                android:layout_marginLeft="20dp"
+                android:background="#fff"
+                android:gravity="fill"
+                android:hint="@string/title_new_pwd_tip"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="20"
+                android:nextFocusForward="@+id/tv_verify"
+                android:text=""
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="14dp"
+            android:id="@+id/tv_commit_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_login_tip"
+            android:text="@string/title_commit_pwd"
+            android:textSize="18sp"
+            tools:text="确认新密码" />
+
+        <!-- 18682268551-->
+
+        <LinearLayout
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:layout_below="@+id/ll_iphone"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/shape_login"
+            android:orientation="horizontal"
+            android:padding="2dp"
+            android:visibility="visible"
+            android:weightSum="1">
+
+            <EditText
+                android:id="@+id/etext_commitpwd"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv_curpwd"
+                android:layout_marginLeft="20dp"
+                android:background="#fff"
+                android:gravity="fill"
+                android:hint="@string/title_commit_pwd_tip"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:maxLength="20"
+                android:nextFocusForward="@+id/tv_verify"
+                android:text=""
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_below="@+id/ll_main"
+            android:layout_width="309dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="34dp"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:text="@string/commit_submit"
+            android:background="@drawable/login_btn" />
+
+        <TextView
+            android:layout_marginTop="14dp"
+            android:layout_below="@+id/btn_login"
+            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:textColor="@color/color_bpmcounttext"
+            android:text="@string/title_pwd_offset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</RelativeLayout>

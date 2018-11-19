@@ -1,0 +1,119 @@
+apply plugin: 'com.android.application'
+def AAVersion = '4.5.2'
+android {
+    signingConfigs {
+        dubug {
+            keyAlias 'bisahealth.com'
+            keyPassword 'bisbis2016'
+            storeFile file('D:/KeyStore/bisa.keystore')
+            storePassword 'bisbis2016'
+        }
+    }
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.bisa.health"
+        minSdkVersion 18
+        targetSdkVersion 27
+        versionCode 20180101
+        versionName "1.0"
+        ndk {
+            //根据需要 自行选择添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                //这里的包名和applicationId一致
+                arguments = ['resourcePackageName': "com.bisa.health",
+                'androidManifestFile':'app/src/main/AndroidManifest.xml']
+            }
+        }
+
+        manifestPlaceholders = [
+                XG_ACCESS_ID : "2100257773",
+                XG_ACCESS_KEY: "A4C12WZE97HD",
+                HW_APPID     : "100390995",
+                PACKAGE_NAME : "com.bisa.health"
+        ]
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.dubug
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.dubug
+        }
+        debug {
+            signingConfig signingConfigs.dubug
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+            java.srcDirs = ['src/main/java', 'src/main/aidl']
+            resources.srcDirs = ['src/main/java', 'src/main/aidl']
+            aidl.srcDirs = ['src/main/aidl']
+            res.srcDirs = ['src/main/res']
+            assets.srcDirs = ['src/main/assets']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    productFlavors {
+    }
+    buildToolsVersion '28.0.3'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+dependencies {
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+
+    configurations {
+        all*.exclude group: 'com.android.support', module: 'support-v13'
+    }
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+
+    //implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    //信鸽jar，不包含厂商通道
+    //compile 'com.tencent.xinge:xinge:4.0.3-Beta'
+    //信鸽jar，包含厂商通道
+    implementation 'com.tencent.xinge:xinge:4.0.3-otherpush-Beta'
+    //jg包
+    implementation 'com.tencent.jg:jg:1.1'
+    //wup包
+    implementation 'com.tencent.wup:wup:1.0.0.E-release'
+    //mid包
+    implementation 'com.tencent.mid:mid:4.0.7'
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    implementation "org.androidannotations:androidannotations-api:$AAVersion"
+    implementation 'org.apache.ant:ant:1.8.2'
+    implementation 'commons-io:commons-io:2.5'
+    implementation 'com.thoughtworks.xstream:xstream-parent:1.4.10'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'org.apache.commons:commons-lang3:3.6'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.github.hotchemi:permissionsdispatcher:3.3.1'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.3.1'
+    implementation 'com.github.mjdev:libaums:0.5.5'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+}

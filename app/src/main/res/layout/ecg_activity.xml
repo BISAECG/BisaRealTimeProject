@@ -1,0 +1,434 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_base_bg"
+    android:orientation="vertical"
+    tools:context="com.bisa.health.ecg.ECGActivity">
+
+    <fragment
+        android:tag="@string/title_main_mydev"
+        android:id="@+id/abar_title"
+        android:name="com.bisa.health.cust.ActionBarBackSetingFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_action_setting_bar" />
+
+    <RelativeLayout
+        android:id="@+id/rl_nav_title"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/txt_title_ecg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x14"
+            android:text="@string/title_ecg"
+            android:textColor="@color/color_ecg_title"
+            android:textSize="14sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_signal"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/iv_colud"
+            android:src="@drawable/signal" />
+
+        <ImageView
+            android:id="@+id/iv_colud"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/iv_battery"
+            android:src="@drawable/up_success" />
+
+        <ImageView
+            android:id="@+id/iv_battery"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="23dp"
+            android:src="@drawable/battery_5" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_ecg_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:background="@color/black">
+
+
+        <FrameLayout
+            android:id="@+id/ll_main_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.bisa.health.cust.CustomBgView
+                android:id="@+id/ECGCustBg"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
+
+            <com.bisa.health.cust.SecondSurfaceView
+                android:id="@+id/ECGsurface"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_ecg_info_monitor"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/rl_ecg_info_bpmcount"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/txt_ecg_title_monitor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="17dp"
+                android:text="@string/title_ecg_bpmcount"
+                android:textColor="@color/color_bpmcounttext"
+                android:textSize="12sp"></TextView>
+
+            <TextView
+                android:id="@+id/txt_ecg_bpmcounttext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/color_bpmcounttext"
+                android:textSize="12sp"></TextView>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/rl_ecg_event"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_ecg_info"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:id="@+id/rl_ecg_event_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bpm_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_ecg_bpmval"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="8dp"
+                        android:text="999"
+                        android:textColor="@color/color_heart_value"
+                        android:textSize="26sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txt_ecg_bpm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@+id/txt_ecg_bpmval"
+                        android:layout_below="@+id/txt_ecg_bpmval"
+                        android:layout_marginLeft="32dp"
+                        android:text="BPM"
+                        android:textColor="@color/color_bpm_value"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rl_ecg_event_mid"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal">
+
+                    <FrameLayout
+                        android:id="@+id/fl_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center">
+
+                        <ImageButton
+                            android:id="@+id/btn_event_safeclock"
+                            android:layout_width="145dp"
+                            android:layout_height="145dp"
+                            android:background="@drawable/marker_btn_bg"
+                            android:clickable="true" />
+
+
+                    </FrameLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rl_ecg_event_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_timing"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:orientation="horizontal"
+                        android:layout_width="82dp"
+                        android:layout_height="22dp"
+                        android:layout_alignRight="@+id/ibtn_stop"
+                        android:layout_marginRight="7dp"
+                        android:layout_marginLeft="7dp"
+                        android:layout_above="@+id/ibtn_stop"
+                        android:background="@drawable/timingbag">
+                        <TextView
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            tools:text="00:03:00"
+                            android:textColor="@color/report_timing"
+                            android:id="@+id/tv_freetiming"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:id="@+id/ibtn_stop"
+                        android:layout_width="100dp"
+                        android:layout_height="35dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/newreportbg">
+                        <ImageView
+                            android:layout_marginLeft="7dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/stop"
+                            android:layout_width="17dp"
+                            android:layout_height="17dp" />
+
+                        <TextView
+                            android:layout_marginLeft="2dp"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center"
+                            android:text="@string/title_reoirt_now"
+                            tools:text="立即生成"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/ll_contact_tip"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/rl_ecg_event"
+            android:background="@color/color_tips"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/tip_ico" />
+
+            <TextView
+                android:id="@+id/tv_tip_alam"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:textSize="12sp"
+                android:gravity="center_vertical"
+                android:text="@string/title_tip_deufalt"
+                android:textColor="@color/color_tips_text"
+                tools:text="报警发送成功[s%]" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/rl_ecg_foot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ll_contact_tip"
+            android:layout_marginTop="@dimen/y1"
+            android:orientation="horizontal"
+            android:background="@color/color_base_bg">
+
+            <RelativeLayout
+
+                android:id="@+id/btn_report_generate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_btn_white">
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:id="@+id/tv_title_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="17dp"
+                        android:src="@drawable/createreport_btn_bg" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="@string/titl_report_create"
+                        android:textColor="@color/color_ecg_title"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/btn_report_show"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/shape_btn_white">
+
+
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:layout_gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                        <ImageView
+                            android:layout_centerVertical="true"
+                            android:id="@+id/img_right_ico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="17dp"
+                            android:src="@drawable/report_btn_bg" />
+
+                        <TextView
+                            android:layout_centerHorizontal="true"
+                            android:layout_toRightOf="@+id/img_right_ico"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="10dp"
+                            android:layout_centerVertical="true"
+                            android:text="@string/titl_report_show"
+                            android:textColor="@color/color_ecg_title"
+                            android:textSize="16sp"
+                            android:id="@+id/textView2" />
+
+                        <RelativeLayout
+                            android:orientation="horizontal"
+                            android:id="@+id/rl_unread"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_toStartOf="@+id/textView2"
+                            android:background="@drawable/shap_msg"
+                            android:layout_marginTop="2dp"
+                            android:visibility="gone" >
+                            <TextView
+                                android:id="@+id/tv_unread"
+                                tools:textSize="6sp"
+                                tools:text="16"
+                                android:textSize="8sp"
+                                android:textColor="@color/white"
+                                android:layout_centerVertical="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                         </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

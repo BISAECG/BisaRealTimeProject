@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e0e0e0"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <RelativeLayout
+        android:id="@+id/rl_nav_title"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:background="@color/white" >
+
+
+                <TextView
+                    android:id="@+id/txt_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="47dp"
+                    android:layout_centerVertical="true"
+                    android:text="我的设备"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txt_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/img_run"
+                    android:layout_marginRight="14dp"
+                    android:layout_centerVertical="true"
+                    android:text="设备号:123456789012"
+                    android:textColor="@color/color_get_pwd_value"
+                    android:textSize="14sp" />
+
+
+
+            <ImageView
+                android:id="@+id/img_run"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="21dp"
+                android:src="@drawable/run" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

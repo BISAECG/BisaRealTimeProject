@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e0e0e0" >
+
+    <RelativeLayout
+        android:id="@+id/rl_nav_title"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+        <RelativeLayout
+            android:id="@+id/ll_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@color/white" >
+
+            <ImageView
+                android:id="@+id/img_dev_logo"
+                android:layout_width="47dp"
+                android:layout_height="37dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="33dp"
+                android:src="@drawable/ecg_ico" />
+
+            <RelativeLayout
+                android:id="@+id/rl_mid"
+                android:layout_toRightOf="@+id/img_dev_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="18dp" >
+
+                <TextView
+                    android:id="@+id/txt_dev_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="我的设备"
+                    android:textColor="@color/color_main_deldev"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txt_dev_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txt_dev_name"
+                    android:text="设备号:123456789012"
+                    android:textColor="@color/color_list_devnum"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/img_run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="21dp"
+                android:src="@drawable/run" />
+
+            <CheckBox
+                android:id="@+id/checkbox_all"
+                style="@style/CustomCheckboxTheme"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="27dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
