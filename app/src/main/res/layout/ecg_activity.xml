@@ -92,7 +92,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="3.5"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -196,8 +196,8 @@
 
                         <ImageButton
                             android:id="@+id/btn_event_safeclock"
-                            android:layout_width="145dp"
-                            android:layout_height="145dp"
+                            android:layout_width="@dimen/ecg_xixinling_size"
+                            android:layout_height="@dimen/ecg_xixinling_size"
                             android:background="@drawable/marker_btn_bg"
                             android:clickable="true" />
 
@@ -280,20 +280,21 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1.5">
 
         <LinearLayout
             android:id="@+id/ll_contact_tip"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="25dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/rl_ecg_event"
             android:background="@color/color_tips"
             android:orientation="horizontal">
 
             <ImageView
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/tip_ico" />
 
@@ -322,35 +323,47 @@
             android:background="@color/color_base_bg">
 
             <RelativeLayout
-
                 android:id="@+id/btn_report_generate"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:background="@drawable/shape_btn_white">
-                <LinearLayout
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
+                android:background="@color/color_base_bg">
+                <RelativeLayout
+                    android:layout_margin="@dimen/ecg_reportbtn_size"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/shape_btn_white"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:id="@+id/tv_title_left"
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="17dp"
-                        android:src="@drawable/createreport_btn_bg" />
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:id="@+id/tv_title_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="17dp"
+                            android:src="@drawable/createreport_btn_bg" />
 
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="@string/titl_report_create"
-                        android:textColor="@color/color_ecg_title"
-                        android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="10dp"
+                            android:text="@string/titl_report_create"
+                            android:textColor="@color/color_ecg_title"
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                    </LinearLayout>
+
+
+                </RelativeLayout>
 
 
 
@@ -363,20 +376,29 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="2dp"
-                android:background="@drawable/shape_btn_white">
+                android:background="@color/color_base_bg">
 
 
-                <LinearLayout
+                <RelativeLayout
+                    android:background="@drawable/shape_btn_white"
+                    android:layout_margin="@dimen/ecg_reportbtn_size"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentTop="true"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
+
+
                     <RelativeLayout
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
 
                         <ImageView
@@ -406,7 +428,6 @@
                             android:layout_alignParentTop="true"
                             android:layout_toStartOf="@+id/textView2"
                             android:background="@drawable/shap_msg"
-                            android:layout_marginTop="2dp"
                             android:visibility="gone" >
                             <TextView
                                 android:id="@+id/tv_unread"
@@ -422,7 +443,7 @@
 
                     </RelativeLayout>
 
-                </LinearLayout>
+                </RelativeLayout>
 
             </RelativeLayout>
 

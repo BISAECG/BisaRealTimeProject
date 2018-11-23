@@ -1,12 +1,15 @@
 package com.bisa.health.utils;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 
+import com.bisa.health.BisaApplication;
 import com.bisa.health.R;
 
 public final class Notificator {
@@ -15,15 +18,23 @@ public final class Notificator {
 	int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 	NotificationManager notimanager;
 	private Context context;
-	private final String ticker = "悉心";
-	private final String title = "悉心康健";
-	private final String content = "健康生活 悉心呵护";
-	
+
 	public Notificator(Context context) {
 		super();
 		this.context = context;
 		if (null == notimanager)
 			notimanager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+		NotificationChannel notificationChannel = null;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+			notificationChannel = new NotificationChannel(BisaApplication.NOTIFICATION_CHANNEL_ID_TASK,
+					"Bisa health", NotificationManager.IMPORTANCE_HIGH);
+			notificationChannel.enableLights(true);
+			notificationChannel.setLightColor(Color.RED);
+			notificationChannel.setShowBadge(true);
+			notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+			notimanager.createNotificationChannel(notificationChannel);
+		}
 	}
 	
 	
@@ -38,13 +49,14 @@ public final class Notificator {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+				.setChannelId(BisaApplication.NOTIFICATION_CHANNEL_ID_TASK)
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentTitle(msg)
 				.setContentText(msg)
 				.setOngoing(true)
 				.setWhen(System.currentTimeMillis())// 通知产生的时间，会在通知信息里显示
 				.setPriority(Notification.PRIORITY_DEFAULT)
-				.setTicker(ticker)
+				.setTicker(context.getResources().getString(R.string.app_name))
 				.setContentIntent(pendingIntent);
 		Notification notification=mBuilder.build();
 		notification.flags = Notification.FLAG_ONGOING_EVENT;

@@ -56,7 +56,6 @@ public class DataServiceImpl extends HttpHelp implements IDataService {
                 FileOutputStream fos = null;
                 long mTotal = response.body().contentLength();
                 try {
-                    Log.i(TAG, "onResponse>>>>>>>>>>>>: "+mTotal);
                     is = response.body().byteStream();
                     long total = 10485760;
                     fos = new FileOutputStream(file);

@@ -188,21 +188,18 @@ public class RunActivity extends Activity implements View.OnClickListener,PopupW
                 bisDir.mkdirs();
             }
             final File serverFile = new File(this.getApplicationContext().getFilesDir().getAbsolutePath()+"/bisserver","server-"+lang + ".json");
-
-            Log.i(TAG, "syncServer: "+serverFile.getAbsolutePath());
+            sVsersion="20181111";
             if (!serverFile.exists()) {
-                sVsersion = "19700101";
-                Log.i(TAG, "initUpdate: not hserver");
-            } else {
-                Log.i(TAG, "initUpdate: hserver");
                 byte[] serverByte = FileIOKit.FromFileToByte(serverFile);
-                hServer = gson.fromJson(new String(serverByte, "UTF-8"),HServer.class);
-                sVsersion = hServer.getVersion();
+                if(serverByte!=null){
+                    hServer = gson.fromJson(new String(serverByte, "UTF-8"),HServer.class);
+                    if(hServer!=null){
+                        sVsersion = hServer.getVersion();
+                    }
+                }
             }
-
-
             Map<String, String> param = new HashMap<String, String>();
-            param.put("version", "20181010");
+            param.put("version", sVsersion);
             param.put("lang", lang);
             Call call = restService.downServerList(param);
             call.enqueue(new Callback() {
@@ -221,7 +218,9 @@ public class RunActivity extends Activity implements View.OnClickListener,PopupW
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-
+                        if(serverFile.exists()){
+                            serverFile.delete();
+                        }
                         if (response.code() == HttpFinal.SUCCESS) {
                             byte[] rServerByte = response.body().bytes();
                             Log.d(TAG, "onResponse: " + (new String(rServerByte, "UTF-8")));
@@ -279,12 +278,11 @@ public class RunActivity extends Activity implements View.OnClickListener,PopupW
             XGPushManager.bindAccount(this, MD5Help.md5EnBit32(mHealthServer.getToken()));
             if(mUser!=null){
                 Log.i(TAG, "runLogin: "+mUser);
-                if(mUser.getVerified()== UsersVerifiedEnum.INVERIFIED){
-                    ActivityUtil.startActivity(RunActivity.this,OtherWechatBindActivity.class,true,ActionEnum.NULL);
-                }else{
-                    ActivityUtil.startActivity(RunActivity.this,MainActivity.class,true,ActionEnum.NULL);
-                }
-                return;
+                    if(mUser.getVerified()== UsersVerifiedEnum.VERIFIED){
+                        ActivityUtil.startActivity(RunActivity.this,MainActivity.class,true,ActionEnum.NULL);
+                        return;
+                    }
+
             }
         }
         ActivityUtil.startActivity(RunActivity.this,LoginActivity.class,true,ActionEnum.NULL);
@@ -296,11 +294,15 @@ public class RunActivity extends Activity implements View.OnClickListener,PopupW
             final File file = new File(this.getApplicationContext().getFilesDir().getAbsolutePath()+"/bisserver","server-"+lang + ".json");
             try {
                 if(file.exists()&&FileIOKit.is_file_status(file)){
-
+                    Log.i(TAG, "onClick: >>>1>>"+(hServer==null));
                     byte[] serverByte = FileIOKit.FromFileToByte(file);
-                    hServer = gson.fromJson(new String(serverByte, "UTF-8"),HServer.class);
+                    if(serverByte!=null){
+                        hServer = gson.fromJson(new String(serverByte, "UTF-8"),HServer.class);
+                    }
 
-                }else{
+                }
+
+                if(hServer==null){
                     InputStream is=getResources().getAssets().open("server-default.json");
                     byte[] serverByte = FileIOKit.FromInputStreamToByte(is);
                     hServer = gson.fromJson(new String(serverByte, "UTF-8"),HServer.class);

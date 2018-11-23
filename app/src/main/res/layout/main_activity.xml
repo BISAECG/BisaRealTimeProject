@@ -24,25 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <LinearLayout
-            android:id="@+id/ll_contact_tip"
-            android:layout_width="match_parent"
-            android:layout_height="41dp"
-            android:layout_above="@+id/ll_bottom"
-            android:background="@drawable/no_contact"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="61dp"
-                android:gravity="center"
-                android:text="@string/title_tip_contact"
-                android:textColor="@color/color_tips_text" />
-        </LinearLayout>
-
-
         <LinearLayout
             android:id="@+id/ll_bottom"
             android:layout_width="match_parent"

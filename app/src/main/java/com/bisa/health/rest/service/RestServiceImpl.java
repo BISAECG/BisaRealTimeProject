@@ -124,7 +124,7 @@ public class RestServiceImpl extends HttpHelp implements  IRestService{
         return call;
     }
 
-
+    private static final String TAG = "RestServiceImpl";
     @Override
     public Call downServerList(Map<String, String> param) {
         String url=SERVER_URL+"/mi/call/server/down";

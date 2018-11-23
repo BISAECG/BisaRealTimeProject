@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import com.bisa.health.ble.BleWrapper;
@@ -12,14 +11,11 @@ import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.cust.MyDeviceFragment;
 import com.bisa.health.cust.UserCenterFragment;
 import com.bisa.health.model.AppNotifiMsg;
-import com.bisa.health.model.Event;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
 import com.bisa.health.model.User;
-import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
-import com.bisa.health.utils.ActivityUtil;
 import com.bisa.health.utils.GsonUtil;
 import com.google.gson.reflect.TypeToken;
 
@@ -38,7 +34,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private final static String TAG = "MainActivity";
 
     private BleWrapper mBleWrapper;
-    private LinearLayout ll_contact_tip;
     private SharedPersistor sharedPersistor;
     private HealthServer mHealthServer;
     private IRestService mRestService;
@@ -47,6 +42,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     private UserCenterFragment userCenterFragment;
     private MyDeviceFragment myDeviceFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +55,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         mHealthServer=sharedPersistor.loadObject(HealthServer.class.getName());
         mRestService = new RestServiceImpl(this,mHealthServer);
         setDefaultFragment();
-        Log.i(TAG,"MainActivity>>>onCreate"+"|task:"+mHealthServer.getToken());
-        ll_contact_tip=(LinearLayout) this.findViewById(R.id.ll_contact_tip);
-        ll_contact_tip.setOnClickListener(this);
 
         btn_my_dev = (RadioButton) this.findViewById(R.id.btn_my_dev);
         btn_my_dev.setOnClickListener(this);
@@ -70,9 +63,8 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         btn_my_centre.setOnClickListener(this);
         initBle();
         initDat();
-
-
     }
+
 
     public void initBle(){
         mBleWrapper=new BleWrapper(this);
@@ -95,8 +87,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             public void onResponse(Call call, Response response) throws IOException {
                 final String json = response.body().string();
 
-                Log.i(TAG, "onResponse: "+json);
-
                 ResultData<AppNotifiMsg> result = GsonUtil.getInstance().parse(json,new TypeToken<ResultData<AppNotifiMsg>>(){}.getType());
 
                 if (result == null||result.getData()==null) {
@@ -105,13 +95,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
                 if(result.getData().getIsContact()>0){
                     sharedPersistor.saveObject(AppNotifiMsg.class.getName()+"-"+mUser.getUser_guid(),result.getData());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ll_contact_tip.setVisibility(View.GONE);
-                        }
-                    });
-
                 }
 
             }
@@ -133,12 +116,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     protected void onResume() {
         super.onResume();
-
-        Event event=sharedPersistor.loadObject(Event.class.getName());
-        if(event!=null){
-            ll_contact_tip.setVisibility(View.GONE);
-
-        }
 
     }
 
@@ -173,7 +150,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private long exit_offset_temp=0;
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-
 
             long exit_offset=System.currentTimeMillis();
             if(exit_offset-exit_offset_temp>5000){
@@ -227,8 +203,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
             }
 
             transaction.commit();
-        }else if(v==ll_contact_tip){
-            ActivityUtil.startActivity(this,ContactMainActivity.class,false, ActionEnum.NEXT);
         }
 
 

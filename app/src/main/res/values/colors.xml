@@ -15,6 +15,7 @@
 			<color name="color_bpmcounttext">#009adf</color>
 			<color name="color_a4a4a4">#A4A4A4</color>
 
+
 			<color name="color_bpm_value">#2f1658</color>
             <color name="color_heart_value">#dc4849</color>
 			<color name="color_bar_bg">#efeff0</color>
@@ -49,5 +50,7 @@
 			<color name="colorPrimaryDark">#303F9F</color>
 			<color name="colorAccent">#FF4081</color>
 			<color name="color_9ce8d7">#9ce8d7</color>
+
+			<color name="alpha_20_black">#33000000</color>
 
 </resources>

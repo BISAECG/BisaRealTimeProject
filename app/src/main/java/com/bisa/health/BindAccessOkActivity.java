@@ -14,7 +14,6 @@ import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
 import com.bisa.health.model.User;
-import com.bisa.health.model.dto.ServerDto;
 import com.bisa.health.model.dto.UserBindDto;
 import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.model.enumerate.LoginTypeEnum;
@@ -31,7 +30,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -70,7 +68,7 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
     private SharedPersistor sharedPersistor;
     private HealthServer mHealthServer;
     private User mUser;
-    private List<ServerDto> listArea;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +116,6 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
             fl_iphone.setVisibility(View.GONE);
             ll_mail.setVisibility(View.VISIBLE);
         }
-
-        listArea=sharedPersistor.loadObject(ServerDto.class.getName());
 
 
     }

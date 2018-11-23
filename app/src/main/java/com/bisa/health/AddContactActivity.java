@@ -93,7 +93,7 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
 
         mHealthServer=sharedObjectPersistor.loadObject(HealthServer.class.getName());
         mUser=sharedObjectPersistor.loadObject(User.class.getName());
-        mListType=sharedObjectPersistor.loadObject(ServerDto.class.getName());
+        mListType=AreaUtil.getListArea(this);
 
         checkBoxBack=(CheckBox) this.findViewById(R.id.ibtn_back);
         checkBoxBack.setOnClickListener(this);

@@ -13,7 +13,6 @@ import com.bisa.health.model.ResultData;
 import com.bisa.health.model.User;
 import com.bisa.health.model.dto.ServerDto;
 import com.bisa.health.model.enumerate.ActionEnum;
-import com.bisa.health.model.enumerate.UsersVerifiedEnum;
 import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
@@ -87,7 +86,7 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
 
         sharedPersistor = new SharedPersistor(this);
         mHealthServer=sharedPersistor.loadObject(HealthServer.class.getName());
-        mListType=sharedPersistor.loadObject(ServerDto.class.getName());
+        mListType=AreaUtil.getListArea(this);
         validator = new Validator(this);
         validator.setValidationMode(Validator.Mode.BURST);
         validator.setValidationListener(this);
@@ -179,14 +178,9 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
                                 if(result==null){
                                     return;
                                 }
-
                                 if(result.getCode() == HttpFinal.CODE_200){
-                                    mUser.setVerified(UsersVerifiedEnum.VERIFIED);
                                     sharedPersistor.saveObject(mUser);
-
                                     ActivityUtil.startActivity(OtherWechatBindActivity.this,MainActivity.class,true,ActionEnum.DOWN);
-
-
                                 }else{
                                     show_Toast(result.getMessage());
 

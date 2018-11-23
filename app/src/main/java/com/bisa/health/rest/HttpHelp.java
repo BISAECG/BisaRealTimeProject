@@ -72,7 +72,7 @@ public abstract class HttpHelp {
     /**
      * 真实环境
      */
-    //public final static String SERVER_URL = "http://192.168.1.3:8080/health-filckr";
+   // public final static String SERVER_URL = "http://192.168.1.3:8088/health-flickr";
     public final static String SERVER_URL = "http://www.bisahealth.com";
     public final static String DOWN_APP_URL=SERVER_URL+"/mi/call/app/down";
     public final static String SERVER_ROOT_PATH = "";

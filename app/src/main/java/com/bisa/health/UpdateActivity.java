@@ -130,7 +130,7 @@ public class UpdateActivity extends BaseActivity implements View.OnClickListener
 	private static final String TAG = "UpdateActivity";
 
 	private void downFile() {
-
+		Log.i(TAG, "downFile: "+HttpHelp.DOWN_APP_URL);
 		DownloadManager.Request request=new DownloadManager.Request(Uri.parse(HttpHelp.DOWN_APP_URL));
 		request.setTitle(getResources().getString(R.string.update_title));
 		request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

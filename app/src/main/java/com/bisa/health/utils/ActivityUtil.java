@@ -44,6 +44,28 @@ public  class ActivityUtil {
 
 
     }
+    private static void toActivityResult(Intent mainIntent,int code, Activity activity, Bundle bundle, ActionEnum actionEnum) {
+
+        activity.startActivityForResult(mainIntent,code);
+
+        if(actionEnum==ActionEnum.NEXT){
+            activity.overridePendingTransition(R.anim.right_in,R.anim.left_out);
+        }else if(actionEnum==ActionEnum.BACK){
+            activity.overridePendingTransition(R.anim.right_out,R.anim.left_in);
+        }else if(actionEnum==ActionEnum.DOWN){
+            activity.overridePendingTransition(R.anim.activity_in,R.anim.activity_out);
+        }else{
+            activity.overridePendingTransition(0,0);
+        }
+
+
+    }
+    public static void startActivityResult(Intent mainIntent,int code,Activity activity, Bundle bundle,ActionEnum actionEnum) {
+        toActivityResult(mainIntent,code,activity,bundle,actionEnum);
+    }
+    public static void startActivityResult(Intent mainIntent,int code,Activity activity,ActionEnum actionEnum) {
+        toActivityResult(mainIntent,code,activity,null,actionEnum);
+    }
 
     public static void startActivity(Activity activity, Class<?> clz,ActionEnum actionEnum) {
         toActivity(-1,activity,clz,false,null,actionEnum);

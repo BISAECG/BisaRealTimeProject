@@ -1,8 +1,6 @@
 package com.bisa.health;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,23 +11,40 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.cust.CircleImageView;
 import com.bisa.health.cust.SelectPicPopupWindow;
 import com.bisa.health.model.HealthPath;
 import com.bisa.health.model.HealthServer;
+import com.bisa.health.model.ResultData;
 import com.bisa.health.model.User;
+import com.bisa.health.model.enumerate.ActionEnum;
+import com.bisa.health.model.enumerate.SexTypeEnum;
+import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
+import com.bisa.health.utils.ActivityUtil;
+import com.bisa.health.utils.FileIOKit;
 import com.bisa.health.utils.GetImagePathUtil;
+import com.bisa.health.utils.GsonUtil;
+import com.bisa.health.utils.LoadDiaLogUtil;
+import com.bisa.health.utils.MD5Help;
+import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
@@ -37,6 +52,11 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
     //头像
     public CircleImageView img_avatar;
     public RelativeLayout rl_headimg;
+    public RelativeLayout rl_name;
+    public RelativeLayout rl_sex;
+
+    public TextView tv_name;
+    public TextView tv_sex;
 
     private SelectPicPopupWindow menuWindow;
 
@@ -44,7 +64,8 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
     private static final int REQUESTCODE_CUTTING = 2;    // 图片裁切标记
     private static final int SELECT_PIC_NOUGAT = 3;        // 相册选图标记
     private static final int IMAGE_REQUEST_CODE = 4;        // 相册选图标记
-    private Button btn_commit;
+    public static final int CALL_NAME_CODE = 10;        // 相册选图标记
+    public static final int CALL_SEX_CODE = 11;        // 相册选图标记
     //需要保存的图片
     private SharedPersistor sharedPersistor;
     private User mUser;
@@ -52,10 +73,12 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
     private IRestService mRestService;
     private HealthServer mHealthServer;
     public static final String IMAGE_FILE_NAME = "avatarImage.jpg";// 头像文件名称
-    private File mTempHeadFile;
-    private boolean isWriteStatus = true;
-
     private static final String TAG = "UserInfoActivity";
+
+    File mCameraFile = new File(Environment.getExternalStorageDirectory(), "IMAGE_FILE_NAME.jpg");//照相机的File对象
+    File mCropFile = new File(Environment.getExternalStorageDirectory(), "PHOTO_FILE_NAME.jpg");//裁剪后的File对象
+    File mGalleryFile = new File(Environment.getExternalStorageDirectory(), "IMAGE_GALLERY_NAME.jpg");//相册的File对象
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +95,14 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
         img_avatar=this.findViewById(R.id.img_avatar);
         rl_headimg=this.findViewById(R.id.rl_headimg);
         rl_headimg.setOnClickListener(this);
+
+        rl_name=this.findViewById(R.id.rl_name);
+        rl_name.setOnClickListener(this);
+        rl_sex=this.findViewById(R.id.rl_sex);
+        rl_sex.setOnClickListener(this);
+
+        tv_sex=this.findViewById(R.id.tv_sex);
+        tv_name=this.findViewById(R.id.tv_name);
         init();
     }
 
@@ -104,27 +135,25 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
             switch (v.getId()) {
                 // 拍照
                 case R.id.takePhotoBtn:
-                    File file=new File(Environment.getExternalStorageDirectory(),IMAGE_FILE_NAME);
                     Uri fileUri = null;
                     Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     if (Build.VERSION.SDK_INT >= 24) {
-                        fileUri = FileProvider.getUriForFile(UserInfoActivity.this, "com.bisa.health.fileProvider", file);
+                        fileUri = FileProvider.getUriForFile(UserInfoActivity.this, "com.bisa.health.fileProvider", mCameraFile);
                         takeIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
                         takeIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                         takeIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
                     } else {
-                        fileUri = Uri.fromFile(file);
-                        takeIntent.putExtra(MediaStore.EXTRA_OUTPUT,fileUri);
+                        takeIntent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(mCameraFile));
                     }
 
                     startActivityForResult(takeIntent, CAMERA_REQUEST_CODE);
                     break;
                 // 相册选择图片
                 case R.id.pickPhotoBtn:
-                    File mGalleryFile=new File(Environment.getExternalStorageDirectory(),IMAGE_FILE_NAME);
-                    Intent pickIntent = new Intent(Intent.ACTION_GET_CONTENT );
+
+                    Intent pickIntent = new Intent(Intent.ACTION_GET_CONTENT);
                     pickIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                    pickIntent.setType("image/*");
                     // 如果朋友们要限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型"
                     pickIntent.setType("image/*");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//如果大于等于7.0使用FileProvider
@@ -165,28 +194,76 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                 break;
             case CAMERA_REQUEST_CODE:// 调用相机拍照
 
-                File file=new File(Environment.getExternalStorageDirectory(),IMAGE_FILE_NAME);
                 Uri fileUri = null;
-                if (Build.VERSION.SDK_INT >= 24) {
-                    fileUri = FileProvider.getUriForFile(UserInfoActivity.this, "com.bisa.health.fileProvider", file);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    fileUri = FileProvider.getUriForFile(UserInfoActivity.this, "com.bisa.health.fileProvider", mCameraFile);
                 } else {
-                    fileUri = Uri.fromFile(file);
+                    fileUri =Uri.fromFile(mCameraFile);
                 }
 
                 startPhotoZoom(fileUri);
                 break;
             case REQUESTCODE_CUTTING:// 取得裁剪后的图片
+            case CALL_NAME_CODE:// 取得裁剪后的图片
+            case CALL_SEX_CODE:// 取得裁剪后的图片
+                if(data==null)return;
+
+                LoadDiaLogUtil.getInstance().show(UserInfoActivity.this, false);
                 Log.i(TAG, "onActivityResult: ");
-                File mCropFile=new File(Environment.getExternalStorageDirectory(),IMAGE_FILE_NAME);
-                Uri inputUri = FileProvider.getUriForFile(this, "com.bisa.health.fileProvider", mCropFile);//通过FileProvider创建一个content类型的Uri
-                Bitmap bitmap = null;
-                try {
-                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(inputUri));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                RequestBody bodyFile = RequestBody.create(MediaType.parse("image/*"), mCropFile);
+                requestBody.addFormDataPart("head_portrait", mCropFile.getName(), bodyFile);
+
+                String nickname=data.getStringExtra("nickname");
+                if(!StringUtils.isEmpty(nickname)){
+                    requestBody.addFormDataPart("name", nickname);
                 }
-                //Bitmap bitmap = data.getParcelableExtra("data");
-                img_avatar.setImageBitmap(bitmap);
+
+                int mSex=data.getIntExtra("sex",-1);
+                SexTypeEnum sexType=SexTypeEnum.getByValue(mSex);
+                if(sexType!=null){
+                    requestBody.addFormDataPart("sex", "" +sexType);
+                }
+
+                Log.i(TAG, "onActivityResult: >>>>>>>>>>>"+sexType);
+
+                mRestService.updateInfo(requestBody.build()).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LoadDiaLogUtil.getInstance().dismiss();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        final String json = response.body().string();
+                        Log.i(TAG, "onResponse: "+json);
+                       runOnUiThread(new Runnable() {
+
+                           @Override
+                           public void run() {
+                               LoadDiaLogUtil.getInstance().dismiss();
+                               ResultData<User> result = GsonUtil.getInstance().parse(json,new TypeToken<ResultData<User>>(){}.getType());
+                               if(result.getCode()==HttpFinal.CODE_200){
+                                   mUser=result.getData();
+                                   sharedPersistor.saveObject(mUser);
+                                   File outFile=new File(mHealthPath.getUser(),MD5Help.md5EnBit32(result.getData().getUri_pic())+".jpg");
+                                   if(!outFile.exists()) {
+                                       FileIOKit.copyFileToFile(mCropFile, outFile);
+                                   }
+                                   init();
+
+                               }else{
+                                   show_Toast(result.getMessage());
+                               }
+                           }
+                       });
+                    }
+                });
                 break;
 
         }
@@ -199,7 +276,6 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
      * @param uri
      */
     public void startPhotoZoom(Uri uri) {
-        File mCropFile=new File(Environment.getExternalStorageDirectory(),IMAGE_FILE_NAME);
         if (uri == null) {
             Log.e("error","The uri is not exist.");
             return;
@@ -246,6 +322,16 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                 img_avatar.setImageDrawable(getResources().getDrawable(R.drawable.userico_avatar));
 
             }
+
+            if(!StringUtils.isEmpty(mUser.getName())){
+                tv_name.setText(mUser.getName());
+            }
+
+            if(mUser.getSex()!=null&&mUser.getSex().getValue()==0){
+                tv_sex.setText(R.string.s_sex_male);
+            }else{
+                tv_sex.setText(R.string.s_sex_female);
+            }
         }
 
     }
@@ -258,6 +344,14 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
             menuWindow.showAtLocation(findViewById(R.id.img_avatar),
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
+        }else if(v==rl_name){
+            Intent mainIntent = new Intent(this, UserNameActivity.class);
+            mainIntent.putExtra("niackname",mUser.getName());
+            ActivityUtil.startActivityResult(mainIntent,CALL_NAME_CODE,this,ActionEnum.NEXT);
+        }else if(v==rl_sex){
+            Intent mainIntent = new Intent(this, UserSexActivity.class);
+            mainIntent.putExtra("sex",mUser.getSex().getValue());
+            ActivityUtil.startActivityResult(mainIntent,CALL_NAME_CODE,this,ActionEnum.NEXT);
         }
     }
 }

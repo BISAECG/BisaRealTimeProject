@@ -4,6 +4,7 @@ package com.bisa.health.cust;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,9 +21,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.bisa.health.AddActivity;
+import com.bisa.health.ProductActivity;
 import com.bisa.health.R;
 import com.bisa.health.adapter.DeviceAdapter;
+import com.bisa.health.cache.CacheManage;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.dao.DeviceDao;
 import com.bisa.health.dao.IDeviceDao;
@@ -34,6 +36,11 @@ import com.bisa.health.provider.device.DeviceSelection;
 import com.bisa.health.utils.ActivityUtil;
 
 import java.util.ArrayList;
+
+import zhy.com.highlight.HighLight;
+import zhy.com.highlight.interfaces.HighLightInterface;
+import zhy.com.highlight.position.OnBottomPosCallback;
+import zhy.com.highlight.shape.CircleLightShape;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,12 +57,14 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
     private Button dell_all_dev;
     private RelativeLayout llDel;
     private SharedPersistor sharedPersistor;
+    private Button btn_iknown;
     private static boolean isDel = false;
     private User mUser;
 
     private CheckBox allSelect;
     private CheckBox ibtn_back;
-
+    public HighLight mHightLight=null;
+    private String first=null;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -63,12 +72,22 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
         deviceDao=new DeviceDao(context);
         sharedPersistor=new SharedPersistor(context);
         mUser=sharedPersistor.loadObject(User.class.getName());
+
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "onCreate: ");
+
+        SharedPreferences setting = getActivity().getSharedPreferences(CacheManage.SHARE_APP_TAG,  Context.MODE_PRIVATE);
+        Boolean user_first = setting.getBoolean(this.getClass().getName(),true);
+        if(user_first){//第一次
+            setting.edit().putBoolean(this.getClass().getName(), false).commit();
+            showNextTipViewOnCreated();
+        }
+
+
 
     }
 
@@ -102,6 +121,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
         ibtn_del=(ImageButton) view.findViewById(R.id.ibtn_del);
         ibtn_del.setOnClickListener(this);
 
+
         deviceAdapter = new DeviceAdapter(getActivity(),this);
         deviceAdapter.setDel(false);
 
@@ -112,10 +132,49 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
         return view;
     }
 
+    public void remove(View view)
+    {
+        mHightLight.remove();
+    }
+    public  void showNextTipViewOnCreated(){
+        mHightLight = new HighLight(getContext())//
+                //.anchor(findViewById(R.id.id_container))//如果是Activity上增加引导层，不需要设置anchor
+                .autoRemove(false)
+                .setOnLayoutCallback(new HighLightInterface.OnLayoutCallback() {
+                    @Override
+                    public void onLayouted() {
+                        //界面布局完成添加tipview
+                        mHightLight.addHighLight(R.id.ibtn_del,R.layout.info_mian_adddevice,new OnBottomPosCallback(20),new CircleLightShape());
+                        //然后显示高亮布局
+                        //然后显示高亮布局
+                        mHightLight.show();
+
+                        View decorLayout = mHightLight.getHightLightView();
+                        Button knownView = (Button) decorLayout.findViewById(R.id.btn_iknown);
+                        knownView.setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View view) {
+                                remove(null);
+                                ActivityUtil.startActivity(getActivity(), ProductActivity.class,false, ActionEnum.NULL);
+                            }
+                        });
+                    }
+                })
+                .setClickCallback(new HighLight.OnClickCallback() {
+                    @Override
+                    public void onClick() {
+                        remove(null);
+                        ActivityUtil.startActivity(getActivity(), ProductActivity.class,false, ActionEnum.NULL);
+                    }
+                });
+
+    }
+
     @Override
     public void onClick(View v) {
         if(v==ibtn_del){
-            ActivityUtil.startActivity(getActivity(), AddActivity.class,false, ActionEnum.DOWN);
+            ActivityUtil.startActivity(getActivity(), ProductActivity.class,false, ActionEnum.NULL);
         }
     }
 

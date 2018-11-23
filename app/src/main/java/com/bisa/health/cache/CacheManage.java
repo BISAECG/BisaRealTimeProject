@@ -8,7 +8,7 @@ import android.util.LruCache;
  */
 
 public  class CacheManage {
-
+    public final  static String SHARE_APP_TAG="FIRST_RUN";
     private static CacheManage instance=null;
     public static LruCache<String, Object> mRetainedCache = null;
     private CacheManage(){

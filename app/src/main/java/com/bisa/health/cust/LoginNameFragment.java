@@ -27,6 +27,7 @@ import com.bisa.health.model.User;
 import com.bisa.health.model.dto.ServerDto;
 import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.RestServiceImpl;
+import com.bisa.health.utils.AreaUtil;
 import com.bisa.health.utils.CountDownTimerUtils;
 import com.bisa.health.utils.GsonUtil;
 import com.bisa.health.utils.ToastUtil;
@@ -89,6 +90,7 @@ public class LoginNameFragment extends Fragment implements View.OnTouchListener,
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.i(TAG, "onAttach: ");
+        mListType=AreaUtil.getListArea(context);
     }
 
     @Override
@@ -171,8 +173,7 @@ public class LoginNameFragment extends Fragment implements View.OnTouchListener,
     @Override
     public void onResume() {
         super.onResume();
-        mListType=sharedPersistor.loadObject(ServerDto.class.getName());
-        Log.i(TAG, "onResume: "+mListType.size());
+
         areaCodeAdapter.setmObjects(mListType);
         areaCodeAdapter.notifyDataSetChanged();
 

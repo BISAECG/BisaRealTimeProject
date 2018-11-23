@@ -25,7 +25,9 @@ public class ChannelService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand(): intent = [" + intent.toUri(0) + "], flags = [" + flags + "], startId = [" + startId + "]");
-        startForeground(Notificator.FOREGROUND_PUST_ID, new Notification());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2&&Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {
+            startForeground(Notificator.FOREGROUND_PUST_ID, new Notification());
+        }
         stopForeground(true);
         stopSelf();
         return super.onStartCommand(intent, flags, startId);

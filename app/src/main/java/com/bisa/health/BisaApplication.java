@@ -2,8 +2,11 @@ package com.bisa.health;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -11,22 +14,15 @@ import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.ecg.config.ECGSetConfig;
 import com.bisa.health.model.HealthPath;
 import com.bisa.health.model.HealthServer;
-import com.bisa.health.model.dto.ServerDto;
 import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.utils.ActivityUtil;
-import com.bisa.health.utils.FileIOKit;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.tencent.android.otherPush.StubAppUtils;
 import com.tencent.android.tpush.XGPushConfig;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -42,6 +38,8 @@ public class BisaApplication extends Application {
 	private AppManager appManager=AppManager.getAppManager();
 	private HealthServer mHealthServer=null;
 	public  ECGSetConfig ecgSetConfig=null;
+	public static final String NOTIFICATION_CHANNEL_ID_TASK = "com.bisa.health.task";
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -53,27 +51,6 @@ public class BisaApplication extends Application {
 		APP_PATH= Environment.getExternalStorageDirectory().getPath() + "/bishealth";
 		HealthPath healthPath=initSysPath(APP_PATH);
 		sharedPersistor.saveObject(healthPath);
-
-		Log.i(TAG, "onCreate: "+locale.getCountry());
-		try {
-
-			InputStream is=getAssets().open(locale.getCountry()+"_area.json");
-            byte[] bytes=FileIOKit.FromInputStreamToByte(is);
-			final Gson gson=new Gson();
-			List<ServerDto> listArea=gson.fromJson(new String(bytes,"UTF-8"),new TypeToken<List<ServerDto>>(){}.getType());
-			sharedPersistor.saveObject(ServerDto.class.getName(),listArea);
-
-        }catch (IOException e){
-			try{
-				InputStream is=getAssets().open("US_area.json");
-				byte[] bytes=FileIOKit.FromInputStreamToByte(is);
-				final Gson gson=new Gson();
-				List<ServerDto> listArea=gson.fromJson(new String(bytes,"UTF-8"),new TypeToken<List<ServerDto>>(){}.getType());
-				sharedPersistor.saveObject(ServerDto.class.getName(),listArea);
-			}catch (IOException ioe){
-				return;
-			}
-        }
 		ecgSetConfig=sharedPersistor.loadObject(ECGSetConfig.class.getName());
 		if(ecgSetConfig==null){
 			ecgSetConfig=new ECGSetConfig();
@@ -91,6 +68,7 @@ public class BisaApplication extends Application {
         XGPushConfig.setMzPushAppId(getApplicationContext(), "1001673");
         XGPushConfig.setMzPushAppKey(getApplicationContext(), "1317acb21c2040448d555ea3d33b4a15");
 
+		initChannel();
 		//CrashHandler.getInstance().init(this);
 		
 	}
@@ -163,31 +141,16 @@ public class BisaApplication extends Application {
 		clearInit(healthPath);
 		return healthPath;
 	}
-
+	public void initChannel(){
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			nm.createNotificationChannel(new NotificationChannel(NOTIFICATION_CHANNEL_ID_TASK, "Bisa app", NotificationManager.IMPORTANCE_DEFAULT));
+		}
+	}
 	public void clearInit(HealthPath healthPath){
 		if(healthPath!=null){
 
-//			/**
-//			 * 软件重新启动转移文件保证cache都是最新文件
-//			 */
-//			File tempFile=new File(systemDir.getUptemp());
-//			File[] tempList=tempFile.listFiles();
-//
-//			if(tempFile.length()>0){
-//				for(File f:tempList){
-//					File ecdFile=new File(systemDir.getUpdat(),f.getName());
-//					boolean result=FileIOKit.copyFileToFile(f,ecdFile);
-//					if(result){
-//						f.delete();
-//					}else{
-//						if(ecdFile.exists()){
-//							ecdFile.delete();
-//						}
-//					}
-//				}
-//
-//
-//			}
+
 			/**
 			 * 清理90天以前的文件
 			 */

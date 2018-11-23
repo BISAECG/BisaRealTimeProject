@@ -145,7 +145,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     //当前报告
     private ReportEnum curReport = ReportEnum.NULL;
     private final Gson gson = new Gson();
-    private final int MONITOR_INTERVAL = 180 * 1000;
+    private final int MONITOR_INTERVAL = 900 * 1000;
 
     private ECGBuildAnasysBack ecgBuildAnasys = ECGBuildAnasysBack.getInstance().init();
 	/*
@@ -719,7 +719,6 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     protected void onDestroy() {
         super.onDestroy();
         notificator.CancelRunningNotif();
-        Log.i(TAG, ">>>>>>>>>:onDestroy");
         iappReportDao = null;
         exit();
 
@@ -735,13 +734,13 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
                 e.printStackTrace();
             }
         }
-        Log.i(TAG, "exit: >>>>>>1");
+
 
         if (serviceConnection != null) {
             this.unbindService(serviceConnection);
             serviceConnection = null;
         }
-        Log.i(TAG, "exit: >>>>>>3");
+
         if (sfvWave != null) {
             sfvWave.mIsDrawing(false);
             sfvWave = null;

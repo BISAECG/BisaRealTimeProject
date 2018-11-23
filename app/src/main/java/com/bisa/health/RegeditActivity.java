@@ -16,7 +16,6 @@ import com.bisa.health.ecg.dao.IReportDao;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
 import com.bisa.health.model.User;
-import com.bisa.health.model.dto.ServerDto;
 import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.RestServiceImpl;
@@ -85,7 +84,6 @@ public class RegeditActivity extends BaseActivity implements  View.OnClickListen
     private ImageView imageView;
     private TextView txt_switch_area;
     private ImageButton ibtn_back;
-    private List<ServerDto> liatArea;
 
 
     /**
@@ -109,7 +107,6 @@ public class RegeditActivity extends BaseActivity implements  View.OnClickListen
         validator.setValidationMode(Validator.Mode.BURST);
         validator.setValidationListener(this);
 
-        liatArea=sharedPersistor.loadObject(ServerDto.class.getName());
 
         btn_login = (Button) this.findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
@@ -217,7 +214,7 @@ public class RegeditActivity extends BaseActivity implements  View.OnClickListen
                                     return;
                                 }
 
-                                if (result.getCode() == HttpFinal.CODE_201) {
+                                if (result.getCode() == HttpFinal.CODE_200) {
                                     sharedPersistor.saveObject(result.getData());
                                     mHealthServer.setToken(result.getToken());
                                     sharedPersistor.saveObject(mHealthServer);

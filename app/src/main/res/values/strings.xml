@@ -91,8 +91,8 @@
     <string name="title_monitoring_end">请点击我的报告查看</string>
     <string name="title_helath_daily_report">AI智能监测报告</string>
     <string name="title_helath_daily_report_color">悉心<font color='#579ADF'>AI智能</font>分析报告</string>
-    <string name="title_helath_child_daily_report">3分钟闪电监测 健康状况每天掌握</string>
-    <string name="title_helath_child_daily_content">\u3000\u3000免费<font color='#579ADF'>日常</font>监测报告是根据您佩戴的悉心心电仪所监测采集到的<font color='#579ADF'>3分钟</font>心电数据 做出统计分析，可以非常直观易懂的了解 自身每日心脏状况，保障心脏健康。</string>
+    <string name="title_helath_child_daily_report">15分钟闪电监测 健康状况每天掌握</string>
+    <string name="title_helath_child_daily_content">\u3000\u3000免费<font color='#579ADF'>日常</font>监测报告是根据您佩戴的悉心心电仪所监测采集到的<font color='#579ADF'>15分钟</font>心电数据 做出统计分析，可以非常直观易懂的了解 自身每日心脏状况，保障心脏健康。</string>
     <string name="title_helath_child_daily_desc">温馨提示:\n监测期间请保持心电仪与手机蓝牙连接,监测时长1分钟,结束后报告将会自动推送。</string>
     <string name="title_helath_depth_report">悉心<font color='#08B39B'>人工</font>监测报告</string>
     <string name="title_helath_depth_timing">悉心深度监测计时</string>
@@ -121,8 +121,21 @@
     <string name="s_avatar">头像</string>
     <string name="s_name">姓名</string>
     <string name="s_sex">性别</string>
+    <string name="s_sex_male">男</string>
+    <string name="s_sex_female">女</string>
     <string name="hint_set">请设置</string>
-
+    <string name="s_success">完成</string>
+    <string name="s_opt_name">设置姓名</string>
+    <string name="s_opt_sex">设置性别</string>
+    <string name="hint_name">请输入您的姓名</string>
+    <!-- 引导-->
+    <string name="tip_add">点击 + 号开始添加产品</string>
+    <string name="tip_product">点击选择要添加的产品类型</string>
+    <string name="tip_iknown">我知道了</string>
+    <string name="tip_ecg_1">①点击开始匹配按钮匹配</string>
+    <string name="tip_ecg_2">②匹配成功后选择产品设备号</string>
+    <string name="tip_ecg_3">③点击 确认按钮 完成产品添加</string>
+    <string name="tip_next">下一步</string>
     <!--添加联系人界面-->
     <string name="title_hint_dufault_country">中国大陆(86)</string>
     <string name="title_hint_contact_name">联系人姓名</string>
@@ -180,8 +193,6 @@
     <string name="dialog_tip_error_password">请正确输入密码</string>
     <string name="dialog_tip_error_notpassword">密码不能为空</string>
     <string name="dialog_tip_error_username">用户名不能为空</string>
-
-    <string name="tip_next">下一步</string>
 
     <string name="tip_click_modify">点击信息返回修改</string>
     <string name="tip_login_run">进入</string>

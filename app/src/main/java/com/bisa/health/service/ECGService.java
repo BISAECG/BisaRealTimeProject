@@ -121,17 +121,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
     private IDeviceDao deviceDao;
     private IReportDao iappReportDao;
-
-    /*
-        Report
-     */
-
     private FileOutputStream fos;
-
-    // private CopyOnWriteArrayList<byte[]> freeList = new CopyOnWriteArrayList<>();
-    // private AppReport globalReport = null;
-
-
 
     @SuppressLint("InvalidWakeLockTag")
     @SuppressWarnings("deprecation")
@@ -213,6 +203,16 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
     public void onDestroy() {
         super.onDestroy();
 
+        if (connDevtimeout != null) {
+            mHandler.removeCallbacks(connDevtimeout);
+            connDevtimeout=null;
+        }
+        
+        if(mBleWrapper!=null&&mBleWrapper.isConnected()){
+            mBleWrapper.diconnect();
+            mBleWrapper.close();
+            mBleWrapper=null;
+        }
         try {
             if (null != mWakeLock) {
                 mWakeLock.release();
@@ -240,7 +240,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
         Log.i(TAG, "onBind: ");
         // 开启前台服务
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2&&Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {
             startForeground(Notificator.FOREGROUND_PUST_ID, new Notification());
             Intent sendIntend = new Intent(getApplicationContext(), ChannelService.class);
             startService(sendIntend);
@@ -257,13 +257,16 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
          * 如果蓝牙还在连接就必须解除连接
          */
 
-        if (connDevtimeout != null)
+        if (connDevtimeout != null) {
             mHandler.removeCallbacks(connDevtimeout);
+            connDevtimeout=null;
+        }
 
 
         if(mBleWrapper!=null&&mBleWrapper.isConnected()){
             mBleWrapper.diconnect();
             mBleWrapper.close();
+            mBleWrapper=null;
         }
 
         return super.onUnbind(intent);

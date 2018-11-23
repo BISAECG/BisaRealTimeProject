@@ -170,13 +170,9 @@ public class UserCenterFragment extends android.support.v4.app.Fragment implemen
     private void init() {
 
         Log.i(TAG, "init: "+mUser.getUri_pic());
-
+        mUser=sharedPersistor.loadObject(User.class.getName());
         if (!StringUtils.isEmpty(mUser.getUri_pic())) {
-
-
             img_avatar.setImageURI(mUser.getUri_pic(),mHealthPath);
-
-
 
         }
     }

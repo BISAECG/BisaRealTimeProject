@@ -20,6 +20,7 @@ import com.bisa.health.adapter.AreaCodeAdapter;
 import com.bisa.health.adapter.IAdapterClickInterFace;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.model.dto.ServerDto;
+import com.bisa.health.utils.AreaUtil;
 
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class AreaNameFragment extends Fragment implements View.OnTouchListener,P
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mListType=AreaUtil.getListArea(context);
         Log.i(TAG, "onAttach: ");
     }
 
@@ -80,8 +82,6 @@ public class AreaNameFragment extends Fragment implements View.OnTouchListener,P
     @Override
     public void onResume() {
         super.onResume();
-
-        mListType=sharedPersistor.loadObject(ServerDto.class.getName());
         areaCodeAdapter.setmObjects(mListType);
         areaCodeAdapter.notifyDataSetChanged();
 
