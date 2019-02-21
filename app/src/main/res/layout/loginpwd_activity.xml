@@ -22,7 +22,7 @@
         <fragment
             android:tag="-1"
             android:id="@+id/ll_iphone"
-            android:name="com.bisa.health.cust.LoginPwdFragment"
+            android:name="com.bisa.health.cust.fragment.LoginPwdFragment"
             android:layout_width="309dp"
             android:layout_height="41dp"
             android:layout_centerHorizontal="true"
@@ -214,7 +214,7 @@
         android:padding="1dp">
         <fragment
             android:id="@+id/other_login_fragment"
-            android:name="com.bisa.health.cust.OtherLoginFragment"
+            android:name="com.bisa.health.cust.fragment.OtherLoginFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" />

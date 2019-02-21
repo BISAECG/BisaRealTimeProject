@@ -13,7 +13,6 @@ public interface IRestService {
 
 	public Call sendCodeByUser(Map<String,String> param);
 	public Call sendCodeByIphone(Map<String,String> param);
-	public Call bindCode(Map<String,String> param);
 	public Call loginPwd(FormBody param);
 	public Call login(FormBody param);
 	public Call wxLogin(FormBody param);
@@ -30,7 +29,7 @@ public interface IRestService {
 	public Call getContacts();
 	public Call getAccount();
 	public Call modifyPwd(FormBody param);
-	public Call bindIphone(FormBody param);
+	public Call otherbind(FormBody param);
 	public Call bindAccount(FormBody param);
 	public Call bindOther(FormBody param);
 	public Call varifyBindToken(FormBody param);

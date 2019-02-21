@@ -74,4 +74,7 @@ public interface HttpFinal {
     public static final int DOWN_SUCCESS_200=217;//金额不足
 
     public static final int DOWN_ING_203=203; //没有紧急联系人
+
+
+
 }

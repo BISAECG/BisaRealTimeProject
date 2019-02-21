@@ -119,15 +119,18 @@
     <string name="title_exit_app">注销账号</string>
     <!--个人资料-->
     <string name="s_avatar">头像</string>
-    <string name="s_name">姓名</string>
+    <string name="s_name">昵称</string>
+    <string name="s_username">用户名</string>
     <string name="s_sex">性别</string>
     <string name="s_sex_male">男</string>
     <string name="s_sex_female">女</string>
     <string name="hint_set">请设置</string>
     <string name="s_success">完成</string>
-    <string name="s_opt_name">设置姓名</string>
+    <string name="s_opt_name">设置昵称</string>
+    <string name="s_opt_username">设置用户</string>
     <string name="s_opt_sex">设置性别</string>
     <string name="hint_name">请输入您的姓名</string>
+    <string name="hint_username">请修改用户名（系统只允许修改一次）</string>
     <!-- 引导-->
     <string name="tip_add">点击 + 号开始添加产品</string>
     <string name="tip_product">点击选择要添加的产品类型</string>
@@ -263,11 +266,11 @@
 
     <!--SETING-->
     <!--ALARM-->
-    <string name="auto_alarm" >自动报警</string>
+    <string name="auto_alarm">自动报警</string>
     <string name="auto_alarm_desc">开启时会自动监测停播现象并发出警报</string>
-    <string name="manua_app_alarm" >软件手动报警</string>
+    <string name="manua_app_alarm">软件手动报警</string>
     <string name="manua_appalarm_desc">开启时允许APP悉心铃按钮发出警报</string>
-    <string name="manua_device_alarm" >设备手动报警</string>
+    <string name="manua_device_alarm">设备手动报警</string>
     <string name="manua_devicealarm_desc">开启时允许双击设备上的操作键发出警报</string>
 
     <!--OTG-->
@@ -316,6 +319,7 @@
     <string name="bind_isbind">已绑定</string>
     <string name="bind_modify">修改</string>
     <string name="bind_modify_pwd">密码修改</string>
+    <string name="bind_error_tip">无法验证请联系客服申诉</string>
     <!--修改密码-->
     <string name="title_cur_pwd">当前密码</string>
     <string name="title_cur_pwd_tip">请输入原密码</string>

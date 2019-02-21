@@ -115,6 +115,12 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
         sharedPersistor = new SharedPersistor(this);
         mHealthServer=sharedPersistor.loadObject(HealthServer.class.getName());
         mUser=sharedPersistor.loadObject(User.class.getName());
+
+        if(mUser!=null){
+            ActivityUtil.startActivity(this, MainActivity.class, true, ActionEnum.NULL);
+            return;
+        }
+
         restService = new RestServiceImpl(this,mHealthServer);
         LoginActivityPermissionsDispatcher.initPermissionWithPermissionCheck(this);
         validator = new Validator(this);
@@ -138,9 +144,6 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
         tv_areacode.setText(mHealthServer.getAreaCode());
         tv_verify = (EditText) this.findViewById(R.id.tv_verify);
         tv_iphone = (EditText) this.findViewById(R.id.tv_iphone);
-        if(mUser!=null&&!StringUtils.isEmpty(mUser.getUsername())){
-            tv_iphone.setText(mUser.getUsername());
-        }
 
         imageView=(ImageView) this.findViewById(R.id.img_wechat);
 
@@ -183,10 +186,10 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
 
                 String timeStamp=""+DateUtil.getServerMilliSeconds(mHealthServer.getTimeZone());
                 String digest= CryptogramService.getInstance().hmacDigest(
-                        ArrayUtil.sort(new String[]{"username","code","clientKey","timeStamp"},
+                        ArrayUtil.sort(new String[]{"phone","code","clientKey","timeStamp"},
                                 new String[]{username,code,username,timeStamp}));
                 FormBody body = new FormBody.Builder()
-                        .add("username", username)
+                        .add("phone", username)
                         .add("code", code)
                         .add("clientKey", username)
                         .add("digest",digest)
@@ -201,7 +204,7 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                show_Toast(getResources().getString(R.string.server_error));
+                                showToast(getResources().getString(R.string.server_error));
                                 LoadDiaLogUtil.getInstance().dismiss();
                                 return;
                             }
@@ -231,12 +234,11 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
                                     if(!StringUtils.isEmpty(mHealthServer.getToken())){
                                         XGPushManager.bindAccount(LoginActivity.this, MD5Help.md5EnBit32(mHealthServer.getToken()));
                                     }
-
-                                         ActivityUtil.startActivity(LoginActivity.this,MainActivity.class,true,ActionEnum.DOWN);
+                                    ActivityUtil.startActivity(LoginActivity.this,MainActivity.class,true,ActionEnum.DOWN);
 
 
                                 }else{
-                                    show_Toast(result.getMessage());
+                                    showToast(result.getMessage());
                                 }
                                 return;
                             }
@@ -351,7 +353,7 @@ public class LoginActivity extends BaseActivity implements  View.OnClickListener
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
 

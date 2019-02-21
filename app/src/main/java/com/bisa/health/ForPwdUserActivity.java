@@ -9,13 +9,11 @@ import android.widget.EditText;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
-import com.bisa.health.model.dto.UserBindDto;
-import com.bisa.health.model.dto.UserPwdDto;
+import com.bisa.health.model.dto.ForGetPwdDto;
 import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.RestServiceImpl;
 import com.bisa.health.utils.ActivityUtil;
-import com.bisa.health.utils.LoadDiaLogUtil;
 import com.bisa.health.utils.Utility;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -86,7 +84,7 @@ public class ForPwdUserActivity extends BaseActivity implements  Validator.Valid
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
     }
@@ -101,10 +99,8 @@ public class ForPwdUserActivity extends BaseActivity implements  Validator.Valid
             if (!isValidation ) {
                 return;
             }
-            LoadDiaLogUtil.getInstance().show(ForPwdUserActivity.this, false);
+            showDialog(false);
             restService = new RestServiceImpl(this,mHealthServer);
-
-
 
             synchronized (this) {
 
@@ -119,8 +115,8 @@ public class ForPwdUserActivity extends BaseActivity implements  Validator.Valid
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                show_Toast(getResources().getString(R.string.server_error));
-                                LoadDiaLogUtil.getInstance().dismiss();
+                                showToast(getResources().getString(R.string.server_error));
+                               dialogDismiss();
                                 return;
                             }
                         });
@@ -135,8 +131,8 @@ public class ForPwdUserActivity extends BaseActivity implements  Validator.Valid
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                LoadDiaLogUtil.getInstance().dismiss();
-                                ResultData<List<UserBindDto>> result = Utility.jsonToObject(json,new TypeToken< ResultData<List<UserBindDto>>>(){}.getType());
+                                dialogDismiss();
+                                ResultData<ForGetPwdDto> result = Utility.jsonToObject(json,new TypeToken< ResultData<ForGetPwdDto>>(){}.getType());
 
                                 if (result == null) {
                                     return;
@@ -144,12 +140,10 @@ public class ForPwdUserActivity extends BaseActivity implements  Validator.Valid
 
                                 if(result.getCode()==HttpFinal.CODE_200){
                                     Bundle body=new Bundle();
-                                    UserPwdDto userPwdDto=new UserPwdDto(-1,result.getData());
-                                    Log.i(TAG,userPwdDto.toString());
-                                    body.putSerializable(UserPwdDto.class.getName(),userPwdDto);
+                                    body.putSerializable(ForGetPwdDto.class.getName(),result.getData());
                                     ActivityUtil.startActivity(ForPwdUserActivity.this,ForPwdTypeActivity.class,false, body,ActionEnum.NEXT);
                                 }else{
-                                    show_Toast(result.getMessage());
+                                    showToast(result.getMessage());
                                 }
 
 

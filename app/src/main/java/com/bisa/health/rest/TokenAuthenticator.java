@@ -1,7 +1,6 @@
 package com.bisa.health.rest;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.io.IOException;
 
@@ -20,7 +19,6 @@ public class TokenAuthenticator implements Authenticator {
     @Nullable
     @Override
     public Request authenticate(Route route, Response response) throws IOException {
-        Log.i(TAG, "authenticate: >>>>>>>>>>>>>>>>>>>>>>>>>>>");
         return null;
     }
 }

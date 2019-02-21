@@ -94,9 +94,6 @@ public class LoginPwdActivity extends BaseActivity implements View.OnClickListen
 
         tv_iphone=(EditText) this.findViewById(R.id.tv_iphone);
         tv_iphone.setOnClickListener(this);
-        if(mUser!=null&&!StringUtils.isEmpty(mUser.getUsername())){
-            tv_iphone.setText(mUser.getUsername());
-        }
 
         tv_pwd=(EditText)this.findViewById(R.id.tv_pwd);
         tv_pwd.setOnClickListener(this);
@@ -141,11 +138,11 @@ public class LoginPwdActivity extends BaseActivity implements View.OnClickListen
             synchronized (this) {
                 String timeStamp=""+DateUtil.getServerMilliSeconds(mHealthServer.getTimeZone());
                 String digest= CryptogramService.getInstance().hmacDigest(
-                        ArrayUtil.sort(new String[]{"username","password","clientKey","timeStamp"},
+                        ArrayUtil.sort(new String[]{"account","password","clientKey","timeStamp"},
                                 new String[]{username, MD5Help.md5EnBit32(password),username,timeStamp}));
 
                 FormBody body = new FormBody.Builder()
-                        .add("username", username)
+                        .add("account", username)
                         .add("password", MD5Help.md5EnBit32(password))
                         .add("clientKey", username)
                         .add("digest",digest)
@@ -160,7 +157,7 @@ public class LoginPwdActivity extends BaseActivity implements View.OnClickListen
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                show_Toast(getResources().getString(R.string.server_error));
+                                showToast(getResources().getString(R.string.server_error));
                                 LoadDiaLogUtil.getInstance().dismiss();
                                 return;
                             }
@@ -194,7 +191,7 @@ public class LoginPwdActivity extends BaseActivity implements View.OnClickListen
 
 
                                 }else{
-                                    show_Toast(result.getMessage());
+                                    showToast(result.getMessage());
                                 }
                                 return;
 
@@ -247,7 +244,7 @@ public class LoginPwdActivity extends BaseActivity implements View.OnClickListen
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
 

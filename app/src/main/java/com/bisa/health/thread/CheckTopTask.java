@@ -33,7 +33,7 @@ public class CheckTopTask implements Runnable {
     @Override
     public void run() {
         boolean foreground = isForeground(context);
-        Log.d(TAG, "foreground:" + foreground);
+        Log.i(TAG, "foreground:" + foreground);
         if (!foreground) {
             startForeground(context);
         }

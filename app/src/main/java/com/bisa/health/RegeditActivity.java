@@ -167,15 +167,13 @@ public class RegeditActivity extends BaseActivity implements  View.OnClickListen
 
                 String timeStamp=""+DateUtil.getServerMilliSeconds(mHealthServer.getTimeZone());
                 String digest= CryptogramService.getInstance().hmacDigest(
-                        ArrayUtil.sort(new String[]{"username","code","area_code","time_zone","phonecode","clientKey","timeStamp"},
-                                new String[]{username,code,mHealthServer.getAreaCode(),mHealthServer.getTimeZone(),phonecode,username,timeStamp}));
+                        ArrayUtil.sort(new String[]{"phone","code","phonecode","clientKey","timeStamp"},
+                                new String[]{username,code,phonecode,username,timeStamp}));
 
                 FormBody body = new FormBody.Builder()
-                        .add("username", username)
+                        .add("phone", username)
                         .add("code", code)
-                        .add("time_zone",mHealthServer.getTimeZone())
                         .add("phonecode",phonecode)
-                        .add("area_code",mHealthServer.getAreaCode())
                         .add("clientKey", username)
                         .add("digest",digest)
                         .add("timeStamp",timeStamp)
@@ -190,7 +188,7 @@ public class RegeditActivity extends BaseActivity implements  View.OnClickListen
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                show_Toast(getResources().getString(R.string.server_error));
+                                showToast(getResources().getString(R.string.server_error));
                                 LoadDiaLogUtil.getInstance().dismiss();
                                 return;
                             }
@@ -223,7 +221,7 @@ public class RegeditActivity extends BaseActivity implements  View.OnClickListen
                                     }
                                     ActivityUtil.startActivity(RegeditActivity.this,MainActivity.class,true,ActionEnum.NULL);
                                 }else {
-                                    show_Toast(result.getMessage());
+                                    showToast(result.getMessage());
                                 }
                                 return;
                             }
@@ -264,7 +262,7 @@ public class RegeditActivity extends BaseActivity implements  View.OnClickListen
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
 

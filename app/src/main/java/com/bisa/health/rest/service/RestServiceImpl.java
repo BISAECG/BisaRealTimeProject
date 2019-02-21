@@ -45,12 +45,6 @@ public class RestServiceImpl extends HttpHelp implements  IRestService{
         return  call;
     }
 
-    @Override
-    public Call bindCode(Map<String,String> param) {
-        String url="/mi/app/common/code";
-        Call call=get(url,param,null, HttpFinal.CONN_HTTPS);
-        return  call;
-    }
 
     @Override
     public Call login(FormBody param) {
@@ -176,8 +170,8 @@ public class RestServiceImpl extends HttpHelp implements  IRestService{
     }
 
     @Override
-    public Call bindIphone(FormBody param) {
-        String url="/mi/app/bind/iphone";
+    public Call otherbind(FormBody param) {
+        String url="/mi/login/otherbind";
         Call call=post(url,param,null, HttpFinal.CONN_HTTPS);
         return  call;
     }

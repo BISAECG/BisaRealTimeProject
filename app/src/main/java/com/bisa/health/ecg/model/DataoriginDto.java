@@ -11,7 +11,7 @@ public class DataoriginDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private List<CalendarDto> calendarDtoList;
-	private List<AlarmLogDto> alarmLogList;
+	private List<AlarmLogDto> alarmLogst;
 
 	public List<CalendarDto> getCalendarDtoList() {
 		return calendarDtoList;
@@ -21,12 +21,12 @@ public class DataoriginDto implements Serializable{
 		this.calendarDtoList = calendarDtoList;
 	}
 
-	public List<AlarmLogDto> getAlarmLogList() {
-		return alarmLogList;
+	public List<AlarmLogDto> getAlarmLogst() {
+		return alarmLogst;
 	}
 
-	public void setAlarmLogList(List<AlarmLogDto> alarmLogList) {
-		this.alarmLogList = alarmLogList;
+	public void setAlarmLogst(List<AlarmLogDto> alarmLogst) {
+		this.alarmLogst = alarmLogst;
 	}
 
 	public DataoriginDto() {

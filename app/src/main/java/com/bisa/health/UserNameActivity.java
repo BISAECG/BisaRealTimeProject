@@ -28,8 +28,7 @@ public class UserNameActivity extends BaseActivity  implements  OnClickListener{
     private HealthPath mHealthPath;
     private IRestService mRestService;
     private HealthServer mHealthServer;
-    public static final String IMAGE_FILE_NAME = "avatarImage.jpg";// 头像文件名称
-    private static final String TAG = "UserInfoActivity";
+    private static final String TAG = "UserNameActivity";
     public ImageButton backCall;
     public TextView tv_seuucess;
     public RelativeLayout rl_clear;
@@ -72,7 +71,7 @@ public class UserNameActivity extends BaseActivity  implements  OnClickListener{
     @Override
     protected void onResume() {
         super.onResume();
-        String nickname=getIntent().getStringExtra("nickname");
+        String nickname=getIntent().getStringExtra("username");
         edit_name.setText(nickname);
     }
 
@@ -82,8 +81,9 @@ public class UserNameActivity extends BaseActivity  implements  OnClickListener{
            ActivityUtil.finishAnim(this,ActionEnum.BACK);
         }else if(v==tv_seuucess){
             Intent intent = new Intent();
-            intent.putExtra("nickname", edit_name.getText().toString().trim());
-            this.setResult(UserInfoActivity.CALL_NAME_CODE, intent);
+            intent.putExtra("username", edit_name.getText().toString().trim());
+            Log.i(TAG, "onClick: "+edit_name.getText().toString().trim());
+            this.setResult(UserInfoActivity.CALL_USERNAME_CODE, intent);
             finish();
         }else if(v==rl_clear){
             edit_name.setText("");

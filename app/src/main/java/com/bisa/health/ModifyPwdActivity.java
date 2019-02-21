@@ -10,7 +10,7 @@ import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
 import com.bisa.health.model.User;
-import com.bisa.health.model.dto.UserPwdDto;
+import com.bisa.health.model.dto.AdapteDefaultDto;
 import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
@@ -54,7 +54,7 @@ public class ModifyPwdActivity extends BaseActivity implements View.OnClickListe
 
     private boolean isValidation = false;
 
-    private UserPwdDto userPwdDto;
+    private AdapteDefaultDto userPwdDto;
     private IRestService mRestService;
     private SharedPersistor sharedPersistor;
     private HealthServer mHealthServer;
@@ -107,7 +107,7 @@ public class ModifyPwdActivity extends BaseActivity implements View.OnClickListe
                     .add("commit_password", MD5Help.md5EnBit32(commitpwd_text))
                     .build();
 
-            show_Dialog(true);
+            showDialog(true);
             Call call = mRestService.modifyPwd(body);
             call.enqueue(new Callback() {
                 @Override
@@ -115,7 +115,7 @@ public class ModifyPwdActivity extends BaseActivity implements View.OnClickListe
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            dialog_Dismiss();
+                            dialogDismiss();
                         }
                     });
 
@@ -129,7 +129,7 @@ public class ModifyPwdActivity extends BaseActivity implements View.OnClickListe
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            dialog_Dismiss();
+                            dialogDismiss();
 
                             ResultData<Object> result = Utility.jsonToObject(json, new TypeToken<ResultData<Object>>() {
                             }.getType());
@@ -139,10 +139,10 @@ public class ModifyPwdActivity extends BaseActivity implements View.OnClickListe
                             }
 
                             if (result.getCode() == HttpFinal.CODE_200) {
-                                show_Toast(result.getMessage(), Toast.LENGTH_LONG);
+                                showToast(result.getMessage(), Toast.LENGTH_LONG);
                                 finish();
                             } else {
-                                show_Toast(result.getMessage(), Toast.LENGTH_LONG);
+                                showToast(result.getMessage(), Toast.LENGTH_LONG);
                             }
                         }
                     });
@@ -165,7 +165,7 @@ public class ModifyPwdActivity extends BaseActivity implements View.OnClickListe
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
     }

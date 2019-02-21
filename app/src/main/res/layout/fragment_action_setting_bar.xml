@@ -3,19 +3,30 @@
     android:background="@color/color_default_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.bisa.health.cust.ActionBarBackFragment">
+    tools:context="com.bisa.health.cust.view.ActionBarView">
     
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="47dp">
 
-        <ImageButton
-            android:id="@+id/ibtn_back"
-            android:background="@drawable/menu_back_bg"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp" />
+        <RelativeLayout
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/rl_back"
+            android:layout_width="100dp"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:clickable="false"
+                android:padding="20dp"
+                android:layout_marginLeft="14dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/ibtn_back"
+                android:background="@drawable/menu_back_bg"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/tv_title"
@@ -28,14 +39,24 @@
             tools:text="中间位置"
             android:text="" />
 
-        <ImageButton
-            android:id="@+id/ibtn_setting"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="14dp"
-            android:background="@drawable/menu_back_setting_bg" />
+        <RelativeLayout
+            android:id="@+id/rl_next"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true">
+
+            <ImageButton
+                android:clickable="false"
+                android:layout_marginRight="14dp"
+                android:id="@+id/ibtn_next"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/menu_back_setting_bg" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
     

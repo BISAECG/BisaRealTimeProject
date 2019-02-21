@@ -19,6 +19,10 @@ public abstract class FinalBisa {
     public final static int NEWWPRK_SATAUS_FAIL=21;
     public final static int UPDATE_REAL_TIME=22;
 
+    public final static int SERVER_BACK_STATUS=23;
+    public final static int SERVER_BACK_STOP=0;
+    public final static int SERVER_BACK_START=1;
+
     public final static int UPDATE_DAT=200;
 
     public final static int ECG_CONFIG=1000;
@@ -43,7 +47,8 @@ public abstract class FinalBisa {
     public final static int OTG_UPDATE_FILE=200;
 
 
-
+    //CallResult
+    public final static int CALL_ECG_CODE=10001;
    // public final static int REPORT1_MONITORING_TIME=1;
    // public final static int REPORT15_MONITORING_TIME=15;
 }

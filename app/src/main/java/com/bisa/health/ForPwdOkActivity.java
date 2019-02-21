@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.bisa.health.model.dto.UserBindDto;
+import com.bisa.health.model.dto.ForGetPwdDto;
 import com.bisa.health.model.enumerate.ActionEnum;
-import com.bisa.health.model.enumerate.LoginTypeEnum;
+import com.bisa.health.model.enumerate.VerifyTypeEnum;
 import com.bisa.health.utils.ActivityUtil;
 
 /**
@@ -22,7 +22,7 @@ public class ForPwdOkActivity extends BaseActivity implements View.OnClickListen
 
     private Button btn_login;
 
-    private UserBindDto mUserBindDto;
+    private ForGetPwdDto forGetPwdDto;
 
 
     @Override
@@ -30,7 +30,7 @@ public class ForPwdOkActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.getpwd_s4_activity);
 
-        mUserBindDto=(UserBindDto)getIntent().getExtras().getSerializable(UserBindDto.class.getName());
+        forGetPwdDto=(ForGetPwdDto)getIntent().getExtras().getSerializable(ForGetPwdDto.class.getName());
 
 
         tv_title_tip=(TextView) this.findViewById(R.id.tv_title_tip);
@@ -38,12 +38,12 @@ public class ForPwdOkActivity extends BaseActivity implements View.OnClickListen
         btn_login=(Button) this.findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
 
-        if(mUserBindDto.getLoginType()== LoginTypeEnum.PHONE){
+        if(forGetPwdDto.vLoginType().equals(VerifyTypeEnum.PHONE.name())){
             tv_title_tip.setText(getString(R.string.tip_forget_iphone_ok));
-            tv_title_val.setText(mUserBindDto.getUsername());
-        }else if(mUserBindDto.getLoginType()== LoginTypeEnum.EMAIL){
+            tv_title_val.setText(forGetPwdDto.getPhone());
+        }else if(forGetPwdDto.vLoginType().equals(VerifyTypeEnum.EMAIL.name())){
             tv_title_tip.setText(getString(R.string.tip_forget_mail_ok));
-            tv_title_val.setText(mUserBindDto.getUsername());
+            tv_title_val.setText(forGetPwdDto.getEmail());
         }
     }
 

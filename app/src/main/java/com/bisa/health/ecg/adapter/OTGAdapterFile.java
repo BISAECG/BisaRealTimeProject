@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bisa.health.R;
 import com.bisa.health.cache.SharedPersistor;
-import com.bisa.health.cust.CustomDefaultDialog;
+import com.bisa.health.cust.view.CustomDefaultDialog;
 import com.bisa.health.ecg.model.OTGECGFileDto;
 import com.bisa.health.model.User;
 import com.bisa.health.provider.upload.UploadCursor;

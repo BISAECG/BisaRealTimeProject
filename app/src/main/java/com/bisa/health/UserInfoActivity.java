@@ -15,8 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bisa.health.cache.SharedPersistor;
-import com.bisa.health.cust.CircleImageView;
-import com.bisa.health.cust.SelectPicPopupWindow;
+import com.bisa.health.cust.view.CircleImageView;
+import com.bisa.health.cust.view.SelectPicPopupWindow;
 import com.bisa.health.model.HealthPath;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
@@ -54,9 +54,11 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
     public RelativeLayout rl_headimg;
     public RelativeLayout rl_name;
     public RelativeLayout rl_sex;
+    public RelativeLayout rl_username;
 
     public TextView tv_name;
     public TextView tv_sex;
+    public TextView tv_username;
 
     private SelectPicPopupWindow menuWindow;
 
@@ -65,6 +67,7 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
     private static final int SELECT_PIC_NOUGAT = 3;        // 相册选图标记
     private static final int IMAGE_REQUEST_CODE = 4;        // 相册选图标记
     public static final int CALL_NAME_CODE = 10;        // 相册选图标记
+    public static final int CALL_USERNAME_CODE = 12;        // 相册选图标记
     public static final int CALL_SEX_CODE = 11;        // 相册选图标记
     //需要保存的图片
     private SharedPersistor sharedPersistor;
@@ -101,8 +104,14 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
         rl_sex=this.findViewById(R.id.rl_sex);
         rl_sex.setOnClickListener(this);
 
+
+
         tv_sex=this.findViewById(R.id.tv_sex);
         tv_name=this.findViewById(R.id.tv_name);
+        tv_username=this.findViewById(R.id.tv_username);
+
+        rl_username=this.findViewById(R.id.rl_username);
+        rl_username.setOnClickListener(this);
         init();
     }
 
@@ -215,6 +224,7 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                 requestBody.addFormDataPart("head_portrait", mCropFile.getName(), bodyFile);
 
                 String nickname=data.getStringExtra("nickname");
+
                 if(!StringUtils.isEmpty(nickname)){
                     requestBody.addFormDataPart("name", nickname);
                 }
@@ -258,12 +268,20 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                                    init();
 
                                }else{
-                                   show_Toast(result.getMessage());
+                                   showToast(result.getMessage());
                                }
                            }
                        });
                     }
                 });
+                break;
+
+            case CALL_USERNAME_CODE:
+                if(data==null)return;
+                String username=data.getStringExtra("username");
+                if(!StringUtils.isEmpty(username)){
+                    tv_username.setText(username);
+                }
                 break;
 
         }
@@ -323,13 +341,23 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
 
             }
 
-            if(!StringUtils.isEmpty(mUser.getName())){
-                tv_name.setText(mUser.getName());
+            if(!StringUtils.isEmpty(mUser.getNickname())){
+                tv_name.setText(mUser.getNickname());
+            }else{
+                tv_name.setText(R.string.hint_set);
             }
 
-            if(mUser.getSex()!=null&&mUser.getSex().getValue()==0){
-                tv_sex.setText(R.string.s_sex_male);
+            if(!StringUtils.isEmpty(mUser.getUsername())){
+                tv_username.setText(mUser.getUsername());
             }else{
+                tv_username.setText(R.string.hint_set);
+            }
+
+            if(mUser.getSex()==null){
+                tv_sex.setText(R.string.hint_set);
+            }else if(mUser.getSex().getValue()==0){
+                tv_sex.setText(R.string.s_sex_male);
+            }else if(mUser.getSex().getValue()==1){
                 tv_sex.setText(R.string.s_sex_female);
             }
         }
@@ -345,13 +373,19 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
         }else if(v==rl_name){
-            Intent mainIntent = new Intent(this, UserNameActivity.class);
-            mainIntent.putExtra("niackname",mUser.getName());
+            Intent mainIntent = new Intent(this, NickNameActivity.class);
+            mainIntent.putExtra("niackname",mUser.getNickname());
             ActivityUtil.startActivityResult(mainIntent,CALL_NAME_CODE,this,ActionEnum.NEXT);
         }else if(v==rl_sex){
             Intent mainIntent = new Intent(this, UserSexActivity.class);
-            mainIntent.putExtra("sex",mUser.getSex().getValue());
-            ActivityUtil.startActivityResult(mainIntent,CALL_NAME_CODE,this,ActionEnum.NEXT);
+            mainIntent.putExtra("sex",mUser.getSex()==null?0:mUser.getSex().getValue());
+            ActivityUtil.startActivityResult(mainIntent,CALL_SEX_CODE,this,ActionEnum.NEXT);
+        }else if(v==rl_username){
+            Intent mainIntent = new Intent(this, UserNameActivity.class);
+            mainIntent.putExtra("username",mUser.getUsername());
+            ActivityUtil.startActivityResult(mainIntent,CALL_USERNAME_CODE,this,ActionEnum.NEXT);
         }
+
+
     }
 }

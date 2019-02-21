@@ -31,10 +31,9 @@ import com.bisa.health.ble.BleWrapperServiceCallbacks;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.dao.DeviceDao;
 import com.bisa.health.dao.IDeviceDao;
-import com.bisa.health.ecg.config.ECGSetConfig;
+import com.bisa.health.ecg.config.ECGConfig;
 import com.bisa.health.ecg.dao.IReportDao;
 import com.bisa.health.ecg.dao.ReportDaoImpl;
-import com.bisa.health.ecg.encoder.ECGBuildHelper;
 import com.bisa.health.ecg.enumerate.XiXinEventEnum;
 import com.bisa.health.ecg.model.GprsBean;
 import com.bisa.health.ecg.model.RawObject;
@@ -49,6 +48,7 @@ import com.bisa.health.utils.DateUtil;
 import com.bisa.health.utils.FinalBisa;
 import com.bisa.health.utils.Notificator;
 import com.bisa.health.utils.Utility;
+import com.bisahelath.decoding.help.ECGBuildHelp;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -109,7 +109,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
     private HealthPath healthPath;
     private SharedPersistor sharedPersistor;
     private HealthServer mHealthServer;
-    private static ECGSetConfig ecgSetConfig;
+    private static ECGConfig ecgConfig;
 
     //目前没有用到未定温服
     private LocationService locationService = null;
@@ -122,7 +122,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
     private IDeviceDao deviceDao;
     private IReportDao iappReportDao;
     private FileOutputStream fos;
-
+    ECGBuildHelp ecgBuildHelp = new ECGBuildHelp();
     @SuppressLint("InvalidWakeLockTag")
     @SuppressWarnings("deprecation")
     @Override
@@ -141,7 +141,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
         mHealthServer = sharedPersistor.loadObject(HealthServer.class.getName());
         healthPath = sharedPersistor.loadObject(HealthPath.class.getName());
         mUser = sharedPersistor.loadObject(User.class.getName());
-        ecgSetConfig=sharedPersistor.loadObject(ECGSetConfig.class.getName());
+
 
         if (mBleWrapper == null)
             mBleWrapper = new BleWrapper(this, this);
@@ -164,7 +164,6 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
             intentFilter.addAction("android.intent.action.SCREEN_ON");
             intentFilter.addAction("android.intent.action.USER_PRESENT");
             intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");//网络变化
-            intentFilter.addAction("com.bisa.helath.ecg.config");
             registerReceiver(keepLiveReceiver, intentFilter);
 
         }
@@ -239,13 +238,12 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
     public IBinder onBind(Intent intent) {
 
         Log.i(TAG, "onBind: ");
-        // 开启前台服务
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2&&Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {
-            startForeground(Notificator.FOREGROUND_PUST_ID, new Notification());
-            Intent sendIntend = new Intent(getApplicationContext(), ChannelService.class);
-            startService(sendIntend);
+        if(mBleWrapper!=null&&mBleWrapper.isConnected()){
+            mBleWrapper.diconnect();
+            mBleWrapper.close();
+            mBleWrapper=null;
         }
-        ECGBuildHelper.getInstance().init();
+        ecgBuildHelp.decodeInit();
         return mBinder;
 
     }
@@ -288,16 +286,12 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
                 if (mBleWrapper.isConnected()) {
                     BLE_CONN_NUMBER = 0;
                 } else {
-//                    if(BLE_CONN_NUMBER>2) {//第三次连接不成功断开蓝牙
-//                        mBleWrapper.diconnect();
-//                    }
                     mBleWrapper.connect(mAddress);
                     if (BLE_CONN_NUMBER < BLE_TRY_CONN_COUNT) {
                         mHandler.postDelayed(this, BLE_CONN_TIME_INTERVAL);
                     } else {
 
                         try {
-                            mBleWrapper.diconnect();
                             mBleWrapper.close();
                             iEcgServiceCallBacks.uiCallNotifiConnEvent(BleDefinedConnStatus.BLE_CONN_FAILED);
                         } catch (Exception e) {
@@ -407,7 +401,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
         @Override
         public void uiNotifiMarker(boolean _isMarker) throws RemoteException {
 
-            if(ecgSetConfig.isManualAppAlarm()) {
+            if(ecgConfig.getManualAppAlarm()==1) {
                 Message msg = new Message();
                 msg.what = FinalBisa.NOTIFI_AlAM;
                 msg.arg1 = XiXinEventEnum.APP.getValue();
@@ -453,6 +447,21 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
             return ecdFile.getAbsolutePath();
         }
 
+        @Override
+        public void startForeground() throws RemoteException {
+            Message msg=new Message();
+            msg.what=FinalBisa.SERVER_BACK_STATUS;
+            msg.arg1=FinalBisa.SERVER_BACK_START;
+            mHandler.sendMessage(msg);
+        }
+
+        @Override
+        public void stopForeground() throws RemoteException {
+            Message msg=new Message();
+            msg.what=FinalBisa.SERVER_BACK_STATUS;
+            msg.arg1=FinalBisa.SERVER_BACK_STOP;
+            mHandler.sendMessage(msg);
+        }
 
 
         @Override
@@ -471,12 +480,6 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
         @Override
         public void uiDeviceClose() throws RemoteException {
 
-
-            //测试阶段是否可用蓝牙连接中断
-            if (mBleWrapper != null && mBleWrapper.isConnected()) {
-                mBleWrapper.diconnect();
-            }
-
             if (mBleWrapper != null) {
                 mBleWrapper.close();
             }
@@ -486,6 +489,11 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
             Log.i(TAG, "CLOSE BLE");
 
+        }
+
+        @Override
+        public void uiECGConfig(ECGConfig config) throws RemoteException {
+            ecgConfig=config;
         }
 
     };
@@ -633,7 +641,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
                 /**
                  * 处理ECD和RAW文件
                  */
-                int[] valueAtr = ECGBuildHelper.getInstance().ECGBuildTo316(rawValue[i] & 0xff);
+                int[] valueAtr = ecgBuildHelp.decodeByteValue(rawValue[i]);
                 value[i] = valueAtr[1] * 65536 + valueAtr[2];
 
                 if (valueAtr[4] != -1 && valueAtr[4] != batteryValue) {
@@ -650,7 +658,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
                     }
                 }
 
-                RawObject rawObject = is_marker(valueAtr, findex,ecgSetConfig);
+                RawObject rawObject = is_marker(valueAtr, findex,ecgConfig);
                 if (rawObject != null) {
 
                     Message msg = new Message();
@@ -701,8 +709,10 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
     private Object serviceLock = new Object();
 
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
 
+        @SuppressLint("WrongConstant")
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -795,11 +805,24 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
                         e.printStackTrace();
                     }
                     break;
-                case FinalBisa.ECG_CONFIG:
-                    Log.i(TAG, "handleMessage: >>>>>>set");
-                    ecgSetConfig=sharedPersistor.loadObject(ECGSetConfig.class.getName());
-                    break;
 
+                case FinalBisa.SERVER_BACK_STATUS:
+                    // 开启前台服务
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2&&Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {
+                        if(msg.arg1==FinalBisa.SERVER_BACK_START){
+                            startForeground(Notificator.FOREGROUND_PUST_ID, new Notification());
+                        } else{
+                            if(Build.VERSION.SDK_INT<Build.VERSION_CODES.N){
+                                stopForeground(true);
+                            }else{
+                                stopForeground(Notificator.FOREGROUND_PUST_ID);
+                            }
+
+                        }
+
+                    }
+
+                    break;
 
             }
         }
@@ -812,9 +835,9 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
     }
 
 
-    private RawObject is_marker(int[] markerAtr, int postion,ECGSetConfig config) {
+    private RawObject is_marker(int[] markerAtr, int postion,ECGConfig config) {
        // Log.i(TAG, "is_marker: "+config);
-        if (markerAtr[0] == XiXinEventEnum.DEVICE.getValue()&&config.isManualDeviceAlarm()) {
+        if (markerAtr[0] == XiXinEventEnum.DEVICE.getValue()&&config.getManualDeviceAlarm()==1) {
 
             RawObject rawObject = new RawObject();
             rawObject.setPosition(postion);
@@ -824,7 +847,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
         }
 
-        if (markerAtr[0] == XiXinEventEnum.PASSIVE.getValue()&&config.isAutoAlarm()) {
+        if (markerAtr[0] == XiXinEventEnum.PASSIVE.getValue()&&config.getAutoAlarm()==1) {
             RawObject rawObject = new RawObject();
             rawObject.setPosition(postion);
             rawObject.setMarker_type(XiXinEventEnum.PASSIVE.getValue());

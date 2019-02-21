@@ -39,4 +39,13 @@
         <attr name="border_overlay" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="ActionBarView">
+        <attr name="isPre" format="boolean" />
+        <attr name="preIco" format="reference" />
+        <attr name="isNext" format="boolean"/>
+        <attr name="nextIco" format="reference" />
+        <attr name="title" format="string" />
+    </declare-styleable>
+
+
 </resources>

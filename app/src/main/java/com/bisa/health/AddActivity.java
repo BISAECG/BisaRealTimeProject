@@ -18,7 +18,7 @@ import com.bisa.health.ble.BleWrapper;
 import com.bisa.health.ble.BleWrapperServiceCallbacks;
 import com.bisa.health.cache.CacheManage;
 import com.bisa.health.cache.SharedPersistor;
-import com.bisa.health.cust.CustSpinerPopWindow;
+import com.bisa.health.cust.view.CustSpinerPopWindow;
 import com.bisa.health.dao.DeviceDao;
 import com.bisa.health.dao.IDeviceDao;
 import com.bisa.health.model.BleNamePreSuffix;
@@ -100,7 +100,7 @@ public class AddActivity extends BaseActivity
 
         });
         if (!mBleWrapper.initialize()) {
-            show_Toast(getResources().getString(R.string.title_sys_not_support));
+            showToast(getResources().getString(R.string.title_sys_not_support));
             finish();
         }
 
@@ -158,7 +158,7 @@ public class AddActivity extends BaseActivity
                     @Override
                     public void getPosition(float rightMargin, float bottomMargin, RectF rectF, HighLight.MarginInfo marginInfo) {
                         marginInfo.leftMargin = rectF.left;
-                        marginInfo.topMargin = rectF.top + rectF.height()+offset;
+                        marginInfo.topMargin = rectF.top - rectF.height()-offset;
                     }
                 }, new RectLightShape())
                 .addHighLight(R.id.btn_pair_commit, R.layout.info_ecg_iknow, new OnBaseCallback(100) {

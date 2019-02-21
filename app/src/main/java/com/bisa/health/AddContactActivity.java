@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,8 +13,9 @@ import android.widget.TextView;
 import com.bisa.health.adapter.CountryAdapter;
 import com.bisa.health.adapter.IAdapterClickInterFace;
 import com.bisa.health.cache.SharedPersistor;
-import com.bisa.health.cust.CustCountrySpinerPopWindow;
-import com.bisa.health.cust.CustomDefaultDialog;
+import com.bisa.health.cust.view.ActionBarView;
+import com.bisa.health.cust.view.CustCountrySpinerPopWindow;
+import com.bisa.health.cust.view.CustomDefaultDialog;
 import com.bisa.health.model.Event;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
@@ -76,8 +75,7 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
 
     private Validator validator;
 
-    private CheckBox checkBoxBack;
-    private ImageButton ibtn_del;
+    ActionBarView actionBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,12 +92,76 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
         mHealthServer=sharedObjectPersistor.loadObject(HealthServer.class.getName());
         mUser=sharedObjectPersistor.loadObject(User.class.getName());
         mListType=AreaUtil.getListArea(this);
+        actionBarView=findViewById(R.id.abar_title);
+        actionBarView.setOnActionClickListenerNext(new ActionBarView.OnActionClickListener() {
+            @Override
+            public void onActionClick() {
+                if(event!=null){
 
-        checkBoxBack=(CheckBox) this.findViewById(R.id.ibtn_back);
-        checkBoxBack.setOnClickListener(this);
+                    final CustomDefaultDialog.Builder builder = new CustomDefaultDialog.Builder(AddContactActivity.this)
+                            .setIco(getResources().getDrawable(R.drawable.ico_contact))
+                            .setTitle(getResources().getString(R.string.title_menu_contact_list))
+                            .setMessage(getResources().getString(R.string.commit_del))
+                            .setPositiveButton(getResources().getString(R.string.commit_yes), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(final DialogInterface dialog, int which) {
 
-        ibtn_del=(ImageButton) this.findViewById(R.id.ibtn_del);
-        ibtn_del.setOnClickListener(this);
+                                    Log.i(TAG, "onClick: del");
+
+                                    dialog.dismiss();
+                                    LoadDiaLogUtil.getInstance().show(AddContactActivity.this, false);
+                                    FormBody body = new FormBody.Builder()
+                                            .add("event_id", ""+event.getId())
+                                            .build();
+                                    Call call=restService.appDeleteContact(body);
+
+                                    call.enqueue(new Callback() {
+                                        @Override
+                                        public void onFailure(Call call, IOException e) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    LoadDiaLogUtil.getInstance().dismiss();
+                                                    showToast(getResources().getString(R.string.server_error));
+
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onResponse(Call call, Response response) throws IOException {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    LoadDiaLogUtil.getInstance().dismiss();
+                                                }
+                                            });
+
+                                            final String json = response.body().string();
+                                            Log.i("----",json);
+                                            ResultData<List<Event>> result = Utility.jsonToObject(json,new TypeToken<ResultData<List<Event>>>(){}.getType());
+
+                                            if (result == null) {
+                                                return;
+                                            }
+                                            sharedObjectPersistor.saveObject(Event.class.getName()+"-"+mUser.getUser_guid(),result.getData());
+                                            AddContactActivity.this.finish();
+                                        }
+                                    });
+                                }
+                            }).setNegativeButton(getResources().getString(R.string.cancel_no), new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    builder.create().show();
+
+
+                }
+            }
+        });
+
 
         btn_commit=(Button) this.findViewById(R.id.btn_commit);
         btn_commit.setOnClickListener(this);
@@ -212,7 +274,7 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
                         @Override
                         public void run() {
                             LoadDiaLogUtil.getInstance().dismiss();
-                            show_Toast(getResources().getString(R.string.server_error));
+                            showToast(getResources().getString(R.string.server_error));
 
                         }
                     });
@@ -240,79 +302,12 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
                         sharedObjectPersistor.saveObject(Event.class.getName()+"-"+mUser.getUser_guid(),result.getData());
                         AddContactActivity.this.finish();
                     }else{
-                        show_Toast(result.getMessage());
+                        showToast(result.getMessage());
                     }
 
                 }
             });
 
-        }else if(v==ibtn_del){
-            //删除联系人
-            if(event!=null){
-
-                final CustomDefaultDialog.Builder builder = new CustomDefaultDialog.Builder(this)
-                        .setIco(getResources().getDrawable(R.drawable.ico_contact))
-                        .setTitle(getResources().getString(R.string.title_menu_contact_list))
-                        .setMessage(getResources().getString(R.string.commit_del))
-                        .setPositiveButton(getResources().getString(R.string.commit_yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, int which) {
-
-                                Log.i(TAG, "onClick: del");
-
-                               dialog.dismiss();
-                                LoadDiaLogUtil.getInstance().show(AddContactActivity.this, false);
-                                FormBody body = new FormBody.Builder()
-                                        .add("event_id", ""+event.getId())
-                                        .build();
-                                Call call=restService.appDeleteContact(body);
-
-                                call.enqueue(new Callback() {
-                                    @Override
-                                    public void onFailure(Call call, IOException e) {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                LoadDiaLogUtil.getInstance().dismiss();
-                                                show_Toast(getResources().getString(R.string.server_error));
-
-                                            }
-                                        });
-                                    }
-
-                                    @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                LoadDiaLogUtil.getInstance().dismiss();
-                                            }
-                                        });
-
-                                        final String json = response.body().string();
-                                        Log.i("----",json);
-                                        ResultData<List<Event>> result = Utility.jsonToObject(json,new TypeToken<ResultData<List<Event>>>(){}.getType());
-
-                                        if (result == null) {
-                                            return;
-                                        }
-                                        sharedObjectPersistor.saveObject(Event.class.getName()+"-"+mUser.getUser_guid(),result.getData());
-                                        AddContactActivity.this.finish();
-                                    }
-                                });
-                            }
-                        }).setNegativeButton(getResources().getString(R.string.cancel_no), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                builder.create().show();
-
-
-            }
-        }else if(v==checkBoxBack){
-            finish();
         }
     }
 
@@ -330,7 +325,7 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
 

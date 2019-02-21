@@ -1,17 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context="com.bisa.health.AddActivity" >
 
-
-    <fragment
-        android:tag="@string/title_menu_adddev"
+    <com.bisa.health.cust.view.ActionBarView
+        app:isPre="true"
+        app:preIco="@drawable/menu_back_bg"
+        app:title="@string/title_menu_adddev"
         android:id="@+id/abar_title"
-        android:name="com.bisa.health.cust.ActionBarBackFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 
     <RelativeLayout
         android:layout_below="@+id/abar_title"
@@ -24,7 +26,6 @@
             android:id="@+id/tv_productnum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:text="@string/title_product_num"
             android:textColor="@color/color_search_title"
             android:textSize="20sp" />
@@ -48,7 +49,7 @@
     </RelativeLayout>
 
         <LinearLayout
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="180dp"
             android:layout_below="@+id/rl_nav_title"
             android:orientation="vertical"
             android:layout_width="match_parent"

@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 
-import com.bisa.health.BisaApplication;
+import com.bisa.health.BisaApp;
 import com.bisa.health.R;
 
 public final class Notificator {
@@ -27,7 +27,7 @@ public final class Notificator {
 
 		NotificationChannel notificationChannel = null;
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-			notificationChannel = new NotificationChannel(BisaApplication.NOTIFICATION_CHANNEL_ID_TASK,
+			notificationChannel = new NotificationChannel(BisaApp.NOTIFICATION_CHANNEL_ID_TASK,
 					"Bisa health", NotificationManager.IMPORTANCE_HIGH);
 			notificationChannel.enableLights(true);
 			notificationChannel.setLightColor(Color.RED);
@@ -49,7 +49,7 @@ public final class Notificator {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-				.setChannelId(BisaApplication.NOTIFICATION_CHANNEL_ID_TASK)
+				.setChannelId(BisaApp.NOTIFICATION_CHANNEL_ID_TASK)
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentTitle(msg)
 				.setContentText(msg)

@@ -1,7 +1,6 @@
 package com.bisa.health;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,13 +10,12 @@ import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.User;
 import com.bisa.health.model.dto.UserBindDto;
 import com.bisa.health.model.enumerate.ActionEnum;
-import com.bisa.health.model.enumerate.LoginTypeEnum;
+import com.bisa.health.model.enumerate.VerifyTypeEnum;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
 import com.bisa.health.utils.ActivityUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by Administrator on 2018/4/25.
@@ -35,8 +33,6 @@ public class BindAccessTypeActivity extends BaseActivity implements View.OnClick
     private TextView txt_mail;
     private RelativeLayout rl_iphone;
     private RelativeLayout rl_mail;
-    private List<UserBindDto> mList;
-    private UserBindDto verifyBindDto;
     private UserBindDto userBindDto;
 
 
@@ -60,26 +56,31 @@ public class BindAccessTypeActivity extends BaseActivity implements View.OnClick
         txt_iphone=(TextView) this.findViewById(R.id.txt_iphone);
         txt_mail=(TextView)this.findViewById(R.id.txt_mail);
 
-
-        Log.i(TAG, "onCreate: "+ArrayList.class.getName());
-        mList=sharedPersistor.flashLoad(ArrayList.class.getName(),true);
-        userBindDto= (UserBindDto) getIntent().getExtras().getSerializable("BINDUSER");
-        if(mList==null||userBindDto==null){
-            show_Toast(getString(R.string.title_error_try));
+        userBindDto= (UserBindDto) getIntent().getExtras().getSerializable(UserBindDto.class.getName());
+        if(userBindDto==null){
+            showToast(getString(R.string.title_error_try));
             finish();
             return;
         }
 
-        for(int i=0;i<mList.size();i++){
-
-            if(mList.get(i).getLoginType()== LoginTypeEnum.PHONE){
-                txt_iphone.setText(mList.get(i).getUsername());
-                txt_iphone.setTag(i);
-            }else if(mList.get(i).getLoginType()==LoginTypeEnum.EMAIL){
-                txt_mail.setText(mList.get(i).getUsername());
-                txt_mail.setTag(i);
-            }
+        if(StringUtils.isEmpty(userBindDto.getPhone())){
+            txt_iphone.setText(getString(R.string.bind_isnot));
+            rl_iphone.setTag(null);
+        }else{
+            txt_iphone.setText(userBindDto.getPhone());
+            rl_iphone.setTag(VerifyTypeEnum.PHONE.name());
         }
+
+
+        if(StringUtils.isEmpty(userBindDto.getEmail())){
+            txt_mail.setText(getString(R.string.bind_isnot));
+            rl_mail.setTag(null);
+        }else{
+            txt_mail.setText(userBindDto.getEmail());
+            rl_mail.setTag(VerifyTypeEnum.EMAIL.name());
+        }
+
+
     }
 
 
@@ -88,17 +89,13 @@ public class BindAccessTypeActivity extends BaseActivity implements View.OnClick
         if(v!=rl_iphone&&v!=rl_mail){
             return;
         }
-        int index=Integer.parseInt(txt_iphone.getTag().toString());
-        if(v==rl_mail){
-            index=Integer.parseInt(txt_mail.getTag().toString());
+        if(v.getTag()!=null){
+            userBindDto.setVerifyType(v.getTag().toString());
+            Bundle body=new Bundle();
+            body.putSerializable(UserBindDto.class.getName(),userBindDto);
+            ActivityUtil.startActivity(this,BindAccessVailActivity.class,false,body, ActionEnum.NEXT);
         }
-        verifyBindDto=mList.get(index);
-            if(!verifyBindDto.getUsername().equals(getString(R.string.bind_isnot))){
-                Bundle body=new Bundle();
-                body.putSerializable("BINDUSER",userBindDto);
-                body.putSerializable("VERIFYUSER",verifyBindDto);
-                ActivityUtil.startActivity(this,BindAccessVailActivity.class,false,body, ActionEnum.NEXT);
-            }
+
 
     }
 

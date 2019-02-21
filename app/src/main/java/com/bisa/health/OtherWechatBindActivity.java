@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bisa.health.auth.CryptogramService;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
@@ -18,7 +19,9 @@ import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
 import com.bisa.health.utils.ActivityUtil;
 import com.bisa.health.utils.AreaUtil;
+import com.bisa.health.utils.ArrayUtil;
 import com.bisa.health.utils.CountDownTimerUtils;
+import com.bisa.health.utils.DateUtil;
 import com.bisa.health.utils.GsonUtil;
 import com.bisa.health.utils.LoadDiaLogUtil;
 import com.google.gson.reflect.TypeToken;
@@ -77,6 +80,12 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
 
     private User mUser;
 
+    private String nickname;
+
+    private String  otherTypeEnum;
+
+    private String openid;
+
     private static final String TAG = "ForPwdVailActivity";
 
     @Override
@@ -106,6 +115,14 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
         btn_login=(Button)this.findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
 
+        otherTypeEnum=(String)getIntent().getExtras().getString("otherTypeEnum",null);
+        openid=(String)getIntent().getExtras().getString("openid",null);
+        nickname=(String)getIntent().getExtras().getString("nickname",null);
+        if(otherTypeEnum==null||openid==null){
+            showToast(getString(R.string.title_error_try));
+            finish();
+            return;
+        }
     }
 
     @Override
@@ -120,12 +137,10 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
 
         final String mIphone = tv_iphone.getText().toString().trim();
         final String code = tv_code.getText().toString().trim();
-        final String _areaCode=tv_areacode.getText().toString().trim();
-        final String phonecode= AreaUtil.CountryCodeByPhoneCode(mListType,_areaCode).getCountryCode();
-
+        final String phonecode=tv_areacode.getText().toString().trim();
         if(v==imgbtn_smsSend){
             if(StringUtils.isEmpty(mIphone)||StringUtils.isEmpty(phonecode)){
-                show_Toast(getResources().getString(R.string.other_bind_area_iphone));
+                showToast(getResources().getString(R.string.other_bind_area_iphone));
                 return;
             }
             sendCode();
@@ -142,14 +157,25 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
 
             synchronized (this) {
 
+                String timeStamp=""+ DateUtil.getServerMilliSeconds(mHealthServer.getTimeZone());
+                String digest= CryptogramService.getInstance().hmacDigest(
+                        ArrayUtil.sort(new String[]{"openid","phone","phonecode","time_zone","code","otherTypeEnum","nickname","clientKey","timeStamp"},
+                                new String[]{openid, mIphone,phonecode, mHealthServer.getTimeZone(),code,otherTypeEnum,nickname,openid,timeStamp}));
+
                 FormBody body = new FormBody.Builder()
-                        .add("username", ""+mUser.getUsername())
-                        .add("iphone", ""+mIphone)
-                        .add("phonecode", ""+phonecode)
+                        .add("openid", openid)
+                        .add("clientKey", openid)
+                        .add("phone", mIphone)
+                        .add("phonecode", phonecode)
+                        .add("time_zone", mHealthServer.getTimeZone())
                         .add("code", code)
+                        .add("otherTypeEnum", otherTypeEnum)
+                        .add("nickname",nickname)
+                        .add("timeStamp",timeStamp)
+                        .add("digest",digest)
                         .build();
 
-                Call call = restService.bindIphone(body);
+                Call call = restService.otherbind(body);
                 call.enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
@@ -158,7 +184,7 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                show_Toast(getResources().getString(R.string.server_error));
+                                showToast(getResources().getString(R.string.server_error));
                                 LoadDiaLogUtil.getInstance().dismiss();
                                 return;
                             }
@@ -179,10 +205,12 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
                                     return;
                                 }
                                 if(result.getCode() == HttpFinal.CODE_200){
-                                    sharedPersistor.saveObject(mUser);
+                                    sharedPersistor.saveObject(result.getData());
+                                    mHealthServer.setToken(result.getToken());
+                                    sharedPersistor.saveObject(mHealthServer);
                                     ActivityUtil.startActivity(OtherWechatBindActivity.this,MainActivity.class,true,ActionEnum.DOWN);
                                 }else{
-                                    show_Toast(result.getMessage());
+                                    showToast(result.getMessage());
 
                                 }
                                 return;
@@ -210,16 +238,14 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
     }
 
     private void sendCode(){
         synchronized (this) {
-            final CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(imgbtn_smsSend, 60000, 1000, this);
-            mCountDownTimerUtils.start();
-
+            showDialog(false);
             final String mIphone = tv_iphone.getText().toString();
             final String areaCode = tv_areacode.getText().toString().trim();
 
@@ -235,10 +261,8 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
-                            mCountDownTimerUtils.cancel();
-                            mCountDownTimerUtils.onFinish();
-
+                            dialogDismiss();
+                            showToast(getString(R.string.network_error));
                         }
                     });
                 }
@@ -249,7 +273,10 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            LoadDiaLogUtil.getInstance().dismiss();
+                            dialogDismiss();
+                            final CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(imgbtn_smsSend, 60000, 1000, OtherWechatBindActivity.this);
+                            mCountDownTimerUtils.start();
+
                             ResultData<Object> result = GsonUtil.getInstance().parse(json,new TypeToken<ResultData<Object>>(){}.getType());
                             if(result==null){
                                 return;
@@ -258,7 +285,7 @@ public class OtherWechatBindActivity extends BaseActivity implements View.OnClic
                             if(result.getCode() != HttpFinal.CODE_200){
                                 mCountDownTimerUtils.cancel();
                                 mCountDownTimerUtils.onFinish();
-                                show_Toast(result.getMessage());
+                                showToast(result.getMessage());
                             }
                             return;
 

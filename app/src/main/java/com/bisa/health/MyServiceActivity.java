@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bisa.health.model.dto.UserPwdDto;
+import com.bisa.health.model.dto.AdapteDefaultDto;
 import com.bisa.health.rest.service.IRestService;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -31,7 +31,7 @@ public class MyServiceActivity extends BaseActivity implements View.OnClickListe
 
     private Button btn_login;
 
-    private UserPwdDto userPwdDto;
+    private AdapteDefaultDto userPwdDto;
 
     private boolean isValidation = false;
 
@@ -63,7 +63,7 @@ public class MyServiceActivity extends BaseActivity implements View.OnClickListe
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
     }

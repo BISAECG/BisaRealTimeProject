@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.Parcelable;
 import android.os.RemoteException;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -25,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bisa.health.AppManager;
 import com.bisa.health.BaseActivity;
@@ -33,15 +34,14 @@ import com.bisa.health.R;
 import com.bisa.health.ble.BleDefinedConnStatus;
 import com.bisa.health.ble.BleWrapper;
 import com.bisa.health.cache.SharedPersistor;
-import com.bisa.health.cust.CustReportDialog;
-import com.bisa.health.cust.CustomDefaultDialog;
-import com.bisa.health.cust.CustomFreeReportDialog;
-import com.bisa.health.cust.OnDoubleClickListener;
-import com.bisa.health.cust.SecondSurfaceView;
-import com.bisa.health.ecg.config.ECGSetConfig;
+import com.bisa.health.cust.view.CustReportDialog;
+import com.bisa.health.cust.view.CustomDefaultDialog;
+import com.bisa.health.cust.view.CustomFreeReportDialog;
+import com.bisa.health.cust.view.OnDoubleClickListener;
+import com.bisa.health.cust.view.SecondSurfaceView;
+import com.bisa.health.ecg.config.ECGConfig;
 import com.bisa.health.ecg.dao.IReportDao;
 import com.bisa.health.ecg.dao.ReportDaoImpl;
-import com.bisa.health.ecg.encoder.ECGBuildAnasysBack;
 import com.bisa.health.ecg.model.AppReport;
 import com.bisa.health.ecg.model.ReportEnum;
 import com.bisa.health.ecg.model.ReportStatus;
@@ -64,8 +64,8 @@ import com.bisa.health.utils.DateUtil;
 import com.bisa.health.utils.DiaLogUtil;
 import com.bisa.health.utils.FinalBisa;
 import com.bisa.health.utils.LoadDiaLogUtil;
-import com.bisa.health.utils.Notificator;
 import com.bisa.health.utils.ReportUtils;
+import com.bisahelath.decoding.help.ECGBuildHelp;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringUtils;
@@ -99,6 +99,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     private RelativeLayout btn_report_generate;
     private LinearLayout ibtn_stop;
     private RelativeLayout rl_timing;
+    private ImageButton ibtn_next;
 
     /**
      * 服务绑定
@@ -133,10 +134,9 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     private User mUser;
     private AppNotifiMsg mAppNotifiMsg;
     private HealthServer mHealthServer;
-    private Notificator notificator;
     private CustReportDialog custReportDialog;
     private SharedPersistor sharedObject;
-    private ECGSetConfig ecgConfig;
+    private ECGConfig ecgConfig;
     private boolean isBleConnStatus = false;
     /*
 	report
@@ -147,7 +147,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     private final Gson gson = new Gson();
     private final int MONITOR_INTERVAL = 900 * 1000;
 
-    private ECGBuildAnasysBack ecgBuildAnasys = ECGBuildAnasysBack.getInstance().init();
+    ECGBuildHelp ecgBuildHelp = new ECGBuildHelp();
 	/*
 		Bar
 	 */
@@ -172,15 +172,23 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
         mUser = sharedObject.loadObject(User.class.getName());
         mHealthServer = sharedObject.loadObject(HealthServer.class.getName());
         mAppNotifiMsg=sharedObject.loadObject(AppNotifiMsg.class.getName());
+        ecgConfig=sharedObject.loadObject(ECGConfig.class.getName());
         ibtn_back = (ImageButton) this.findViewById(R.id.ibtn_back);
         ibtn_back.setOnClickListener(this);
         tv_title = (TextView) this.findViewById(R.id.tv_title);
         iv_signal = (ImageView) this.findViewById(R.id.iv_signal);
         iv_colud = (ImageView) this.findViewById(R.id.iv_colud);
         iv_battery = (ImageView) this.findViewById(R.id.iv_battery);
-
+        ibtn_next=this.findViewById(R.id.ibtn_next);
+        ibtn_next.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainIntent = new Intent(ECGActivity.this, ECGConfigAcitvity.class);
+                mainIntent.putExtra(ECGConfig.class.getName(), (Parcelable) ecgConfig);
+                startActivityForResult(mainIntent,FinalBisa.CALL_ECG_CODE);
+            }
+        });
         rl_unread= (RelativeLayout) this.findViewById(R.id.rl_unread);
-
         tv_freetiming = (TextView) this.findViewById(R.id.tv_freetiming);
         ibtn_stop = (LinearLayout) this.findViewById(R.id.ibtn_stop);
         ibtn_stop.setOnClickListener(this);
@@ -196,7 +204,6 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
 
         }
 
-        notificator = new Notificator(this);
         custReportDialog = new CustReportDialog(this);
         custReportDialog.setClicklistener(this);
 
@@ -205,7 +212,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
             mBleWrapper = new BleWrapper(this);
 
         if (!mBleWrapper.checkBleHardwareAvailable()) {
-            show_Toast(getString(R.string.title_sys_not_support));
+            showToast(getString(R.string.title_sys_not_support));
             finish();
         }
         if(!mBleWrapper.isBtEnabled()){
@@ -278,7 +285,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
         Bundle data = getIntent().getExtras();
         bleDevice = data.getParcelable(Device.class.getName());
         if (bleDevice == null) {
-            show_Toast(getString(R.string.title_error));
+            showToast(getString(R.string.title_error));
             ActivityUtil.finishAnim(this, ActionEnum.BACK);
         }
 
@@ -483,7 +490,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
                     custFreeReport = new CustomFreeReportDialog.Builder(ECGActivity.this,mReport,mUser,mHealthServer).create();
                     DiaLogUtil.DialogShow(custFreeReport,ECGActivity.this, 10);
                 }else{
-                    show_Toast(getResources().getString(R.string.title_error_try));
+                    showToast(getResources().getString(R.string.title_error_try));
                 }
 
 
@@ -502,7 +509,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
 
             case 1:
                 if (isBleConnStatus == false) {
-                    show_Toast(getResources().getString(R.string.report_not_ble));
+                    showToast(getResources().getString(R.string.report_not_ble));
                     custReportDialog.dismiss();
                     break;
                 }
@@ -517,9 +524,9 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
                     curReport = ReportEnum.FREE_REPORT;
                     curReport.setTimeOffset(monitorEndTime);
                     mHandler.postDelayed(reportRunnable, MONITOR_INTERVAL);
-                    show_Toast(getResources().getString(R.string.report_205));
+                    showToast(getResources().getString(R.string.report_205));
                 } else {//有报告
-                    show_Toast(getResources().getString(R.string.report_400));
+                    showToast(getResources().getString(R.string.report_400));
 
                 }
 
@@ -687,9 +694,33 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode==FinalBisa.CALL_ECG_CODE){
+            try {
+                ECGConfig config=data.getParcelableExtra(ECGConfig.class.getName());
+                Log.i(TAG, "onResult: "+config);
+                if(iEcgService!=null&&config!=null){
+                    iEcgService.uiECGConfig(config);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
-        notificator.CancelRunningNotif();
+        if(iEcgService!=null){
+            try {
+                iEcgService.stopForeground();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
         Log.i(TAG, "onRestart");
     }
 
@@ -710,7 +741,13 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     @Override
     protected void onStop() {
         super.onStop();
-        notificator.RunningNotifiction(getResources().getString(R.string.app_name_run), ECGActivity.class);
+        if(iEcgService!=null){
+            try {
+                iEcgService.startForeground();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
         Log.i(TAG, "onStop");
 
     }
@@ -718,7 +755,6 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        notificator.CancelRunningNotif();
         iappReportDao = null;
         exit();
 
@@ -763,9 +799,9 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
 
             if (exit_count == 2) {
                 if (curReport != ReportEnum.NULL) {
-                    show_Toast(getString(R.string.report_exists));
+                    showToast(getString(R.string.report_exists));
                 } else {
-                    show_Toast(getString(R.string.exit_click));
+                    showToast(getString(R.string.exit_click));
                 }
 
             }
@@ -840,11 +876,9 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
             layoutParamsll.height = mHeight;
             layoutParamsll.width = mWidth;
             rl_ecg_view.setLayoutParams(layoutParamsll);
-
-
-            sfvWave.initView(mWidth, mHeight, layoutParams);
+            sfvWave.initView(mWidth, mHeight,layoutParams);
             rl_nav_title.setVisibility(View.GONE);
-            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {//竖屏
             tv_title.setText(getString(R.string.title_main_mydev));
             isLandscape = false;
@@ -858,7 +892,6 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
             sfvWave.initView(svWidth, svHeight, layoutParams);
             rl_nav_title.setVisibility(View.VISIBLE);
 
-            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
 
         super.onConfigurationChanged(newConfig);
@@ -870,7 +903,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     @Override
     public void uiBpmCallBack(int val2, int val1, int val3) {
 
-        ecgdataArrayV2 = ecgBuildAnasys.build(val2, val1, val3);
+        ecgdataArrayV2 = ecgBuildHelp.heartRateAnalyzeint(val2);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

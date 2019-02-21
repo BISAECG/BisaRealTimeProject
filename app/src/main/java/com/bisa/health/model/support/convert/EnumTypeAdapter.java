@@ -36,7 +36,7 @@ public class EnumTypeAdapter<T> extends TypeAdapter<T> {
                 IEnum[] enumArr = (IEnum[])valuesMethod.invoke(type.getClass(), Object[].class);
                 for (IEnum iEnum : enumArr) {
                     if(iEnum.getValue() == value){
-                        Log.d("This is a enum ", "value is=====>"+value);
+                        Log.i("This is a enum ", "value is=====>"+value);
                         return iEnum;
                     }
                 }

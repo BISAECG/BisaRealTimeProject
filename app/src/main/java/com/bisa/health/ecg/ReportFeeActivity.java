@@ -8,7 +8,7 @@ import com.bisa.health.AppManager;
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
 import com.bisa.health.cache.SharedPersistor;
-import com.bisa.health.cust.CustomDownProgressDialog;
+import com.bisa.health.cust.view.CustomDownProgressDialog;
 import com.bisa.health.ecg.model.ReportType;
 import com.bisa.health.model.HealthPath;
 import com.bisa.health.model.HealthServer;
@@ -94,7 +94,7 @@ public class ReportFeeActivity extends BaseActivity implements ICallDownInterfac
             dataService.download(pdfFile,param,this);
             proDialog.show();
         }else{
-            show_Toast(getResources().getString(R.string.title_error_try));
+            showToast(getResources().getString(R.string.title_error_try));
         }
 
     }

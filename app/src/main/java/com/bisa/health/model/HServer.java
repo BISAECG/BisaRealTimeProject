@@ -2,13 +2,14 @@ package com.bisa.health.model;
 
 import com.bisa.health.model.dto.ServerDto;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/7/30.
  */
 
-public class HServer {
+public class HServer implements Serializable {
 
     private String version="20171111";
     private List<ServerDto> list;
@@ -25,6 +26,7 @@ public class HServer {
     public void setList(List<ServerDto> list) {
         this.list = list;
     }
+
 
     public ServerDto convertToServerByCountryCode(String codeid){
         for(ServerDto server : list){

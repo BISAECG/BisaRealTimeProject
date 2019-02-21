@@ -8,8 +8,8 @@ import android.widget.RadioButton;
 
 import com.bisa.health.ble.BleWrapper;
 import com.bisa.health.cache.SharedPersistor;
-import com.bisa.health.cust.MyDeviceFragment;
-import com.bisa.health.cust.UserCenterFragment;
+import com.bisa.health.cust.fragment.MyDeviceFragment;
+import com.bisa.health.cust.fragment.UserCenterFragment;
 import com.bisa.health.model.AppNotifiMsg;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
@@ -26,7 +26,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 
-public class MainActivity extends BaseFragmentActivity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
     private RadioButton btn_my_dev;
@@ -88,7 +88,6 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 final String json = response.body().string();
 
                 ResultData<AppNotifiMsg> result = GsonUtil.getInstance().parse(json,new TypeToken<ResultData<AppNotifiMsg>>(){}.getType());
-
                 if (result == null||result.getData()==null) {
                     return;
                 }
@@ -156,7 +155,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 exit_count=2;
             }
             if (exit_count == 2) {
-               show_Toast(getString(R.string.exit_click));
+               showToast(getString(R.string.exit_click));
             }
 
             exit_count--;

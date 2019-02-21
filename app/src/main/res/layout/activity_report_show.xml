@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     tools:context="com.bisa.health.ecg.ReportShowActivity">
 
-    <fragment
-        android:tag="@string/titl_my_report_calendar"
+    <com.bisa.health.cust.view.ActionBarView
+        app:isPre="true"
+        app:preIco="@drawable/menu_back_bg"
+        app:title="@string/titl_my_report_calendar"
         android:id="@+id/abar_title"
-        android:name="com.bisa.health.cust.ActionBarBackFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.bisa.health.cust.ProgressWebView
+    <com.bisa.health.cust.view.ProgressWebView
         android:layout_below="@+id/abar_title"
         android:id="@+id/webView"
         android:layout_width="match_parent"

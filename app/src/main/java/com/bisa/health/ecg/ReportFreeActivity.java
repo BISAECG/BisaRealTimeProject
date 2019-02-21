@@ -90,7 +90,7 @@ public class ReportFreeActivity extends BaseActivity {
 
         File ecdFile=new File(mReport.getEcgdat());
         if(!ecdFile.exists()){
-            show_Toast(getResources().getString(R.string.freereport_file_exists));
+            showToast(getResources().getString(R.string.freereport_file_exists));
             finish();
             return ;
         }
@@ -116,10 +116,6 @@ public class ReportFreeActivity extends BaseActivity {
         Map<String,String> param=new HashMap<String,String>();
         param.put("ecgdat",new String(data));
         param.put("sex",""+mUser.getSex().getValue());
-        param.put("height",""+mUser.getHeight());
-        param.put("weight",""+mUser.getWeight());
-        param.put("sport_type",""+mUser.getSport_type().getValue());
-        param.put("shape_type",""+mUser.getShape_type().getValue());
         param.put("headUrl",""+mUser.getUri_pic());
         param.put("ctime",""+mReport.getStart_time());
 
@@ -129,7 +125,6 @@ public class ReportFreeActivity extends BaseActivity {
         //WebView加载web资源
         Log.i(TAG, "init: "+url);
         webView.postUrl(url, postDate.getBytes());
-        WebViewUtil.build(webView);
     }
 
     public class CallAndroid extends  Object{

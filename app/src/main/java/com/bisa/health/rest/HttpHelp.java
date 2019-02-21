@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.model.HealthServer;
-import com.bisa.health.persistentcookie.PersistentCookieJar;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringUtils;
@@ -72,8 +71,8 @@ public abstract class HttpHelp {
     /**
      * 真实环境
      */
-   // public final static String SERVER_URL = "http://192.168.1.3:8088/health-flickr";
-    public final static String SERVER_URL = "http://www.bisahealth.com";
+    public final static String SERVER_URL = "http://192.168.1.3:8088/health-flickr";
+    //public final static String SERVER_URL = "http://www.bisahealth.com";
     public final static String DOWN_APP_URL=SERVER_URL+"/mi/call/app/down";
     public final static String SERVER_ROOT_PATH = "";
     public final static String SHOP_ROOT_PATH = "";
@@ -85,9 +84,9 @@ public abstract class HttpHelp {
     public final static int DEUFALT_PORT = SSL;
 
     private final static String SSL_PASSWORD = "changeit";
-    private final static long CONNECT_TIMEOUT = 15 * 1000;
-    private final static long WRITE_TIMEOUT = 15 * 1000;
-    private final static long READ_TIMEOUT = 15 * 1000;
+    private final static long CONNECT_TIMEOUT = 12 * 1000;
+    private final static long WRITE_TIMEOUT = 12 * 1000;
+    private final static long READ_TIMEOUT = 12 * 1000;
     private final static String BASIC_USERNAME = "admin";
     private final static String BASIC_PASSWORD = "bisahealth";
     //NETWORK_GET表示发送GET请求
@@ -195,8 +194,6 @@ public abstract class HttpHelp {
      */
     private OkHttpClient buildClient() {
 
-        Log.i(TAG, PersistentCookieJar.class.getName());
-
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.addInterceptor(tokenInterceptor);
         client.connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
@@ -267,6 +264,7 @@ public abstract class HttpHelp {
 
     public <N extends Object> N post(String url, RequestBody body, final Class<?> clz, final int connType) {
         url = getBasicUrl(url);
+        Log.i(TAG, "post: "+url);
         OkHttpClient client = buildClient(connType);
         try {
             Request request = null;

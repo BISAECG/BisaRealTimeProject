@@ -1,5 +1,6 @@
 package com.bisa.health.ecg;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -28,11 +29,9 @@ import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
 import com.bisa.health.RunActivity;
 import com.bisa.health.cache.SharedPersistor;
-import com.bisa.health.cust.CustomDefaultDialog;
-import com.bisa.health.cust.CustomDefaultTipDialog;
-import com.bisa.health.cust.CustomOTGWelcomeDialog;
-import com.bisa.health.cust.CustomPackageProgressDialog;
-import com.bisa.health.cust.CustomUploadProgressDialog;
+import com.bisa.health.cust.view.CustomDefaultDialog;
+import com.bisa.health.cust.view.CustomOTGWelcomeDialog;
+import com.bisa.health.cust.view.CustomProgressDialog;
 import com.bisa.health.ecg.adapter.OTGAdapter;
 import com.bisa.health.ecg.adapter.OTGAdapterFile;
 import com.bisa.health.ecg.model.OTGECGDto;
@@ -108,15 +107,15 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
     private OTGECGFileDto mOTGECGFileDto;
     private Button btn_report_commit;
 
-    private PowerManager.WakeLock wakeLock;
+    PowerManager pManager = null;
+    PowerManager.WakeLock mWakeLock = null;
     private int mPos = -1;
     private int mChindPos = -1;
     private boolean isAuth = false;
     private final static int USB_DELAYED = 15000;
     private CustomOTGWelcomeDialog OTGConnDialogBuilder;
-    private CustomPackageProgressDialog customPackageProgressDialog;
-    private CustomUploadProgressDialog customUploadProgressDialog;
-    private CustomDefaultTipDialog.Builder tipDialog;
+
+
     private Runnable usbRunnable=null;
     private Object lockObj=new Object();
     private String zipFilePath=null;
@@ -178,6 +177,42 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
         }
     };
 
+    /**
+     * 初始化上传对话框
+     */
+    final CustomProgressDialog uploadDialog = new CustomProgressDialog.Builder(this).setPositiveButton(getResources().getString(R.string.commit_submit), new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+            if (zipFilePath != null) {
+                startUploadWork();
+            }
+        }
+    }).setNegativeButton(getResources().getString(R.string.cancel_cancel), new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+        }
+    }).create();
+
+    /**
+     * 初始化打包对话框
+     */
+    final CustomProgressDialog packageDialog = new CustomProgressDialog.Builder(this).setPositiveButton(getResources().getString(R.string.commit_submit), new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+            if (mOTGECGFileDto != null) {
+                startPackageWork();
+            }
+        }
+    }).setNegativeButton(getResources().getString(R.string.cancel_cancel), new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+        }
+    }).create();
+
     public static void verifyStoragePermissions(Activity activity) {
 
         try {
@@ -195,7 +230,8 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
     }
 
 
-
+    @SuppressLint("InvalidWakeLockTag")
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -229,6 +265,12 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
         listViewOTG = (ListView) this.findViewById(R.id.listOtgView);
         listViewOTG.setAdapter(otgAdapter);
 
+        pManager = ((PowerManager) getSystemService(POWER_SERVICE));
+
+        mWakeLock = pManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE,
+                "CPUKeepRunning");
+        mWakeLock.acquire();
+
 
         OTGConnDialogBuilder = new CustomOTGWelcomeDialog.Builder(this)
                 .setPositiveButton(getResources().getString(R.string.otg_conn_yes), new DialogInterface.OnClickListener() {
@@ -237,42 +279,8 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                     }
                 }).create();
 
-
-        customPackageProgressDialog = new CustomPackageProgressDialog.Builder(this).setPositiveButton(getResources().getString(R.string.commit_submit), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                if (mOTGECGFileDto != null) {
-                    startPackageWork();
-                }
-            }
-        }).setNegativeButton(getResources().getString(R.string.cancel_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).create();
-
-
-        customUploadProgressDialog = new CustomUploadProgressDialog.Builder(this).setPositiveButton(getResources().getString(R.string.commit_submit), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                if (zipFilePath != null) {
-                    startUploadWork();
-                }
-            }
-        }).setNegativeButton(getResources().getString(R.string.cancel_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).create();
-
-
         //verifyStoragePermissions(this);//测试用的
         DiaLogUtil.DialogShow(OTGConnDialogBuilder, this, 10);
-
         OTGInit();
     }
 
@@ -315,6 +323,9 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mWakeLock != null) {
+            mWakeLock.release();
+        }
         if (mUsbReceiver != null) {//有注册就有注销
             unregisterReceiver(mUsbReceiver);
             mUsbReceiver = null;
@@ -345,7 +356,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                         setMsg("检测到设备，但是没有权限，进行申请");
                         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
                         mUsbManager.requestPermission(usbDevice, pendingIntent); //该代码执行后，系统弹出一个对话框，
-                        show_Toast(getResources().getString(R.string.tip_otg_conn));
+                        showToast(getResources().getString(R.string.tip_otg_conn));
                     }
                     return;
                 } else {
@@ -355,7 +366,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
 
         } catch (Exception e) {
 
-            show_Toast(e.getMessage());
+            showToast(e.getMessage());
 
         }
 
@@ -372,7 +383,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
         mapList.clear();
         if (usbStorageDeviceManage.init(usbDevice, usbManager) == null) {
             setMsg("USB初始化失败");
-            show_Toast(getResources().getString(R.string.otg_conn_device_fail));
+            showToast(getResources().getString(R.string.otg_conn_device_fail));
 
             return;
         }
@@ -403,7 +414,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
 
                 }
             } else {
-                show_Toast(getResources().getString(R.string.otg_conn_device_fail));
+                showToast(getResources().getString(R.string.otg_conn_device_fail));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -411,7 +422,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
         }
         if (mFsysFat == null&&rootSectorIndex==-1) {//数据读取错误
             //TIP
-            show_Toast(getResources().getString(R.string.tip_otg_read_error));
+            showToast(getResources().getString(R.string.tip_otg_read_error));
             return;
         }
 
@@ -428,7 +439,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                 try {
                     ArrayUtil.SortFat128List(listFat128, OrderEnum.DESC);
                 } catch (Exception ef) {
-                    show_Toast(getString(R.string.tip_otg_filename_error));
+                    showToast(getString(R.string.tip_otg_filename_error));
                 }
 
                 OTGECGDto otgecgDto = null;
@@ -465,7 +476,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                 LoadDiaLogUtil.getInstance().dismiss();
 
             } else {
-                show_Toast(getString(R.string. otg_device_notfile));
+                showToast(getString(R.string. otg_device_notfile));
             }
 
 
@@ -480,19 +491,12 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
     @Override
     protected void onResume() {
         super.onResume();
-
-        wakeLock = ((PowerManager) getSystemService(POWER_SERVICE))
-                .newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
-                        | PowerManager.ON_AFTER_RELEASE, TAG);
-        wakeLock.acquire();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (wakeLock != null) {
-            wakeLock.release();
-        }
+
     }
 
     private void setMsg(final String msg) {
@@ -590,7 +594,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                                             @Override
                                             public void run() {
                                                 LoadDiaLogUtil.getInstance().dismiss();
-                                                show_Toast(getString(R.string.error_400));
+                                                showToast(getString(R.string.error_400));
                                             }
                                         });
                                     }
@@ -612,7 +616,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                                                 if(result.getCode()==HttpFinal.CODE_200||result.getCode()==HttpFinal.CODE_230){
                                                     startPackageWork();
                                                 }else{
-                                                    show_Toast(result.getMessage(), Toast.LENGTH_LONG);
+                                                    showToast(result.getMessage(), Toast.LENGTH_LONG);
                                                 }
 
                                             }
@@ -632,7 +636,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                 builder.create().show();
 
             } else {
-                show_Toast(getString(R.string.tip_otg_not_file));
+                showToast(getString(R.string.tip_otg_not_file));
             }
         }
 
@@ -647,8 +651,8 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    customPackageProgressDialog.switchView(true);
-                    DiaLogUtil.DialogShow(customPackageProgressDialog, OTGActivity.this, -1);
+                    packageDialog.switchView(true);
+                    DiaLogUtil.DialogShow(packageDialog, OTGActivity.this, -1);
                 }
             });
             String ecdFilename= HealthECGUtil.buildReportNumberByFileName( params[0].getFilename());
@@ -752,7 +756,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
 
         @Override
         protected void onPreExecute() {
-            customPackageProgressDialog.setProgress(0);
+            packageDialog.setProgress(0);
         }
 
         @Override
@@ -762,7 +766,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
             if(StringUtils.isEmpty(s)){
                 mHandler.sendEmptyMessage(FinalBisa.OTG_READ_ERROR);
             }else{
-                DiaLogUtil.DialogDismiss(customPackageProgressDialog, OTGActivity.this);
+                DiaLogUtil.DialogDismiss(packageDialog, OTGActivity.this);
               startUploadWork();
             }
 
@@ -774,7 +778,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            customPackageProgressDialog.setProgress(values[0]);
+            packageDialog.setProgress(values[0]);
         }
     }
     private  int mSizeCount=0;
@@ -787,9 +791,9 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    customUploadProgressDialog.switchView(true);
-                    customUploadProgressDialog.show();
-                    DiaLogUtil.DialogShow(customUploadProgressDialog, OTGActivity.this, -1);
+                    uploadDialog.switchView(true);
+                    uploadDialog.show();
+                    DiaLogUtil.DialogShow(uploadDialog, OTGActivity.this, -1);
                 }
             });
 
@@ -822,7 +826,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                 return zipFile;
 
             }catch (Exception e){
-                show_Toast(e.getMessage());
+                showToast(e.getMessage());
                 mHandler.sendEmptyMessage(OTG_UPLOAD_ERROR);
                 return null;
             }
@@ -831,7 +835,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
 
         @Override
         protected void onPreExecute() {
-            customUploadProgressDialog.setProgress(0);
+            uploadDialog.setProgress(0);
         }
 
         @Override
@@ -852,9 +856,9 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                 if(file.exists()){
                     file.delete();
                 }
-                DiaLogUtil.DialogDismiss(customUploadProgressDialog, OTGActivity.this);
+                DiaLogUtil.DialogDismiss(uploadDialog, OTGActivity.this);
 
-                tipDialog=new CustomDefaultTipDialog.Builder(OTGActivity.this)
+                final CustomDefaultDialog.Builder defaultDialog; defaultDialog=new CustomDefaultDialog.Builder(OTGActivity.this)
                 .setMessage(getString(R.string.otg_upload_seccess))
                 .setIco(getResources().getDrawable(R.drawable.report_ico))
                 .setTitle(getResources().getString(R.string.titl_report_create))
@@ -868,7 +872,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                         dialog.dismiss();
                     }
                 });
-                tipDialog.create().show();
+                defaultDialog.create().show();
 
             }
 
@@ -877,7 +881,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            customUploadProgressDialog.setProgress(values[0]);
+            uploadDialog.setProgress(values[0]);
         }
     }
 
@@ -911,10 +915,10 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
 
             switch (msg.what) {
                 case FinalBisa.OTG_READ_ERROR:
-                    customPackageProgressDialog.switchView(false);
+                    packageDialog.switchView(false);
                     break;
                 case FinalBisa.OTG_UPLOAD_ERROR:
-                    customUploadProgressDialog.switchView(false);
+                    uploadDialog.switchView(false);
                     break;
                 default:
                     break;

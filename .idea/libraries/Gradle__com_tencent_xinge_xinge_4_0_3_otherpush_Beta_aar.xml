@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.tencent.xinge:xinge:4.0.3-otherpush-Beta@aar">
+    <CLASSES>
+      <root url="jar://D:/AndroidSDK/gradle/caches/transforms-1/files-1.1/xinge-4.0.3-otherpush-Beta.aar/d28b64fadc867e11bab45107276c5501/jars/libs/XgOtherPush.jar!/" />
+      <root url="jar://D:/AndroidSDK/gradle/caches/transforms-1/files-1.1/xinge-4.0.3-otherpush-Beta.aar/d28b64fadc867e11bab45107276c5501/jars/classes.jar!/" />
+      <root url="jar://D:/AndroidSDK/gradle/caches/transforms-1/files-1.1/xinge-4.0.3-otherpush-Beta.aar/d28b64fadc867e11bab45107276c5501/jars/libs/Xg_sdk_4.0.3_20180720_1441.jar!/" />
+      <root url="file://D:/AndroidSDK/gradle/caches/transforms-1/files-1.1/xinge-4.0.3-otherpush-Beta.aar/d28b64fadc867e11bab45107276c5501/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/AndroidSDK/gradle/caches/modules-2/files-2.1/com.tencent.xinge/xinge/4.0.3-otherpush-Beta/a35b958ba857ae7068f62b621131fe2f938702a0/xinge-4.0.3-otherpush-Beta-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

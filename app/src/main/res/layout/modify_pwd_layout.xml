@@ -6,12 +6,13 @@
     android:background="@color/white"
     tools:context="com.bisa.health.ModifyPwdActivity">
 
-    <fragment
+    <com.bisa.health.cust.view.ActionBarView
+        app:isPre="true"
+        app:preIco="@drawable/menu_back_bg"
+        app:title="@string/bind_modify_pwd"
         android:id="@+id/abar_title"
-        android:name="com.bisa.health.cust.ActionBarBackFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:tag="@string/bind_modify_pwd" />
+        android:layout_height="wrap_content" />
 
 
     <LinearLayout
@@ -52,8 +53,11 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/tv_curpwd"
                 android:layout_marginLeft="20dp"
-                android:background="#fff"
+                android:background="@null"
+                android:textCursorDrawable="@null"
                 android:gravity="fill"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:hint="@string/title_cur_pwd_tip"
                 android:imeOptions="actionNext"
                 android:inputType="phone"

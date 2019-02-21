@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -23,10 +24,10 @@ import org.apache.commons.lang3.StringUtils;
  * Created by Administrator on 2018/5/25.
  */
 
-public class BaseActivity extends Activity{
+public  class BaseActivity extends FragmentActivity {
 
     private Toast mToast;
-    private BisaApplication application;
+    private BisaApp application;
     private Activity oContext;
     private Dialog loadDialog;
     private SharedPersistor sharedPersistor;
@@ -36,7 +37,7 @@ public class BaseActivity extends Activity{
 
         if (application == null) {
             // 得到Application对象
-            application = (BisaApplication) getApplication();
+            application = (BisaApp) getApplication();
         }
         sharedPersistor=new SharedPersistor(this);
         mHealthServer=sharedPersistor.loadObject(HealthServer.class.getName());
@@ -71,26 +72,22 @@ public class BaseActivity extends Activity{
 
         XGPushManager.delAccount(oContext, "*");
         XGPushManager.unregisterPush(oContext);
-        mHealthServer.setToken(null);
-        sharedPersistor.saveObject(mHealthServer);
         application.restart(oContext);
         //application.removeALLActivity_();// 调用myApplication的销毁所有Activity方法
     }
 
     /* 把Toast定义成一个方法  可以重复使用，使用时只需要传入需要提示的内容即可*/
-    public void show_Toast(String text,int duration) {
+    public void showToast(String text,int duration) {
         mToast.setText(text);
         mToast.setDuration(duration);
         mToast.show();
     }
     /* 把Toast定义成一个方法  可以重复使用，使用时只需要传入需要提示的内容即可*/
-    public void show_Toast(String text) {
+    public void showToast(String text) {
         mToast.setText(text);
         mToast.show();
     }
-
-    public void show_Dialog(boolean isCancel){
-
+    public void showDialog(boolean isCancel){
         LayoutInflater inflater = LayoutInflater.from(oContext);
         View v = inflater.inflate(R.layout.loading_dialog, null);// 得到加载view
         LinearLayout layout = (LinearLayout) v.findViewById(R.id.dialog_view);// 加载布局
@@ -119,8 +116,7 @@ public class BaseActivity extends Activity{
         }
 
     }
-
-    public void dialog_Dismiss(){
+    public void dialogDismiss(){
         try {
             if(loadDialog!=null)
                 loadDialog.dismiss();

@@ -129,7 +129,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 Looper.prepare();
 
                 if(DEBUG){
-                    Log.d(TAG, "异常信息->"+msg);
+                    Log.i(TAG, "异常信息->"+msg);
                     Toast toast = Toast.makeText(mContext, "程序出错，即将退出:\r\n" + msg,
                             Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
@@ -256,7 +256,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 field.setAccessible(true);
                 mDeviceCrashInfo.put(field.getName(), ""+field.get(null));
                 if (DEBUG) {
-                    Log.d(TAG, field.getName() + " : " + field.get(null));
+                    Log.i(TAG, field.getName() + " : " + field.get(null));
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Error while collect crash info", e);

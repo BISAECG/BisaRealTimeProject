@@ -2,7 +2,6 @@ package com.bisa.health;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -53,7 +52,6 @@ public class BindAccessSuccessActivity extends BaseActivity implements View.OnCl
     public void onClick(View v) {
 
         if(v==btn_login){
-            Log.i(TAG, "onClick: >>>>>>>>>>>>>>>>>>>>>>>");
             Intent mainIntent = new Intent(BindAccessSuccessActivity.this,MainActivity.class);
             mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             ActivityUtil.startActivity(BindAccessSuccessActivity.this,mainIntent,true, ActionEnum.NULL);

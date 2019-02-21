@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.bisa.health.ecg.ReportShowActivity">
 
-    <com.bisa.health.cust.ProgressWebView
+    <com.bisa.health.cust.view.ProgressWebView
         android:layout_below="@+id/abar_title"
         android:id="@+id/webView"
         android:layout_width="match_parent"

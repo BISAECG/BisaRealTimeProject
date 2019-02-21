@@ -70,7 +70,6 @@ public class ReportCalendarActivity extends BaseActivity {
         //String url="http://192.168.1.3:8088/health-app/mi/h5/report/freetest";
         Log.i(TAG, "init: "+url);
         webView.loadUrl(url);
-        WebViewUtil.build(webView);
     }
 
 
@@ -99,7 +98,7 @@ public class ReportCalendarActivity extends BaseActivity {
 
             DataoriginDto dataoriginDto = new DataoriginDto();
             dataoriginDto.setCalendarDtoList(listCal);
-            dataoriginDto.setAlarmLogList(null);
+            dataoriginDto.setAlarmLogst(null);
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
             final String callJsonStr = gson.toJson(dataoriginDto,new TypeToken<DataoriginDto>(){}.getType());
 

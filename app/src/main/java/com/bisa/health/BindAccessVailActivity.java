@@ -13,13 +13,12 @@ import com.bisa.health.model.ResultData;
 import com.bisa.health.model.User;
 import com.bisa.health.model.dto.UserBindDto;
 import com.bisa.health.model.enumerate.ActionEnum;
-import com.bisa.health.model.enumerate.LoginTypeEnum;
+import com.bisa.health.model.enumerate.VerifyTypeEnum;
 import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
 import com.bisa.health.utils.ActivityUtil;
 import com.bisa.health.utils.CountDownTimerUtils;
-import com.bisa.health.utils.LoadDiaLogUtil;
 import com.bisa.health.utils.Utility;
 import com.google.gson.reflect.TypeToken;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -58,7 +57,6 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
     private Button imgbtn_smsSend;
 
     private Button btn_login;
-    private UserBindDto verifyBindDto;
     private UserBindDto userBindDto;
     private IRestService mRestService;
     private SharedPersistor sharedPersistor;
@@ -80,11 +78,9 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
         validator = new Validator(this);
         validator.setValidationMode(Validator.Mode.BURST);
         validator.setValidationListener(this);
-        userBindDto=(UserBindDto)getIntent().getExtras().getSerializable("BINDUSER");
-        verifyBindDto=(UserBindDto)getIntent().getExtras().getSerializable("VERIFYUSER");
-
-        if(userBindDto==null||verifyBindDto==null){
-            show_Toast(getString(R.string.title_error_try));
+        userBindDto=(UserBindDto)getIntent().getExtras().getSerializable(UserBindDto.class.getName());
+        if(userBindDto==null){
+            showToast(getString(R.string.title_error_try));
             finish();
             return;
 
@@ -100,13 +96,13 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
         btn_login=(Button)this.findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
 
-        if(verifyBindDto.getLoginType()== LoginTypeEnum.PHONE){
+        if(userBindDto.getVerifyType().equals(VerifyTypeEnum.PHONE.name())){
             String mailTip=getResources().getString(R.string.title_getpwd_iphone);
-            String fromatStr=String.format(mailTip,verifyBindDto.getUsername());
+            String fromatStr=String.format(mailTip,userBindDto.getPhone());
             tv_tip_2.setText(fromatStr);
         }else{
             String mailTip=getResources().getString(R.string.title_getpwd_mail);
-            String fromatStr=String.format(mailTip,verifyBindDto.getUsername());
+            String fromatStr=String.format(mailTip,userBindDto.getEmail());
             tv_tip_2.setText(fromatStr);
         }
 
@@ -124,7 +120,7 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
     }
@@ -141,12 +137,11 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
             if (!isValidation) {
                 return;
             }
-           show_Dialog(false);
-
+           showDialog(false);
             synchronized (this) {
 
                 FormBody body = new FormBody.Builder()
-                        .add("loginType",verifyBindDto.getLoginType().name())
+                        .add("loginType",userBindDto.getVerifyType()+"")
                         .add("code", code)
                         .build();
 
@@ -159,8 +154,8 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                dialog_Dismiss();
-                                show_Toast(getResources().getString(R.string.server_error));
+                                dialogDismiss();
+                                showToast(getResources().getString(R.string.server_error));
 
                                 return;
                             }
@@ -175,7 +170,7 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                dialog_Dismiss();
+                                dialogDismiss();
                                 ResultData<String> result = Utility.jsonToObject(json,new TypeToken<ResultData<String>>(){}.getType());
 
                                 if (result == null) {
@@ -185,10 +180,10 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
                                 if(result.getCode()== HttpFinal.CODE_200){
                                     Bundle body=new Bundle();
                                     body.putString("token",result.getToken());
-                                    body.putSerializable("BINDUSER",userBindDto);
+                                    body.putSerializable(UserBindDto.class.getName(),userBindDto);
                                     ActivityUtil.startActivity(BindAccessVailActivity.this,BindAccessOkActivity.class,false, body, ActionEnum.NEXT);
                                 }else{
-                                    show_Toast(result.getMessage());
+                                    showToast(result.getMessage());
 
                                 }
                                 return;
@@ -213,18 +208,28 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
     }
     private void sendCode(){
         synchronized (this) {
-            final CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(imgbtn_smsSend, 60000, 1000, this);
-            mCountDownTimerUtils.start();
+
+            showDialog(false);
+
+            Log.d(TAG, "sendCode: "+userBindDto);
 
             Map<String,String> param=new HashMap<String,String>();
-            param.put("loginType",verifyBindDto.getLoginType().name());
+            param.put("loginType",userBindDto.getVerifyType()+"");
+            param.put("username",userBindDto.getUsername());
 
-            Call call=mRestService.bindCode(param);
+            Call call=mRestService.sendCodeByUser(param);
 
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                           dialogDismiss();
+                            showToast(getString(R.string.network_error));
 
+                        }
+                    });
                 }
 
                 @Override
@@ -235,7 +240,10 @@ public class BindAccessVailActivity extends BaseActivity implements View.OnClick
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            LoadDiaLogUtil.getInstance().dismiss();
+                            dialogDismiss();
+                            final CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(imgbtn_smsSend, 60000, 1000, BindAccessVailActivity.this);
+                            mCountDownTimerUtils.start();
+
                             ResultData<Object> result = Utility.jsonToObject(json,new TypeToken<ResultData<Object>>(){}.getType());
                             if (result == null) {
                                 return;

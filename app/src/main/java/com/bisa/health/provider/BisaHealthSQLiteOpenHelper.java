@@ -127,7 +127,7 @@ public class BisaHealthSQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
+        if (BuildConfig.DEBUG) Log.i(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
         db.execSQL(SQL_CREATE_TABLE_APPREPORT);
         db.execSQL(SQL_CREATE_INDEX_APPREPORT_USER_GUID);

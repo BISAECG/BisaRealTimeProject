@@ -123,7 +123,7 @@ public class HealthXGAccept extends XGPushBaseReceiver {
                 // key1为前台配置的key
                 if (!obj.isNull("action")) {
                     String value = obj.getString("action");
-                    Log.d(LogTag, "get custom value:" + value);
+                    Log.i(LogTag, "get custom value:" + value);
                 }
                 // ...
             } catch (JSONException e) {

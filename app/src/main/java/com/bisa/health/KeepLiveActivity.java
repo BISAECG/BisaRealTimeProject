@@ -37,7 +37,7 @@ public class KeepLiveActivity extends BaseActivity{
 	    @Override
 	    protected void onResume() {
 	        super.onResume();
-	        Log.d(TAG, "onResume()");
+	        Log.i(TAG, "onResume()");
 	        if (isScreenOn()) {
 	            finishSelf();
 	        }
@@ -46,7 +46,7 @@ public class KeepLiveActivity extends BaseActivity{
 	    @Override
 	    protected void onDestroy() {
 	        super.onDestroy();
-	        Log.d(TAG, "onDestroy()");
+	        Log.i(TAG, "onDestroy()");
 	        if (instance != null && instance.get() == this) {
 	            instance = null;
 	        }

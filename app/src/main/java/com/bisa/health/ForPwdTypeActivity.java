@@ -1,7 +1,6 @@
 package com.bisa.health;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -9,13 +8,14 @@ import android.widget.TextView;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.User;
-import com.bisa.health.model.dto.UserBindDto;
-import com.bisa.health.model.dto.UserPwdDto;
+import com.bisa.health.model.dto.ForGetPwdDto;
 import com.bisa.health.model.enumerate.ActionEnum;
-import com.bisa.health.model.enumerate.LoginTypeEnum;
+import com.bisa.health.model.enumerate.VerifyTypeEnum;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
 import com.bisa.health.utils.ActivityUtil;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +36,8 @@ public class ForPwdTypeActivity extends BaseActivity implements View.OnClickList
     private TextView txt_mail;
     private RelativeLayout rl_iphone;
     private RelativeLayout rl_mail;
-    private UserBindDto verifyBindDto;
-    private UserPwdDto userPwdDto;
-    private List<UserBindDto> mList = new ArrayList<UserBindDto>();
+    private ForGetPwdDto forGetPwdDto;
+    private List<ForGetPwdDto> mList = new ArrayList<ForGetPwdDto>();
 
 
     @Override
@@ -61,66 +60,36 @@ public class ForPwdTypeActivity extends BaseActivity implements View.OnClickList
         txt_mail=(TextView)this.findViewById(R.id.txt_mail);
 
 
-
-        userPwdDto= (UserPwdDto) getIntent().getExtras().getSerializable(UserPwdDto.class.getName());
-        Log.i(TAG, "onCreate: "+userPwdDto.getUserBindDto().size());
-        if(userPwdDto==null){
-            show_Toast(getString(R.string.title_error_try));
+        forGetPwdDto= (ForGetPwdDto) getIntent().getExtras().getSerializable(ForGetPwdDto.class.getName());
+        if(forGetPwdDto==null){
+            showToast(getString(R.string.title_error_try));
             finish();
             return;
         }
 
-        for(LoginTypeEnum mEnum :LoginTypeEnum.values()){
-            if(mEnum.name().equals(LoginTypeEnum.PHONE.name())||mEnum.name().equals(LoginTypeEnum.EMAIL.name())){
-                boolean isExists=true;
-                for(UserBindDto userBindDto: userPwdDto.getUserBindDto()){
-                    if(userBindDto.getLoginType().name().equals(mEnum.name())){
-                        isExists=false;
-                        mList.add(userBindDto);
-                        break;
-                    }
-                }
-
-                if(isExists){
-                    UserBindDto userBindDto=new UserBindDto();
-                    userBindDto.setUsername(getString(R.string.bind_isnot));
-                    userBindDto.setLoginType(mEnum);
-                    mList.add(userBindDto);
-                }
-            }
+        if(!StringUtils.isEmpty(forGetPwdDto.getPhone())){
+            txt_iphone.setText(forGetPwdDto.getPhone());
+            rl_iphone.setTag(VerifyTypeEnum.PHONE.name());
+        }
+        if(!StringUtils.isEmpty(forGetPwdDto.getEmail())){
+            txt_mail.setText(forGetPwdDto.getEmail());
+            rl_mail.setTag(VerifyTypeEnum.EMAIL.name());
         }
 
-
-
-        for(int i=0;i<mList.size();i++){
-
-            if(mList.get(i).getLoginType()== LoginTypeEnum.PHONE){
-                txt_iphone.setText(mList.get(i).getUsername());
-                txt_iphone.setTag(i);
-            }else if(mList.get(i).getLoginType()==LoginTypeEnum.EMAIL){
-                txt_mail.setText(mList.get(i).getUsername());
-                txt_mail.setTag(i);
-            }
-        }
     }
 
 
     @Override
     public void onClick(View v) {
-        if(v!=rl_iphone&&v!=rl_mail){
+
+
+        if(v.getTag()==null){
             return;
         }
-        int index=Integer.parseInt(txt_iphone.getTag().toString());
-        if(v==rl_mail){
-            index=Integer.parseInt(txt_mail.getTag().toString());
-        }
-        verifyBindDto=mList.get(index);
-            if(!verifyBindDto.getUsername().equals(getString(R.string.bind_isnot))){
-                Bundle body=new Bundle();
-
-                body.putSerializable(UserBindDto.class.getName(),verifyBindDto);
-                ActivityUtil.startActivity(this,ForPwdVailActivity.class,false,body, ActionEnum.NEXT);
-            }
+        forGetPwdDto.vLoginType(v.getTag().toString());
+        Bundle body=new Bundle();
+        body.putSerializable(ForGetPwdDto.class.getName(),forGetPwdDto);
+        ActivityUtil.startActivity(this,ForPwdVailActivity.class,false,body, ActionEnum.NEXT);
 
     }
 

@@ -29,7 +29,7 @@
             android:textSize="16sp"
             android:textColor="@color/color_search_title"
             tools:text="中间位置"
-            android:text="@string/s_opt_name" />
+            android:text="@string/s_opt_username" />
 
         <TextView
             android:id="@+id/tv_seuucess"
@@ -83,7 +83,7 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:textCursorDrawable="@null"
-            android:hint="@string/hint_name"
+            android:hint="@string/hint_username"
             android:inputType="text"
             android:maxLength="20"
             android:textSize="12sp" />

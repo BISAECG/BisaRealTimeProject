@@ -88,7 +88,6 @@ public class ReportShowActivity extends BaseActivity {
         url=action+"/"+year+"/"+month+"/"+day+"/"+type+"?lang="+ FunUtil.h5Lang()+"&timestamp="+System.currentTimeMillis()+"&token="+mHealthServer.getToken();
         Log.i(TAG, "init: "+url);
         webView.loadUrl(url);
-        WebViewUtil.build(webView);
 
     }
 

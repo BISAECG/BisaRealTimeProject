@@ -5,12 +5,14 @@
     android:layout_height="match_parent"
     tools:context="com.bisa.health.UserInfoActivity" >
 
-    <fragment
-        android:tag="@string/title_user_info"
+    <com.bisa.health.cust.view.ActionBarView
+        app:isPre="true"
+        app:preIco="@drawable/menu_back_bg"
+        app:title="@string/title_user_info"
         android:id="@+id/abar_title"
-        android:name="com.bisa.health.cust.ActionBarBackFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 
     <RelativeLayout
         android:layout_below="@+id/abar_title"
@@ -32,7 +34,7 @@
             android:textSize="15sp" />
 
 
-        <com.bisa.health.cust.CircleImageView
+        <com.bisa.health.cust.view.CircleImageView
             android:id="@+id/img_avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -54,10 +56,62 @@
     </RelativeLayout>
 
     <View
-        android:id="@+id/ling_a"
+        android:id="@+id/ling_a_0"
         android:layout_centerHorizontal="true"
         android:background="@color/color_bar_bg"
         android:layout_below="@+id/rl_headimg"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_username"
+        android:layout_below="@+id/ling_a_0"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true">
+
+        <TextView
+            android:id="@+id/txt_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img_callme_logo"
+            android:layout_marginLeft="24dp"
+            android:text="@string/s_username"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="56dp"
+            android:layout_toRightOf="@+id/img_callme_logo"
+            android:hint="@string/hint_set"
+            android:textColor="@color/color_a4a4a4"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="13dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/left_arrow" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/ling_a"
+        android:layout_centerHorizontal="true"
+        android:background="@color/color_bar_bg"
+        android:layout_below="@+id/rl_username"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 

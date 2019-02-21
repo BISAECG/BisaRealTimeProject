@@ -28,5 +28,12 @@ public class AppNotifiMsg implements Serializable{
 	public void setUnReadCount(int unReadCount) {
 		this.unReadCount = unReadCount;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "AppNotifiMsg{" +
+				"isContact=" + isContact +
+				", unReadCount=" + unReadCount +
+				'}';
+	}
 }

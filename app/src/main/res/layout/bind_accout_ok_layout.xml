@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bisa.health.UserProActivity">
+    tools:context="com.bisa.health.BindAccessOkActivity">
 
-    <fragment
+    <com.bisa.health.cust.view.ActionBarView
+        app:isPre="true"
+        app:preIco="@drawable/menu_back_bg"
+        app:title="@string/title_new_accout"
         android:id="@+id/abar_title"
-        android:name="com.bisa.health.cust.ActionBarBackFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:tag="@string/title_new_accout" />
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:id="@+id/ll_titlemain"
@@ -52,7 +53,7 @@
 
         <fragment
             android:id="@+id/fl_iphone"
-            android:name="com.bisa.health.cust.AreaNameFragment"
+            android:name="com.bisa.health.cust.fragment.AreaNameFragment"
             android:layout_width="309dp"
             android:layout_height="41dp"
             android:background="@drawable/shape_login"
@@ -163,6 +164,7 @@
         android:layout_marginTop="14dp"
         android:textColor="@color/report_all"
         android:textSize="14dp"
+        android:text="@string/bind_error_tip"
         tools:text="无法验证请联系客服申诉" />
 
 

@@ -16,13 +16,12 @@ import com.bisa.health.model.ResultData;
 import com.bisa.health.model.User;
 import com.bisa.health.model.dto.UserBindDto;
 import com.bisa.health.model.enumerate.ActionEnum;
-import com.bisa.health.model.enumerate.LoginTypeEnum;
+import com.bisa.health.model.enumerate.VerifyTypeEnum;
 import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
 import com.bisa.health.utils.ActivityUtil;
 import com.bisa.health.utils.CountDownTimerUtils;
-import com.bisa.health.utils.LoadDiaLogUtil;
 import com.bisa.health.utils.Utility;
 import com.google.gson.reflect.TypeToken;
 
@@ -79,10 +78,10 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
         mHealthServer = sharedPersistor.loadObject(HealthServer.class.getName());
         mRestService =  new RestServiceImpl(this,mHealthServer);
 
-        userBindDto=(UserBindDto)getIntent().getExtras().getSerializable("BINDUSER");
+        userBindDto=(UserBindDto)getIntent().getExtras().getSerializable(UserBindDto.class.getName());
         token=(String)getIntent().getExtras().getString("token",null);
         if(userBindDto==null||StringUtils.isEmpty(token)){
-            show_Toast(getString(R.string.title_error_try));
+            showToast(getString(R.string.title_error_try));
             finish();
             return;
         }
@@ -103,13 +102,13 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
         btn_login=(Button)this.findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
 
-        if(userBindDto.getLoginType()== LoginTypeEnum.PHONE){
+        if(userBindDto.getBindType().equals(VerifyTypeEnum.PHONE.name())){
             ll_vcode.setVisibility(View.VISIBLE);
             tv_iphone.setHint(getString(R.string.title_input_iphone));
             tv_tip_1.setText(getString(R.string.title_bind_new_iphone));
             fl_iphone.setVisibility(View.VISIBLE);
             ll_mail.setVisibility(View.GONE);
-        }else if(userBindDto.getLoginType()== LoginTypeEnum.EMAIL){
+        }else if(userBindDto.getBindType().equals(VerifyTypeEnum.EMAIL.name())){
             ll_vcode.setVisibility(View.GONE);
            tv_mail.setHint(getString(R.string.title_input_mail));
             tv_tip_1.setText(getString(R.string.title_bind_new_mail));
@@ -136,23 +135,23 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
             sendCode(iphone,phonecode);
         }else if(v==btn_login){
 
-            if(userBindDto.getLoginType()== LoginTypeEnum.PHONE){
+            if(userBindDto.getBindType().equals(VerifyTypeEnum.PHONE.name())){
                 if(StringUtils.isEmpty(phonecode)){
-                    show_Toast(getString(R.string.dialog_tip_error_area));
+                    showToast(getString(R.string.dialog_tip_error_area));
                 }else if(StringUtils.isEmpty(iphone)){
-                    show_Toast(getString(R.string.dialog_tip_error_phone));
+                    showToast(getString(R.string.dialog_tip_error_phone));
                 }else if(StringUtils.isEmpty(code)){
-                    show_Toast(getString(R.string.dialog_tip_error_code));
+                    showToast(getString(R.string.dialog_tip_error_code));
                 }else{
-
+                    Log.d(TAG, "onClick: >>>"+userBindDto.getBindType());
                     synchronized (this) {
-                        show_Dialog(false);
+                        showDialog(false);
                         FormBody body = new FormBody.Builder()
                                 .add("account", ""+iphone)
                                 .add("code", code)
                                 .add("phonecode", phonecode)
                                 .add("versalt", token)
-                                .add("loginType", LoginTypeEnum.PHONE.name())
+                                .add("loginType", VerifyTypeEnum.PHONE.name())
                                 .build();
 
                         Call call = mRestService.bindAccount(body);
@@ -164,8 +163,8 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        dialog_Dismiss();
-                                        show_Toast(getResources().getString(R.string.server_error));
+                                        dialogDismiss();
+                                        showToast(getResources().getString(R.string.server_error));
 
                                         return;
                                     }
@@ -180,7 +179,7 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        dialog_Dismiss();
+                                        dialogDismiss();
                                         ResultData<Object> result = Utility.jsonToObject(json,new TypeToken<ResultData<Object>>(){}.getType());
 
                                         if (result == null) {
@@ -188,7 +187,7 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
                                         }
 
                                         if(result.getCode()== HttpFinal.CODE_200){
-                                            show_Toast(result.getMessage(), Toast.LENGTH_LONG);
+                                            showToast(result.getMessage(), Toast.LENGTH_LONG);
                                             Intent mainIntent = new Intent(BindAccessOkActivity.this,MainActivity.class);
                                             mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                             ActivityUtil.startActivity(BindAccessOkActivity.this,mainIntent,true,ActionEnum.NULL);
@@ -197,7 +196,7 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
                                             data.putString("msg",result.getMessage());
                                             ActivityUtil.startActivity(BindAccessOkActivity.this, KillLoginOutActivity.class,true,data,ActionEnum.NULL);
                                         }else{
-                                            show_Toast(result.getMessage(), Toast.LENGTH_LONG);
+                                            showToast(result.getMessage(), Toast.LENGTH_LONG);
                                         }
                                         return;
 
@@ -212,17 +211,17 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
 
                 }
 
-            }else if(userBindDto.getLoginType()== LoginTypeEnum.EMAIL){
+            }else if(userBindDto.getBindType().equals(VerifyTypeEnum.EMAIL.name())){
                 if(StringUtils.isEmpty(mail)){
-                    show_Toast(getString(R.string.dialog_tip_error_mail));
+                    showToast(getString(R.string.dialog_tip_error_mail));
                 }else{
 
                     synchronized (this) {
-                        show_Dialog(false);
+                        showDialog(false);
                         FormBody body = new FormBody.Builder()
                                 .add("account", ""+mail)
                                 .add("versalt", token)
-                                .add("loginType", LoginTypeEnum.EMAIL.name())
+                                .add("loginType", VerifyTypeEnum.EMAIL.name())
                                 .build();
 
                         Call call = mRestService.bindAccount(body);
@@ -234,8 +233,8 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        dialog_Dismiss();
-                                        show_Toast(getResources().getString(R.string.server_error));
+                                        dialogDismiss();
+                                        showToast(getResources().getString(R.string.server_error));
 
                                         return;
                                     }
@@ -250,7 +249,7 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        dialog_Dismiss();
+                                        dialogDismiss();
                                         ResultData<Object> result = Utility.jsonToObject(json,new TypeToken<ResultData<Object>>(){}.getType());
 
                                         if (result == null) {
@@ -262,7 +261,7 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
                                             body.putString("BINDACCOUT",mail);
                                             ActivityUtil.startActivity(BindAccessOkActivity.this,BindAccessSuccessActivity.class,false, body, ActionEnum.NEXT);
                                         }else{
-                                            show_Toast(result.getMessage());
+                                            showToast(result.getMessage());
 
                                         }
                                         return;
@@ -290,8 +289,7 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
     }
     private void sendCode(String iphone,String area_code){
         synchronized (this) {
-            final CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(imgbtn_smsSend, 60000, 1000, this);
-            mCountDownTimerUtils.start();
+            showDialog(false);
             Log.i(TAG, "sendCode: "+area_code);
 
             Map<String,String> param=new HashMap<String,String>();
@@ -302,7 +300,14 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialogDismiss();
+                            showToast(getString(R.string.network_error));
 
+                        }
+                    });
 
                 }
 
@@ -314,7 +319,9 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            LoadDiaLogUtil.getInstance().dismiss();
+                            dialogDismiss();
+                            final CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(imgbtn_smsSend, 60000, 1000, BindAccessOkActivity.this);
+                            mCountDownTimerUtils.start();
                             ResultData<Object> appServer = Utility.jsonToObject(json,new TypeToken<ResultData<Object>>(){}.getType());
                             if (appServer == null) {
                                 return;

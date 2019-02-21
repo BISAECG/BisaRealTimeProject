@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.bisa.health.adapter.ContactAdapter;
 import com.bisa.health.cache.SharedPersistor;
+import com.bisa.health.cust.view.ActionBarView;
 import com.bisa.health.dao.IEventDao;
 import com.bisa.health.model.Event;
 import com.bisa.health.model.HealthServer;
@@ -42,11 +41,9 @@ public class ContactMainActivity extends BaseActivity {
     private List<Event> listEvent;
     private RelativeLayout rl_tip;
     private IRestService restService;
-    private CheckBox checkBoxBack;
-    private ImageButton ibtnAdd;
     private User mUser;
     private HealthServer mHealthServer;
-
+    ActionBarView actionBarView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,30 +53,22 @@ public class ContactMainActivity extends BaseActivity {
         mUser=sharedPersistor.loadObject(User.class.getName());
         mHealthServer=sharedPersistor.loadObject(HealthServer.class.getName());
         restService = new RestServiceImpl(this,mHealthServer);
+        actionBarView=findViewById(R.id.abar_title);
+        actionBarView.setOnActionClickListenerNext(new ActionBarView.OnActionClickListener() {
+            @Override
+            public void onActionClick() {
+                Log.i(TAG, "onClick: >>>>>>>>>>>>>>>>>>");
+                Intent i = new Intent(ContactMainActivity.this, AddContactActivity.class);
+                ActivityUtil.startActivity(ContactMainActivity.this,i,false, ActionEnum.NEXT);
+            }
+        });
 
         rl_tip= (RelativeLayout) this.findViewById(R.id.rl_tip);
         lvContact = (ListView) this.findViewById(R.id.list_contact);
         contactAdapter=new ContactAdapter(this);
         lvContact.setAdapter(contactAdapter);
         lvContact.setOnItemClickListener(listClickListener);
-        checkBoxBack=(CheckBox) this.findViewById(R.id.ibtn_back);
-        checkBoxBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
-        ibtnAdd=(ImageButton) this.findViewById(R.id.ibtn_add);
-        ibtnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            Intent i = new Intent(ContactMainActivity.this, AddContactActivity.class);
-            ActivityUtil.startActivity(ContactMainActivity.this,i,false, ActionEnum.NEXT);
-
-            }
-        });
 
     }
 

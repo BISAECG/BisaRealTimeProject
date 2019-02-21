@@ -13,7 +13,7 @@ public class ScheduleService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        Log.d(TAG, "onStartJob(): params = [" + params + "]");
+        Log.i(TAG, "onStartJob(): params = [" + params + "]");
         Intent intent = new Intent(getApplicationContext(), ECGService.class);
         startService(intent);
         jobFinished(params, false);
@@ -22,7 +22,7 @@ public class ScheduleService extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters params) {
-        Log.d(TAG, "onStopJob(): params = [" + params + "]");
+        Log.i(TAG, "onStopJob(): params = [" + params + "]");
         return false;
     }
 }

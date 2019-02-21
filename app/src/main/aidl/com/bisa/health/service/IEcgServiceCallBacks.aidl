@@ -7,6 +7,4 @@ package com.bisa.health.service;
   void uiCallNotifiAlam(int mStatus,String msg);
   void uiUpdateDeviceBattert(int battert);
   void uiUpdateNetWork(int status);
-
-
 }

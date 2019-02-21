@@ -10,9 +10,9 @@ import android.widget.TextView;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.ResultData;
-import com.bisa.health.model.dto.UserBindDto;
+import com.bisa.health.model.dto.ForGetPwdDto;
 import com.bisa.health.model.enumerate.ActionEnum;
-import com.bisa.health.model.enumerate.LoginTypeEnum;
+import com.bisa.health.model.enumerate.VerifyTypeEnum;
 import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
@@ -52,7 +52,7 @@ public class ForPwdVailActivity extends BaseActivity implements View.OnClickList
     private Button imgbtn_smsSend;
 
     private Button btn_login;
-    private UserBindDto mUserBindDto;
+    private ForGetPwdDto forGetPwdDto;
     private IRestService restService;
     private SharedPersistor sharedPersistor;
     private HealthServer mHealthServer;
@@ -68,9 +68,9 @@ public class ForPwdVailActivity extends BaseActivity implements View.OnClickList
 
         sharedPersistor = new SharedPersistor(this);
         mHealthServer=sharedPersistor.loadObject(HealthServer.class.getName());
-        mUserBindDto= (UserBindDto) getIntent().getExtras().getSerializable(UserBindDto.class.getName());
-        if(mUserBindDto==null){
-            show_Toast(getString(R.string.title_error_try));
+        forGetPwdDto= (ForGetPwdDto) getIntent().getExtras().getSerializable(ForGetPwdDto.class.getName());
+        if(forGetPwdDto==null){
+            showToast(getString(R.string.title_error_try));
             finish();
             return;
         }
@@ -90,13 +90,13 @@ public class ForPwdVailActivity extends BaseActivity implements View.OnClickList
         btn_login=(Button)this.findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
 
-        if(mUserBindDto.getLoginType()== LoginTypeEnum.PHONE){
+        if(forGetPwdDto.vLoginType().equals(VerifyTypeEnum.PHONE.name())){
             String mailTip=getResources().getString(R.string.title_getpwd_iphone);
-            String fromatStr=String.format(mailTip,""+mUserBindDto.getUsername());
+            String fromatStr=String.format(mailTip,""+forGetPwdDto.getPhone());
             tv_tip.setText(fromatStr);
         }else{
             String mailTip=getResources().getString(R.string.title_getpwd_mail);
-            String fromatStr=String.format(mailTip,""+mUserBindDto.getUsername());
+            String fromatStr=String.format(mailTip,""+forGetPwdDto.getEmail());
             tv_tip.setText(fromatStr);
         }
 
@@ -123,9 +123,9 @@ public class ForPwdVailActivity extends BaseActivity implements View.OnClickList
             synchronized (this) {
 
                 FormBody body = new FormBody.Builder()
-                        .add("username", ""+mUserBindDto.getUsername())
+                        .add("username", ""+forGetPwdDto.getUsername())
                         .add("code", code)
-                        .add("loginType", mUserBindDto.getLoginType().name())
+                        .add("loginType", forGetPwdDto.vLoginType())
                         .build();
 
                 Call call = restService.findPassword(body);
@@ -137,7 +137,7 @@ public class ForPwdVailActivity extends BaseActivity implements View.OnClickList
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                show_Toast(getResources().getString(R.string.server_error));
+                                showToast(getResources().getString(R.string.server_error));
                                 LoadDiaLogUtil.getInstance().dismiss();
                                 return;
                             }
@@ -161,10 +161,10 @@ public class ForPwdVailActivity extends BaseActivity implements View.OnClickList
 
                                 if(result.getCode()==HttpFinal.CODE_200){
                                     Bundle body=new Bundle();
-                                    body.putSerializable(UserBindDto.class.getName(),mUserBindDto);
+                                    body.putSerializable(ForGetPwdDto.class.getName(),forGetPwdDto);
                                     ActivityUtil.startActivity(ForPwdVailActivity.this,ForPwdOkActivity.class,false, body, ActionEnum.NULL);
                                 }else{
-                                    show_Toast(result.getMessage());
+                                    showToast(result.getMessage());
 
                                 }
                                 return;
@@ -192,36 +192,47 @@ public class ForPwdVailActivity extends BaseActivity implements View.OnClickList
         isValidation = false;
         for (ValidationError error : errors) {
             String message = error.getCollatedErrorMessage(this);
-            show_Toast(message);
+            showToast(message);
             break;
         }
     }
 
     private void sendCode(){
         synchronized (this) {
-            final CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(imgbtn_smsSend, 60000, 1000, this);
-            mCountDownTimerUtils.start();
+
+
+            showDialog(false);
 
             Map<String,String> param=new HashMap<String,String>();
-            param.put("loginType",mUserBindDto.getLoginType().name());
-            param.put("username",mUserBindDto.getUsername());
+            param.put("loginType",forGetPwdDto.vLoginType());
+            param.put("username",forGetPwdDto.getUsername());
             Call call=restService.sendCodeByUser(param);
 
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialogDismiss();
+                            showToast(getString(R.string.network_error));
+                        }
+                    });
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+
 
                     final String json = response.body().string();
                     Log.i(TAG, "onResponse: "+json);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            LoadDiaLogUtil.getInstance().dismiss();
+                            dialogDismiss();
+                            final CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(imgbtn_smsSend, 60000, 1000, ForPwdVailActivity.this);
+                            mCountDownTimerUtils.start();
+
                             ResultData<Object> appServer = Utility.jsonToObject(json,new TypeToken<ResultData<Object>>(){}.getType());
                             if (appServer == null) {
                                 return;

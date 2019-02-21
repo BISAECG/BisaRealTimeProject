@@ -56,7 +56,6 @@ public class BisaServiceActivity extends BaseActivity implements View.OnClickLis
         WebViewUtil.buildSetting(webView);
         webView.addJavascriptInterface(new CallAndroid(), "CallAndroid");
         webView.loadUrl(url);
-        WebViewUtil.build(webView);
     }
 
     public class CallAndroid extends  Object{
