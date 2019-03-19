@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="version_title">版本號</string>
+    <string name="app_name">悉心康健</string>
+    <string name="app_name_run">悉心康健正在運行中</string>
+    <string name="app_xixin1">健康生活<font color='#F0607B'>悉心</font>呵護</string>
+    <string name="app_xixin2">隨時隨地隨心測</string>
+    <string name="app_load">加載中(%ss)</string>
+    <string name="app_btn_text">請選擇使用地區</string>
+    <string name="app_switch_county">切換地區</string>
+    <string name="action_settings">操作</string>
+    <string name="title_ecg">實時心電圖</string>
+    <string name="title_main_mydev">我的設備</string>
+    <string name="title_ecg_bpmcount">心博總數</string>
+    <string name="title_menu_adddev">添加設備</string>
+    <string name="title_product_num">產品設備號</string>
+    <string name="title_hint">請選擇</string>
+    <string name="title_main_all_select">全選</string>
+    <string name="login_hint_iphone">手機號碼</string>
+    <string name="login_hint_sms_verify">短信驗證碼</string>
+    <string name="login_hint_comfig_pwd">密碼可由8-12位字母和數字組成</string>
+    <string name="login_hint_pwd">密碼</string>
+    <string name="login_title_forgetpwd">找回密碼</string>
+    <string name="login_title_logintype">其他登入方式</string>
+
+    <string name="title_login">登入</string>
+    <string name="activity_title_login">賬號登入</string>
+    <string name="activity_title_usercentre">個人中心</string>
+    <string name="default_area_code">地區</string>
+    <string name="title_camera">拍照</string>
+    <string name="title_album">相冊</string>
+    <string name="permission_title">請點擊確定後,允許相關權限來運行碧沙康健軟件</string>
+    <string name="commit_submit">確定</string>
+    <string name="commit_yes">確定</string>
+    <string name="commit_del">確定刪除嗎?</string>
+    <string name="title_del_device">刪除設備</string>
+    <string name="cancel_no">取消</string>
+    <string name="cancel_cancel">取消</string>
+    <string name="setting">設置</string>
+    <string name="opensetting">去開啟</string>
+    <string name="permission_setting">在設置-應用-權限中開始對應的權限，以保證功能的正常使用</string>
+    <string name="open_permission">權限申請</string>
+    <string name="ble_close_title">藍牙連接已斷開</string>
+    <string name="app_exit_tip">請選擇操作</string>
+    <string name="ble_connint">連接中....</string>
+    <string name="pls_wait">請等待....</string>
+
+    <string name="network_error">網絡連接失敗,請確保網絡通暢</string>
+    <string name="server_error">網絡異常,請重新嘗試</string>
+    <string name="contact_error">聯系人只能添加三個</string>
+    <string name="title_my_device">我的設備</string>
+    <string name="title_error_deldeivce">設備已連接,請先退出</string>
+    <string name="title_all_device">已添加%s個設備</string>
+    <string name="title_tip_send_status">[%s]</string>
+    <string name="title_error">系統異常</string>
+    <string name="title_sys_not_support">您的系統不支持藍牙4.0操作,請更換手機.</string>
+    <string name="title_error_try">系統異常,請再次嘗試</string>
+    <string name="title_error_flush">系統文件損壞,請重新打開軟件</string>
+    <string name="title_tip_deufalt">緊急短信狀態欄</string>
+    <string name="title_ble_conn">已連接</string>
+    <string name="title_ble_unconn">未連接</string>
+    <string name="title_exit">退出</string>
+
+    <!--報告類型-->
+    <string name="title_not_erect">功能正在建設</string>
+    <string name="title_free">免費</string>
+    <string name="title_fee">付費</string>
+    <string name="title_unit_zero">0</string>
+    <string name="title_unit_hour">時</string>
+    <string name="title_unit_minute">分</string>
+    <string name="title_unit_second">秒</string>
+    <string name="title_pls_report_type">請選擇日常報告類型</string>
+    <string name="title_start_report">開始監測</string>
+    <string name="title_monitoring_report">您有數據正在上傳中,請等待.</string>
+    <string name="report_400">您有未結束的報告,請等待.</string>
+    <string name="report_205">報告開始成功,請等待數據自動上傳.</string>
+
+    <string name="report_not_ble">請等待設備連接後嘗試</string>
+    <string name="title_monitoring_end">請點擊我的報告查看</string>
+
+    <string name="title_helath_daily_report">AI智能監測報告</string>
+    <string name="title_helath_child_daily_report">15分鐘閃電監測 健康狀況每天掌握</string>
+    <string name="title_helath_daily_report_color">悉心<font color='#579ADF'>AI智能</font>分析報告</string>
+    <string name="title_helath_child_daily_content">\u3000\u3000免費<font color='#579ADF'>日常</font>監測報告是根據您佩戴的悉心心電儀所監測采集到的<font color='#579ADF'>15分鐘</font>心電數據 做出統計分析，可以非常直觀易懂的了解 自身每日心臟狀況，保障心臟健康。</string>
+    <string name="title_helath_child_daily_desc">溫馨提示:\n監測期間請保持心電儀與手機藍牙連接,監測時長15分鐘,結束後報告將會自動推送。</string>
+
+    <string name="title_helath_all_report">人工審核監測報告</string>
+    <string name="title_helath_child_all_report">24小時全面監測 大數據更可靠</string>
+    <string name="title_helath_all_report_color">悉心<font color='#08B39B'>人工</font>監測報告</string>
+    <string name="title_helath_child_all_content">\u3000\u3000悉心<font color='#08B39B'>人工</font>監測報告是根據您佩戴的悉 心心電儀所監測采集到的<font color='#08B39B'>24小時</font>心電數據 做出統計分析，可以監測出多種細微心臟 疾病癥狀。數據更龐大，健康更可靠。</string>
+    <string name="title_helath_child_all_desc">溫馨提示:\n監測結束後通過OTG線與設備連接上傳數據,上傳結束後報告將會自動推送。</string>
+
+
+    <!-- 報告顯示頁面-->
+    <string name="title_head_report">報告列表</string>
+    <string name="title_head_xixin">悉心記錄</string>
+    <!--個人中心-->
+    <string name="title_contact_me">聯系客服</string>
+    <string name="title_sos_contact_user">緊急聯系人</string>
+    <string name="title_show_service">我的服務</string>
+    <string name="title_bind_access">賬號綁定</string>
+    <string name="title_exit_app">註銷賬號</string>
+    <!--個人資料-->
+    <string name="s_avatar">頭像</string>
+    <string name="s_name">昵稱</string>
+    <string name="s_username">用戶名</string>
+    <string name="s_sex">性別</string>
+    <string name="s_age">年齡</string>
+    <string name="s_sex_male">男</string>
+    <string name="s_sex_female">女</string>
+    <string name="hint_set">請設置</string>
+    <string name="s_success">完成</string>
+    <string name="s_opt_age">設置年齡</string>
+    <string name="s_opt_name">設置昵稱</string>
+    <string name="s_opt_username">設置用戶</string>
+    <string name="s_opt_sex">設置性別</string>
+    <string name="hint_name">請輸入您的姓名</string>
+    <string name="hint_age">請輸入您的年齡</string>
+    <string name="hint_username">請修改用戶名（系統只允許修改壹次）</string>
+    <!-- 引導-->
+    <string name="tip_add">點擊 + 號開始添加產品</string>
+    <string name="tip_product">點擊選擇要添加的產品類型</string>
+    <string name="tip_iknown">我知道了</string>
+    <string name="tip_ecg_1">①點擊開始匹配按鈕匹配</string>
+    <string name="tip_ecg_2">②匹配成功後選擇產品設備號</string>
+    <string name="tip_ecg_3">③點擊 確認按鈕 完成產品添加</string>
+    <string name="tip_next">Next</string>
+    <!--添加聯系人界面-->
+    <string name="title_hint_dufault_country">中國大陸(86)</string>
+    <string name="title_hint_contact_name">聯系人姓名</string>
+    <string name="title_hint_contact_num">聯系人手機號碼</string>
+    <string name="title_hint_contact_email">聯系人電子郵箱</string>
+    <!--免費報告-->
+    <string name="free_report_error">\u60A8\u4E0A\u4F20\u7684\u6570\u636E\u65E0\u6CD5\u89E3\u6790.</string>
+    <string name="free_report_normal">\u60A8\u7684\u5FC3\u7387\u5F88\u6B63\u5E38,\u8BF7\u7EE7\u7EED\u4FDD\u6301,\u611F\u8C22\u60A8\u7684\u4F7F\u7528.</string>
+
+    <string name="free_report_last_a" formatted="false">\u60A8\u7684\u5FC3\u7387\u8FC7\u7F13\u57282%~10%\u4E4B\u95F4,\u8BF7\u5173\u6CE8\u60A8\u7684\u5065\u5EB7,\u5982\u60A8\u611F\u5230\u8EAB\u4F53\u4E0D\u9002\u8BF7\u524D\u5F80\u533B\u9662\u68C0\u67E5,\u611F\u8C22\u60A8\u7684\u4F7F\u7528.</string>
+    <string name="free_report_last_b" formatted="false">\u60A8\u7684\u5FC3\u7387\u8FC7\u7F13\u6574\u4F53\u9AD8\u4E8E10%,\u5EFA\u8BAE\u524D\u5F80\u533B\u9662\u68C0\u67E5,\u611F\u8C22\u60A8\u7684\u4F7F\u7528.</string>
+
+    <string name="free_report_fast_a" formatted="false">\u60A8\u7684\u5FC3\u7387\u8FC7\u5FEB\u57282%~10%\u4E4B\u95F4,\u8BF7\u5173\u6CE8\u60A8\u7684\u5065\u5EB7,\u5982\u60A8\u611F\u5230\u8EAB\u4F53\u4E0D\u9002\u8BF7\u524D\u5F80\u533B\u9662\u68C0\u67E5,\u611F\u8C22\u60A8\u7684\u4F7F\u7528.</string>
+    <string name="free_report_fast_b" formatted="false">\u60A8\u7684\u5FC3\u7387\u8FC7\u5FEB\u6574\u4F53\u9AD8\u4E8E10%,\u5EFA\u8BAE\u524D\u5F80\u533B\u9662\u68C0\u67E5,\u611F\u8C22\u60A8\u7684\u4F7F\u7528.</string>
+
+    <!--24小時報告-->
+    <string name="report_select_data">選擇數據</string>
+    <string name="report_title_24">付費報告</string>
+    <string name="ecd_file_order_asc">排序&#9660;</string>
+    <string name="ecd_file_order_desc">排序&#9650;</string>
+    <string name="report_content">付費報告：請勾選1條需要生成報告的心電數據進行報告生成</string>
+
+
+    <!--產品列表-->
+    <string name="xixin_ecg">悉心心電儀</string>
+    <string name="xixin_camera">悉心攝像頭</string>
+
+    <string name="title_tip_contact">妳沒有登記緊急聯系人,請登入.</string>
+
+    <!--exit -->
+    <string name="exit_click_item">請再次點擊后退出</string>
+    <string name="exit_click">請再次點擊後退出軟件</string>
+    <string name="title_del">刪除</string>
+
+    <string name="tab_page_device">我的設備</string>
+    <string name="tab_page_user">個人中心</string>
+
+    <string name="title_pair_device">開始匹配</string>
+    <string name="title_pair_device_commit">確定添加設備</string>
+    <string name="title_device_conn_try">重新連接</string>
+
+    <string name="title_search_tip">請在手機附近打開設備進行匹配</string>
+
+    <string name="commit_commit_pas">確定密碼</string>
+
+    <string name="dialog_tip_error_name">名字不能為空</string>
+
+    <string name="dialog_tip_error_area">地區不能為空</string>
+    <string name="dialog_tip_error_phone">手機號碼不能為空</string>
+    <string name="dialog_tip_error_mail">郵箱不能為空</string>
+    <string name="dialog_tip_error_code">驗證碼不正確</string>
+    <string name="dialog_tip_error_notpassword">密碼不能為空</string>
+    <string name="dialog_tip_error_username">用戶名不能為空</string>
+
+    <string name="tip_login_run">進入</string>
+
+    <string name="tip_restart_code">\u3000\u3000重新獲取</string>
+    <string name="tip_sms_code">\u3000\u3000獲取驗證碼</string>
+    <string name="tip_code">驗證碼</string>
+    <string name="tip_input_code">請輸入驗證碼</string>
+
+    <string name="title_reoirt_now">立即生成</string>
+    <string name="titl_report_create">生成報告</string>
+
+
+    <string name="titl_my_report">我的報告</string>
+    <string name="titl_my_report_calendar">日歷篩選</string>
+
+    <string name="msg_success_opt">操作成功</string>
+    <string name="msg_not_contacts">沒有聯系人</string>
+    <string name="msg_data">沒有數據</string>
+    <string name="report_exists">您有報告正在生成中,確定要退出嗎?</string>
+
+
+    <!--服務-->
+    <string name="server_24">收費報告服務</string>
+    <string name="server_healthing">悉心鈴服務</string>
+    <string name="tip_not_login">您還沒有登入</string>
+    <string name="tip_login_regeidt">註冊</string>
+    <string name="tip_login_regeidt_success">註冊成功</string>
+    <string name="tip_user_not_regeidt">用戶未註冊</string>
+    <string name="login_title_sms_pwd">短信或者密碼登入</string>
+    <string name="login_title_iphone_pwd">手機號或綁定郵箱</string>
+    <string name="login_title_pwd">密碼登錄</string>
+    <string name="login_sms_pwd">短信登錄</string>
+    <string name="title_getpwd_tip">*輸入已註冊綁定的手機或郵箱進行驗證</string>
+    <string name="title_getpwd_type">找回方式</string>
+    <string name="title_getpwd_iphone_type">綁定手機</string>
+    <string name="title_getpwd_mail_type">綁定郵箱</string>
+    <string name="title_forgetpwd_auth">賬號安全驗證</string>
+    <string name="title_back_login">返回登錄</string>
+    <string name="dialog_wx_notinstall">您還未安裝微信客戶端</string>
+    <string name="title_user_info">個人資料</string>
+    <string name="title_is_restart_user">是否註銷賬號?</string>
+    <string name="title_getpwd_mail">請使用安全郵箱%s獲取驗證碼</string>
+    <string name="title_getpwd_iphone">請使用安全手機%s獲取驗證碼</string>
+
+    <string name="tip_forget_iphone_ok">已經成功發送壹封新密碼短信至手機</string>
+    <string name="tip_forget_mail_ok">已經成功發送壹封新密碼郵件至郵箱</string>
+
+    <string name="tip_click_find_device">點擊開始匹配搜索附近的設備</string>
+    <string name="tip_otg_report">是否確認生成?</string>
+    <string name="tip_otg_filename_error">文件名格式出錯請勿修改</string>
+    <string name="tip_otg_not_file">請勾選數據</string>
+    <string name="tip_otg_conn">請點擊確定後連接設備</string>
+    <string name="tip_otg_read_error">讀取數據異常,請斷開設備後重新連接</string>
+    <string name="msg_not_service">您沒有開通服務,請去個人中心購買</string>
+    <string name="tip_otg_isupload">已上傳過的數據,是否重復上傳數據?</string>
+    <!--Free Report-->
+    <string name="freereport_file_exists">數據文件不存在或已刪除</string>
+    <string name="feereport_down_error">報告下載異常請重試？</string>
+    <string name="feereport_down_title">下載進度</string>
+    <string name="freereport_title">AI智能報告</string>
+    <string name="freereport_stop">確定以當前時長的心電數據生成報告？</string>
+
+    <!--SETING-->
+    <!--ALARM-->
+    <string name="auto_alarm">自動報警</string>
+    <string name="auto_alarm_desc">開啟時會自動監測停播現象並發出警報</string>
+    <string name="manua_app_alarm">軟件手動報警</string>
+    <string name="manua_appalarm_desc">開啟時允許APP悉心鈴按鈕發出警報</string>
+    <string name="manua_device_alarm">設備手動報警</string>
+    <string name="manua_devicealarm_desc">開啟時允許雙擊設備上的操作鍵發出警報</string>
+
+    <!--OTG-->
+
+    <string name="otg_conn_title">OTG設備連接註意事項</string>
+    <string name="otg_conn_warnning">註:插入設備20秒無法檢測到設備請重新插入設備</string>
+    <string name="otg_device_notfile">設備無心電數據文件</string>
+    <string name="otg_conn_device_fail">設備初始化失敗,請重新插入嘗試</string>
+    <string name="otg_conn_yes">確定連接</string>
+    <string name="otg_conn_update">數據上傳進度</string>
+    <string name="otg_conn_update_tip">正在上傳數據請等待,切勿操作手機和設備</string>
+    <string name="otg_conn_update_error_tip">上傳數據異常，請重新嘗試上傳</string>
+
+    <string name="otg_conn_package">數據打包進度</string>
+    <string name="otg_conn_package_tip">正在打包數據請等待,切勿操作手機和設備</string>
+    <string name="otg_conn_package_error_tip">打包數據異常,請重新嘗試打包</string>
+
+
+    <string name="otg_conn_title_d">&#8727;&#8201;閱讀以上事項後連接設備</string>
+
+    <string name="otg_conn_title_a">&#8727;&#8201;請確保手機支持OTG功能,部分手機需要在通用設置中手動開啟OTG.</string>
+    <string name="otg_setting">OTG連接</string>
+    <string name="otg_conn_title_b">&#8727;&#8201;嚴禁格式化心電儀,該行為將永久破壞心電儀.</string>
+    <string name="otg_format_tip">連接後手機提示格式化請拒絕!!!</string>
+    <string name="otg_conn_title_c">&#8727;&#8201;嚴禁刪改心電儀內部文件,該行為將永久破壞心電儀.</string>
+    <string name="otg_deldat_tip">請勿操作設備內部文件</string>
+    <string name="otg_conn_commit_s">我已知道(%ss)</string>
+    <string name="other_bind_area_iphone">地區或者手機號不能為空</string>
+    <string name="otg_upload_seccess">文件上傳成功正在生成報告,請留意短信和APP提示消息</string>
+
+
+    <!--我的服務-->
+    <string name="pay_tip">為保證支付安全，請去商城購買:</string>
+    <string name="go_pay">購買服務</string>
+    <!--bind Accout-->
+    <string name="bind_iphone_title">綁定手機</string>
+    <string name="bind_mail_title">綁定郵箱</string>
+    <string name="bind_pwd_title">密碼</string>
+    <string name="bind_isnot">未綁定</string>
+    <string name="bind_modify">修改</string>
+    <string name="bind_modify_pwd">密碼修改</string>
+    <string name="bind_error_tip">無法驗證請聯系客服申訴</string>
+    <!--修改密碼-->
+    <string name="title_cur_pwd">當前密碼</string>
+    <string name="title_cur_pwd_tip">請輸入原密碼</string>
+    <string name="title_new_pwd">新密碼</string>
+    <string name="title_new_pwd_tip">請輸入新密碼</string>
+    <string name="title_commit_pwd">確認新密碼</string>
+    <string name="title_commit_pwd_tip">請再次輸入新密碼</string>
+
+    <string name="title_pwd_not_match">兩次輸入的密碼不壹致</string>
+
+
+    <string name="title_replace_mail">綁定安全郵箱</string>
+    <string name="title_replace_mail_warning">綁定安全郵箱,需要驗證您的身份信息</string>
+
+    <string name="title_replace_iphone">綁定安全手機</string>
+    <string name="title_replace_iphone_warning">綁定安全郵箱,需要驗證您的身份信息</string>
+
+    <string name="tip_vail_type">驗證方式</string>
+    <string name="tip_accout_title">賬號安全</string>
+
+    <string name="tip_bind_vail_1">為了保護賬戶安全,需要驗證其有效性</string>
+    <string name="title_bind_new_iphone">綁定新的手機或者郵箱,需要驗證其有效性</string>
+    <string name="title_bind_new_mail">綁定新的郵箱,需要發送壹封郵件驗證有效性</string>
+    <string name="tip_bind_success_mail">系統已發送郵件至%s,請查看郵件激活郵件完成操作</string>
+
+    <string name="tip_kill_out">您的賬號登入過期或已在其他終端登錄,請重新登錄</string>
+
+
+    <!--軟件更新-->
+    <string name="update_title">版本更新</string>
+    <string name="update_downing">下載中...</string>
+    <string name="update_body">您當前的APP不是最新版，請確定升級到最新版。</string>
+    <string name="ecg_setting">ECG設置</string>
+
+</resources>

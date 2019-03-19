@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_default_bg"
-    tools:context="com.bisa.health.NickNameActivity" >
+    tools:context="com.bisa.health.UserNickNameActivity" >
 
 
     <RelativeLayout
@@ -57,6 +57,20 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true">
 
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="23dp"
+            android:layout_marginRight="60dp"
+            android:background="@null"
+            android:elevation="1dp"
+            android:hint="@string/hint_name"
+            android:inputType="text"
+            android:maxLength="20"
+            android:textCursorDrawable="@null"
+            android:textSize="12sp" />
+
         <RelativeLayout
             android:id="@+id/rl_clear"
             android:elevation="10dp"
@@ -75,18 +89,7 @@
 
         </RelativeLayout>
 
-        <EditText
-            android:elevation="1dp"
-            android:id="@+id/edit_name"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="23dp"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:textCursorDrawable="@null"
-            android:hint="@string/hint_name"
-            android:inputType="text"
-            android:maxLength="20"
-            android:textSize="12sp" />
+
 
     </RelativeLayout>
 

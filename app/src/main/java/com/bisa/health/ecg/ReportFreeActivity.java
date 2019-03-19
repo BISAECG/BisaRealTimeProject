@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebView;
 
 import com.bisa.health.AppManager;
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
 import com.bisa.health.cache.SharedPersistor;
+import com.bisa.health.cust.view.ProgressWebView;
 import com.bisa.health.ecg.dao.IReportDao;
 import com.bisa.health.ecg.dao.ReportDaoImpl;
 import com.bisa.health.ecg.model.AppReport;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class ReportFreeActivity extends BaseActivity {
 
     private static final String TAG = "ReportFreeActivity";
-    private WebView webView;
+    private ProgressWebView webView;
     private HealthServer healthServer;
     private SharedPersistor sharedObject;
     private String mCurServerURL;
@@ -58,7 +58,7 @@ public class ReportFreeActivity extends BaseActivity {
         mUser=sharedObject.loadObject(User.class.getName());
         healthServer=sharedObject.loadObject(HealthServer.class.getName());
         iappReportDao=new ReportDaoImpl(this);
-        webView = (WebView) findViewById(R.id.webView);
+        webView = findViewById(R.id.webView);
     }
 
     @Override

@@ -95,6 +95,7 @@ public class ActionBarView extends FrameLayout {
             @Override
             public void onClick(View view) {
                 if(listenerNext!=null){
+
                     listenerNext.onActionClick();
                 }
             }
@@ -118,6 +119,11 @@ public class ActionBarView extends FrameLayout {
 
         tvTitle.setText(title);
 
+    }
+
+    public  void setTvTitle(String title){
+        if(tvTitle!=null)
+            tvTitle.setText(title);
     }
 
 }

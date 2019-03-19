@@ -128,13 +128,18 @@ public class RunActivity extends Activity implements View.OnClickListener, Popup
             public void onResponse(Call call, Response response) throws IOException {
                 final String json = response.body().string();
                 if (response.code() == HttpFinal.CODE_200) {
-                    String serverVersion = json;
-                    if (!StringUtils.isEmpty(serverVersion)) {
-                        UpdateVersion uv = new UpdateVersion();
-                        uv.setAppVserion(version);
-                        uv.setServerVersion(Integer.parseInt(serverVersion));
-                        sharedPersistor.saveObject(uv);
+                    try {
+                        String serverVersion = json;
+                        if (!StringUtils.isEmpty(serverVersion)) {
+                            UpdateVersion uv = new UpdateVersion();
+                            uv.setAppVserion(version);
+                            uv.setServerVersion(Integer.parseInt(serverVersion));
+                            sharedPersistor.saveObject(uv);
+                        }
+                    }catch (Exception e){
+                        Log.i(TAG, "onResponse: "+e);
                     }
+
                 }
 
             }
@@ -176,7 +181,7 @@ public class RunActivity extends Activity implements View.OnClickListener, Popup
 
             Map<String, String> param = new HashMap<String, String>();
             param.put("version", hServer.getVersion());
-            param.put("lang", lang);
+            param.put("language", lang);
             Call call = restService.downServerList(param);
             call.enqueue(new Callback() {
                 @Override
@@ -184,7 +189,7 @@ public class RunActivity extends Activity implements View.OnClickListener, Popup
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d(TAG, "run: >>>>>>1");
+
                             if (mCountDownTimerUtils != null)
                                 mCountDownTimerUtils.cancel();
                             rl_loadmian.setVisibility(View.GONE);
@@ -196,22 +201,32 @@ public class RunActivity extends Activity implements View.OnClickListener, Popup
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
 
+                    final byte[] rServerByte = response.body().bytes();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d(TAG, "run: >>>>>>2");
+
                             if (mCountDownTimerUtils != null)
                                 mCountDownTimerUtils.cancel();
                             rl_loadmian.setVisibility(View.GONE);
                             btn_onerun.setVisibility(View.VISIBLE);
-                        }
-                    });
-                    if (response.code() == HttpFinal.SUCCESS) {
-                        byte[] rServerByte = response.body().bytes();
-                        hServer = gson.fromJson(new String(rServerByte, "UTF-8"), HServer.class);
-                        sharedPersistor.saveObject(hServer);
 
-                    }
+                            if (response.code() == HttpFinal.SUCCESS) {
+
+                                try {
+                                    hServer = gson.fromJson(new String(rServerByte, "UTF-8"), HServer.class);
+                                    if(hServer!=null){
+                                        sharedPersistor.saveObject(hServer);
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }
+
+                    });
+
 
 
                 }
@@ -228,7 +243,7 @@ public class RunActivity extends Activity implements View.OnClickListener, Popup
     @Override
     public void onClick(View v) {
         if (v == btn_onerun) {
-
+            hServer=sharedPersistor.loadObject(HServer.class.getName());
             mListType = hServer.getList();
             mBisaServerAdapter = new BisaServerAdapter(this);
             mBisaServerAdapter.setmObjects(mListType);

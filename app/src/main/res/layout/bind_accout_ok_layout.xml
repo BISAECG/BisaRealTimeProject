@@ -8,7 +8,7 @@
     <com.bisa.health.cust.view.ActionBarView
         app:isPre="true"
         app:preIco="@drawable/menu_back_bg"
-        app:title="@string/title_new_accout"
+        app:title="@string/tip_accout_title"
         android:id="@+id/abar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -37,8 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:textColor="@color/color_login_tip"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="16sp"/>
 
 
     </LinearLayout>
@@ -78,10 +77,10 @@
                 android:layout_marginLeft="17dp"
                 android:background="#fff"
                 android:gravity="fill"
-                android:hint="@string/title_input_mail"
+                android:hint="@string/title_hint_contact_email"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
-                android:maxLength="20"
+                android:maxLength="100"
                 android:nextFocusForward="@+id/tv_verify"
                 android:paddingLeft="20dp"
                 android:text=""

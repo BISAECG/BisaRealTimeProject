@@ -75,11 +75,12 @@
 
         </RelativeLayout>
 
-        <EditText
+                                                       <EditText
             android:elevation="1dp"
             android:id="@+id/edit_name"
             android:layout_width="match_parent"
             android:layout_marginLeft="23dp"
+            android:layout_marginRight="60dp"
             android:layout_height="match_parent"
             android:background="@null"
             android:textCursorDrawable="@null"

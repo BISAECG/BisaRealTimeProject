@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
-import android.webkit.WebView;
-import android.widget.TextView;
 
 import com.bisa.health.AppManager;
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
 import com.bisa.health.cache.SharedPersistor;
+import com.bisa.health.cust.view.ActionBarView;
+import com.bisa.health.cust.view.ProgressWebView;
 import com.bisa.health.ecg.dao.IReportDao;
 import com.bisa.health.ecg.dao.ReportDaoImpl;
 import com.bisa.health.ecg.model.AppReport;
@@ -34,7 +34,7 @@ import java.util.List;
 public class ReportShowActivity extends BaseActivity {
 
     private static final String TAG = "ReportShowActivity";
-    private WebView webView;
+    private ProgressWebView webView;
     private SharedPersistor sharedObject;
     private HealthServer mHealthServer;
     private User mUser;
@@ -58,15 +58,15 @@ public class ReportShowActivity extends BaseActivity {
         mUser=sharedObject.loadObject(User.class.getName());
         mHealthServer=sharedObject.loadObject(HealthServer.class.getName());
         iappReportDao=new ReportDaoImpl(this);
-        webView = (WebView) findViewById(R.id.webView);
+        webView =  findViewById(R.id.webView);
 
         action=getIntent().getStringExtra("action");
         type=getIntent().getIntExtra("type",0);
-        TextView titleTv= (TextView) this.getFragmentManager().findFragmentById(R.id.abar_title).getView().findViewById(R.id.tv_title);
+        ActionBarView actionBarView=findViewById(R.id.abar_title);
         if(type== ReportType.HOUR24.getValue()||type== ReportType.MINUTE.getValue()){
-            titleTv.setText(getResources().getString(R.string.title_head_report));
+            actionBarView.setTvTitle(getResources().getString(R.string.title_head_report));
         }else{
-            titleTv.setText(getResources().getString(R.string.title_head_xixin));
+            actionBarView.setTvTitle(getResources().getString(R.string.title_head_xixin));
         }
         year=getIntent().getIntExtra("year",0);
         month=getIntent().getIntExtra("month",0);
@@ -81,7 +81,6 @@ public class ReportShowActivity extends BaseActivity {
     //
 
     private void init(){
-        webView = (WebView) findViewById(R.id.webView);
         WebViewUtil.buildSetting(webView);
         webView.addJavascriptInterface(new CallAndroid(), "CallAndroid");
         //WebView加载web资源

@@ -34,6 +34,7 @@ import com.bisa.health.R;
 import com.bisa.health.ble.BleDefinedConnStatus;
 import com.bisa.health.ble.BleWrapper;
 import com.bisa.health.cache.SharedPersistor;
+import com.bisa.health.cust.view.ActionBarView;
 import com.bisa.health.cust.view.CustReportDialog;
 import com.bisa.health.cust.view.CustomDefaultDialog;
 import com.bisa.health.cust.view.CustomFreeReportDialog;
@@ -99,7 +100,6 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     private RelativeLayout btn_report_generate;
     private LinearLayout ibtn_stop;
     private RelativeLayout rl_timing;
-    private ImageButton ibtn_next;
 
     /**
      * 服务绑定
@@ -152,10 +152,11 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
 		Bar
 	 */
 
-    private ImageButton ibtn_back;
+
     private ImageView iv_signal;
     private ImageView iv_colud;
     private ImageView iv_battery;
+    private ActionBarView actionBarView;
 
     private RelativeLayout rl_unread;
     private TextView tv_unread;
@@ -168,26 +169,55 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ecg_activity);
         AppManager.getAppManager().addActivity(this);
+        ecgBuildHelp.analysisInit();
         sharedObject = new SharedPersistor(this);
         mUser = sharedObject.loadObject(User.class.getName());
         mHealthServer = sharedObject.loadObject(HealthServer.class.getName());
         mAppNotifiMsg=sharedObject.loadObject(AppNotifiMsg.class.getName());
         ecgConfig=sharedObject.loadObject(ECGConfig.class.getName());
-        ibtn_back = (ImageButton) this.findViewById(R.id.ibtn_back);
-        ibtn_back.setOnClickListener(this);
-        tv_title = (TextView) this.findViewById(R.id.tv_title);
-        iv_signal = (ImageView) this.findViewById(R.id.iv_signal);
-        iv_colud = (ImageView) this.findViewById(R.id.iv_colud);
-        iv_battery = (ImageView) this.findViewById(R.id.iv_battery);
-        ibtn_next=this.findViewById(R.id.ibtn_next);
-        ibtn_next.setOnClickListener(new OnClickListener() {
+        actionBarView = this.findViewById(R.id.abar_title);
+        actionBarView.setOnItemSelectListenerBack(new ActionBarView.OnActionClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onActionClick() {
+                Configuration mConfiguration = ECGActivity.this.getResources().getConfiguration();
+                if (mConfiguration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }else{
+                    LoadDiaLogUtil.getInstance().show(ECGActivity.this, false);
+                    if (iEcgService != null) {
+                        try {
+                            iEcgService.uiDeviceClose();
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Runnable delayRun = new Runnable() {
+                        @Override
+                        public void run() {
+                            LoadDiaLogUtil.getInstance().dismiss();
+                            ActivityUtil.finishAnim(ECGActivity.this, ActionEnum.BACK);
+                        }
+                    };
+                    mHandler.postDelayed(delayRun, 1000);
+                }
+
+            }
+        });
+
+        actionBarView.setOnActionClickListenerNext(new ActionBarView.OnActionClickListener() {
+            @Override
+            public void onActionClick() {
                 Intent mainIntent = new Intent(ECGActivity.this, ECGConfigAcitvity.class);
                 mainIntent.putExtra(ECGConfig.class.getName(), (Parcelable) ecgConfig);
                 startActivityForResult(mainIntent,FinalBisa.CALL_ECG_CODE);
             }
         });
+
+        tv_title = (TextView) this.findViewById(R.id.tv_title);
+        iv_signal = (ImageView) this.findViewById(R.id.iv_signal);
+        iv_colud = (ImageView) this.findViewById(R.id.iv_colud);
+        iv_battery = (ImageView) this.findViewById(R.id.iv_battery);
+
         rl_unread= (RelativeLayout) this.findViewById(R.id.rl_unread);
         tv_freetiming = (TextView) this.findViewById(R.id.tv_freetiming);
         ibtn_stop = (LinearLayout) this.findViewById(R.id.ibtn_stop);
@@ -238,6 +268,9 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
         markerBtn.setOnTouchListener(new OnDoubleClickListener(new OnDoubleClickListener.DoubleClickCallback() {
             @Override
             public void onDoubleClick(View v) {
+                if(ecgConfig.getManualAppAlarm()==0){
+                    return;
+                }
                 Log.i(TAG, "onDoubleClick: >>>");
                 v.setEnabled(false);
                 delayOnMarker();
@@ -390,6 +423,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
                     try {
                         iEcgService.uiRegisterCallBacks(mCallBack);
                         iEcgService.uiDeviceConnected(bleDevice.getMacadderss(), bleDevice.getDevnum());
+                        iEcgService.uiECGConfig(ecgConfig);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }
@@ -548,26 +582,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
 
     @Override
     public void onClick(View v) {
-        if (v == ibtn_back) {
-
-            LoadDiaLogUtil.getInstance().show(ECGActivity.this, false);
-            if (iEcgService != null) {
-                try {
-                    iEcgService.uiDeviceClose();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-            Runnable delayRun = new Runnable() {
-                @Override
-                public void run() {
-                    LoadDiaLogUtil.getInstance().dismiss();
-                    ActivityUtil.finishAnim(ECGActivity.this, ActionEnum.BACK);
-                }
-            };
-            mHandler.postDelayed(delayRun, 1000);
-
-        } else if (v == ibtn_stop) {
+         if (v == ibtn_stop) {
             mHandler.removeCallbacks(reportRunnable);
             if (curReport != ReportEnum.NULL) {
                 stopFreeReport(true);
@@ -587,22 +602,8 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
         @Override
         public void onClick(View v) {
 
-            if (v == markerBtn) {
-                v.setEnabled(false);
-                delayOnMarker();
-                if (iEcgService != null) {
-
-                    Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(
-                            ECGActivity.this, R.anim.loading_animation);
-
-                    markerBtn.setAnimation(hyperspaceJumpAnimation);
-                    try {
-                        iEcgService.uiNotifiMarker(true);
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } else if (v == btn_report_generate) {
+            Log.i(TAG, "onClick: "+ecgConfig);
+             if (v == btn_report_generate) {
                 custReportDialog.show();
             } else if (v == btn_report_show) {
                 ActivityUtil.startActivity(ECGActivity.this, ReportCalendarActivity.class, false, ActionEnum.NULL);
@@ -698,9 +699,11 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
         if(requestCode==FinalBisa.CALL_ECG_CODE){
             try {
                 ECGConfig config=data.getParcelableExtra(ECGConfig.class.getName());
-                Log.i(TAG, "onResult: "+config);
                 if(iEcgService!=null&&config!=null){
-                    iEcgService.uiECGConfig(config);
+                    ecgConfig=config;
+                    iEcgService.uiECGConfig(ecgConfig);
+                    sharedObject.saveObject(ecgConfig);
+                    Log.i(TAG, "onResult: "+config);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -801,7 +804,7 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
                 if (curReport != ReportEnum.NULL) {
                     showToast(getString(R.string.report_exists));
                 } else {
-                    showToast(getString(R.string.exit_click));
+                    showToast(getString(R.string.exit_click_item));
                 }
 
             }
@@ -903,7 +906,11 @@ public class ECGActivity extends BaseActivity implements View.OnClickListener, U
     @Override
     public void uiBpmCallBack(int val2, int val1, int val3) {
 
+
         ecgdataArrayV2 = ecgBuildHelp.heartRateAnalyzeint(val2);
+
+        Log.i(TAG, "uiBpmCallBack: "+ecgdataArrayV2[93]);
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

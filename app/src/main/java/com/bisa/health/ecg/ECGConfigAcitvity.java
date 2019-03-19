@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
+import com.bisa.health.cust.view.ActionBarView;
 import com.bisa.health.ecg.config.ECGConfig;
 import com.bisa.health.model.HServer;
 import com.bisa.health.model.HealthPath;
@@ -38,13 +40,27 @@ public class ECGConfigAcitvity extends BaseActivity implements CompoundButton.On
     private Switch autoSwitch;
     private Switch mappSwitch;
     private Switch mdeviceSwitch;
+    private ActionBarView actionBarView;
 
     @Override
     public synchronized void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.bisa.health.R.layout.ecgset_activity);
 
+        actionBarView=this.findViewById(R.id.abar_title);
+        actionBarView.setOnItemSelectListenerBack(new ActionBarView.OnActionClickListener() {
+            @Override
+            public void onActionClick() {
+                Intent intent = new Intent();
+                intent.putExtra(ECGConfig.class.getName(), (Parcelable) ecgConfig);
+                setResult(FinalBisa.CALL_ECG_CODE, intent);
+                finish();
+                Log.i(TAG, "onDestroy: ");
+            }
+        });
+
         ecgConfig=getIntent().getParcelableExtra(ECGConfig.class.getName());
+        Log.i(TAG, "onDestroy: "+ecgConfig);
 
         autoSwitch=(Switch)this.findViewById(R.id.sw_a);
         autoSwitch.setOnCheckedChangeListener(this);
@@ -62,15 +78,34 @@ public class ECGConfigAcitvity extends BaseActivity implements CompoundButton.On
     }
 
 
+    @Override
+    protected void onStop() {
+        super.onStop();
 
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Intent intent = new Intent();
+            intent.putExtra(ECGConfig.class.getName(), (Parcelable) ecgConfig);
+            setResult(FinalBisa.CALL_ECG_CODE, intent);
+            finish();
+            return true;
+        }
+
+        if (keyCode == KeyEvent.KEYCODE_HOME && event.getRepeatCount() == 0) {
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent();
-        intent.putExtra(ECGConfig.class.getName(), (Parcelable) ecgConfig);
-        this.setResult(FinalBisa.CALL_ECG_CODE, intent);
-        Log.i(TAG, "onDestroy: ");
+
     }
 
     @Override
@@ -83,7 +118,7 @@ public class ECGConfigAcitvity extends BaseActivity implements CompoundButton.On
           ecgConfig.setManualAppAlarm(isChecked?1:0);
       }else if(buttonView==mdeviceSwitch){
           Log.i(TAG, "onCheckedChanged: c");
-          ecgConfig.setManualDeviceAlarm(1);
+          ecgConfig.setManualDeviceAlarm(isChecked?1:0);
       }
 
     }

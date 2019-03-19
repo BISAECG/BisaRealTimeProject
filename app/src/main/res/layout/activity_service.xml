@@ -1,15 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bisa.health.ecg.ReportShowActivity">
+    android:orientation="horizontal"
+    tools:context="com.bisa.health.pay.BisaServiceActivity">
 
-    <com.bisa.health.cust.view.ProgressWebView
-        android:layout_below="@+id/abar_title"
-        android:id="@+id/webView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <com.bisa.health.cust.view.ProgressWebView
+            android:id="@+id/webView"
+            android:layout_marginBottom="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <RelativeLayout
+            android:background="#e0e0e0"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/report_daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pay_tip"/>
+
+            <TextView
+                android:id="@+id/tv_gopay"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/tv_title"
+                android:layout_marginTop="5dp"
+                android:textSize="18sp"
+                android:textColor="@color/report_daily"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

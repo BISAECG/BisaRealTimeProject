@@ -71,7 +71,7 @@
                 android:layout_height="21dp"
                 android:layout_marginTop="24dp"
                 android:textColor="@color/color_search_title"
-                android:background="@drawable/pair_tip"
+                android:background="@color/white"
                 android:text="@string/title_search_tip"
                 android:textSize="14sp"
                 />

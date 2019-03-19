@@ -54,8 +54,8 @@ public class ProgressWebView extends WebView {
             super.onReceivedTitle(view, title);
             // android 6.0 以下通过title获取
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                if (title.contains("404") || title.contains("500") || title.contains("Error")) {
-                    view.loadUrl(mErrorUrl);
+                if (title.contains("500") || title.contains("Error")) {
+                   view.loadUrl(mErrorUrl);
                 }
             }
         }
@@ -88,7 +88,7 @@ public class ProgressWebView extends WebView {
             // 这个方法在6.0才出现
             int statusCode = errorResponse.getStatusCode();
             System.out.println("onReceivedHttpError code = " + statusCode);
-            if (404 == statusCode || 500 == statusCode) {
+            if (500 == statusCode) {
                 view.loadUrl(mErrorUrl);
             }
         }

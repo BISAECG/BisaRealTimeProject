@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
@@ -27,11 +29,9 @@ import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
 import com.bisa.health.utils.ActivityUtil;
-import com.bisa.health.utils.FileIOKit;
 import com.bisa.health.utils.GetImagePathUtil;
 import com.bisa.health.utils.GsonUtil;
 import com.bisa.health.utils.LoadDiaLogUtil;
-import com.bisa.health.utils.MD5Help;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
@@ -54,9 +54,12 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
     public RelativeLayout rl_headimg;
     public RelativeLayout rl_name;
     public RelativeLayout rl_sex;
+
     public RelativeLayout rl_username;
+    public RelativeLayout rl_age;
 
     public TextView tv_name;
+    public TextView tv_age;
     public TextView tv_sex;
     public TextView tv_username;
 
@@ -66,9 +69,10 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
     private static final int REQUESTCODE_CUTTING = 2;    // 图片裁切标记
     private static final int SELECT_PIC_NOUGAT = 3;        // 相册选图标记
     private static final int IMAGE_REQUEST_CODE = 4;        // 相册选图标记
-    public static final int CALL_NAME_CODE = 10;        // 相册选图标记
-    public static final int CALL_USERNAME_CODE = 12;        // 相册选图标记
-    public static final int CALL_SEX_CODE = 11;        // 相册选图标记
+    public static final int CALL_NAME_CODE = 10;
+    public static final int CALL_USERNAME_CODE = 12;
+    public static final int CALL_SEX_CODE = 11;
+    public static final int CALL_AGE_CODE = 13;
     //需要保存的图片
     private SharedPersistor sharedPersistor;
     private User mUser;
@@ -79,7 +83,7 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
     private static final String TAG = "UserInfoActivity";
 
     File mCameraFile = new File(Environment.getExternalStorageDirectory(), "IMAGE_FILE_NAME.jpg");//照相机的File对象
-    File mCropFile = new File(Environment.getExternalStorageDirectory(), "PHOTO_FILE_NAME.jpg");//裁剪后的File对象
+    File mCropFile = null;
     File mGalleryFile = new File(Environment.getExternalStorageDirectory(), "IMAGE_GALLERY_NAME.jpg");//相册的File对象
 
 
@@ -104,15 +108,17 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
         rl_sex=this.findViewById(R.id.rl_sex);
         rl_sex.setOnClickListener(this);
 
+        rl_age=this.findViewById(R.id.rl_age);
+        rl_age.setOnClickListener(this);
 
-
+        tv_age=this.findViewById(R.id.tv_age);
         tv_sex=this.findViewById(R.id.tv_sex);
         tv_name=this.findViewById(R.id.tv_name);
         tv_username=this.findViewById(R.id.tv_username);
 
         rl_username=this.findViewById(R.id.rl_username);
         rl_username.setOnClickListener(this);
-        init();
+        getUserInfo();
     }
 
     @Override
@@ -213,20 +219,28 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                 startPhotoZoom(fileUri);
                 break;
             case REQUESTCODE_CUTTING:// 取得裁剪后的图片
-            case CALL_NAME_CODE:// 取得裁剪后的图片
-            case CALL_SEX_CODE:// 取得裁剪后的图片
+            case CALL_NAME_CODE:
+            case CALL_SEX_CODE:
+            case CALL_AGE_CODE:
                 if(data==null)return;
 
-                LoadDiaLogUtil.getInstance().show(UserInfoActivity.this, false);
+                showDialog(true);
                 Log.i(TAG, "onActivityResult: ");
                 MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
-                RequestBody bodyFile = RequestBody.create(MediaType.parse("image/*"), mCropFile);
-                requestBody.addFormDataPart("head_portrait", mCropFile.getName(), bodyFile);
+                if(mCropFile!=null) {
+                    RequestBody bodyFile = RequestBody.create(MediaType.parse("image/*"), mCropFile);
+                    requestBody.addFormDataPart("head_portrait", mCropFile.getName(), bodyFile);
+                }
+
+                String age=data.getStringExtra("age");
+
+                if(!StringUtils.isEmpty(age)){
+                    requestBody.addFormDataPart("age", ""+age);
+                }
 
                 String nickname=data.getStringExtra("nickname");
-
                 if(!StringUtils.isEmpty(nickname)){
-                    requestBody.addFormDataPart("name", nickname);
+                    requestBody.addFormDataPart("nickname", nickname);
                 }
 
                 int mSex=data.getIntExtra("sex",-1);
@@ -235,15 +249,13 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                     requestBody.addFormDataPart("sex", "" +sexType);
                 }
 
-                Log.i(TAG, "onActivityResult: >>>>>>>>>>>"+sexType);
-
                 mRestService.updateInfo(requestBody.build()).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                LoadDiaLogUtil.getInstance().dismiss();
+                                handler.sendEmptyMessage(USER_UP_FAIL);
                             }
                         });
                     }
@@ -252,26 +264,26 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                     public void onResponse(Call call, Response response) throws IOException {
                         final String json = response.body().string();
                         Log.i(TAG, "onResponse: "+json);
-                       runOnUiThread(new Runnable() {
 
-                           @Override
-                           public void run() {
+
                                LoadDiaLogUtil.getInstance().dismiss();
                                ResultData<User> result = GsonUtil.getInstance().parse(json,new TypeToken<ResultData<User>>(){}.getType());
                                if(result.getCode()==HttpFinal.CODE_200){
-                                   mUser=result.getData();
-                                   sharedPersistor.saveObject(mUser);
-                                   File outFile=new File(mHealthPath.getUser(),MD5Help.md5EnBit32(result.getData().getUri_pic())+".jpg");
-                                   if(!outFile.exists()) {
-                                       FileIOKit.copyFileToFile(mCropFile, outFile);
-                                   }
-                                   init();
+                                   Bundle data=new Bundle();
+                                   data.putSerializable(User.class.getName(),result.getData());
+                                   Message msg=new Message();
+                                   msg.setData(data);
+                                   msg.what=USER_UP_SUCCESS;
+                                   handler.sendMessage(msg);
 
                                }else{
-                                   showToast(result.getMessage());
+
+                                   Message msg=new Message();
+                                   msg.obj=result.getMessage();
+                                   msg.what=USER_UP_FAIL;
+                                   handler.sendEmptyMessage(USER_UP_FAIL);
                                }
-                           }
-                       });
+
                     }
                 });
                 break;
@@ -280,7 +292,9 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                 if(data==null)return;
                 String username=data.getStringExtra("username");
                 if(!StringUtils.isEmpty(username)){
-                    tv_username.setText(username);
+                    mUser.setUsername(username);
+                    tv_username.setText(mUser.getUsername());
+
                 }
                 break;
 
@@ -298,6 +312,7 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
             Log.e("error","The uri is not exist.");
             return;
         }
+        mCropFile=new File(Environment.getExternalStorageDirectory(), "PHOTO_FILE_NAME.jpg");//裁剪后的File对象
         Intent intent = new Intent("com.android.camera.action.CROP");
         //sdk>=24
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -332,7 +347,7 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
 
 
     private void init() {
-        Log.i(TAG, "init: "+(img_avatar==null));
+        Log.i(TAG, "init: "+mUser);
         synchronized (this){
             if (!StringUtils.isEmpty(mUser.getUri_pic())) {
                 img_avatar.setImageURI(mUser.getUri_pic(),mHealthPath);
@@ -345,6 +360,12 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                 tv_name.setText(mUser.getNickname());
             }else{
                 tv_name.setText(R.string.hint_set);
+            }
+
+            if(mUser.getAge()!=0){
+                tv_age.setText(""+mUser.getAge());
+            }else{
+                tv_age.setText(R.string.hint_set);
             }
 
             if(!StringUtils.isEmpty(mUser.getUsername())){
@@ -373,19 +394,80 @@ public class UserInfoActivity extends BaseActivity  implements  OnClickListener{
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
         }else if(v==rl_name){
-            Intent mainIntent = new Intent(this, NickNameActivity.class);
-            mainIntent.putExtra("niackname",mUser.getNickname());
+            Intent mainIntent = new Intent(this, UserNickNameActivity.class);
+            mainIntent.putExtra("nickname",mUser.getNickname());
             ActivityUtil.startActivityResult(mainIntent,CALL_NAME_CODE,this,ActionEnum.NEXT);
         }else if(v==rl_sex){
             Intent mainIntent = new Intent(this, UserSexActivity.class);
             mainIntent.putExtra("sex",mUser.getSex()==null?0:mUser.getSex().getValue());
             ActivityUtil.startActivityResult(mainIntent,CALL_SEX_CODE,this,ActionEnum.NEXT);
-        }else if(v==rl_username){
+        }else if(v==rl_username&&mUser.getVerified()==0){
             Intent mainIntent = new Intent(this, UserNameActivity.class);
             mainIntent.putExtra("username",mUser.getUsername());
             ActivityUtil.startActivityResult(mainIntent,CALL_USERNAME_CODE,this,ActionEnum.NEXT);
+        }else if(v==rl_age){
+            Intent mainIntent = new Intent(this, UserAgeActivity.class);
+            mainIntent.putExtra("age",""+mUser.getAge());
+            Log.i(TAG, "onClick: "+mUser.getAge());
+            ActivityUtil.startActivityResult(mainIntent,CALL_AGE_CODE,this,ActionEnum.NEXT);
         }
 
 
     }
+
+    protected void getUserInfo(){
+        showDialog(true);
+        Call call=mRestService.getUserInfo();
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                handler.sendEmptyMessage(USER_UP_FAIL);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String json = response.body().string();
+                Log.i(TAG, "onResponse: "+json);
+                ResultData<User> result = GsonUtil.getInstance().parse(json,new TypeToken<ResultData<User>>(){}.getType());
+                if(result.getCode()==HttpFinal.CODE_200){
+
+                    Bundle data=new Bundle();
+                    data.putSerializable(User.class.getName(),result.getData());
+                    Message msg=new Message();
+                    msg.setData(data);
+                    msg.what=USER_UP_SUCCESS;
+                    handler.sendMessage(msg);
+
+                }else{
+
+                    Message msg=new Message();
+                    msg.obj=result.getMessage();
+                    msg.what=USER_UP_FAIL;
+                    handler.sendEmptyMessage(USER_UP_FAIL);
+                }
+            }
+        });
+    }
+
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            dialogDismiss();
+
+            switch (msg.what){
+                case USER_UP_SUCCESS:
+                    mUser=(User)msg.getData().getSerializable(User.class.getName());
+                    sharedPersistor.saveObject(mUser);
+                    init();
+                    break;
+                case USER_UP_FAIL:
+                    break;
+            }
+
+        }
+    };
+
+    final  int USER_UP_SUCCESS=1;
+    final  int USER_UP_FAIL=0;
+
 }

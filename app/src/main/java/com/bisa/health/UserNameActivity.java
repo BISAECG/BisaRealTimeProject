@@ -13,11 +13,24 @@ import android.widget.TextView;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.model.HealthPath;
 import com.bisa.health.model.HealthServer;
+import com.bisa.health.model.ResultData;
 import com.bisa.health.model.User;
 import com.bisa.health.model.enumerate.ActionEnum;
+import com.bisa.health.rest.HttpFinal;
 import com.bisa.health.rest.service.IRestService;
 import com.bisa.health.rest.service.RestServiceImpl;
 import com.bisa.health.utils.ActivityUtil;
+import com.bisa.health.utils.GsonUtil;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Response;
 
 
 public class UserNameActivity extends BaseActivity  implements  OnClickListener{
@@ -80,11 +93,60 @@ public class UserNameActivity extends BaseActivity  implements  OnClickListener{
         if(v==backCall){
            ActivityUtil.finishAnim(this,ActionEnum.BACK);
         }else if(v==tv_seuucess){
-            Intent intent = new Intent();
-            intent.putExtra("username", edit_name.getText().toString().trim());
-            Log.i(TAG, "onClick: "+edit_name.getText().toString().trim());
-            this.setResult(UserInfoActivity.CALL_USERNAME_CODE, intent);
-            finish();
+
+            String username= edit_name.getText().toString().trim();
+
+            if(!StringUtils.isEmpty(username)){
+
+                showDialog(false);
+                FormBody body = new FormBody.Builder()
+                        .add("username", username)
+                        .build();
+
+                Call call=mRestService.updateUsername(body);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialogDismiss();
+                                showToast(getResources().getString(R.string.server_error));
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        final String json = response.body().string();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialogDismiss();
+                                ResultData<User> result = GsonUtil.getInstance().parse(json,new TypeToken<ResultData<User>>(){}.getType());
+                                if(result==null){
+                                    return;
+                                }
+                                if(result.getCode() == HttpFinal.CODE_200){
+                                    sharedPersistor.saveObject(result.getData());
+
+                                    Intent intent = new Intent();
+                                    intent.putExtra("username", edit_name.getText().toString().trim());
+                                    Log.i(TAG, "onClick: "+edit_name.getText().toString().trim());
+                                    UserNameActivity.this.setResult(UserInfoActivity.CALL_USERNAME_CODE, intent);
+                                    finish();
+                                }else{
+                                    showToast(result.getMessage());
+                                }
+
+
+                            }
+                        });
+                    }
+                });
+            }
+
         }else if(v==rl_clear){
             edit_name.setText("");
         }

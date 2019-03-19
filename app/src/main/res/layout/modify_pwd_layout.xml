@@ -9,7 +9,7 @@
     <com.bisa.health.cust.view.ActionBarView
         app:isPre="true"
         app:preIco="@drawable/menu_back_bg"
-        app:title="@string/bind_modify_pwd"
+        app:title="@string/tip_accout_title"
         android:id="@+id/abar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -164,13 +164,14 @@
             android:background="@drawable/login_btn" />
 
         <TextView
+
             android:layout_marginTop="14dp"
             android:layout_below="@+id/btn_login"
             android:textSize="14sp"
             android:layout_gravity="center"
             android:textColor="@color/color_bpmcounttext"
-            android:text="@string/title_pwd_offset"
-            android:layout_width="wrap_content"
+            android:text="@string/login_hint_comfig_pwd"
+            android:layout_width="200dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

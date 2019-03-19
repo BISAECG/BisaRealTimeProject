@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
 
 import com.bisa.health.R;
@@ -47,7 +46,7 @@ public class CustomFreeReportDialog extends Dialog  {
     public static class Builder {
         private Context context;
         private AppReport mReport;
-        private WebView webView;
+        private ProgressWebView webView;
         private User mUser;
         private HealthServer mHealthServer;
         private String postDate;
@@ -70,7 +69,7 @@ public class CustomFreeReportDialog extends Dialog  {
             // instantiate the dialog with the custom Theme
             final CustomFreeReportDialog dialog = new CustomFreeReportDialog(context,R.style.Dialog);
             View view = inflater.inflate(R.layout.dialog_free_report, null);
-            webView= (WebView) view.findViewById(R.id.webview);
+            webView= view.findViewById(R.id.webview);
             webView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT));
             WebViewUtil.buildSetting(webView);
             webView.addJavascriptInterface(new CallAndroid(), "CallAndroid");
@@ -78,6 +77,7 @@ public class CustomFreeReportDialog extends Dialog  {
             String country = Locale.getDefault().getCountry();
             String lang = lan + "_" + country;
             url=mHealthServer.getDomain()+"/mi/call/h5/free?lang="+lang;
+            //url="http://192.168.1.3/health-app/mi/call/h5/free?lang="+lang;
             Log.i(TAG, "init:"+url);
 
             File ecdFile=new File(mReport.getEcgdat());

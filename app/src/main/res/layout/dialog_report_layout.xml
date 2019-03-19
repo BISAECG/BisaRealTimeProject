@@ -183,6 +183,16 @@
           android:textSize="12sp" />
 
 
+        <TextView
+            android:id="@+id/tv_daily_chlid_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="245dp"
+            android:text="@string/title_fee"
+            android:textColor="@color/color_main_deldev"
+            android:textSize="14sp" />
+
       <ImageView
           android:id="@+id/iv_all_opt"
           android:layout_width="9dp"

@@ -25,11 +25,10 @@
 
                 <TextView
                     android:id="@+id/tv_areacode"
-                    android:layout_width="wrap_content"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:background="#fff"
                     android:gravity="center_vertical"
-                    android:hint="@string/default_area_code"
                     android:maxLength="20"
                     android:textSize="16sp" />
 
@@ -40,7 +39,6 @@
                     android:background="@drawable/down_arrow" />
 
             </LinearLayout>
-
 
             <View
                 android:layout_width="1dp"
@@ -65,7 +63,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:gravity="fill"
-            android:hint="@string/title_input_iphone"
+            android:hint="@string/title_hint_contact_num"
             android:inputType="phone"
             android:maxLength="20"
             android:textSize="16sp">

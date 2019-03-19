@@ -62,7 +62,7 @@
                     android:id="@+id/txt_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_my_device"
+                    android:text="@string/title_user_info"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -139,10 +139,10 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="12dp"
                                 android:layout_toRightOf="@+id/img_wechat_logo"
-                                android:text="@string/titl_report_show"
+                                android:text="@string/titl_my_report"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                tools:text="@string/titl_report_show" />
+                                tools:text="@string/titl_my_report" />
 
                             <ImageView
                                 android:layout_width="7dp"
@@ -352,10 +352,60 @@
                         </RelativeLayout>
 
                         <View
-                            android:id="@+id/view_exit"
+                            android:id="@+id/view_version"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_below="@+id/rl_bind_access"
+                            android:layout_centerHorizontal="true"
+                            android:background="@color/color_bar_bg" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl_version"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@+id/view_version"
+                            android:background="@color/white"
+                            android:tag="com.bisa.health.RootActivity">
+
+
+                            <ImageView
+                                android:id="@+id/img_version"
+                                android:layout_width="16dp"
+                                android:layout_height="15dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="24dp"
+                                android:src="@drawable/version_ico" />
+
+                            <TextView
+                                android:id="@+id/txt_version"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="12dp"
+                                android:layout_toRightOf="@+id/img_version"
+                                android:text="@string/version_title"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tv_version"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="24dp"
+                                android:textColor="@color/color_centre_device"
+                                tools:text="v12.30.1"/>
+                        </RelativeLayout>
+
+
+                        <View
+                            android:id="@+id/view_exit"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@+id/rl_version"
                             android:layout_centerHorizontal="true"
                             android:background="@color/color_bar_bg" />
 
@@ -392,6 +442,8 @@
 
 
                         </RelativeLayout>
+
+
 
 
                     </RelativeLayout>

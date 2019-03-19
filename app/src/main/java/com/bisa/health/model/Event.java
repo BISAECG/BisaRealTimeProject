@@ -77,4 +77,15 @@ public class Event implements Serializable{
         this.event_mail = event_mail;
     }
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", user_guid=" + user_guid +
+                ", event_type=" + event_type +
+                ", event_name='" + event_name + '\'' +
+                ", event_num='" + event_num + '\'' +
+                ", event_mail='" + event_mail + '\'' +
+                '}';
+    }
 }

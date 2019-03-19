@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bisa.health.BaseFragment;
+import com.bisa.health.BisaAskMeActivity;
+import com.bisa.health.BuildConfig;
 import com.bisa.health.MainActivity;
 import com.bisa.health.R;
 import com.bisa.health.UserInfoActivity;
@@ -46,6 +48,7 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
     private SharedPersistor sharedPersistor;
     private CircleImageView img_avatar;
     private TextView txt_dev_address;
+    private TextView tv_version;
     private RelativeLayout rl_nav_title;
     private User mUser;
     private IRestService mRestService;
@@ -70,8 +73,6 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
         mHealthServer = sharedPersistor.loadObject(HealthServer.class.getName());
         mRestService = new RestServiceImpl(context, mHealthServer);
         mUser = sharedPersistor.loadObject(User.class.getName());
-        this.getLoaderManager().initLoader(0, null, this);
-
         if(getActivity() instanceof MainActivity){
             self = (MainActivity) getActivity();
         }
@@ -90,6 +91,7 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
+        this.getLoaderManager().initLoader(0, null, this);
         init();
     }
 
@@ -102,6 +104,7 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
         rl_nav_title.setOnClickListener(this);
         txt_dev_address = (TextView) view.findViewById(R.id.txt_dev_address);
         img_avatar = (CircleImageView) view.findViewById(R.id.img_avatar);
+        tv_version=view.findViewById(R.id.tv_version);
 
         rl_sos = (RelativeLayout) view.findViewById(R.id.rl_sos);
         rl_sos.setOnClickListener(this);
@@ -121,7 +124,8 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
         rl_exit = (RelativeLayout) view.findViewById(R.id.rl_exit);
         rl_exit.setOnClickListener(this);
 
-
+        String versionName=BuildConfig.VERSION_NAME;
+        tv_version.setText("v"+versionName);
         return view;
     }
 
@@ -134,7 +138,7 @@ public class UserCenterFragment extends BaseFragment implements View.OnClickList
         } else if (v == rl_show_service) {
             ActivityUtil.startActivity(getActivity(), BisaServiceActivity.class, false, ActionEnum.NULL);
         } else if (v == rl_callme) {
-            showToast(getString(R.string.title_not_erect));
+            ActivityUtil.startActivity(getActivity(), BisaAskMeActivity.class, false, ActionEnum.NULL);
         } else if (v == rl_exit) {
 
 

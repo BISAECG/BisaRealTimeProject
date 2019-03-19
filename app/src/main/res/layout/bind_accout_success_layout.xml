@@ -9,7 +9,7 @@ tools:context="com.bisa.health.BindAccessSuccessActivity">
     <com.bisa.health.cust.view.ActionBarView
         app:isPre="true"
         app:preIco="@drawable/menu_back_bg"
-        app:title="@string/login_title_forgetpwd"
+        app:title="@string/tip_accout_title"
         android:id="@+id/abar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

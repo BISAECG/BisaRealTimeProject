@@ -104,13 +104,13 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
 
         if(userBindDto.getBindType().equals(VerifyTypeEnum.PHONE.name())){
             ll_vcode.setVisibility(View.VISIBLE);
-            tv_iphone.setHint(getString(R.string.title_input_iphone));
+            tv_iphone.setHint(getString(R.string.title_hint_contact_num));
             tv_tip_1.setText(getString(R.string.title_bind_new_iphone));
             fl_iphone.setVisibility(View.VISIBLE);
             ll_mail.setVisibility(View.GONE);
         }else if(userBindDto.getBindType().equals(VerifyTypeEnum.EMAIL.name())){
             ll_vcode.setVisibility(View.GONE);
-           tv_mail.setHint(getString(R.string.title_input_mail));
+           tv_mail.setHint(getString(R.string.title_hint_contact_email));
             tv_tip_1.setText(getString(R.string.title_bind_new_mail));
             fl_iphone.setVisibility(View.GONE);
             ll_mail.setVisibility(View.VISIBLE);
@@ -143,7 +143,7 @@ public class BindAccessOkActivity extends BaseActivity implements View.OnClickLi
                 }else if(StringUtils.isEmpty(code)){
                     showToast(getString(R.string.dialog_tip_error_code));
                 }else{
-                    Log.d(TAG, "onClick: >>>"+userBindDto.getBindType());
+
                     synchronized (this) {
                         showDialog(false);
                         FormBody body = new FormBody.Builder()

@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="version_title">Version</string>
+    <string name="app_name">XixinHealth</string>
+    <string name="app_name_run">XixinHealth is runing</string>
+    <string name="app_xixin1">Healthy life<font color='#F0607B'> Xixin </font>care</string>
+    <string name="app_xixin2">Anytime,anywhere</string>
+    <string name="app_load">Loading(%ss)</string>
+    <string name="app_btn_text">Select region</string>
+    <string name="app_switch_county">Select region</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_ecg">Real-time ECG</string>
+    <string name="title_main_mydev">Device</string>
+    <string name="title_ecg_bpmcount">Heart Count</string>
+    <string name="title_menu_adddev">Add Device</string>
+    <string name="title_product_num">Device Number</string>
+    <string name="title_hint">Please select</string>
+    <string name="title_main_all_select">Select all</string>
+    <string name="login_hint_iphone">Phone number</string>
+    <string name="login_hint_sms_verify">PIN</string>
+    <string name="login_hint_comfig_pwd">Passwords consist of 8&#8211;12&#8211;bit numbers and numbers</string>
+    <string name="login_hint_pwd">Password</string>
+    <string name="login_title_forgetpwd">Forget password</string>
+    <string name="login_title_logintype">Or you can sign in with</string>
+
+    <string name="title_login">Login</string>
+    <string name="activity_title_login">Account login</string>
+    <string name="activity_title_usercentre">Settings</string>
+    <string name="default_area_code">Region</string>
+    <string name="title_camera">Camera</string>
+    <string name="title_album">Select photo</string>
+    <string name="permission_title">Please click submit to allow it to run</string>
+    <string name="commit_submit">Submit</string>
+    <string name="commit_yes">Yes</string>
+    <string name="commit_del">Are you sure delete?</string>
+    <string name="title_del_device">Delete Device</string>
+    <string name="cancel_no">No</string>
+    <string name="cancel_cancel">Cancel</string>
+    <string name="setting">Settings</string>
+    <string name="opensetting">Go open</string>
+    <string name="permission_setting">Open permissions in Settings-Apps-XixinHealth-Permissions</string>
+    <string name="open_permission">Permission request</string>
+    <string name="ble_close_title">Bluetooth disconnected</string>
+    <string name="app_exit_tip">Please select operation</string>
+    <string name="ble_connint">Connecting....</string>
+    <string name="pls_wait">Please waiting....</string>
+
+
+    <string name="network_error">Network connection failed</string>
+    <string name="server_error">Network exception,please try again</string>
+    <string name="contact_error">Only three contacts can be added</string>
+    <string name="title_my_device">Device</string>
+    <string name="title_error_deldeivce">Device is connected,please exit first</string>
+    <string name="title_all_device">%s device added</string>
+    <string name="title_tip_send_status">[%s]</string>
+    <string name="title_error">App error</string>
+    <string name="title_sys_not_support">You phone not support bluetooth4.0</string>
+    <string name="title_error_try">App error,please try again</string>
+    <string name="title_error_flush">File damage,please restart app</string>
+    <string name="title_tip_deufalt">Tip info status bar</string>
+    <string name="title_ble_conn">Connected</string>
+    <string name="title_ble_unconn">Unconnected</string>
+    <string name="title_exit">Exit</string>
+
+    <!--报告类型-->
+    <string name="title_not_erect">Not open</string>
+    <string name="title_free">Free </string>
+    <string name="title_fee">Fee</string>
+    <string name="title_unit_zero">0</string>
+
+    <string name="title_unit_hour">h</string>
+    <string name="title_unit_minute">m</string>
+    <string name="title_unit_second">s</string>
+
+    <string name="title_monitoring_report">You have data being uploaded,please wait.</string>
+    <string name="report_400">You have unfinished Report.please wait.</string>
+    <string name="report_205">Report creation complete.please wait data to uploaded.</string>
+    <string name="report_not_ble">Device not connected,please try again</string>
+    <string name="title_monitoring_end">Please click on my report to view</string>
+
+    <string name="title_pls_report_type">Please select report type</string>
+    <string name="title_start_report">Go to start</string>
+
+    <string name="title_helath_daily_report">AI ECG Report</string>
+    <string name="title_helath_child_daily_report">15-minute for quick monitoring</string>
+    <string name="title_helath_daily_report_color">Xixin<font color='#579ADF'> AI </font>ECG Report</string>
+    <string name="title_helath_child_daily_content">\u3000\u3000The free report is based on the <font color='#579ADF'>15-minutes</font> ECG monitoring, data were collected by the Personal ECG device, and report was statistically analyzed.</string>
+    <string name="title_helath_child_daily_desc">Tips:\nPlease keep the ECG and Bluetooth connection when monitoring.</string>
+
+
+
+    <string name="title_helath_all_report">Manual Audit Report</string>
+    <string name="title_helath_child_all_report">24-hour full monitoring</string>
+    <string name="title_helath_all_report_color">Xixin<font color='#08B39B'> Manual Audit </font>Report</string>
+    <string name="title_helath_child_all_content">\u3000\u3000The manual report is based on the <font color='#579ADF'>24-hours</font> Personal ECG monitoring, data were collected by Personal ECG device, and report was statistically analyzed.</string>
+    <string name="title_helath_child_all_desc">Tips:\nAfter the monitoring is finished,the OTG data is uploaded.</string>
+
+
+    <!-- 报告显示页面-->
+    <string name="title_head_report">Report List</string>
+    <string name="title_head_xixin">Xixin Record</string>
+    <!--个人中心-->
+    <string name="title_contact_me">Customer Service</string>
+    <string name="title_sos_contact_user">Emergency Contact</string>
+    <string name="title_show_service">My Service</string>
+    <string name="title_bind_access">Account</string>
+    <string name="title_exit_app">Log Out</string>
+    <!--个人资料-->
+    <string name="s_avatar">Portrait</string>
+    <string name="s_name">Nickname</string>
+    <string name="s_username">Username</string>
+    <string name="s_sex">Sex</string>
+    <string name="s_age">Age</string>
+    <string name="s_opt_age">Age</string>
+    <string name="s_sex_male">Male</string>
+    <string name="s_sex_female">Female</string>
+    <string name="hint_set">Please input</string>
+    <string name="s_success">Save</string>
+    <string name="s_opt_name">Nickname</string>
+    <string name="s_opt_username">Username</string>
+    <string name="s_opt_sex">Sex</string>
+    <string name="hint_age">Please input age</string>
+    <string name="hint_name">Please input nickname</string>
+    <string name="hint_username">Please modify username（Only one change allowed）</string>
+    <!-- 引导-->
+    <string name="tip_add">Click on "+" to start add device</string>
+    <string name="tip_product">Click the type of device you want to add</string>
+    <string name="tip_iknown">Yes,I know</string>
+    <string name="tip_ecg_1">①Click the start scan button</string>
+    <string name="tip_ecg_2">②Display the device number after scanning</string>
+    <string name="tip_ecg_3">③Click the save device button to complete the add</string>
+    <string name="tip_next">Next</string>
+    <!--添加联系人界面-->
+    <string name="title_hint_dufault_country">China(86)</string>
+    <string name="title_hint_contact_name">Please input nickname</string>
+    <string name="title_hint_contact_num">Please input phone number</string>
+    <string name="title_hint_contact_email">Please input email</string>
+    <!--免费报告-->
+    <string name="free_report_error">Your data can\'t be analyzed.</string>
+    <string name="free_report_normal">Your heart rate is normal.Please keep itup.</string>
+
+    <string name="free_report_last_a" formatted="false">Your bradycardia is between 2% and 10%, please pay attention to your health.</string>
+    <string name="free_report_last_b" formatted="false">Your bradycardia than 10%, we suggest you go to the hospital.</string>
+
+    <string name="free_report_fast_a" formatted="false">Your tachycardia is between 2% and 10%,please pay attention to your health.</string>
+    <string name="free_report_fast_b" formatted="false">Your tachycardia than 10%, we suggest you go to the hospital.</string>
+
+    <!--24小时报告-->
+    <string name="report_select_data">Select Data</string>
+    <string name="report_title_24">Paid Report</string>
+    <string name="ecd_file_order_asc">Sort&#9660;</string>
+    <string name="ecd_file_order_desc">Sort&#9650;</string>
+    <string name="report_content">Paid Report：Please select a data generation report</string>
+
+
+    <!--产品列表-->
+    <string name="xixin_ecg">PECG</string>
+    <string name="xixin_camera">Xixin Camera</string>
+
+    <string name="title_tip_contact">You don\'t have an emergency contact</string>
+
+    <!--exit -->
+    <string name="exit_click_item">Please click again and exit</string>
+    <string name="exit_click">Please click again and exit app</string>
+    <string name="title_del">Delete</string>
+
+    <string name="tab_page_device">Device</string>
+    <string name="tab_page_user">Settings</string>
+
+    <string name="title_pair_device">Start scan</string>
+    <string name="title_pair_device_commit">Save device</string>
+    <string name="title_device_conn_try">Reconnect</string>
+    <string name="tip_click_find_device">Click start scan button to scan device</string>
+
+    <string name="title_search_tip">Please approach the device to scan</string>
+
+
+    <string name="commit_commit_pas">Submit password</string>
+
+    <string name="dialog_tip_error_name">Name cannot be blank</string>
+
+    <string name="dialog_tip_error_area">Area cannot be blank</string>
+    <string name="dialog_tip_error_phone">Phone cannot be blank</string>
+    <string name="dialog_tip_error_mail">Email cannot be blank</string>
+    <string name="dialog_tip_error_code">PIN incorrect</string>
+
+    <string name="dialog_tip_error_notpassword">Password cannot be blank</string>
+    <string name="dialog_tip_error_username">Username cannot be blank</string>
+
+    <string name="tip_login_run">Login</string>
+
+    <string name="tip_restart_code">\u3000\u3000PIN SMS</string>
+    <string name="tip_sms_code">\u3000\u3000PIN SMS</string>
+    <string name="tip_code">PIN</string>
+    <string name="tip_input_code">PIN</string>
+
+    <string name="title_reoirt_now">STOP</string>
+    <string name="titl_report_create">New Report</string>
+    <string name="titl_my_report">My Report</string>
+    <string name="titl_my_report_calendar">Calendar</string>
+
+    <string name="msg_success_opt">Successful operation</string>
+    <string name="msg_not_contacts">No contact</string>
+    <string name="msg_data">No data</string>
+    <string name="report_exists">You  report is being generated.are you sure exit?</string>
+
+    <!--服务-->
+    <string name="server_24">Paid report service</string>
+    <string name="server_healthing">Xixin service</string>
+    <string name="tip_not_login">You\'re not login</string>
+    <string name="tip_login_regeidt">Register</string>
+    <string name="tip_login_regeidt_success">Register Success</string>
+    <string name="tip_user_not_regeidt">User not registered</string>
+    <string name="login_title_sms_pwd">Go login </string>
+    <string name="login_title_iphone_pwd">Account name</string>
+    <string name="login_title_pwd">Account login</string>
+    <string name="login_sms_pwd">Phone login</string>
+    <string name="title_getpwd_tip">*Please use phone or email to verify</string>
+    <string name="title_getpwd_type">Verify the type</string>
+    <string name="title_getpwd_iphone_type">Phone number</string>
+    <string name="title_getpwd_mail_type">Email address</string>
+    <string name="title_forgetpwd_auth">Account verification</string>
+    <string name="title_back_login">Go login</string>
+    <string name="dialog_wx_notinstall">Wechat client not installed</string>
+    <string name="title_user_info">Profile</string>
+    <string name="title_is_restart_user">Are you sure log out?</string>
+    <string name="title_getpwd_mail">Please use the mailbox %s to get the PIN</string>
+    <string name="title_getpwd_iphone">Please use the phone %s to get the PIN</string>
+
+    <string name="tip_forget_iphone_ok">The password has been sent to phone</string>
+    <string name="tip_forget_mail_ok">The password has been sent to mail</string>
+
+
+    <string name="tip_otg_report">Are you sure?</string>
+    <string name="tip_otg_filename_error">File name format not correct</string>
+    <string name="tip_otg_not_file">Please check the data</string>
+    <string name="tip_otg_conn">Please click OK to connect the device.</string>
+    <string name="tip_otg_read_error">Read data exception, disconnect device and reconnect</string>
+    <string name="msg_not_service">You did not buy the service.</string>
+    <string name="tip_otg_isupload">Do you want to upload data repeatedly?</string>
+    <!--Free Report-->
+    <string name="freereport_file_exists">Does the data file not exist or have been deleted?</string>
+    <string name="feereport_down_error">Download error,please try again?</string>
+    <string name="feereport_down_title">Download Progress</string>
+    <string name="freereport_title">AI ECG Report</string>
+    <string name="freereport_stop">Are you sure end the report?</string>
+
+    <!--SETING-->
+    <!--ALARM-->
+    <string name="auto_alarm">Automatic Alarm</string>
+    <string name="auto_alarm_desc">Monitor cardiac arrest and sound the alarm</string>
+    <string name="manua_app_alarm">App Manual Alarm</string>
+    <string name="manua_appalarm_desc">Turn on or off the app alarm</string>
+    <string name="manua_device_alarm">Device Manual Alarm</string>
+    <string name="manua_devicealarm_desc">Turn on or off the device alarm</string>
+
+    <!--OTG-->
+
+    <string name="otg_conn_title">OTG Connection Tips</string>
+    <string name="otg_conn_warnning">Tips:Insert device 20 seconds can not detect device please reinsert device</string>
+    <string name="otg_device_notfile">Device has no data</string>
+    <string name="otg_conn_device_fail">Device initialization failed,please try again</string>
+    <string name="otg_conn_yes">Connect now</string>
+    <string name="otg_conn_update">Data Upload Progress</string>
+    <string name="otg_conn_update_tip">Uploading data,do not operate</string>
+    <string name="otg_conn_update_error_tip">Uploading data error,please try again</string>
+
+    <string name="otg_conn_package">Data Packing Progress</string>
+    <string name="otg_conn_package_tip">Packing data.do not operate</string>
+    <string name="otg_conn_package_error_tip">Package data error,please try again</string>
+
+
+    <string name="otg_conn_title_d">&#8727;&#8201;Please read the above items carefully</string>
+
+    <string name="otg_conn_title_a">&#8727;&#8201;Please make sure your phone supports OTG.</string>
+    <string name="otg_setting">Open OTG</string>
+    <string name="otg_conn_title_b">&#8727;&#8201;Formatting devices is strictly prohibited.</string>
+    <string name="otg_format_tip">There is a formatting prompt,please cancel.</string>
+    <string name="otg_conn_title_c">&#8727;&#8201;Device files are not allowed to be changed.</string>
+    <string name="otg_deldat_tip">Do not modify device files</string>
+    <string name="otg_conn_commit_s">Yes,I know(%ss)</string>
+    <string name="other_bind_area_iphone">Area or phone number cannot be blank</string>
+    <string name="otg_upload_seccess">Has been uploaded,please pay attention to SMS notice</string>
+
+
+    <!--我的服务-->
+    <string name="pay_tip">Please go to the website to buy:</string>
+    <string name="go_pay">Buy Service</string>
+    <!--bind Accout-->
+    <string name="bind_iphone_title">Phone number</string>
+    <string name="bind_mail_title">Email address</string>
+    <string name="bind_pwd_title">Password</string>
+    <string name="bind_isnot">Registered</string>
+    <string name="bind_modify">Change</string>
+    <string name="bind_modify_pwd">Password change</string>
+    <string name="bind_error_tip">Can not verify please contact customer service</string>
+    <!--修改密码-->
+    <string name="title_cur_pwd">Original password</string>
+    <string name="title_cur_pwd_tip">Please input original pswword</string>
+
+    <string name="title_new_pwd">New Password</string>
+    <string name="title_new_pwd_tip">Please input new paswword</string>
+
+    <string name="title_commit_pwd">Confirm password</string>
+    <string name="title_commit_pwd_tip">Please input new password</string>
+
+    <string name="title_pwd_not_match">The two passwords don\'t match</string>
+
+    <string name="title_replace_mail">Email Address</string>
+    <string name="title_replace_mail_warning">Need to verify your email address</string>
+
+    <string name="title_replace_iphone">Phone Number</string>
+    <string name="title_replace_iphone_warning">Need to verify your phone number</string>
+
+
+    <string name="tip_vail_type">Verify Type</string>
+    <string name="tip_accout_title">Account</string>
+    <string name="tip_bind_vail_1">Need to verify its validity</string>
+    <string name="title_bind_new_iphone">The validity of the new phone needs to be verified</string>
+    <string name="title_bind_new_mail">The validity of the new email needs to be verified</string>
+    <string name="tip_bind_success_mail">Please go to the new mailbox %s complete the verified</string>
+
+    <string name="tip_kill_out">The account has expired.please log in again</string>
+
+
+    <!--软件更新-->
+    <string name="update_title">Version update</string>
+    <string name="update_downing">Downloading...</string>
+    <string name="update_body">Your app is not the latest version,please upgrade。</string>
+
+    <string name="ecg_setting">ECG Sentting</string>
+</resources>

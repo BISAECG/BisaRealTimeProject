@@ -39,11 +39,19 @@ public class RestServiceImpl extends HttpHelp implements  IRestService{
     }
 
     @Override
+    public Call updateUsername(FormBody param) {
+        String url="/mi/app/user/update/username";
+        Call call=post(url,param,null,HttpFinal.CONN_HTTPS);
+        return  call;
+    }
+
+    @Override
     public Call sendCodeByUser(Map<String,String> param) {
         String url="/mi/call/common/code";
         Call call=get(url,param,null, HttpFinal.CONN_HTTPS);
         return  call;
     }
+
 
 
     @Override
@@ -77,6 +85,13 @@ public class RestServiceImpl extends HttpHelp implements  IRestService{
     public Call updateInfo(MultipartBody param) {
         String url="/mi/app/user/upinfo";
         Call call=post(url,param,null,HttpFinal.CONN_HTTPS);
+        return  call;
+    }
+
+    @Override
+    public Call getUserInfo() {
+        String url="/mi/app/user/info";
+        Call call=get(url,null,null,HttpFinal.CONN_HTTPS);
         return  call;
     }
 
@@ -122,7 +137,7 @@ public class RestServiceImpl extends HttpHelp implements  IRestService{
     @Override
     public Call downServerList(Map<String, String> param) {
         String url=SERVER_URL+"/mi/call/server/down";
-        Call call=get(url,param,null, HttpFinal.CONN_BASIC_HTTP);
+        Call call=get(url,param,null, HttpFinal.CONN_HTTPS);
         return  call;
     }
 
@@ -207,7 +222,7 @@ public class RestServiceImpl extends HttpHelp implements  IRestService{
     @Override
     public Call syncVersion(Map<String, String> param) {
         String url=SERVER_URL+"/mi/call/app/syncversion";
-        Call call=get(url,param,null, HttpFinal.CONN_HTTPS);
+        Call call=get(url,param,null, HttpFinal.DEFALUT_CONN_HTTP);
         return call;
     }
 

@@ -9,6 +9,7 @@ import android.support.annotation.StyleRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,7 +23,14 @@ import com.bisa.health.R;
 public class CustomProgressDialog extends Dialog {
 
 
+   public interface DialogCall{
+        void setProgress(int p);
+        void switchView(boolean isPro);
+    }
 
+    public interface CallDialogBuild{
+        void builder(DialogCall dialogCall);
+    }
 
     public CustomProgressDialog(@NonNull Context context) {
         super(context);
@@ -37,42 +45,10 @@ public class CustomProgressDialog extends Dialog {
         super(context, cancelable, cancelListener);
 
     }
-    private static  RelativeLayout ll_main_a;
-    private static  RelativeLayout ll_main_b;
-
-    private static ProgressBar progressBar;
-
-    public void switchView(boolean isPro){
-
-        if(ll_main_a!=null&&ll_main_b!=null){
-            if(isPro){
-                ll_main_a.setVisibility(View.VISIBLE);
-                ll_main_b.setVisibility(View.GONE);
-            }else{
-                ll_main_a.setVisibility(View.GONE);
-                ll_main_b.setVisibility(View.VISIBLE);
-            }
-        }
 
 
-    }
+    public static class Builder{
 
-    //设置进度条
-    public void setProgressBar(ProgressBar progressBar) {
-        this.progressBar = progressBar;
-    }
-
-    //获取进度条
-    public ProgressBar getProgressBar() {
-        return progressBar;
-    }
-
-    //设置进度
-    public void setProgress(int progress){
-        progressBar.setProgress(progress);
-    }
-
-    public static class Builder {
 
         private TextView tv_title;
         private Button btn_commit;
@@ -84,6 +60,17 @@ public class CustomProgressDialog extends Dialog {
         private OnClickListener positiveClickListener;
         private String yes_text;
         private String no_text;
+        private ImageView img;
+        private RelativeLayout ll_main_a;
+        private RelativeLayout ll_main_b;
+        private int title;
+        private int body;
+        private int icoid;
+        private int errorBody;
+        private ProgressBar progressBar;
+        private DialogCall dialogCall;
+        private CallDialogBuild mBuild;
+
 
         public Builder setPositiveButton(String positiveButtonText,
                                          OnClickListener listener) {
@@ -91,6 +78,31 @@ public class CustomProgressDialog extends Dialog {
             this.positiveClickListener = listener;
             return this;
         }
+        public Builder setTitle(int title){
+            this.title=title;
+            return this;
+        }
+
+        public Builder setICO(int icoid){
+            this.icoid=icoid;
+            return this;
+        }
+
+        public Builder setBody(int body){
+            this.body=body;
+            return this;
+        }
+        public Builder setErrorBody(int errorBody){
+            this.errorBody=errorBody;
+            return this;
+        }
+
+        public Builder setDialogCall(CallDialogBuild build){
+            mBuild=build;
+            return this;
+        }
+
+
 
         public Builder setNegativeButton(String negativeButtonText,
                                          OnClickListener listener) {
@@ -113,9 +125,18 @@ public class CustomProgressDialog extends Dialog {
             //加载布局
             RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.rl_main_all);
             progressBar = (ProgressBar) view.findViewById(R.id.pb_Circle);
+            img=view.findViewById(R.id.img_ico);
+            img.setImageDrawable(context.getResources().getDrawable(icoid));
+
             tv_title = (TextView) view.findViewById(R.id.tv_title);
+            tv_title.setText(context.getString(title));
+
             tv_desc = (TextView) view.findViewById(R.id.tv_desc);
+            tv_desc.setText(body);
+
             tv_desc_error= (TextView) view.findViewById(R.id.tv_desc_error);
+            tv_desc_error.setText(errorBody);
+
             btn_commit=(Button) view.findViewById(R.id.btn_commit);
 
             if (positiveClickListener != null) {
@@ -140,11 +161,33 @@ public class CustomProgressDialog extends Dialog {
                 });
             }
 
-
-
-
             ll_main_a=(RelativeLayout) view.findViewById(R.id.ll_main_a);
             ll_main_b=(RelativeLayout) view.findViewById(R.id.ll_main_b);
+
+            dialogCall=new DialogCall() {
+                @Override
+                public void setProgress(int p) {
+                    progressBar.setProgress(p);
+                }
+
+                @Override
+                public void switchView(boolean isPro) {
+                    if(ll_main_a!=null&&ll_main_b!=null){
+                        if(isPro){
+
+                            ll_main_a.setVisibility(View.VISIBLE);
+                            ll_main_b.setVisibility(View.GONE);
+                        }else{
+                            ll_main_a.setVisibility(View.GONE);
+                            ll_main_b.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            };
+            if(mBuild!=null){
+                mBuild.builder(dialogCall);
+            }
+
             // 设置布局，设为全屏
             dialog.setContentView(view, new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -155,14 +198,6 @@ public class CustomProgressDialog extends Dialog {
             return dialog;
         }
 
-
-        // 设置加载信息
-        public void setMessage(String msg){
-            tv_desc.setText(msg);
-        }
-
-
-        private static final String TAG = "CustomProgressDialog";
 
     }
 

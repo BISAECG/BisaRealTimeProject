@@ -68,7 +68,7 @@ public class CustomOTGWelcomeDialog extends Dialog  {
             iv_otg_right_line=(ImageView) view.findViewById(R.id.iv_otg_right_line);
             iv_otg_right_line.setAnimation(paningAnim);
             positiveButton=(Button) view.findViewById(R.id.positiveButton);
-            final CountDefaultTimerUtils mCountDefaultTimerUtils=new CountDefaultTimerUtils(positiveButton, 6000, 1000, context,context.getString(R.string.otg_conn_commit_s),context.getString(R.string.otg_conn_commit));
+            final CountDefaultTimerUtils mCountDefaultTimerUtils=new CountDefaultTimerUtils(positiveButton, 6000, 1000, context,context.getString(R.string.otg_conn_commit_s),context.getString(R.string.tip_iknown));
             mCountDefaultTimerUtils.start();
                 if (positiveButtonClickListener != null) {
                     positiveButton.setOnClickListener(new View.OnClickListener() {

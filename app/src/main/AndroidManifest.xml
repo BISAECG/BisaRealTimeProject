@@ -148,8 +148,16 @@
             android:theme="@style/Theme.AppStartLoad">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:host="www.bisahealth.com"
+                    android:scheme="xixin" />
             </intent-filter>
         </activity>
         <activity
@@ -213,7 +221,15 @@
             android:name=".UserInfoActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".NickNameActivity" />
+
+        <activity android:name="com.bisa.health.UserNickNameActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UserInfoActivity" />
+        </activity>
+
         <activity
             android:name=".UserNameActivity"
             android:launchMode="singleTop"
@@ -222,6 +238,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UserInfoActivity" />
         </activity>
+
         <activity
             android:name=".UserSexActivity"
             android:launchMode="singleTop"
@@ -230,10 +247,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".UserInfoActivity" />
         </activity>
+
         <activity
-            android:name=".MyServiceActivity"
+            android:name=".UserAgeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".UserInfoActivity" />
+        </activity>
+
+        <activity
+            android:name=".BisaAskMeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".pay.BisaServiceActivity"
             android:launchMode="singleTop"

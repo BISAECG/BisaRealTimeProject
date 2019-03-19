@@ -14,8 +14,8 @@ android {
         applicationId "com.bisa.health"
         minSdkVersion 18
         targetSdkVersion 27
-        versionCode 20180102
-        versionName "1.0"
+        versionCode 20190315
+        versionName "2.3"
         ndk {
             //根据需要 自行选择添加的对应cpu类型的.so库。
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -122,5 +122,5 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.isanwenyu.highlight:highlight:1.8.0'
-    implementation 'com.bisahealth:bisahealth-decoding:0.0.2'
+    implementation 'com.bisahealth:bisahealth-decoding:0.0.3'
 }

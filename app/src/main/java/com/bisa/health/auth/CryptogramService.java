@@ -57,6 +57,7 @@ public class CryptogramService {
         String serverDigest =  hmacDigest(baseString.toString(), SecretConfig.HMAC_SECRET);
         Log.i(TAG, "hmacDigest: "+serverDigest);
         String base64Digest= Base64.encodeToString(serverDigest.getBytes(),Base64.NO_WRAP);
+        Log.i(TAG, "base64Digest: "+serverDigest);
         return base64Digest;
     }
 

@@ -115,7 +115,8 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
     private final static int USB_DELAYED = 15000;
     private CustomOTGWelcomeDialog OTGConnDialogBuilder;
 
-
+    private CustomProgressDialog.DialogCall mPackDialogCall;
+    private CustomProgressDialog.DialogCall mUpDialogCall;
     private Runnable usbRunnable=null;
     private Object lockObj=new Object();
     private String zipFilePath=null;
@@ -180,38 +181,12 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
     /**
      * 初始化上传对话框
      */
-    final CustomProgressDialog uploadDialog = new CustomProgressDialog.Builder(this).setPositiveButton(getResources().getString(R.string.commit_submit), new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss();
-            if (zipFilePath != null) {
-                startUploadWork();
-            }
-        }
-    }).setNegativeButton(getResources().getString(R.string.cancel_cancel), new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss();
-        }
-    }).create();
+     CustomProgressDialog uploadDialog=null;
 
     /**
      * 初始化打包对话框
      */
-    final CustomProgressDialog packageDialog = new CustomProgressDialog.Builder(this).setPositiveButton(getResources().getString(R.string.commit_submit), new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss();
-            if (mOTGECGFileDto != null) {
-                startPackageWork();
-            }
-        }
-    }).setNegativeButton(getResources().getString(R.string.cancel_cancel), new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss();
-        }
-    }).create();
+     CustomProgressDialog packageDialog = null;
 
     public static void verifyStoragePermissions(Activity activity) {
 
@@ -271,6 +246,57 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                 "CPUKeepRunning");
         mWakeLock.acquire();
 
+        uploadDialog= new CustomProgressDialog.Builder(this)
+                .setICO(R.drawable.otg_ico)
+                .setTitle(R.string.otg_conn_update)
+                .setBody(R.string.otg_conn_update_tip)
+                .setErrorBody(R.string.otg_conn_update_error_tip)
+                .setPositiveButton(getResources().getString(R.string.commit_submit), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (zipFilePath != null) {
+                    startUploadWork();
+                }
+            }
+        }).setNegativeButton(getResources().getString(R.string.cancel_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setDialogCall(new CustomProgressDialog.CallDialogBuild() {
+                    @Override
+                    public void builder(CustomProgressDialog.DialogCall dialogCall) {
+                        mUpDialogCall=dialogCall;
+                    }
+        }).create();
+
+
+        packageDialog = new CustomProgressDialog.Builder(this)
+                .setICO(R.drawable.otg_ico)
+                .setTitle(R.string.otg_conn_package)
+                .setBody(R.string.otg_conn_package_tip)
+                .setErrorBody(R.string.otg_conn_package_error_tip)
+                .setPositiveButton(getResources().getString(R.string.commit_submit), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (mOTGECGFileDto != null) {
+                    startPackageWork();
+                }
+            }
+        }).setNegativeButton(getResources().getString(R.string.cancel_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setDialogCall(new CustomProgressDialog.CallDialogBuild() {
+                    @Override
+                    public void builder(CustomProgressDialog.DialogCall dialogCall) {
+                        mPackDialogCall=dialogCall;
+                    }
+        }).create();
+
 
         OTGConnDialogBuilder = new CustomOTGWelcomeDialog.Builder(this)
                 .setPositiveButton(getResources().getString(R.string.otg_conn_yes), new DialogInterface.OnClickListener() {
@@ -280,7 +306,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                 }).create();
 
         //verifyStoragePermissions(this);//测试用的
-        DiaLogUtil.DialogShow(OTGConnDialogBuilder, this, 10);
+        //DiaLogUtil.DialogShow(OTGConnDialogBuilder, this, 10);
         OTGInit();
     }
 
@@ -594,7 +620,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
                                             @Override
                                             public void run() {
                                                 LoadDiaLogUtil.getInstance().dismiss();
-                                                showToast(getString(R.string.error_400));
+                                                showToast(getString(R.string.server_error));
                                             }
                                         });
                                     }
@@ -651,7 +677,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    packageDialog.switchView(true);
+                    mPackDialogCall.switchView(true);
                     DiaLogUtil.DialogShow(packageDialog, OTGActivity.this, -1);
                 }
             });
@@ -756,7 +782,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
 
         @Override
         protected void onPreExecute() {
-            packageDialog.setProgress(0);
+            mPackDialogCall.setProgress(0);
         }
 
         @Override
@@ -764,10 +790,11 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
             super.onPostExecute(s);
             //启动文件上传对话框
             if(StringUtils.isEmpty(s)){
+
                 mHandler.sendEmptyMessage(FinalBisa.OTG_READ_ERROR);
             }else{
                 DiaLogUtil.DialogDismiss(packageDialog, OTGActivity.this);
-              startUploadWork();
+               startUploadWork();
             }
 
 
@@ -778,21 +805,17 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            packageDialog.setProgress(values[0]);
+            mPackDialogCall.setProgress(values[0]);
         }
     }
     private  int mSizeCount=0;
     private class UploadFileWork extends AsyncTask<String, Integer, File> {
-
         @Override
         protected File doInBackground(String... params) {
-
-
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    uploadDialog.switchView(true);
-                    uploadDialog.show();
+                    mUpDialogCall.switchView(true);
                     DiaLogUtil.DialogShow(uploadDialog, OTGActivity.this, -1);
                 }
             });
@@ -835,7 +858,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
 
         @Override
         protected void onPreExecute() {
-            uploadDialog.setProgress(0);
+            mUpDialogCall.setProgress(0);
         }
 
         @Override
@@ -881,7 +904,7 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            uploadDialog.setProgress(values[0]);
+            mUpDialogCall.setProgress(values[0]);
         }
     }
 
@@ -915,15 +938,18 @@ public class OTGActivity extends BaseActivity implements OTGAdapter.IOnItemPosSe
 
             switch (msg.what) {
                 case FinalBisa.OTG_READ_ERROR:
-                    packageDialog.switchView(false);
+                    mPackDialogCall.switchView(false);
                     break;
                 case FinalBisa.OTG_UPLOAD_ERROR:
-                    uploadDialog.switchView(false);
+                    mUpDialogCall.switchView(false);
                     break;
                 default:
+
                     break;
             }
         }
 
     };
+
+
 }

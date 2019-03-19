@@ -14,7 +14,7 @@
         freagment:preIco="@drawable/menu_back_bg"
         freagment:isNext="true"
         freagment:nextIco="@drawable/menu_back_setting_bg"
-        freagment:title="@string/title_main_mydev"
+        freagment:title="@string/xixin_ecg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -96,7 +96,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3.5"
+        android:layout_weight="3.7"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -114,8 +114,9 @@
                 android:id="@+id/txt_ecg_title_monitor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="17dp"
+                android:layout_marginTop="6dp"
                 android:text="@string/title_ecg_bpmcount"
                 android:textColor="@color/color_bpmcounttext"
                 android:textSize="12sp"></TextView>
@@ -284,7 +285,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5">
+        android:layout_weight="1.3">
 
         <LinearLayout
             android:id="@+id/ll_contact_tip"
@@ -419,7 +420,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="10dp"
                             android:layout_centerVertical="true"
-                            android:text="@string/titl_report_show"
+                            android:text="@string/titl_my_report"
                             android:textColor="@color/color_ecg_title"
                             android:textSize="16sp"
                             android:id="@+id/textView2" />

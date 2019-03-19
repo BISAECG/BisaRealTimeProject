@@ -5,17 +5,10 @@ import android.os.Parcelable;
 
 public class RawObject implements Parcelable {
 
-	private int position;
 	private int marker_type;
 	private int event_type;
 
-	public int getPosition() {
-		return position;
-	}
 
-	public void setPosition(int position) {
-		this.position = position;
-	}
 
 	public int getMarker_type() {
 		return marker_type;
@@ -34,7 +27,6 @@ public class RawObject implements Parcelable {
 	}
 
 	public RawObject(Parcel source) {
-		position = source.readInt();
 		marker_type = source.readInt();
 		event_type = source.readInt();
 	}
@@ -50,7 +42,6 @@ public class RawObject implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(position);
 		dest.writeInt(marker_type);
 		dest.writeInt(event_type);
 	}

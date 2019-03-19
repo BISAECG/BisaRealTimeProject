@@ -50,6 +50,7 @@ import com.bisa.health.utils.Notificator;
 import com.bisa.health.utils.Utility;
 import com.bisahelath.decoding.help.ECGBuildHelp;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -97,9 +98,10 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
      * ECG处理变量
      */
     private byte[] byteAttary = new byte[10];
-    //private final byte[] ecgbyte = new byte[15000];
-    private static int fCount = 0;
-    private static int findex = 0;
+
+    private final byte[] ecgbyte = new byte[1024];
+
+    private static int fIndex = 0;
     private static boolean isWrite = false;
     private String sessionid;
     private File ecdFile;
@@ -121,8 +123,9 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
     private IDeviceDao deviceDao;
     private IReportDao iappReportDao;
-    private FileOutputStream fos;
+    private BufferedOutputStream bos;
     ECGBuildHelp ecgBuildHelp = new ECGBuildHelp();
+
     @SuppressLint("InvalidWakeLockTag")
     @SuppressWarnings("deprecation")
     @Override
@@ -134,7 +137,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
         pManager = ((PowerManager) getSystemService(POWER_SERVICE));
 
         mWakeLock = pManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ON_AFTER_RELEASE,
-        "CPUKeepRunning");
+                "CPUKeepRunning");
         mWakeLock.acquire();
 
         sharedPersistor = new SharedPersistor(this);
@@ -204,13 +207,13 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
         if (connDevtimeout != null) {
             mHandler.removeCallbacks(connDevtimeout);
-            connDevtimeout=null;
+            connDevtimeout = null;
         }
-        
-        if(mBleWrapper!=null&&mBleWrapper.isConnected()){
+
+        if (mBleWrapper != null && mBleWrapper.isConnected()) {
             mBleWrapper.diconnect();
             mBleWrapper.close();
-            mBleWrapper=null;
+            mBleWrapper = null;
         }
         try {
             if (null != mWakeLock) {
@@ -238,10 +241,10 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
     public IBinder onBind(Intent intent) {
 
         Log.i(TAG, "onBind: ");
-        if(mBleWrapper!=null&&mBleWrapper.isConnected()){
+        if (mBleWrapper != null && mBleWrapper.isConnected()) {
             mBleWrapper.diconnect();
             mBleWrapper.close();
-            mBleWrapper=null;
+            mBleWrapper = null;
         }
         ecgBuildHelp.decodeInit();
         return mBinder;
@@ -257,14 +260,14 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
         if (connDevtimeout != null) {
             mHandler.removeCallbacks(connDevtimeout);
-            connDevtimeout=null;
+            connDevtimeout = null;
         }
 
 
-        if(mBleWrapper!=null&&mBleWrapper.isConnected()){
+        if (mBleWrapper != null && mBleWrapper.isConnected()) {
             mBleWrapper.diconnect();
             mBleWrapper.close();
-            mBleWrapper=null;
+            mBleWrapper = null;
         }
 
         return super.onUnbind(intent);
@@ -305,7 +308,6 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
         }
 
     };
-
 
 
     /*****
@@ -400,20 +402,16 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
         @Override
         public void uiNotifiMarker(boolean _isMarker) throws RemoteException {
-
-            if(ecgConfig.getManualAppAlarm()==1) {
                 Message msg = new Message();
                 msg.what = FinalBisa.NOTIFI_AlAM;
                 msg.arg1 = XiXinEventEnum.APP.getValue();
                 mHandler.sendMessage(msg);
                 Log.w(TAG, "uiNotifiMarker :" + _isMarker);
-            }
         }
 
         @Override
         public void uiInitDrawParam() throws RemoteException {
-            fCount = 0;
-            findex = 0;
+
         }
 
         @Override
@@ -421,10 +419,13 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
             String ecgFileName = mDeviceName + "_" + DateUtil.getStringDate("yyyyMMddHHmmss", new Date(timeMillis)) + ".ECD";
             ecdFile = new File(healthPath.getFreedat(), ecgFileName);
             try {
-                fos = new FileOutputStream(ecdFile);
+
+                FileOutputStream fos = new FileOutputStream(ecdFile);
+                bos=new BufferedOutputStream(fos);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            fIndex=0;
             isWrite = true;
             return ecgFileName;
         }
@@ -434,11 +435,12 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
         public String endMonitor() throws RemoteException {
 
             isWrite = false;
-
+            fIndex=0;
             try {
-                if (fos != null) {
-                    fos.flush();
-                    fos.close();
+                if (bos != null) {
+                    bos.write(ecgbyte, 0, fIndex);
+                    bos.flush();
+                    bos.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -449,17 +451,17 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
         @Override
         public void startForeground() throws RemoteException {
-            Message msg=new Message();
-            msg.what=FinalBisa.SERVER_BACK_STATUS;
-            msg.arg1=FinalBisa.SERVER_BACK_START;
+            Message msg = new Message();
+            msg.what = FinalBisa.SERVER_BACK_STATUS;
+            msg.arg1 = FinalBisa.SERVER_BACK_START;
             mHandler.sendMessage(msg);
         }
 
         @Override
         public void stopForeground() throws RemoteException {
-            Message msg=new Message();
-            msg.what=FinalBisa.SERVER_BACK_STATUS;
-            msg.arg1=FinalBisa.SERVER_BACK_STOP;
+            Message msg = new Message();
+            msg.what = FinalBisa.SERVER_BACK_STATUS;
+            msg.arg1 = FinalBisa.SERVER_BACK_STOP;
             mHandler.sendMessage(msg);
         }
 
@@ -493,7 +495,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
         @Override
         public void uiECGConfig(ECGConfig config) throws RemoteException {
-            ecgConfig=config;
+            ecgConfig = config;
         }
 
     };
@@ -611,18 +613,24 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
         if (rawValue == null) {
             return;
         }
-        if (iEcgServiceCallBacks != null) {
 
-            //1分钟免费报告文件
-            if (isWrite && fos != null) {
-
+        /**
+         * 15分钟报告开始
+         */
+        if (isWrite && bos != null) {
+            for (int i = 0; i < rawValue.length; i++) {
+                ecgbyte[fIndex++] = rawValue[i];
                 try {
-                    fos.write(rawValue);
+                    if (fIndex == ecgbyte.length) {
+                        bos.write(ecgbyte);
+                        fIndex = 0;
+                    }
+
                 } catch (IOException e) {
                     try {
-                        if (fos != null)
-                            fos.close();
-                        fos = null;
+                        if (bos != null)
+                            bos.close();
+                        bos = null;
                         if (ecdFile != null && ecdFile.exists()) {
                             ecdFile.delete();
                             ecdFile = null;
@@ -631,8 +639,16 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
                         e1.printStackTrace();
                     }
                 }
+
             }
-            //END免费报告文件
+        }
+
+        /**
+         * 15分钟报告结束
+         */
+
+
+        if (iEcgServiceCallBacks != null) {
 
 
             int[] value = new int[rawValue.length];
@@ -654,11 +670,12 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
                     try {
                         iEcgServiceCallBacks.uiUpdateDeviceBattert(tempBatteryV);
                     } catch (RemoteException e) {
-                        Log.i(TAG, "callNewValueForCharacteristic: "+e.getMessage());
+                        Log.i(TAG, "callNewValueForCharacteristic: " + e.getMessage());
                     }
                 }
 
-                RawObject rawObject = is_marker(valueAtr, findex,ecgConfig);
+
+                RawObject rawObject = is_marker(valueAtr, ecgConfig);
                 if (rawObject != null) {
 
                     Message msg = new Message();
@@ -672,7 +689,7 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
             try {
                 iEcgServiceCallBacks.ecgDrawing(value);
             } catch (RemoteException e) {
-                Log.i(TAG, "callNewValueForCharacteristic: "+e.getMessage());
+                Log.i(TAG, "callNewValueForCharacteristic: " + e.getMessage());
             }
 
         }
@@ -808,13 +825,13 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
 
                 case FinalBisa.SERVER_BACK_STATUS:
                     // 开启前台服务
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2&&Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {
-                        if(msg.arg1==FinalBisa.SERVER_BACK_START){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                        if (msg.arg1 == FinalBisa.SERVER_BACK_START) {
                             startForeground(Notificator.FOREGROUND_PUST_ID, new Notification());
-                        } else{
-                            if(Build.VERSION.SDK_INT<Build.VERSION_CODES.N){
+                        } else {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                                 stopForeground(true);
-                            }else{
+                            } else {
                                 stopForeground(Notificator.FOREGROUND_PUST_ID);
                             }
 
@@ -829,27 +846,24 @@ public class ECGService extends Service implements BleWrapperServiceCallbacks {
     };
 
 
-
     public synchronized void removeAutoBleConn() {
         mHandler.removeCallbacks(connDevtimeout);
     }
 
 
-    private RawObject is_marker(int[] markerAtr, int postion,ECGConfig config) {
-       // Log.i(TAG, "is_marker: "+config);
-        if (markerAtr[0] == XiXinEventEnum.DEVICE.getValue()&&config.getManualDeviceAlarm()==1) {
+    private RawObject is_marker(int[] markerAtr, ECGConfig config) {
+        // Log.i(TAG, "is_marker: "+config);
+        if (markerAtr[0] == XiXinEventEnum.DEVICE.getValue() && config.getManualDeviceAlarm() == 1) {
 
             RawObject rawObject = new RawObject();
-            rawObject.setPosition(postion);
             rawObject.setMarker_type(XiXinEventEnum.DEVICE.getValue());
             rawObject.setEvent_type(0);
             return rawObject;
 
         }
 
-        if (markerAtr[0] == XiXinEventEnum.PASSIVE.getValue()&&config.getAutoAlarm()==1) {
+        if (markerAtr[0] == XiXinEventEnum.PASSIVE.getValue() && config.getAutoAlarm() == 1) {
             RawObject rawObject = new RawObject();
-            rawObject.setPosition(postion);
             rawObject.setMarker_type(XiXinEventEnum.PASSIVE.getValue());
             rawObject.setEvent_type(1);
             return rawObject;

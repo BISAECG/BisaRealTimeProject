@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bisa.health.BaseFragment;
-import com.bisa.health.BindAccessOkActivity;
-import com.bisa.health.BindAccessSuccessActivity;
 import com.bisa.health.MainActivity;
 import com.bisa.health.OtherWechatBindActivity;
 import com.bisa.health.R;
@@ -88,7 +86,7 @@ public class OtherLoginFragment extends BaseFragment implements  View.OnClickLis
     public void onClick(View v) {
         if (v == img_wechat) {//微信登入
             if (!Utility.isConnectInternet(getActivity())) {
-                showToast(getString(R.string.error_400));
+                showToast(getString(R.string.network_error));
                 return;
             }
             if (!api.isWXAppInstalled()) {

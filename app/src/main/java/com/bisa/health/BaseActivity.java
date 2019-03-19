@@ -2,10 +2,14 @@ package com.bisa.health;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,12 +24,16 @@ import com.tencent.android.tpush.XGPushManager;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 /**
  * Created by Administrator on 2018/5/25.
  */
 
 public  class BaseActivity extends FragmentActivity {
 
+    private static final String TAG = "BaseActivity";
     private Toast mToast;
     private BisaApp application;
     private Activity oContext;
@@ -33,8 +41,11 @@ public  class BaseActivity extends FragmentActivity {
     private SharedPersistor sharedPersistor;
     private HealthServer mHealthServer;
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O && isTranslucentOrFloating()) {
+            boolean result = fixOrientation();
+            Log.i(TAG, "onCreate fixOrientation when Oreo, result = " + result);
+        }
         super.onCreate(savedInstanceState);
-
         if (application == null) {
             // 得到Application对象
             application = (BisaApp) getApplication();
@@ -135,7 +146,7 @@ public  class BaseActivity extends FragmentActivity {
     @Override
     public Resources getResources() {
         Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
+        if (res!=null&&res.getConfiguration().fontScale != 1) {//非默认值
             Configuration newConfig = new Configuration();
             newConfig.setToDefaults();//设置默认
             res.updateConfiguration(newConfig, res.getDisplayMetrics());
@@ -150,4 +161,43 @@ public  class BaseActivity extends FragmentActivity {
         XGPushManager.bindAccount(oContext,session);
     }
 
+    private boolean fixOrientation() {
+        try {
+            Field field = Activity.class.getDeclaredField("mActivityInfo");
+            field.setAccessible(true);
+            ActivityInfo o = (ActivityInfo) field.get(this);
+            o.screenOrientation = -1;
+            field.setAccessible(false);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public void setRequestedOrientation(int requestedOrientation) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O && isTranslucentOrFloating()) {
+            Log.i(TAG, "avoid calling setRequestedOrientation when Oreo.");
+            return;
+        }
+
+        super.setRequestedOrientation(requestedOrientation);
+    }
+
+    private boolean isTranslucentOrFloating(){
+        boolean isTranslucentOrFloating = false;
+        try {
+            int [] styleableRes = (int[]) Class.forName("com.android.internal.R$styleable").getField("Window").get(null);
+            final TypedArray ta = obtainStyledAttributes(styleableRes);
+            Method m = ActivityInfo.class.getMethod("isTranslucentOrFloating", TypedArray.class);
+            m.setAccessible(true);
+            isTranslucentOrFloating = (boolean)m.invoke(null, ta);
+            m.setAccessible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isTranslucentOrFloating;
+    }
 }
