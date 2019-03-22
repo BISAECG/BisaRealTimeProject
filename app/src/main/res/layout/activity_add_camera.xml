@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".camera.AddCameraActivity">
+
+    <com.bisa.health.cust.view.ActionBarView
+        android:id="@+id/abar_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:isPre="true"
+        app:preIco="@drawable/menu_back_bg"
+        app:title="@string/camera_add_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_add_camera"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_camera_add"
+            android:layout_width="309dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
+            android:paddingStart="15dp"
+            android:background="@color/white"
+            android:drawableStart="@drawable/camera_scan"
+            android:text="@string/camera_add"
+            android:textColor="@color/color_btn_default" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/camera_add_tips"/>
+
+        <Button
+            android:id="@+id/btn_camera_share"
+            android:layout_width="309dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
+            android:paddingStart="15dp"
+            android:background="@color/white"
+            android:drawableStart="@drawable/camera_add_keyboard"
+            android:text="@string/camera_add_share" />
+
+    </LinearLayout>
+
+</LinearLayout>

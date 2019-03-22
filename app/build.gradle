@@ -16,6 +16,7 @@ android {
         targetSdkVersion 27
         versionCode 20190315
         versionName "2.3"
+
         ndk {
             //根据需要 自行选择添加的对应cpu类型的.so库。
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -84,17 +85,14 @@ android {
 
 
 dependencies {
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
-
+    implementation files('libs/LibFunSDK.jar')
     configurations {
         all*.exclude group: 'com.android.support', module: 'support-v13'
     }
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     //implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     //信鸽jar，不包含厂商通道
@@ -110,7 +108,7 @@ dependencies {
     implementation 'org.apache.ant:ant:1.8.2'
     implementation 'commons-io:commons-io:2.5'
     implementation 'com.thoughtworks.xstream:xstream-parent:1.4.10'
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1'
     implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'org.apache.commons:commons-lang3:3.6'
@@ -123,4 +121,5 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.isanwenyu.highlight:highlight:1.8.0'
     implementation 'com.bisahealth:bisahealth-decoding:0.0.3'
+    implementation 'com.alibaba:fastjson:1.2.56'
 }

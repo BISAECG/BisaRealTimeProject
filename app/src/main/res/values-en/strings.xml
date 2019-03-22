@@ -62,6 +62,24 @@
     <string name="title_ble_unconn">Unconnected</string>
     <string name="title_exit">Exit</string>
 
+    <!--camera-->
+    <string name="camera_add_title">Add Camera</string>
+    <string name="camera_add">Add My Camera(Recommend)</string>
+    <string name="camera_add_tips">If the device has ever added a router, restore the device to factory Settings.</string>
+    <string name="camera_add_share">Add Shared devices</string>
+    <string name="camera_guide_title">Camera Connection Guidance</string>
+    <string name="camera_guide_headline">XiXin Smart Camera</string>
+    <string name="camera_guide_body">Press the reset button on the back of the bottom of the camera for about 5 seconds until the camera sends out a voice prompt to restore the factory settings, that is, the reset is successful.</string>
+    <string name="camera_guide_tips">After the operation according to the diagram, you will hear the prompt "start quick configuration"</string>
+    <string name="next_step">Next Step</string>
+    <string name="camera_wifi_title">Find Camera</string>
+    <string name="camera_wifi_headline">Please enter the current wifi password:</string>
+    <string name="camera_wifi_tips">*Select WIFI with strong signal and fill in the WIFI password correctly to quickly connect the device to the Internet.</string>
+    <string name="camera_wifi_confirm">Confirm</string>
+    <string name="camera_wifi_problem">Connection problems?</string>
+    <string name="camera_wifi_pw">Password</string>
+    <string name="camera_search_cancel">Cancel</string>
+
     <!--报告类型-->
     <string name="title_not_erect">Not open</string>
     <string name="title_free">Free </string>

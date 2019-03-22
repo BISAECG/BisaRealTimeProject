@@ -61,6 +61,24 @@
     <string name="title_ble_unconn">未連接</string>
     <string name="title_exit">退出</string>
 
+    <!--camera-->
+    <string name="camera_add_title">添加方式</string>
+    <string name="camera_add">添加我的攝像頭(推薦)</string>
+    <string name="camera_add_tips">如果設備曾經添加過路由器，請將設備恢復出廠設置。</string>
+    <string name="camera_add_share">添加分享的設備</string>
+    <string name="camera_guide_title">攝像機連接引導</string>
+    <string name="camera_guide_headline">悉心智能攝像機</string>
+    <string name="camera_guide_body">長按攝像機底部背面重置按鍵，保持5秒左右，至攝像機發出語音提示恢復出廠設置，即重置成功。</string>
+    <string name="camera_guide_tips">按圖示操作後，聽到「開始快速配置」提示語</string>
+    <string name="next_step">下一步</string>
+    <string name="camera_wifi_title">搜索設備</string>
+    <string name="camera_wifi_headline">請輸入當前路由器密碼：</string>
+    <string name="camera_wifi_tips">*選擇較強信號的WIFI，正確填寫WIFI密碼，可快速讓設備聯網。</string>
+    <string name="camera_wifi_confirm">確定</string>
+    <string name="camera_wifi_problem">聯網遇到問題？</string>
+    <string name="camera_wifi_pw">密碼</string>
+    <string name="camera_search_cancel">取消</string>
+
     <!--報告類型-->
     <string name="title_not_erect">功能正在建設</string>
     <string name="title_free">免費</string>

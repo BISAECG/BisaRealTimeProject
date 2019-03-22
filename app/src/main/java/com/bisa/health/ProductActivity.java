@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bisa.health.cache.CacheManage;
+import com.bisa.health.camera.AddCameraActivity;
 import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.utils.ActivityUtil;
 
@@ -21,14 +22,15 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
 
     public HighLight mHightLight=null;
     public ImageView iv_pecg;
-    //public ImageView iv_camera;
+    public ImageView iv_camera;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.product_activity);
         iv_pecg=this.findViewById(R.id.iv_pecg);
         iv_pecg.setOnClickListener(this);
-        //iv_camera=this.findViewById(R.id.iv_camera);
+        iv_camera=this.findViewById(R.id.iv_camera);
+        iv_camera.setOnClickListener(this);
 
         SharedPreferences setting =getSharedPreferences(CacheManage.SHARE_APP_TAG,  Context.MODE_PRIVATE);
         Boolean user_first = setting.getBoolean(this.getClass().getName(),true);
@@ -95,6 +97,9 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         if(v==iv_pecg){
             ActivityUtil.startActivity(this,AddActivity.class,ActionEnum.NULL);
+        }
+        else if(v == iv_camera) {
+            ActivityUtil.startActivity(this, AddCameraActivity.class, ActionEnum.NULL);
         }
     }
 }
