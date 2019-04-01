@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:longClickable="true">
+
+    <RelativeLayout
+        android:id="@+id/layoutPlayWnd"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="#ff000000" >
+
+        <com.bisa.health.camera.lib.funsdk.support.widget.FunVideoView
+            android:id="@+id/funVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/ibtn_camera_device_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/goback_enable" />
+
+        <TextView
+            android:id="@+id/textVideoStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#40000000"
+            android:textColor="#ffffffff"
+            android:textSize="14dp" />
+
+        <RelativeLayout
+            android:id="@+id/layout_recording"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="28dp"
+            android:visibility="invisible" >
+
+            <ImageView
+                android:id="@+id/img_recording"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/recording" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_recording"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="录制中" />
+        </RelativeLayout>
+
+
+        <!-- 主/辅码流类型显示 -->
+
+        <TextView
+            android:id="@+id/textStreamStat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#80000000"
+            android:padding="5dp"
+            android:textColor="#ffffffff"
+            android:textSize="10dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutVideoControl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_camera_video_ctr"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/btnPlay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/camera_ctr_play" />
+
+        <View
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_line" />
+
+        <ImageButton
+            android:id="@+id/btnMute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/camera_ctr_mute" />
+
+        <View
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_line" />
+
+        <ImageButton
+            android:id="@+id/btnChannels"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/camera_ctr_channels" />
+
+        <View
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_line" />
+
+        <ImageButton
+            android:id="@+id/btnDefinition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/camera_ctr_sd_sim" />
+
+        <View
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_line" />
+
+        <ImageButton
+            android:id="@+id/btnFullscreen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/camera_ctr_fullscreen" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutFunctionControl"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/camera_playback"
+            android:button="@null" />
+
+        <RelativeLayout
+            android:id="@+id/layoutDirectionControl"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_camera_ptz">
+
+            <ImageButton
+                android:id="@+id/ptz_up"
+                android:layout_width="130dp"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/ptzup_selector" />
+
+            <ImageButton
+                android:id="@+id/ptz_left"
+                android:layout_width="60dp"
+                android:layout_height="130dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/ptzleft_selector" />
+
+
+            <ImageButton
+                android:id="@+id/ptz_down"
+                android:layout_width="130dp"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/ptzdown_selector" />
+
+            <ImageButton
+                android:id="@+id/ptz_right"
+                android:layout_width="60dp"
+                android:layout_height="130dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/ptz_left"
+                android:background="@drawable/ptzright_selector" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_camera_func"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_camera_detection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:drawableTop="@drawable/camera_func_detection_selector"
+            android:text="@string/camera_device_detection"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_camera_capture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:drawableTop="@drawable/camera_func_capture_selector"
+            android:text="@string/camera_device_capture"
+            android:textSize="12sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:drawableTop="@drawable/camera_func_speak_selector"
+            android:text="@string/camera_device_speak"
+            android:textSize="12sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:drawableTop="@drawable/camera_func_record_selector"
+            android:text="@string/camera_device_record"
+            android:textSize="12sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:drawableTop="@drawable/camera_func_files_selector"
+            android:text="@string/camera_device_files"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>
