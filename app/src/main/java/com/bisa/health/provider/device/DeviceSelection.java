@@ -399,4 +399,45 @@ public class DeviceSelection extends AbstractSelection<DeviceSelection> {
         orderBy(DeviceColumns.ICOFLAG, false);
         return this;
     }
+
+
+    public DeviceSelection custName(String... value) {
+        addEquals(DeviceColumns.CUSTNAME, value);
+        return this;
+    }
+
+    public DeviceSelection custNameNot(String... value) {
+        addNotEquals(DeviceColumns.CUSTNAME, value);
+        return this;
+    }
+
+    public DeviceSelection custNameLike(String... value) {
+        addLike(DeviceColumns.CUSTNAME, value);
+        return this;
+    }
+
+    public DeviceSelection custNameContains(String... value) {
+        addContains(DeviceColumns.CUSTNAME, value);
+        return this;
+    }
+
+    public DeviceSelection custNameStartsWith(String... value) {
+        addStartsWith(DeviceColumns.CUSTNAME, value);
+        return this;
+    }
+
+    public DeviceSelection custNameEndsWith(String... value) {
+        addEndsWith(DeviceColumns.CUSTNAME, value);
+        return this;
+    }
+
+    public DeviceSelection orderByCustName(boolean desc) {
+        orderBy(DeviceColumns.CUSTNAME, desc);
+        return this;
+    }
+
+    public DeviceSelection orderByCustName() {
+        orderBy(DeviceColumns.CUSTNAME, false);
+        return this;
+    }
 }

@@ -73,12 +73,91 @@
     <string name="camera_guide_tips">After the operation according to the diagram, you will hear the prompt "start quick configuration"</string>
     <string name="next_step">Next Step</string>
     <string name="camera_wifi_title">Find Camera</string>
-    <string name="camera_wifi_headline">Please enter the current wifi password:</string>
-    <string name="camera_wifi_tips">*Select WIFI with strong signal and fill in the WIFI password correctly to quickly connect the device to the Internet.</string>
+    <string name="camera_wifi_headline">Please enter the current WiFi password:</string>
+    <string name="camera_wifi_tips">*Select WiFi with strong signal and fill in the WIFI password correctly to quickly connect the device to the Internet.</string>
     <string name="camera_wifi_confirm">Confirm</string>
     <string name="camera_wifi_problem">Connection problems?</string>
     <string name="camera_wifi_pw">Password</string>
     <string name="camera_search_cancel">Cancel</string>
+    <string name="camera_pw_title">Set Camera Password</string>
+    <string name="camera_pw_headline">For the security of your device, please change the default password</string>
+    <string name="camera_pw_new_pw">Please enter a new password</string>
+    <string name="camera_pw_confirm_pw">Please confirm the new password</string>
+    <string name="camera_pw_tips">⊙If the password setting is unsuccessful, long press the reset button at the rear of the device to restore the factory default.After the factory default is restored, you need to add the device again and reset the password</string>
+    <string name="camera_pw_confirm">Confirm</string>
+    <string name="camera_name_title">Name the Camera</string>
+    <string name="camera_name_headline">Add succeeded. Please name the device</string>
+    <string name="camera_name_save">Save</string>
+
+    <string name="camera_all_title">All Cameras</string>
+    <string name="camera_online">Online</string>
+    <string name="camera_share">Share</string>
+    <string name="camera_settings">Settings</string>
+
+    <string name="device_opt_play">播放</string>
+    <string name="device_opt_stop">停止</string>
+    <string name="device_opt_capture">截图</string>
+    <string name="device_opt_record">录制</string>
+    <string name="device_opt_fullscreen">全屏</string>
+    <string name="device_opt_fisheye_info">信息</string>
+    <string name="device_opt_get_preset">预设点列表</string>
+    <string name="device_opt_set_preset">设置预设点</string>
+    <string name="media_stream_switch">码流切换</string>
+    <string name="common_confirm">确定</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_skip">跳转</string>
+    <string name="common_delete">删除</string>
+    <string name="common_retry">重试</string>
+    <string name="user_input_preset_number">请输入要设置的预置点编号</string>
+    <string name="user_input_preset_number_warn">请设置数字小于200的预设点</string>
+    <string name="device_login_input_password">请输入设备登录密码</string>
+    <string name="user_set_preset_succeed">预设点操作成功</string>
+    <string name="user_set_preset_fail">预设点操作失败</string>
+    <string name="media_play_error">视频播放失败</string>
+    <string name="media_player_buffering">正在缓冲...</string>
+    <string name="media_stream_main">主码流</string>
+    <string name="media_stream_secondary">辅码流</string>
+    <string name="device_camera_channels_preview_title">多通道预览</string>
+    <string name="device_opt_smallscreen">视频小窗口</string>
+    <string name="device_sport_camera_record_success_cancel">取消</string>
+    <string name="device_sport_camera_record_success">录像成功,是否打开?</string>
+    <string name="device_sport_camera_record_success_open">打开</string>
+    <string name="device_socket_capture_delete">删除</string>
+    <string name="device_socket_capture_preview">预览</string>
+    <string name="device_socket_capture_save">保存</string>
+    <string name="user_select_preset">请选择预设点</string>
+    <string name="common_correct">Correct</string>
+    <string name="media_record_stop">停止录像,文件保存在:</string>
+    <string name="media_player_opening">正在打开视频...</string>
+    <string name="device_opt_channel">通道:</string>
+
+    <string name="wifi_not_connected">WiFi Not Connected!</string>
+    <string name="camera_pw_confirm_error">两次密码不一样！</string>
+
+    <string name="camera_device_detection">侦测</string>
+    <string name="camera_device_capture">拍照</string>
+    <string name="camera_device_speak">长按喊话</string>
+    <string name="camera_device_record">录像</string>
+    <string name="camera_device_files">文件</string>
+
+    <string-array name="pic_type">
+        <item>全部</item>
+        <item>报警</item>
+        <item>侦测</item>
+        <item>普通</item>
+        <item>遥控</item>
+        <item>关键</item>
+        <item>延时拍</item>
+        <item>连拍</item>
+    </string-array>
+    <string-array name="record_type">
+        <item>全部录像</item>
+        <item>报警录像</item>
+        <item>侦测录像</item>
+        <item>普通录像</item>
+        <item>手动录像</item>
+        <item>遥控录像</item>
+    </string-array>
 
     <!--报告类型-->
     <string name="title_not_erect">Not open</string>

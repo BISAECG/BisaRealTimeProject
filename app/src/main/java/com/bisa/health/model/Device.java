@@ -41,6 +41,13 @@ public class Device implements Parcelable{
 	 */
 	private int icoflag;
 
+
+	/**
+	 * 设备的自定义名称
+	 */
+	private String custName;
+
+
 	public String getDevname() {
 		return devname;
 	}
@@ -105,7 +112,15 @@ public class Device implements Parcelable{
 		this.user_guid = user_guid;
 	}
 
-	public Device(int user_guid, String devname, String macadderss, String devnum, int connstatus, String clzName, int checkbox, int icoflag) {
+	public String getCustName() {
+		return custName;
+	}
+
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+
+	public Device(int user_guid, String devname, String macadderss, String devnum, int connstatus, String clzName, int checkbox, int icoflag, String custName) {
 		this.user_guid = user_guid;
 		this.devname = devname;
 		this.macadderss = macadderss;
@@ -114,6 +129,7 @@ public class Device implements Parcelable{
 		this.clzName = clzName;
 		this.checkbox = checkbox;
 		this.icoflag = icoflag;
+		this.custName = custName;
 	}
 
 	public Device() {
@@ -128,6 +144,7 @@ public class Device implements Parcelable{
 		this.clzName = source.readString();
 		this.checkbox = source.readInt();
 		this.icoflag = source.readInt();
+		this.custName = source.readString();
 	}
 
 
@@ -141,6 +158,7 @@ public class Device implements Parcelable{
 		deviceContentValues.putIcoflag(device.getIcoflag());
 		deviceContentValues.putDevname(device.getDevname());
 		deviceContentValues.putDevnum(device.getDevnum());
+		deviceContentValues.putCustName(device.getCustName());
 		return deviceContentValues;
 	}
 	public DeviceContentValues toDeviceContentValues(){
@@ -153,6 +171,7 @@ public class Device implements Parcelable{
 		deviceContentValues.putIcoflag(this.getIcoflag());
 		deviceContentValues.putDevname(this.getDevname());
 		deviceContentValues.putDevnum(this.getDevnum());
+		deviceContentValues.putCustName(this.getCustName());
 		return deviceContentValues;
 	}
 
@@ -165,6 +184,7 @@ public class Device implements Parcelable{
 		this.setDevnum(deviceCursor.getDevnum());
 		this.setIcoflag(deviceCursor.getIcoflag());
 		this.setMacadderss(deviceCursor.getMacadderss());
+		this.setCustName(deviceCursor.getCustName());
 		return this;
 	}
 
@@ -183,6 +203,7 @@ public class Device implements Parcelable{
 		dest.writeString(this.clzName);
 		dest.writeInt(this.checkbox);
 		dest.writeInt(this.icoflag);
+		dest.writeString(this.custName);
 	}
 
 	public static final Creator<Device> CREATOR = new Creator<Device>() {
@@ -210,6 +231,7 @@ public class Device implements Parcelable{
 				", clzName='" + clzName + '\'' +
 				", checkbox=" + checkbox +
 				", icoflag=" + icoflag +
+				", custName='" + custName + '\'' +
 				'}';
 	}
 }

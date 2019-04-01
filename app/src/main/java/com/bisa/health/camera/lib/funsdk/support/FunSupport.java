@@ -9,8 +9,49 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.basic.G;
-import com.example.funsdkdemo.MyApplication;
-import com.example.funsdkdemo.utils.XUtils;
+import com.bisa.health.camera.lib.funsdk.support.config.AlarmInfo;
+import com.bisa.health.camera.lib.funsdk.support.config.BaseConfig;
+import com.bisa.health.camera.lib.funsdk.support.config.DevCmdGeneral;
+import com.bisa.health.camera.lib.funsdk.support.config.DevCmdOPFileQueryJP;
+import com.bisa.health.camera.lib.funsdk.support.config.DevCmdOPRemoveFileJP;
+import com.bisa.health.camera.lib.funsdk.support.config.DevCmdOPSCalendar;
+import com.bisa.health.camera.lib.funsdk.support.config.DevCmdSearchFileNumJP;
+import com.bisa.health.camera.lib.funsdk.support.config.DeviceGetJson;
+import com.bisa.health.camera.lib.funsdk.support.config.JsonConfig;
+import com.bisa.health.camera.lib.funsdk.support.config.OPCompressPic;
+import com.bisa.health.camera.lib.funsdk.support.config.SameDayPicInfo;
+import com.bisa.health.camera.lib.funsdk.support.config.SystemInfo;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevRecordFile;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevStatus;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevType;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDeviceBuilder;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDeviceSocket;
+import com.bisa.health.camera.lib.funsdk.support.models.FunLoginType;
+import com.bisa.health.camera.lib.funsdk.support.utils.DeviceWifiManager;
+import com.bisa.health.camera.lib.funsdk.support.utils.MyUtils;
+import com.bisa.health.camera.lib.funsdk.support.utils.SharedParamMng;
+import com.bisa.health.camera.lib.funsdk.support.utils.StringUtils;
+import com.bisa.health.camera.lib.sdk.bean.DSTimeBean;
+import com.bisa.health.camera.lib.sdk.bean.DayLightTimeBean;
+import com.bisa.health.camera.lib.sdk.bean.DownloadInfo;
+import com.bisa.health.camera.lib.sdk.bean.HandleConfigData;
+import com.bisa.health.camera.lib.sdk.bean.LocationBean;
+import com.bisa.health.camera.lib.sdk.bean.TimeZoneBean;
+import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
+import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FINDINFO;
+import com.bisa.health.camera.lib.sdk.struct.ManualSnapModeJP;
+import com.bisa.health.camera.lib.sdk.struct.OPRemoveFileJP;
+import com.bisa.health.camera.lib.sdk.struct.SDBDeviceInfo;
+import com.bisa.health.camera.lib.sdk.struct.SDK_Authority;
+import com.bisa.health.camera.lib.sdk.struct.SDK_CONFIG_NET_COMMON_V2;
+import com.bisa.health.camera.lib.sdk.struct.SDK_ChannelNameConfigAll;
+import com.bisa.health.camera.lib.sdk.struct.SDK_SearchByTime;
+import com.bisa.health.camera.lib.sdk.struct.SDK_TitleDot;
+import com.bisa.health.camera.lib.sdk.struct.SInitParam;
+
+import com.bisa.health.camera.sdk.MyApplication;
+import com.bisa.health.camera.sdk.XUtils;
 import com.lib.ECONFIG;
 import com.lib.EDEV_ATTR;
 import com.lib.EDEV_JSON_ID;
@@ -25,46 +66,6 @@ import com.lib.Mps.XPMS_SEARCH_ALARMINFO_REQ;
 import com.lib.MsgContent;
 import com.lib.SDKCONST;
 import com.lib.SDKCONST.SDK_CommTypes;
-import com.lib.funsdk.support.config.AlarmInfo;
-import com.lib.funsdk.support.config.BaseConfig;
-import com.lib.funsdk.support.config.DevCmdGeneral;
-import com.lib.funsdk.support.config.DevCmdOPFileQueryJP;
-import com.lib.funsdk.support.config.DevCmdOPRemoveFileJP;
-import com.lib.funsdk.support.config.DevCmdOPSCalendar;
-import com.lib.funsdk.support.config.DevCmdSearchFileNumJP;
-import com.lib.funsdk.support.config.DeviceGetJson;
-import com.lib.funsdk.support.config.OPCompressPic;
-import com.lib.funsdk.support.config.SameDayPicInfo;
-import com.lib.funsdk.support.config.SystemInfo;
-import com.lib.funsdk.support.models.FunDevRecordFile;
-import com.lib.funsdk.support.models.FunDevStatus;
-import com.lib.funsdk.support.models.FunDevType;
-import com.lib.funsdk.support.models.FunDevice;
-import com.lib.funsdk.support.models.FunDeviceBuilder;
-import com.lib.funsdk.support.models.FunDeviceSocket;
-import com.lib.funsdk.support.models.FunLoginType;
-import com.lib.funsdk.support.utils.DeviceWifiManager;
-import com.lib.funsdk.support.utils.MyUtils;
-import com.lib.funsdk.support.utils.SharedParamMng;
-import com.lib.funsdk.support.utils.StringUtils;
-import com.lib.sdk.bean.DSTimeBean;
-import com.lib.sdk.bean.DayLightTimeBean;
-import com.lib.sdk.bean.DownloadInfo;
-import com.lib.sdk.bean.HandleConfigData;
-import com.lib.sdk.bean.JsonConfig;
-import com.lib.sdk.bean.LocationBean;
-import com.lib.sdk.bean.TimeZoneBean;
-import com.lib.sdk.struct.H264_DVR_FILE_DATA;
-import com.lib.sdk.struct.H264_DVR_FINDINFO;
-import com.lib.sdk.struct.ManualSnapModeJP;
-import com.lib.sdk.struct.OPRemoveFileJP;
-import com.lib.sdk.struct.SDBDeviceInfo;
-import com.lib.sdk.struct.SDK_Authority;
-import com.lib.sdk.struct.SDK_CONFIG_NET_COMMON_V2;
-import com.lib.sdk.struct.SDK_ChannelNameConfigAll;
-import com.lib.sdk.struct.SDK_SearchByTime;
-import com.lib.sdk.struct.SDK_TitleDot;
-import com.lib.sdk.struct.SInitParam;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -81,10 +82,10 @@ public class FunSupport implements IFunSDKResult {
     private static final String TAG = "FunSupport";
 
     // 应用证书,请在开放平台注册应用之后替换以下4个字段
-    private static final String APP_UUID = "e0534f3240274897821a126be19b6d46";
-    private static final String APP_KEY = "0621ef206a1d4cafbe0c5545c3882ea8";
-    private static final String APP_SECRET = "90f8bc17be2a425db6068c749dee4f5d";
-    private static final int APP_MOVECARD = 2;
+    private static final String APP_UUID = "0f16ed53820847ddb0b148ffa876e7d8";
+    private static final String APP_KEY = "39cb860b743947d9837453ead4ad59d9";
+    private static final String APP_SECRET = "cb342be4e3714287907715237f88037e";
+    private static final int APP_MOVECARD = 6;
 
 
 //    private static final String APP_UUID = "90b4eb2b73c44be28baf8d61cfc4f59e";
@@ -205,7 +206,7 @@ public class FunSupport implements IFunSDKResult {
 //		FunLog.i(TAG, "FunSDK.InitServerIPPort:" + result);
 
         // 降低隐藏到后台时cpu使用及耗电
-        FunSDK.SetApplication((MyApplication)mContext.getApplicationContext());
+        //FunSDK.SetApplication((MyApplication)mContext.getApplicationContext());
         // 库初始化2
         FunSDK.MyInitNetSDK();
 

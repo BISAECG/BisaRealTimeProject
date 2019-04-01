@@ -1,6 +1,6 @@
 package com.bisa.health.camera.lib.funsdk.support.config;
 
-import com.lib.funsdk.support.models.FunDevice;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 
 import java.util.HashMap;
 import java.util.Map;

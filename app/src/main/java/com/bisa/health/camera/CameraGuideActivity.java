@@ -41,6 +41,7 @@ public class CameraGuideActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ActivityUtil.startActivity(CameraGuideActivity.this, CameraWifiActivity.class, ActionEnum.NULL);
+                finish();
             }
         });
     }

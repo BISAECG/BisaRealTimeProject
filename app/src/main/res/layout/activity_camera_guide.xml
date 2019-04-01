@@ -15,56 +15,52 @@
         app:preIco="@drawable/menu_back_bg"
         app:title="@string/camera_guide_title" />
 
-    <LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="@string/camera_guide_headline"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:lineSpacingMultiplier="1.5"
+        android:text="@string/camera_guide_body"
+        android:textSize="14sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="@string/camera_guide_headline"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/guide_camera" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="40dp"
-            android:lineSpacingMultiplier="1.5"
-            android:text="@string/camera_guide_body"
-            android:textSize="14sp" />
+    <CheckBox
+        android:id="@+id/checkBox_camera_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/camera_guide_tips"
+        android:textSize="14sp" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/guide_camera" />
-
-        <CheckBox
-            android:id="@+id/checkBox_camera_guide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="@string/camera_guide_tips"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btn_camera_guide"
-            android:layout_width="309dp"
-            android:layout_height="41dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@color/color_btn_default"
-            android:text="@string/next_step"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/btn_camera_guide"
+        android:layout_width="@dimen/camera_btn_width"
+        android:layout_height="@dimen/camera_btn_height"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_camera_guide_next"
+        android:text="@string/next_step"
+        android:textColor="@color/white"
+        android:gravity="center"/>
 
 </LinearLayout>

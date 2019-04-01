@@ -1,10 +1,10 @@
 package com.bisa.health.camera.lib.funsdk.support.config;
 
 import com.basic.G;
-import com.lib.funsdk.support.FunLog;
-import com.lib.funsdk.support.models.FunFileData;
-import com.lib.sdk.struct.H264_DVR_FILE_DATA;
-import com.lib.sdk.struct.SDK_SYSTEM_TIME;
+import com.bisa.health.camera.lib.funsdk.support.FunLog;
+import com.bisa.health.camera.lib.funsdk.support.models.FunFileData;
+import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
+import com.bisa.health.camera.lib.sdk.struct.SDK_SYSTEM_TIME;
 
 import java.util.ArrayList;
 import java.util.Date;

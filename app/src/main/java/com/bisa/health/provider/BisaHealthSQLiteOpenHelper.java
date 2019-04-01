@@ -54,7 +54,8 @@ public class BisaHealthSQLiteOpenHelper extends SQLiteOpenHelper {
             + DeviceColumns.CONNSTATUS + " INTEGER, "
             + DeviceColumns.CLZNAME + " TEXT, "
             + DeviceColumns.CHECKBOX + " INTEGER, "
-            + DeviceColumns.ICOFLAG + " INTEGER "
+            + DeviceColumns.ICOFLAG + " INTEGER, "
+            + DeviceColumns.CUSTNAME + " TEXT "
             + " );";
 
     public static final String SQL_CREATE_TABLE_EVENT = "CREATE TABLE IF NOT EXISTS "

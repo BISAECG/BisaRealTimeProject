@@ -1,8 +1,8 @@
 package com.bisa.health.camera.lib.sdk.struct;
 
 import com.basic.G;
+import com.bisa.health.camera.lib.funsdk.support.utils.MyUtils;
 import com.lib.SDKCONST.StreamType;
-import com.lib.funsdk.support.utils.MyUtils;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

@@ -1,7 +1,8 @@
 package com.bisa.health.camera.lib.funsdk.support;
 
-import com.lib.funsdk.support.config.AlarmInfo;
-import com.lib.funsdk.support.models.FunDevice;
+
+import com.bisa.health.camera.lib.funsdk.support.config.AlarmInfo;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 
 import java.util.List;
 

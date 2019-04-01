@@ -12,7 +12,7 @@ import android.net.wifi.WifiManager.WifiLock;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
-import com.lib.funsdk.support.FunLog;
+import com.bisa.health.camera.lib.funsdk.support.FunLog;
 
 import java.util.ArrayList;
 import java.util.Collections;

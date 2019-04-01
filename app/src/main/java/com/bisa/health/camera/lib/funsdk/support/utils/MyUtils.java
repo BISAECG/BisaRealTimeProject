@@ -7,9 +7,8 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.view.View;
 
-import com.lib.funsdk.support.FunPath;
-import com.lib.funsdk.support.utils.Define.EncrypType;
-import com.lib.sdk.struct.H264_DVR_FINDINFO;
+import com.bisa.health.camera.lib.funsdk.support.FunPath;
+import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FINDINFO;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -51,22 +50,22 @@ public class MyUtils {
 		}
 	}
 
-	public static EncrypType getEncrypType(String capabilities) {
+	public static Define.EncrypType getEncrypType(String capabilities) {
 		if (capabilities.contains("WPA2") && capabilities.contains("CCMP")) {
-			return EncrypType.WPA2_CCMP;
+			return Define.EncrypType.WPA2_CCMP;
 		} else if (capabilities.contains("WPA2")
 				&& capabilities.contains("TKIP")) {
-			return EncrypType.WPA2_TKIP;
+			return Define.EncrypType.WPA2_TKIP;
 		} else if (capabilities.contains("WPA")
 				&& capabilities.contains("TKIP")) {
-			return EncrypType.WPA_TKIP;
+			return Define.EncrypType.WPA_TKIP;
 		} else if (capabilities.contains("WPA")
 				&& capabilities.contains("CCMP")) {
-			return EncrypType.WPA_CCMP;
+			return Define.EncrypType.WPA_CCMP;
 		} else if (capabilities.contains("WEP")) {
-			return EncrypType.WEP;
+			return Define.EncrypType.WEP;
 		} else {
-			return EncrypType.NONE;
+			return Define.EncrypType.NONE;
 		}
 	}
 	

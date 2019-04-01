@@ -1,7 +1,7 @@
 package com.bisa.health.camera.lib.funsdk.support;
 
-import com.lib.funsdk.support.models.FunDevice;
-import com.lib.sdk.struct.H264_DVR_FILE_DATA;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
+import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
 
 public interface OnFunDeviceOptListener extends OnFunListener {
 

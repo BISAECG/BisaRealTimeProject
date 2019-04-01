@@ -22,6 +22,7 @@ public class DeviceBean implements DeviceModel {
     private String mClzname;
     private Integer mCheckbox;
     private Integer mIcoflag;
+    private String mCustName;
 
     /**
      * Primary key.
@@ -182,6 +183,23 @@ public class DeviceBean implements DeviceModel {
         mIcoflag = icoflag;
     }
 
+
+    @Nullable
+    @Override
+    public String getCustName() {
+        return mCustName;
+    }
+
+    /**
+     * Set the {@code devname} value.
+     * Can be {@code null}.
+     */
+    public void setCustName(@Nullable String custName) {
+        mCustName = custName;
+    }
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -199,7 +217,7 @@ public class DeviceBean implements DeviceModel {
      * Instantiate a new DeviceBean with specified values.
      */
     @NonNull
-    public static DeviceBean newInstance(long id, @Nullable Integer userGuid, @Nullable String devname, @Nullable String macadderss, @Nullable String devnum, @Nullable Integer connstatus, @Nullable String clzname, @Nullable Integer checkbox, @Nullable Integer icoflag) {
+    public static DeviceBean newInstance(long id, @Nullable Integer userGuid, @Nullable String devname, @Nullable String macadderss, @Nullable String devnum, @Nullable Integer connstatus, @Nullable String clzname, @Nullable Integer checkbox, @Nullable Integer icoflag, String custName) {
         DeviceBean res = new DeviceBean();
         res.mId = id;
         res.mUserGuid = userGuid;
@@ -210,6 +228,7 @@ public class DeviceBean implements DeviceModel {
         res.mClzname = clzname;
         res.mCheckbox = checkbox;
         res.mIcoflag = icoflag;
+        res.mCustName = custName;
         return res;
     }
 
@@ -228,6 +247,7 @@ public class DeviceBean implements DeviceModel {
         res.mClzname = from.getClzname();
         res.mCheckbox = from.getCheckbox();
         res.mIcoflag = from.getIcoflag();
+        res.mCustName = from.getCustName();
         return res;
     }
 
@@ -311,6 +331,11 @@ public class DeviceBean implements DeviceModel {
          */
         public Builder icoflag(@Nullable Integer icoflag) {
             mRes.mIcoflag = icoflag;
+            return this;
+        }
+
+        public Builder custName(@Nullable String custName) {
+            mRes.mCustName = custName;
             return this;
         }
 

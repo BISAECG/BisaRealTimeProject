@@ -1,6 +1,7 @@
 package com.bisa.health.camera.lib.funsdk.support;
 
-import com.example.funsdkdemo.R;
+
+import com.bisa.health.R;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -18,9 +18,9 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import com.bisa.health.camera.lib.funsdk.support.FunLog;
+import com.lib.SDKCONST;
 import com.lib.SDKCONST.NetWorkType;
-import com.lib.funsdk.support.FunLog;
-import com.lib.funsdk.support.utils.DeviceWifiManager.DEVICE_TYPE;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * XMFamily APAutomaticSwitch.java
  * 
- * @author huangwanshui TODO AP�Զ��л�����·���������л���AP�豸���磩 2014-12-4
+ * @author huangwanshui TODO AP 2014-12-4
  */
 public class APAutomaticSwitch {
 	private static String MYLOG = APAutomaticSwitch.class.getClass()
@@ -118,10 +118,7 @@ public class APAutomaticSwitch {
 	}
 
 	/**
-	 * 
-	 * @param context
-	 * @param wifiManager
-	 * @return
+	 *
 	 */
 	public int RouterToDevAP(boolean bScan) {
 		int network_state = CheckNetWork.NetWorkUseful(mContext);
@@ -155,7 +152,7 @@ public class APAutomaticSwitch {
 						"set SSID:" + wifiList.get(0).SSID);
 				mTryConnectSSID = wifiList.get(0).SSID;
 				WifiConfiguration wcg = null;
-				if (DeviceWifiManager.getXMDeviceAPType(mTryConnectSSID) == DEVICE_TYPE.MOV) {
+				if (DeviceWifiManager.getXMDeviceAPType(mTryConnectSSID) == SDKCONST.DEVICE_TYPE.MOV) {
 					wcg = mWifiManager.CreateWifiInfo(mTryConnectSSID, "", 1);
 				} else {
 					wcg = mWifiManager.CreateWifiInfo(mTryConnectSSID,
@@ -172,10 +169,10 @@ public class APAutomaticSwitch {
 	}
 
 	/**
-	 * ·����ģʽ�л����豸APģʽ
+	 *
 	 * 
-	 * @param context
-	 * @param wifiManager
+	 * @param
+	 * @param
 	 * @return
 	 */
 	public int RouterToDevAP(String ssid, boolean bScan) {
@@ -215,7 +212,7 @@ public class APAutomaticSwitch {
 					return -3;
 			}
 			WifiConfiguration wcg = null;
-			if (DeviceWifiManager.getXMDeviceAPType(mTryConnectSSID) == DEVICE_TYPE.MOV) {
+			if (DeviceWifiManager.getXMDeviceAPType(mTryConnectSSID) == SDKCONST.DEVICE_TYPE.MOV) {
 				wcg = mWifiManager.CreateWifiInfo(mTryConnectSSID, "", 1);
 			} else {
 				wcg = mWifiManager.CreateWifiInfo(mTryConnectSSID,
@@ -256,8 +253,8 @@ public class APAutomaticSwitch {
 
 	/**
 	 * 
-	 * @param context
-	 * @param wifiManager
+	 * @param
+	 * @param
 	 * @return
 	 */
 	public boolean DevAPToRouter() {
@@ -314,10 +311,10 @@ public class APAutomaticSwitch {
 	}
 
 	/**
-	 * AP״̬��������ָ����wifi�ȵ�
+	 * AP
 	 * 
-	 * @param context
-	 * @param wifiManager
+	 * @param
+	 * @param
 	 * @return
 	 */
 	public boolean DevAPToRouter(String ssid, String password, int type) {
@@ -344,8 +341,8 @@ public class APAutomaticSwitch {
 	}
 
 	/**
-	 * @param context
-	 * @param wifiManager
+	 * @param
+	 * @param
 	 * @return
 	 */
 	public boolean ToRecordRouter(boolean bRemoveAP) {

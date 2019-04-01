@@ -1,8 +1,8 @@
 package com.bisa.health.camera.lib.funsdk.support.config;
 
+import com.bisa.health.camera.lib.funsdk.support.FunLog;
+import com.bisa.health.camera.lib.sdk.struct.SDK_SYSTEM_TIME;
 import com.lib.EDEV_JSON_ID;
-import com.lib.funsdk.support.FunLog;
-import com.lib.sdk.struct.SDK_SYSTEM_TIME;
 
 import org.json.JSONArray;
 import org.json.JSONException;

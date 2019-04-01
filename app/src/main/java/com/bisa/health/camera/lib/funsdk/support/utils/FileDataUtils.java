@@ -2,7 +2,7 @@ package com.bisa.health.camera.lib.funsdk.support.utils;
 
 import android.content.Context;
 
-import com.example.funsdkdemo.R;
+import com.bisa.health.R;
 import com.lib.SDKCONST.PicFileType;
 import com.lib.SDKCONST.StreamType;
 import com.lib.SDKCONST.VidoFileType;

@@ -5,11 +5,12 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.SystemClock;
 
+import com.bisa.health.camera.lib.funsdk.support.FunLog;
+import com.bisa.health.camera.lib.funsdk.support.FunSupport;
+import com.bisa.health.camera.lib.funsdk.support.OnFunDeviceTalkListener;
+import com.bisa.health.camera.lib.funsdk.support.config.OPTalk;
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 import com.lib.FunSDK;
-import com.lib.funsdk.support.FunLog;
-import com.lib.funsdk.support.FunSupport;
-import com.lib.funsdk.support.OnFunDeviceTalkListener;
-import com.lib.funsdk.support.models.FunDevice;
 
 /**
  * Created by Jeff on 16/4/21.
@@ -133,7 +134,7 @@ public class TalkManager implements OnFunDeviceTalkListener {
 
         public void Pause(boolean bPause) {
             mThreadPauseFlag = bPause;
-            com.lib.funsdk.support.config.OPTalk mOPTalk = new com.lib.funsdk.support.config.OPTalk();
+            OPTalk mOPTalk = new OPTalk();
             if (mThreadPauseFlag) {
 				mOPTalk.Action = "ResumeUpload";
 			} else {

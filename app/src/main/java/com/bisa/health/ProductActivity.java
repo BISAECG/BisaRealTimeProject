@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bisa.health.cache.CacheManage;
-import com.bisa.health.camera.AddCameraActivity;
+import com.bisa.health.camera.CameraAddActivity;
 import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.utils.ActivityUtil;
 
@@ -99,7 +99,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
             ActivityUtil.startActivity(this,AddActivity.class,ActionEnum.NULL);
         }
         else if(v == iv_camera) {
-            ActivityUtil.startActivity(this, AddCameraActivity.class, ActionEnum.NULL);
+            ActivityUtil.startActivity(this, CameraAddActivity.class, ActionEnum.NULL);
         }
     }
 }

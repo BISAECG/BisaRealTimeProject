@@ -1,6 +1,6 @@
 package com.bisa.health.camera.lib.funsdk.support.config;
 
-import com.lib.funsdk.support.FunLog;
+import com.bisa.health.camera.lib.funsdk.support.FunLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;

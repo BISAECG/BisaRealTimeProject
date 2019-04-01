@@ -120,4 +120,15 @@ public class DeviceContentValues extends AbstractContentValues {
         mContentValues.putNull(DeviceColumns.ICOFLAG);
         return this;
     }
+
+
+    public DeviceContentValues putCustName(@Nullable String value) {
+        mContentValues.put(DeviceColumns.CUSTNAME, value);
+        return this;
+    }
+
+    public DeviceContentValues putCustNameNull() {
+        mContentValues.putNull(DeviceColumns.CUSTNAME);
+        return this;
+    }
 }

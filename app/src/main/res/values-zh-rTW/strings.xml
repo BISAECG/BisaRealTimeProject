@@ -78,6 +78,85 @@
     <string name="camera_wifi_problem">聯網遇到問題？</string>
     <string name="camera_wifi_pw">密碼</string>
     <string name="camera_search_cancel">取消</string>
+    <string name="camera_pw_title">設置攝像頭密碼</string>
+    <string name="camera_pw_headline">為了您的設備安全，請修改默認密碼</string>
+    <string name="camera_pw_new_pw">請輸入新密碼</string>
+    <string name="camera_pw_confirm_pw">請確認新密碼</string>
+    <string name="camera_pw_tips">⊙如果密碼設置不成功，請長按設備後方的reset鍵，進行恢復出廠默認。恢復出廠默認後，需要重新添加設備，重新設置密碼</string>
+    <string name="camera_pw_confirm">確定</string>
+    <string name="camera_name_title">攝像機取名</string>
+    <string name="camera_name_headline">添加設備成功，給設備起個名吧</string>
+    <string name="camera_name_save">保存</string>
+
+    <string name="camera_all_title">全部攝像頭</string>
+    <string name="camera_online">在線</string>
+    <string name="camera_share">分享</string>
+    <string name="camera_settings">設置</string>
+
+    <string name="device_opt_play">播放</string>
+    <string name="device_opt_stop">停止</string>
+    <string name="device_opt_capture">截图</string>
+    <string name="device_opt_record">录制</string>
+    <string name="device_opt_fullscreen">全屏</string>
+    <string name="device_opt_fisheye_info">信息</string>
+    <string name="device_opt_get_preset">预设点列表</string>
+    <string name="device_opt_set_preset">设置预设点</string>
+    <string name="media_stream_switch">码流切换</string>
+    <string name="common_confirm">确定</string>
+    <string name="common_cancel">取消</string>
+    <string name="common_skip">跳转</string>
+    <string name="common_delete">删除</string>
+    <string name="common_retry">重试</string>
+    <string name="user_input_preset_number">请输入要设置的预置点编号</string>
+    <string name="user_input_preset_number_warn">请设置数字小于200的预设点</string>
+    <string name="device_login_input_password">请输入设备登录密码</string>
+    <string name="user_set_preset_succeed">预设点操作成功</string>
+    <string name="user_set_preset_fail">预设点操作失败</string>
+    <string name="media_play_error">视频播放失败</string>
+    <string name="media_player_buffering">正在缓冲...</string>
+    <string name="media_stream_main">主码流</string>
+    <string name="media_stream_secondary">辅码流</string>
+    <string name="device_camera_channels_preview_title">多通道预览</string>
+    <string name="device_opt_smallscreen">视频小窗口</string>
+    <string name="device_sport_camera_record_success_cancel">取消</string>
+    <string name="device_sport_camera_record_success">录像成功,是否打开?</string>
+    <string name="device_sport_camera_record_success_open">打开</string>
+    <string name="device_socket_capture_delete">删除</string>
+    <string name="device_socket_capture_preview">预览</string>
+    <string name="device_socket_capture_save">保存</string>
+    <string name="user_select_preset">请选择预设点</string>
+    <string name="common_correct">Correct</string>
+    <string name="media_record_stop">停止录像,文件保存在:</string>
+    <string name="media_player_opening">正在打开视频...</string>
+    <string name="device_opt_channel">通道:</string>
+
+    <string name="wifi_not_connected">WIFI 未连接！</string>
+    <string name="camera_pw_confirm_error">两次密码不一样！</string>
+
+    <string name="camera_device_detection">侦测</string>
+    <string name="camera_device_capture">拍照</string>
+    <string name="camera_device_speak">长按喊话</string>
+    <string name="camera_device_record">录像</string>
+    <string name="camera_device_files">文件</string>
+
+    <string-array name="pic_type">
+        <item>全部</item>
+        <item>报警</item>
+        <item>侦测</item>
+        <item>普通</item>
+        <item>遥控</item>
+        <item>关键</item>
+        <item>延时拍</item>
+        <item>连拍</item>
+    </string-array>
+    <string-array name="record_type">
+        <item>全部录像</item>
+        <item>报警录像</item>
+        <item>侦测录像</item>
+        <item>普通录像</item>
+        <item>手动录像</item>
+        <item>遥控录像</item>
+    </string-array>
 
     <!--報告類型-->
     <string name="title_not_erect">功能正在建設</string>

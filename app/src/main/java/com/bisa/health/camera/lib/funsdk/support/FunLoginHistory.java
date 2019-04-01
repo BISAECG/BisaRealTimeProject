@@ -2,7 +2,8 @@ package com.bisa.health.camera.lib.funsdk.support;
 
 import android.util.Base64;
 
-import com.lib.funsdk.support.utils.FileUtils;
+
+import com.bisa.health.camera.lib.funsdk.support.utils.FileUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

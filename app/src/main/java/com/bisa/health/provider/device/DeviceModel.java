@@ -74,4 +74,8 @@ public interface DeviceModel extends BaseModel {
      */
     @Nullable
     Integer getIcoflag();
+
+
+    @Nullable
+    String getCustName();
 }

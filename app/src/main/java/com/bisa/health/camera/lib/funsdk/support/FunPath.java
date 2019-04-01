@@ -5,10 +5,10 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import com.basic.G;
-import com.lib.funsdk.support.utils.FileDataUtils;
-import com.lib.funsdk.support.utils.StringUtils;
-import com.lib.sdk.struct.H264_DVR_FILE_DATA;
-import com.lib.sdk.struct.SDK_SYSTEM_TIME;
+import com.bisa.health.camera.lib.funsdk.support.utils.FileDataUtils;
+import com.bisa.health.camera.lib.funsdk.support.utils.StringUtils;
+import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
+import com.bisa.health.camera.lib.sdk.struct.SDK_SYSTEM_TIME;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

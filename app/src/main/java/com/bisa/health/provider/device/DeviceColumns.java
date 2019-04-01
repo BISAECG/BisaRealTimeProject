@@ -35,6 +35,8 @@ public class DeviceColumns implements BaseColumns {
 
     public static final String ICOFLAG = "icoflag";
 
+    public static final String CUSTNAME = "custName";
+
 
     public static final String DEFAULT_ORDER = null;
 
@@ -47,7 +49,8 @@ public class DeviceColumns implements BaseColumns {
             CONNSTATUS,
             CLZNAME,
             CHECKBOX,
-            ICOFLAG
+            ICOFLAG,
+            CUSTNAME
     };
 
     public static boolean hasColumns(String[] projection) {
@@ -61,6 +64,7 @@ public class DeviceColumns implements BaseColumns {
             if (c.equals(CLZNAME) || c.contains("." + CLZNAME)) return true;
             if (c.equals(CHECKBOX) || c.contains("." + CHECKBOX)) return true;
             if (c.equals(ICOFLAG) || c.contains("." + ICOFLAG)) return true;
+            if (c.equals(CUSTNAME) || c.contains("." + CUSTNAME)) return true;
         }
         return false;
     }

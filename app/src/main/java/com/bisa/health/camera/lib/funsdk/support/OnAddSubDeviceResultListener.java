@@ -1,7 +1,7 @@
 package com.bisa.health.camera.lib.funsdk.support;
 
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 import com.lib.MsgContent;
-import com.lib.funsdk.support.models.FunDevice;
 
 /**
  * Created by zhangyongyong on 2017-07-25-08:55.

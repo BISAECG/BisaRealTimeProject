@@ -94,10 +94,14 @@
         android:logo="@drawable/menu_back_bg"
         android:persistent="true"
         android:theme="@style/HelathTheme">
-        <activity android:name=".camera.CameraSearchActivity"></activity>
+        <activity android:name=".camera.CameraDeviceActivity"></activity>
+        <activity android:name=".camera.CameraActivity" />
+        <activity android:name=".camera.CameraNameActivity" />
+        <activity android:name=".camera.CameraPwActivity" />
+        <activity android:name=".camera.CameraSearchActivity" />
         <activity android:name=".camera.CameraWifiActivity" />
         <activity android:name=".camera.CameraGuideActivity" />
-        <activity android:name=".camera.AddCameraActivity" />
+        <activity android:name=".camera.CameraAddActivity" />
 
         <service
             android:name="com.baidu.location.f"

@@ -1,6 +1,7 @@
 package com.bisa.health.camera.lib.funsdk.support;
 
-import com.lib.funsdk.support.models.FunDevStatus;
+
+import com.bisa.health.camera.lib.funsdk.support.models.FunDevStatus;
 
 /**
  * @author hws

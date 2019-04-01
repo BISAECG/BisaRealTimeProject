@@ -26,7 +26,7 @@
 			<color name="color_centre_device">#7f7f7f</color>
 			<color name="color_main_footer_bg">#f7f7f7</color>
 			<color name="color_login_tip">#545454</color>
-			<color name="color_line">#dfdfdf</color>
+			<color name="color_line">#DFDFDF</color>
 			<color name="color_login_type">#9F9F9F</color>
 			<color name="color_get_pwd">#9B9B9B</color>
 			<color name="color_get_pwd_value">#6C6C6C</color>
@@ -52,5 +52,19 @@
 			<color name="color_9ce8d7">#9ce8d7</color>
 
 			<color name="alpha_20_black">#33000000</color>
+	
+	<color name="bg_camera_online">#7AC3F0</color>
+	<color name="bg_camera_offline">#BEBEBE</color>
+	<color name="bg_camera_all_btn">#62708A</color>
+	<color name="btn_camera_disabled">#7FCBED</color>
+	<color name="bg_camera_video_ctr">#62708A</color>
+	<color name="bg_camera_func">#E5E5E5</color>
+
+	<!--copy-->
+	<color name="theme_color">#ffe97425</color>
+	<color name="item_pressed">#80888888</color>
+	<color name="item_selected">#80e97425</color>
+	<color name="demo_desc">#ff636363</color>
+	<color name="bg_gray">#ffe5e5e5</color>
 
 </resources>

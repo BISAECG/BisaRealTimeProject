@@ -113,4 +113,9 @@ public class DeviceCursor extends AbstractCursor implements DeviceModel {
         Integer res = getIntegerOrNull(DeviceColumns.ICOFLAG);
         return res;
     }
+
+    public String getCustName() {
+        String res = getStringOrNull(DeviceColumns.CUSTNAME);
+        return res;
+    }
 }

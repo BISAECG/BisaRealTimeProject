@@ -73,8 +73,6 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
         deviceDao=new DeviceDao(context);
         sharedPersistor=new SharedPersistor(context);
         mUser=sharedPersistor.loadObject(User.class.getName());
-
-
     }
 
     @Override
@@ -88,7 +86,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
             showNextTipViewOnCreated();
         }
 
-
+        getLoaderManager().initLoader(0, null, this);
 
     }
 
@@ -97,7 +95,6 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
         Log.i(TAG, "onResume: ");
         super.onResume();
         isDel=false;
-        this.getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -206,7 +203,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
     @Override
     public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
         DeviceSelection where = new DeviceSelection();
-        where.userGuid(mUser.getUser_guid());
+         where.userGuid(mUser.getUser_guid());
         return  where.getCursorLoader(getActivity(),null);
     }
 
@@ -215,7 +212,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
 
         deviceAdapter.clearList();
 
-        if(data!=null&&data.moveToFirst()){
+        if(data!=null && data.moveToFirst()){
             DeviceCursor deviceCursor = new DeviceCursor(data);
             do{
                 Device device = new Device();
@@ -232,6 +229,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
             }while(deviceCursor.moveToNext());
         }
         deviceAdapter.notifyDataSetChanged();
+
     }
 
     @Override

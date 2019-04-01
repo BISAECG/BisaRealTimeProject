@@ -1,7 +1,7 @@
 package com.bisa.health.camera.lib.funsdk.support.config;
 
 import com.basic.G;
-import com.lib.funsdk.support.utils.StringUtils;
+import com.bisa.health.camera.lib.funsdk.support.utils.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
