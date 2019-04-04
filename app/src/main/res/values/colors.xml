@@ -9,7 +9,7 @@
 			<color name="transparent">#00000000</color>
           <color name="cyan_blue">#00FFFF</color>
            <color name="green">#00FF00</color>
-			<color name="color_default_bg">#e0e0e0</color>
+			<color name="color_default_bg">#E0E0E0</color>
            <color name="color_ecg_title">#7a7a7a</color>
 			<color name="color_ecg_time">#7ed3c0</color>
 			<color name="color_bpmcounttext">#009adf</color>
@@ -32,13 +32,13 @@
 			<color name="color_get_pwd_value">#6C6C6C</color>
 			<color name="color_rule_text">#7c7c7c</color>
 			<color name="dark">#FF222222</color>
-			<color name="light">#FFEEEEEE</color>
+			<color name="light">#EEEEEE</color>
             <color name="color_base_bg">#efeff0</color>
 			<color name="color_tips">#FFF5DB</color>
 			<color name="color_tips_text">#E5934C</color>
 			<color name="color_btn_default">#0098DC</color>
 			<color name="color_start_report">#53A55E</color>
-			<color name="coloe_split_line">#f3f3f3</color>
+			<color name="coloe_split_line">#F3F3F3</color>
 			<color name="color_listecd">#5f5f5f</color>
 			<color name="color_listecdtime">#a0a0a0</color>
 			<color name="report_timing">#7C7C7C</color>

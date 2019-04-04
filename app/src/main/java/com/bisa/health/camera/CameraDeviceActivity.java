@@ -16,10 +16,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.BottomSheetDialog;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,7 @@ import android.widget.Toast;
 
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
+import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.camera.lib.funsdk.support.FunDevicePassword;
 import com.bisa.health.camera.lib.funsdk.support.FunError;
 import com.bisa.health.camera.lib.funsdk.support.FunLog;
@@ -54,6 +57,7 @@ import com.bisa.health.camera.lib.funsdk.support.widget.FunVideoView;
 import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
 import com.bisa.health.camera.sdk.DialogInputPasswd;
 import com.bisa.health.camera.sdk.UIFactory;
+import com.bisa.health.model.User;
 import com.lib.EPTZCMD;
 import com.lib.FunSDK;
 
@@ -65,37 +69,37 @@ import java.util.Arrays;
 
 import static com.bisa.health.camera.lib.funsdk.support.models.FunDevType.EE_DEV_SPORTCAMERA;
 
-public class CameraDeviceActivity extends ActivityDemo implements View.OnClickListener,
+@SuppressLint("ClickableViewAccessibility")
+public class CameraDeviceActivity extends BaseActivity implements View.OnClickListener,
         OnFunDeviceOptListener,
         MediaPlayer.OnPreparedListener,
         MediaPlayer.OnErrorListener,
         MediaPlayer.OnInfoListener {
 
-    private RelativeLayout mLayoutTop = null;
     private ImageButton mBtnBack;
 
     private FunDevice mFunDevice = new FunDevice();
 
     private RelativeLayout mLayoutVideoWnd;
     private FunVideoView mFunVideoView;
-    private LinearLayout mVideoControlLayout;
+
+    private LinearLayout mLayoutRecording;
+
     private TextView mTextStreamType;
 
-    private ImageButton mBtnPlay;
-    private ImageButton mBtnMute;
-    private ImageButton mBtnChannels;
-    private ImageButton mBtnDefinition;
-    private ImageButton mBtnFullscreen;
+    private LinearLayout llCtr;
 
-    private RelativeLayout mLayoutRecording;
+    private ImageButton mIbtnPlay;
+    private ImageButton mIbtnMute;
+    private ImageButton mIbtnChannels;
+    private ImageButton mIbtnFluency;
+    private ImageButton mIbtnFullscreen;
 
-    private LinearLayout mLayoutControls = null;
-    private LinearLayout mLayoutChannel = null;
-    private RelativeLayout mBtnVoiceTalk = null;
-    private Button mBtnVoice = null;
-    private ImageButton mBtnQuitVoice = null;
-    private ImageButton mBtnDevCapture = null;
-    private ImageButton mBtnDevRecord = null;
+    private BottomSheetDialog fluencyBottomDialog;
+    private Button btnHD;
+    private Button btnSD;
+    private Button btnLD;
+
 
     private RelativeLayout mLayoutDirectionControl;
     private ImageButton mPtz_up;
@@ -103,11 +107,16 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
     private ImageButton mPtz_left;
     private ImageButton mPtz_right;
 
-    private TextView mTextVideoStat = null;
-    private AlertDialog alert = null;
-    private AlertDialog.Builder builder = null;
+    private Button mBtnCapture;
+    private Button mBtnVoice;
+    private Button mBtnRecord;
+    private Button mBtnFiles;
 
-    private String preset = null;
+    private TextView mTextVideoStat;
+    private AlertDialog alert;
+    private AlertDialog.Builder builder;
+
+    private String preset;
     private int mChannelCount;
     private boolean isGetSysFirst = true;
 
@@ -118,16 +127,24 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
     private final int MESSAGE_OPEN_VOICE = 0x104;
 
 
-    private TalkManager mTalkManager = null;
+    private TalkManager mTalkManager;
 
     private boolean mCanToPlay = false;
 
     public String NativeLoginPsw; //本地密码
 
+    private SharedPersistor sharedPersistor;
+    private User mUser;
+    private String fileDir;
+
+    private boolean playingFlagBl = true;
+    private boolean muteFlagBl = true;
+    private boolean recordingFlagBl = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,  WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_camera_device);
 
@@ -147,57 +164,165 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
             return;
         }
 
-        mBtnBack = (ImageButton) findViewById(R.id.ibtn_camera_device_back);
+        mBtnBack = findViewById(R.id.ibtn_camera_device_back);
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
 
-        mLayoutVideoWnd = (RelativeLayout) findViewById(R.id.layoutPlayWnd);
+        mLayoutVideoWnd = findViewById(R.id.layoutPlayWnd);
 
-        mBtnPlay = findViewById(R.id.btnPlay);
-        mBtnMute = findViewById(R.id.btnMute);
-        mBtnChannels = findViewById(R.id.btnChannels);
-        //mBtnCapture = (Button) findViewById(R.id.btnCapture);
-        //mBtnRecord = (Button) findViewById(R.id.btnRecord);
-        mBtnDefinition = findViewById(R.id.btnDefinition);
-        //mBtnFishEyeInfo = (Button) findViewById(R.id.btnFishEyeInfo);
+        mLayoutRecording = findViewById(R.id.layout_recording);
 
-        mLayoutRecording = (RelativeLayout) findViewById(R.id.layout_recording);
-        mBtnPlay.setOnClickListener(this);
-        //mBtnStop.setOnClickListener(this);
-        //mBtnStream.setOnClickListener(this);
-        //mBtnCapture.setOnClickListener(this);
-        //mBtnRecord.setOnClickListener(this);
-        //mBtnScreenRatio.setOnClickListener(this);
-        //mBtnFishEyeInfo.setOnClickListener(this);
+        llCtr = findViewById(R.id.ll_camera_ctr);
 
-        mTextVideoStat = (TextView) findViewById(R.id.textVideoStat);
+        mIbtnPlay = findViewById(R.id.ibtn_camera_play);
+        mIbtnMute = findViewById(R.id.ibtn_camera_mute);
+        mIbtnChannels = findViewById(R.id.ibtn_camera_channels);
+        mIbtnFluency = findViewById(R.id.ibtn_camera_fluency);
+        mIbtnFullscreen = findViewById(R.id.ibtn_camera_fullscreen);
 
-        //mBtnVoiceTalk = (RelativeLayout) findViewById(R.id.btnVoiceTalk);
-        //mBtnVoice = (Button) findViewById(R.id.Btn_Talk_Switch);
-        //mBtnQuitVoice = (ImageButton) findViewById(R.id.btn_quit_voice);
-        //mBtnDevCapture = (ImageButton) findViewById(R.id.btnDevCapture);
-        //mBtnDevRecord = (ImageButton) findViewById(R.id.btnDevRecord);
-        //mBtnGetPreset = (Button) findViewById(R.id.btnGetPreset);
-        //mBtnSetPreset = (Button) findViewById(R.id.btnSetPreset);
-        //mSplitView = findViewById(R.id.splitView);
+        fluencyBottomDialog = new BottomSheetDialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_bottom_definition, null);
+        btnHD = view.findViewById(R.id.btn_camera_hd);
+        btnSD = view.findViewById(R.id.btn_camera_sd);
+        btnLD = view.findViewById(R.id.btn_camera_ld);
+        fluencyBottomDialog.setContentView(view);
 
-        mLayoutDirectionControl = (RelativeLayout) findViewById(R.id.layoutDirectionControl);
-        mPtz_up = (ImageButton) findViewById(R.id.ptz_up);
-        mPtz_down = (ImageButton) findViewById(R.id.ptz_down);
-        mPtz_left = (ImageButton) findViewById(R.id.ptz_left);
-        mPtz_right = (ImageButton) findViewById(R.id.ptz_right);
-        //mBtnVoiceTalk.setOnClickListener(this);
-        //mBtnVoiceTalk.setOnTouchListener(mIntercomTouchLs);
-        //mBtnVoice.setOnClickListener(this);
-        //mBtnQuitVoice.setOnClickListener(this);
-        //mBtnDevCapture.setOnClickListener(this);
-        //mBtnDevRecord.setOnClickListener(this);
-        //mBtnGetPreset.setOnClickListener(this);
-        //mBtnSetPreset.setOnClickListener(this);
+
+        mIbtnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(playingFlagBl) {
+                    playingFlagBl = false;
+                    pauseMedia();
+                    mIbtnPlay.setImageDrawable(getResources().getDrawable(R.drawable.camera_ctr_play));
+                }
+                else {
+                    playingFlagBl = true;
+                    mFunVideoView.stopPlayback();
+                    playRealMedia();
+                    mIbtnPlay.setImageDrawable(getResources().getDrawable(R.drawable.camera_ctr_pause));
+                }
+            }
+        });
+        mIbtnMute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(muteFlagBl) {
+                    muteFlagBl = false;
+                    openVoiceChannel();
+                    mIbtnMute.setImageDrawable(getResources().getDrawable(R.drawable.camera_ctr_unmute));
+                }
+                else {
+                    muteFlagBl = true;
+                    closeVoiceChannel();
+                    mIbtnMute.setImageDrawable(getResources().getDrawable(R.drawable.camera_ctr_mute));
+                }
+            }
+        });
+        mIbtnFluency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fluencyBottomDialog.show();
+            }
+        });
+        mIbtnFullscreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch2Fullscreen();
+            }
+        });
+
+
+        btnHD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIbtnFluency.setImageDrawable(getResources().getDrawable(R.drawable.camera_ctr_hd_sim));
+                mFunVideoView.setMediaPlayHD();
+                fluencyBottomDialog.dismiss();
+            }
+        });
+        btnSD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIbtnFluency.setImageDrawable(getResources().getDrawable(R.drawable.camera_ctr_sd_sim));
+                mFunVideoView.setMediaPlaySD();
+                fluencyBottomDialog.dismiss();
+            }
+        });
+        btnLD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIbtnFluency.setImageDrawable(getResources().getDrawable(R.drawable.camera_ctr_ld_sim));
+                mFunVideoView.setMediaPlayLD();
+                fluencyBottomDialog.dismiss();
+            }
+        });
+
+        mTextVideoStat = findViewById(R.id.textVideoStat);
+
+        mBtnCapture = findViewById(R.id.btn_camera_capture);
+        mBtnVoice = findViewById(R.id.btn_camera_voice);
+        mBtnRecord = findViewById(R.id.btn_camera_record);
+        mBtnFiles = findViewById(R.id.btn_camera_files);
+
+        mBtnCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tryToCapture();
+            }
+        });
+        mBtnVoice.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(muteFlagBl) {
+                        showToast(getString(R.string.camera_voice_not_open));
+                        return true;
+                    }
+                    mBtnVoice.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_voice_pressed), null, null);
+                    startTalk();
+                }
+                else if(event.getAction() == MotionEvent.ACTION_UP) {
+                    mBtnVoice.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_voice_normal), null, null);
+                    stopTalk(0);
+                }
+                return true;
+            }
+
+        });
+        mBtnRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!recordingFlagBl) {
+                    recordingFlagBl = true;
+                    mBtnRecord.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_recording), null, null);
+                }
+                else {
+                    recordingFlagBl = false;
+                    mBtnRecord.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_record_selector), null, null);
+                }
+                tryToRecord();
+            }
+        });
+        mBtnFiles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraDeviceActivity.this, CameraFilesActivity.class);
+                intent.putExtra("fileDir", fileDir);
+                startActivity(intent);
+            }
+        });
+
+        mLayoutDirectionControl = findViewById(R.id.layoutDirectionControl);
+        mPtz_up = findViewById(R.id.ptz_up);
+        mPtz_down = findViewById(R.id.ptz_down);
+        mPtz_left = findViewById(R.id.ptz_left);
+        mPtz_right = findViewById(R.id.ptz_right);
+
 
         mPtz_up.setOnTouchListener(onPtz_up);
         mPtz_down.setOnTouchListener(onPtz_down);
@@ -214,7 +339,6 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
         mFunVideoView.setOnPreparedListener(this);
         mFunVideoView.setOnErrorListener(this);
         mFunVideoView.setOnInfoListener(this);
-        mVideoControlLayout = (LinearLayout) findViewById(R.id.layoutVideoControl);
 
         mTextStreamType = (TextView) findViewById(R.id.textStreamStat);
 
@@ -224,11 +348,19 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
 
 
         // 允许横竖屏切换
-        // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
         mTalkManager = new TalkManager(mFunDevice);
 
         mCanToPlay = false;
+
+        sharedPersistor = new SharedPersistor(this);
+        mUser = sharedPersistor.loadObject(User.class.getName());
+        fileDir = FunPath.getDefaultPath() + mUser.getUser_guid() + File.separator;
+        File file = new File(fileDir);
+        if(!file.exists()) {
+            file.mkdir();
+        }
 
         // 如果设备未登录,先登录设备
         if (!mFunDevice.hasLogin() || !mFunDevice.hasConnected()) {
@@ -275,7 +407,7 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
     protected void onPause() {
 
         stopTalk(0);
-        CloseVoiceChannel(0);
+        closeVoiceChannel();
 
         stopMedia();
 //		 pauseMedia();
@@ -284,35 +416,19 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
     }
 
 
-    @Override
-    public void onBackPressed() {
-        // 如果当前是横屏，返回时先回到竖屏
-        if (getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            return;
-        }
+    private void switchMainMediaStream() {
+        if (null != mFunVideoView) {
+            if (FunStreamType.STREAM_SECONDARY == mFunVideoView.getStreamType()) {
+                mFunVideoView.setStreamType(FunStreamType.STREAM_MAIN);
+                // 重新播放
+                mFunVideoView.stopPlayback();
+                playRealMedia();
+            }
 
-        finish();
+
+        }
     }
 
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        // 检测屏幕的方向：纵向或横向
-        if (getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE) {
-            // 当前为横屏， 在此处添加额外的处理代码
-            showAsLandscape();
-        }
-        else if(getResources().getConfiguration().orientation
-                ==Configuration.ORIENTATION_PORTRAIT) {
-            // 当前为竖屏， 在此处添加额外的处理代码
-            showAsPortrait();
-        }
-
-        super.onConfigurationChanged(newConfig);
-    }
 
     @Override
     public void onClick(View v) {
@@ -326,18 +442,7 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
                 startDevicesPreview();
             }
             break;
-            case R.id.backBtnInTopLayout: {
-                // 返回/退出
-                onBackPressed();
-            }
-            break;
-            case R.id.btnPlay: // 开始播放
-            {
-                mFunVideoView.stopPlayback();
-                mHandler.sendEmptyMessageDelayed(MESSAGE_PLAY_MEDIA, 1000);
-//			playRealMedia();
-            }
-            break;
+
             //case R.id.btnStop: // 停止播放
             //{
                 //stopMedia();
@@ -346,17 +451,6 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
             //case R.id.btnStream: // 切换码流
             //{
                 //switchMediaStream();
-            //}
-            //break;
-            //case R.id.btnCapture: // 截图
-            //{
-                //tryToCapture();
-//			FunSupport.getInstance().requestDeviceCapture(mFunDevice);  //device capture
-            //}
-            //break;
-            //case R.id.btnRecord: // 录像
-            //{
-                //tryToRecord();
             //}
             //break;
             //case R.id.Btn_Talk_Switch:
@@ -379,11 +473,11 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
                 //startRecordList();
             //}
             //break;
-            case R.id.btnFullscreen: // 横竖屏切换
-            {
-                switchOrientation();
-            }
-            break;
+            //case R.id.btnFullscreen: // 横竖屏切换
+            //{
+                //switchOrientation();
+            //}
+            //break;
             //case R.id.btnSettings: // 系统设置/系统信息
             //{
                 //startDeviceSetup();
@@ -405,19 +499,19 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
     private void tryToRecord() {
 
         if (!mFunVideoView.isPlaying() || mFunVideoView.isPaused()) {
-            //showToast(R.string.media_record_failure_need_playing);
+            showToast(getResources().getString(R.string.media_record_failure_need_playing));
             return;
         }
 
 
         if (mFunVideoView.bRecord) {
             mFunVideoView.stopRecordVideo();
-            mLayoutRecording.setVisibility(View.INVISIBLE);
+            mLayoutRecording.setVisibility(View.GONE);
             toastRecordSucess(mFunVideoView.getFilePath());
         } else {
-            mFunVideoView.startRecordVideo(null);
+            mFunVideoView.startRecordVideo(fileDir + System.currentTimeMillis() + ".mp4");
             mLayoutRecording.setVisibility(View.VISIBLE);
-            //showToast(R.string.media_record_start);
+            showToast(getResources().getString(R.string.media_record_start));
         }
 
     }
@@ -427,11 +521,12 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
      */
     private void tryToCapture() {
         if (!mFunVideoView.isPlaying()) {
-            //showToast(R.string.media_capture_failure_need_playing);
+            showToast(getResources().getString(R.string.media_capture_failure_need_playing));
             return;
         }
 
-        final String path = mFunVideoView.captureImage(null);	//图片异步保存
+        final String path = mFunVideoView.captureImage(fileDir + System.currentTimeMillis() + ".jpg");	//图片异步保存
+
         if (!TextUtils.isEmpty(path)) {
             Message message = new Message();
             message.what = MESSAGE_TOAST_SCREENSHOT_PREVIEW;
@@ -466,11 +561,11 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
                                 File imgPath = new File(FunPath.PATH_PHOTO + File.separator
                                         + file.getName());
                                 if (imgPath.exists()) {
-                                    //showToast(R.string.device_socket_capture_exist);
+                                    showToast(getString(R.string.device_socket_capture_exist));
                                 } else {
                                     FileUtils.copyFile(path, FunPath.PATH_PHOTO + File.separator
                                             + file.getName());
-                                    //showToast(R.string.device_socket_capture_save_success);
+                                    showToast(getString(R.string.device_socket_capture_save_success));
                                 }
                             }
                         })
@@ -479,7 +574,7 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 FunPath.deleteFile(path);
-                                //showToast(R.string.device_socket_capture_delete_success);
+                                showToast(getString(R.string.device_socket_capture_delete_success));
                             }
                         })
                 .show();
@@ -515,102 +610,76 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
                 .show();
     }
 
-    private void showVideoControlBar() {
-        if (mVideoControlLayout.getVisibility() != View.VISIBLE) {
-            TranslateAnimation ani = new TranslateAnimation(0, 0, UIFactory.dip2px(this, 42), 0);
-            ani.setDuration(200);
-            mVideoControlLayout.startAnimation(ani);
-            mVideoControlLayout.setVisibility(View.VISIBLE);
-        }
-
+    @Override
+    public void onBackPressed() {
+        // 如果当前是横屏，返回时先回到竖屏
         if (getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE) {
-            // 横屏情况下,顶部标题栏也动画显示
-            TranslateAnimation ani = new TranslateAnimation(0, 0, -UIFactory.dip2px(this, 48), 0);
-            ani.setDuration(200);
-            mLayoutTop.startAnimation(ani);
-            mLayoutTop.setVisibility(View.VISIBLE);
-        } else {
-            //mLayoutTop.setVisibility(View.VISIBLE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+                }
+            }, 3000);
+            return;
         }
 
-        // 显示后设置10秒后自动隐藏
-        mHandler.removeMessages(MESSAGE_AUTO_HIDE_CONTROL_BAR);
-        //mHandler.sendEmptyMessageDelayed(MESSAGE_AUTO_HIDE_CONTROL_BAR, AUTO_HIDE_CONTROL_BAR_DURATION);
+        finish();
     }
 
-    private void hideVideoControlBar() {
-        if (mVideoControlLayout.getVisibility() != View.GONE) {
-            TranslateAnimation ani = new TranslateAnimation(0, 0, 0, UIFactory.dip2px(this, 42));
-            ani.setDuration(200);
-            mVideoControlLayout.startAnimation(ani);
-            mVideoControlLayout.setVisibility(View.GONE);
-        }
-
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        // 检测屏幕的方向：纵向或横向
         if (getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE) {
-            // 横屏情况下,顶部标题栏也隐藏
-            TranslateAnimation ani = new TranslateAnimation(0, 0, 0, -UIFactory.dip2px(this, 48));
-            ani.setDuration(200);
-            mLayoutTop.startAnimation(ani);
-            mLayoutTop.setVisibility(View.GONE);
+            // 当前为横屏， 在此处添加额外的处理代码
+            showAsLandscape();
         }
-
-        // 隐藏后清空自动隐藏的消息
-        mHandler.removeMessages(MESSAGE_AUTO_HIDE_CONTROL_BAR);
+        else if(getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT) {
+            // 当前为竖屏， 在此处添加额外的处理代码
+            showAsPortrait();
+        }
+        super.onConfigurationChanged(newConfig);
     }
 
     private void showAsLandscape() {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // 隐藏底部的控制按钮区域
-        mLayoutControls.setVisibility(View.GONE);
+        // 隐藏底部的控制区域
+        llCtr.setVisibility(View.GONE);
 
         // 视频窗口全屏显示
         RelativeLayout.LayoutParams lpWnd = (RelativeLayout.LayoutParams) mLayoutVideoWnd.getLayoutParams();
         lpWnd.height = ViewGroup.LayoutParams.MATCH_PARENT;
         // lpWnd.removeRule(RelativeLayout.BELOW);
-        lpWnd.topMargin = 0;
+        //lpWnd.topMargin = 0;
         mLayoutVideoWnd.setLayoutParams(lpWnd);
 
-        // 上面标题半透明背景
-        mLayoutTop.setBackgroundColor(0x40000000);
-
-        //mBtnScreenRatio.setText(R.string.device_opt_smallscreen);
     }
 
     private void showAsPortrait() {
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        // 还原上面标题栏背景
-        mLayoutTop.setBackgroundColor(getResources().getColor(R.color.theme_color));
-        mLayoutTop.setVisibility(View.VISIBLE);
+        //getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // 视频显示为小窗口
         RelativeLayout.LayoutParams lpWnd = (RelativeLayout.LayoutParams) mLayoutVideoWnd.getLayoutParams();
         lpWnd.height = UIFactory.dip2px(this, 240);
-        lpWnd.topMargin = UIFactory.dip2px(this, 48);
+        //lpWnd.topMargin = UIFactory.dip2px(this, 48);
         // lpWnd.addRule(RelativeLayout.BELOW, mLayoutTop.getId());
         mLayoutVideoWnd.setLayoutParams(lpWnd);
 
-        // 显示底部的控制按钮区域
-        mLayoutControls.setVisibility(View.VISIBLE);
+        // 显示底部的控制区域
+        llCtr.setVisibility(View.VISIBLE);
 
-        //mBtnScreenRatio.setText(R.string.device_opt_fullscreen);
     }
 
     /**
      * 切换视频全屏/小视频窗口(以切横竖屏切换替代)
      */
-    private void switchOrientation() {
-        // 横竖屏切换
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                && getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE) {
-            // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        } else if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+    private void switch2Fullscreen() {
+        // 横屏切换
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
     }
 
     /**
@@ -642,12 +711,6 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
             System.out.println("TTT-->>> event = " + event.getAction());
             if (event.getAction() == MotionEvent.ACTION_UP) {
 
-                // 显示或隐藏视频操作菜单
-                if (mVideoControlLayout.getVisibility() == View.VISIBLE) {
-                    //hideVideoControlBar();
-                } else {
-                    //showVideoControlBar();
-                }
             }
 
             return false;
@@ -710,9 +773,9 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
 
         // 设置当前播放的码流类型
         if (FunStreamType.STREAM_SECONDARY == mFunVideoView.getStreamType()) {
-            mTextStreamType.setText(R.string.media_stream_secondary);
+            //mTextStreamType.setText(R.string.media_stream_secondary);
         } else {
-            mTextStreamType.setText(R.string.media_stream_main);
+            //mTextStreamType.setText(R.string.media_stream_main);
         }
     }
     // 添加通道选择按钮
@@ -729,7 +792,7 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
         textView.setText(R.string.device_opt_channel);
         textView.setTextSize(UIFactory.dip2px(this, 10));
         textView.setTextColor(getResources().getColor(R.color.theme_color));
-        mLayoutChannel.addView(textView);
+        //mLayoutChannel.addView(textView);
 
         Button bt = new Button(this);
         bt.setId(1101);
@@ -738,7 +801,7 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
         bt.setLayoutParams(layoutParamsT);
         bt.setText(R.string.device_camera_channels_preview_title);
         bt.setOnClickListener(this);
-        mLayoutChannel.addView(bt);
+        //mLayoutChannel.addView(bt);
 
         for (int i = 0; i < channelCount; i++) {
             Button btn = new Button(this);
@@ -751,7 +814,7 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
             btn.setLayoutParams(layoutParams);
             btn.setText(String.valueOf(i));
             btn.setOnClickListener(this);
-            mLayoutChannel.addView(btn);
+            //mLayoutChannel.addView(btn);
         }
 
     }
@@ -801,7 +864,7 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
                 break;
                 case MESSAGE_AUTO_HIDE_CONTROL_BAR:
                 {
-                    hideVideoControlBar();
+                    //hideVideoControlBar();
                 }
                 break;
                 case MESSAGE_TOAST_SCREENSHOT_PREVIEW:
@@ -851,34 +914,17 @@ public class CameraDeviceActivity extends ActivityDemo implements View.OnClickLi
         }
     }
 
-    private void OpenVoiceChannel(){
+    private void openVoiceChannel(){
+        mFunVideoView.setMediaSound(false);			//关闭本地音频
 
-        if (mBtnVoice.getVisibility() == View.VISIBLE) {
-            TranslateAnimation ani = new TranslateAnimation(0, 0, UIFactory.dip2px(this, 100), 0);
-            ani.setDuration(200);
-            mBtnVoiceTalk.setAnimation(ani);
-            mBtnVoiceTalk.setVisibility(View.VISIBLE);
-            mBtnVoice.setVisibility(View.GONE);
-
-            mFunVideoView.setMediaSound(false);			//关闭本地音频
-
-            mTalkManager.onStartTalk();
-            mTalkManager.setTalkSound(true);
-        }
+        mTalkManager.onStartTalk();
+        mTalkManager.setTalkSound(true);
     }
 
-    private void CloseVoiceChannel(int delayTime){
-
-        if (mBtnVoiceTalk.getVisibility() == View.VISIBLE) {
-            TranslateAnimation ani = new TranslateAnimation(0, 0, 0, UIFactory.dip2px(this, 100));
-            ani.setDuration(200);
-            mBtnVoiceTalk.setAnimation(ani);
-            mBtnVoiceTalk.setVisibility(View.GONE);
-            mBtnVoice.setVisibility(View.VISIBLE);
-
-            mTalkManager.onStopTalk();
-            mHandler.sendEmptyMessageDelayed(MESSAGE_OPEN_VOICE, delayTime);
-        }
+    private void closeVoiceChannel(){
+        mTalkManager.onStopTalk();
+        mFunVideoView.setMediaSound(true);
+        //mHandler.sendEmptyMessageDelayed(MESSAGE_OPEN_VOICE, delayTime);
     }
 
     /**

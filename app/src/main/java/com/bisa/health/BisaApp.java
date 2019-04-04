@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Environment;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.bisa.health.cache.SharedPersistor;
@@ -90,6 +91,7 @@ public class BisaApp extends Application {
 	protected void attachBaseContext(Context base) {
 		StubAppUtils.attachBaseContext(base);
 		super.attachBaseContext(base);
+		MultiDex.install(base);
 	}
 
 	protected HealthPath initSysPath(String aPath) {

@@ -151,6 +151,7 @@ public class CameraPwActivity extends BaseActivity {
         String newPasswConfirm = etConfirmPw.getText().toString();
 
         if (!newPassw.equals(newPasswConfirm)) {
+            dialogDismiss();
             showToast(getResources().getString(R.string.camera_pw_confirm_error));
             return;
         }

@@ -130,15 +130,29 @@
     <string name="media_record_stop">停止录像,文件保存在:</string>
     <string name="media_player_opening">正在打开视频...</string>
     <string name="device_opt_channel">通道:</string>
+    <string name="media_record_failure_need_playing">Only the video playing，so can video...</string>
+    <string name="media_capture_failure_need_playing">Only the video playing，so can screenshot...</string>
+    <string name="media_record_start">Start</string>
+    <string name="device_socket_capture_exist">This picture already saved</string>
+    <string name="device_socket_capture_save_success">Saved success</string>
+    <string name="device_socket_capture_delete_success">Delete success</string>
 
     <string name="wifi_not_connected">WiFi Not Connected!</string>
     <string name="camera_pw_confirm_error">两次密码不一样！</string>
+    <string name="camera_voice_not_open">Please turn on the camera speaker first</string>
+    <string name="camera_select_definition">请选择视频清晰度</string>
+    <string name="camera_definition_auto">Auto</string>
+    <string name="camera_ld">流畅</string>
+    <string name="camera_sd">标清</string>
+    <string name="camera_hd">高清</string>
 
     <string name="camera_device_detection">侦测</string>
     <string name="camera_device_capture">拍照</string>
-    <string name="camera_device_speak">长按喊话</string>
+    <string name="camera_device_voice">长按喊话</string>
     <string name="camera_device_record">录像</string>
     <string name="camera_device_files">文件</string>
+
+    <string name="camera_files_title">储存卡</string>
 
     <string-array name="pic_type">
         <item>全部</item>

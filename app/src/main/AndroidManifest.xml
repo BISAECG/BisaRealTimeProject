@@ -94,8 +94,15 @@
         android:logo="@drawable/menu_back_bg"
         android:persistent="true"
         android:theme="@style/HelathTheme">
-        <activity android:name=".camera.CameraDeviceActivity"></activity>
-        <activity android:name=".camera.CameraActivity" />
+        <activity android:name=".camera.CameraViewImageActivity"></activity>
+        <activity android:name=".camera.CameraFilesActivity" />
+        <activity
+            android:name=".camera.CameraDeviceActivity"
+            android:configChanges="orientation|screenLayout|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".camera.CameraNameActivity" />
         <activity android:name=".camera.CameraPwActivity" />
         <activity android:name=".camera.CameraSearchActivity" />

@@ -26,6 +26,7 @@ import com.lib.EUIMSG;
 import com.lib.FunSDK;
 import com.lib.IFunSDKResult;
 import com.lib.MsgContent;
+import com.lib.SDKCONST.EDECODE_TYPE;
 import com.lib.sdk.struct.SDK_FishEyeFrame;
 import com.lib.sdk.struct.SDK_FishEyeFrameCM;
 import com.lib.sdk.struct.SDK_FishEyeFrameSW;
@@ -52,7 +53,7 @@ public class FunVideoView extends LinearLayout implements IFunSDKResult {
 	private final int STAT_PAUSED = 2;
 	
 	private int mPlayStat = STAT_STOPPED;
-	private FunStreamType mStreamType = FunStreamType.STREAM_SECONDARY;
+	private FunStreamType mStreamType = FunStreamType.STREAM_MAIN;
 	private String mVideoUrl = null;
     private H264_DVR_FILE_DATA mVideoFile = null;
     private String mDeviceSn = null;
@@ -111,6 +112,17 @@ public class FunVideoView extends LinearLayout implements IFunSDKResult {
 	
 	public void setOnPreparedListener(OnPreparedListener listener) {
 		mPreparedListener = listener;
+	}
+
+	public void setMediaPlayHD() {
+		FunSDK.MediaSetFluency(mPlayerHandler, EDECODE_TYPE.EDECODE_REAL_TIME_STREAM0, 0);
+
+	}
+	public void setMediaPlaySD() {
+		FunSDK.MediaSetFluency(mPlayerHandler, EDECODE_TYPE.EDECODE_REAL_TIME_STREAM3, 0);
+	}
+	public void setMediaPlayLD() {
+		FunSDK.MediaSetFluency(mPlayerHandler, EDECODE_TYPE.EDECODE_REAL_TIME_STREAM6, 0);
 	}
 	
 	public void setOnCompletionListener(OnCompletionListener listener) {

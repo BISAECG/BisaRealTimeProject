@@ -86,12 +86,11 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
             showNextTipViewOnCreated();
         }
 
-        getLoaderManager().initLoader(0, null, this);
-
     }
 
     @Override
     public void onResume() {
+        getLoaderManager().initLoader(0, null, this);
         Log.i(TAG, "onResume: ");
         super.onResume();
         isDel=false;
