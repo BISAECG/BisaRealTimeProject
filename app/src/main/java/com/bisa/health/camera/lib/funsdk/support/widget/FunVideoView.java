@@ -14,9 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.basic.G;
+import com.bisa.health.camera.CameraSdkInit;
 import com.bisa.health.camera.lib.funsdk.support.FunError;
 import com.bisa.health.camera.lib.funsdk.support.FunLog;
 import com.bisa.health.camera.lib.funsdk.support.FunPath;
+import com.bisa.health.camera.lib.funsdk.support.FunSupport;
+import com.bisa.health.camera.lib.funsdk.support.FunVideoViewListener;
 import com.bisa.health.camera.lib.funsdk.support.models.FunStreamType;
 import com.bisa.health.camera.lib.funsdk.support.utils.MyUtils;
 import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
@@ -44,7 +47,7 @@ import java.util.Locale;
 
 //import com.android.gl2jni.GL2JNIView;
 
-public class FunVideoView extends LinearLayout implements IFunSDKResult {
+public class FunVideoView extends LinearLayout implements FunVideoViewListener {
 
 	private final String TAG = "FunVideoView";
 	
@@ -116,7 +119,6 @@ public class FunVideoView extends LinearLayout implements IFunSDKResult {
 
 	public void setMediaPlayHD() {
 		FunSDK.MediaSetFluency(mPlayerHandler, EDECODE_TYPE.EDECODE_REAL_TIME_STREAM0, 0);
-
 	}
 	public void setMediaPlaySD() {
 		FunSDK.MediaSetFluency(mPlayerHandler, EDECODE_TYPE.EDECODE_REAL_TIME_STREAM3, 0);
@@ -144,13 +146,19 @@ public class FunVideoView extends LinearLayout implements IFunSDKResult {
 	private void init() {
         if (!isInEditMode()) {
             if ( mUserID == -1 ) {
-                mUserID = FunSDK.RegUser(this);
+                mUserID = FunSupport.getInstance().getHandler();
             }
             
             mIsPlaying = false;
+
+			FunSupport.getInstance().registerFunVideoViewListener(this);
         }
+
 	}
-	
+
+	public GLSurfaceView getSufaceView() {
+		return mSufaceView;
+	}
 	private void initSurfaceView() {
 
 //		DecoderManaer.SetEnableHDec(true);  //Open harddecode？
@@ -165,6 +173,7 @@ public class FunVideoView extends LinearLayout implements IFunSDKResult {
              this.addView(mSufaceView, lp);
             //不加下面这句，部分7.0 以上系统不布局及绘制自定义的SufaceView
             mSufaceView.requestLayout();
+
          }
 	}
 
@@ -242,7 +251,8 @@ public class FunVideoView extends LinearLayout implements IFunSDKResult {
 		stopPlayback();
 		
 		if ( -1 != mUserID ) {
-			FunSDK.UnRegUser(mUserID);
+			FunSupport.getInstance().removeFunVideoViewListener(this);
+			//FunSDK.UnRegUser(mUserID);
 			mUserID = -1;
 		}
 		
@@ -545,68 +555,6 @@ public class FunVideoView extends LinearLayout implements IFunSDKResult {
 		this.release();
 		super.onDetachedFromWindow();
 	}
-	
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
-		return super.onTouchEvent(event);
-	}
-	
-	@Override
-	public void setOnTouchListener(OnTouchListener l) {
-		// TODO Auto-generated method stub
-		mOnTouchListener = l;
-		super.setOnTouchListener(l);
-	}
-	
-	//here to intercept evention by some condition, to show or hide the button bar
-	@Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        // TODO Auto-generated method stub  
-          
-          
-        int deltaX = 0;
-        int deltaY = 0;
-        long deltime = 0;
-        int count = ev.getPointerCount();
-        long times = ev.getEventTime();
-        final float x = ev.getX();
-        final float y = ev.getY();
-  
-        switch (ev.getAction()) {  
-        case MotionEvent.ACTION_MOVE:
-            return super.onInterceptTouchEvent(ev);
-        case MotionEvent.ACTION_DOWN:
-            FistXLocation = x;
-            FistYlocation = y;
-            time = ev.getDownTime();
-            if(getScaleY()<-400){
-                System.out.println(getScaleY());
-            }  
-            return  super.onInterceptTouchEvent(ev);
-  
-        case MotionEvent.ACTION_CANCEL:
-        case MotionEvent.ACTION_UP:
-        	System.out.println("TTTT-----ActionUP");
-        	deltaX = (int)(FistXLocation - x);  
-            deltaY = (int)(FistYlocation - y);  
-            deltime = times - time;
-            if (count == 1) {
-				if (deltime < 100) {
-	            	if (Math.abs(deltaY) < LENTH
-	            			&& Math.abs(deltaX) < LENTH) {
-	            		if (mOnTouchListener != null) {
-	            			mOnTouchListener.onTouch(this, ev);
-						}
-	            	}  
-				}
-            }
-            break;
-        default:
-            break;
-        }
-      return super.onInterceptTouchEvent(ev);  
-    }  
 
 
     public void setMediaSound(boolean bSound) {
@@ -690,191 +638,113 @@ public class FunVideoView extends LinearLayout implements IFunSDKResult {
     	}
     	return 0;
     }
-    
-    
+
+
 	@Override
-	public int OnFunSDKResult(Message msg, MsgContent msgContent) {
-		FunLog.d(TAG, "msg.what : " + msg.what);
-		FunLog.d(TAG, "msg.arg1 : " + msg.arg1 + " [" + FunError.getErrorStr(msg.arg1) + "]");
-		FunLog.d(TAG, "msg.arg2 : " + msg.arg2);
-		if ( null != msgContent ) {
-			FunLog.d(TAG, "msgContent.sender : " + msgContent.sender);
-			FunLog.d(TAG, "msgContent.seq : " + msgContent.seq);
-			FunLog.d(TAG, "msgContent.str : " + msgContent.str);
-			FunLog.d(TAG, "msgContent.arg3 : " + msgContent.arg3);
-            FunLog.d(TAG, "msgContent.pData : " + msgContent.pData);
+	public void startPlay(Message msg, MsgContent msgContent) {
+		if ( msg.arg1 >= FunError.EE_OK ) {
+			// 播放成功
+			if ( null != msgContent.str ) {
+				String[] infos = msgContent.str.split(";");
+
+				if ( infos.length > 2 ) {
+					mPlayStartPos = parsePlayBeginTime(infos[1]);
+					mPlayEndPos = parsePlayBeginTime(infos[2]);
+				}
+
+			}
+			if ( msgContent.arg3 == 3 ) {
+				// DSS模式播放
+				Toast.makeText(mContext, "DSS", Toast.LENGTH_SHORT).show();
+			} else {
+				// 普通模式
+			}
+		} else {
+			// 播放失败
+			if ( null != mErrorListener ) {
+				mErrorListener.onError(null,
+						MediaPlayer.MEDIA_ERROR_UNKNOWN,
+						msg.arg1);
+			}
 		}
-		
-		switch(msg.what) {
-		case EUIMSG.START_PLAY:
-			{
-				FunLog.i(TAG, "EUIMSG.START_PLAY");
-				if ( msg.arg1 >= FunError.EE_OK ) {
-					// 播放成功
-					if ( null != msgContent.str ) {
-						String[] infos = msgContent.str.split(";");
-						
-						if ( infos.length > 2 ) {
-							mPlayStartPos = parsePlayBeginTime(infos[1]);
-							mPlayEndPos = parsePlayBeginTime(infos[2]);
-						}
-						
-					}
-                    if ( msgContent.arg3 == 3 ) {
-                        // DSS模式播放
-                        System.out.println("TTTTT------DSS");
-                        Toast.makeText(mContext, "DSS", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // 普通模式
-                    }
-                } else {
-					// 播放失败
-					if ( null != mErrorListener ) {
-						mErrorListener.onError(null, 
-								MediaPlayer.MEDIA_ERROR_UNKNOWN,
-								msg.arg1);
-					}
-				}
-				
-			}
-			break;
-		case EUIMSG.SEEK_TO_TIME:
-			{
-				FunLog.i(TAG, "EUIMSG.SEEK_TO_TIME");
-			}
-			break;
-		case EUIMSG.SEEK_TO_POS:
-			{
-				FunLog.i(TAG, "EUIMSG.SEEK_TO_POS");
-			}
-			break;
-		case EUIMSG.ON_PLAY_INFO:
-			{
-				FunLog.i(TAG, "EUIMSG.ON_PLAY_INFO");
-				if ( null != msgContent.str ) {
-					String[] infos = msgContent.str.split(";");
-					
-					if ( infos.length > 0 ) {
-						// 更新播放进度
-						mPlayPosition = parsePlayPosition(infos[0]);
-					}
-				}
-			}
-			break;
-		case EUIMSG.ON_PLAY_END:
-			{
-				FunLog.i(TAG, "EUIMSG.ON_PLAY_END");
-				if ( null != mCompletionListener ) {
-					mCompletionListener.onCompletion(null);
-				}
-			}
-			break;
-		case EUIMSG.ON_PLAY_BUFFER_BEGIN:
-			{
-				FunLog.i(TAG, "EUIMSG.ON_PLAY_BUFFER_BEGIN");
-				if ( null != mInfoListener ) {
-					mInfoListener.onInfo(null, MediaPlayer.MEDIA_INFO_BUFFERING_START, mChannel);
-				}
-			}
-			break;
-		case EUIMSG.ON_PLAY_BUFFER_END:
-			{
-				FunLog.i(TAG, "EUIMSG.ON_PLAY_BUFFER_END");
-				if ( null != mInfoListener ) {
-					mInfoListener.onInfo(null, MediaPlayer.MEDIA_INFO_BUFFERING_END, mChannel);
-				}
-				
-				if ( !mIsPrepared ) {
-					mIsPrepared = true;
-					if ( null != mPreparedListener ) {
-						mPreparedListener.onPrepared(null);
-					}
-				}
-			}
-			break;
-		case EUIMSG.SAVE_IMAGE_FILE:
-			{
-				FunLog.i(TAG, "EUIMSG.SAVE_IMAGE_FILE"); //截图保存成功后回调
-
-			}
-			break;
-        case EUIMSG.START_SAVE_MEDIA_FILE:
-            {
-                FunLog.i(TAG, "EUIMSG.START_SAVE_MEDIA_FILE");
-            }
-            break;
-        case EUIMSG.STOP_SAVE_MEDIA_FILE:
-            {
-                FunLog.i(TAG, "EUIMSG.START_SAVE_MEDIA_FILE");
-            }
-            break;
-        case EUIMSG.ON_FRAME_USR_DATA:
-            {
-            	SDK_FishEyeFrame fishFrame = null;
-            	// 获取到帧信息,切换VR模式
-    			if (msgContent.pData != null && msgContent.pData.length > 8) {
-    				if (msg.arg2 == 0x4) {
-    					// // 软校正信息帧处理
-    					//dump(msgContent.pData);
-
-    					SDK_FishEyeFrameSW fp = new SDK_FishEyeFrameSW();
-    					byte[] pFishParam = new byte[msgContent.pData.length - 8];
-    					System.arraycopy(msgContent.pData, 8, pFishParam, 0, pFishParam.length);
-
-    					G.BytesToObj(fp, pFishParam);
-
-    					fishFrame = fp;
-    				}else if (msg.arg2 == 0x5){
-						//畸变校正处理
-						SDK_FishEyeFrameCM fp = new SDK_FishEyeFrameCM();
-						byte[] pFishParam = new byte[msgContent.pData.length - 8];
-						System.arraycopy(msgContent.pData, 8, pFishParam, 0, pFishParam.length);
-
-						G.BytesToObj(fp, pFishParam);
-
-						fishFrame = fp;
-					}
-    			}
-    			
-    			if ( null != fishFrame ) {
-    				if (fishFrame instanceof SDK_FishEyeFrameSW) {
-    					// 处理软矫正鱼眼信息
-    					mFishEyeFrame = fishFrame;
-    				}
-                    switchSurfaceview(fishFrame);
-                }
-            }
-        	break;
-		case 5524:	// YUV CallBack, FunSDK.MediaRealPlay()时View传null就会回到YUV数据
-			{
-//				FunLog.i(TAG, "__frame_count = " + __frame_count);
-//				if ( null != msgContent.pData && __frame_count ++ == 100 ) {
-//					try {
-//						String path = FunPath.getCapturePath() + ".yuv";
-//						FunLog.i(TAG, "write yuv file : " + path);
-//						File file = new File(path);
-//						if ( !file.exists() ) {
-//							file.createNewFile();
-//						}
-//
-//						FileOutputStream fos = new FileOutputStream(file);
-//						fos.write(msgContent.pData);
-//						fos.flush();
-//						fos.close();
-//						file = null;
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//						FunLog.e(TAG, "write yuv file error");
-//					}
-//				}
-			}
-			break;
-        default:
-            break;
-		}
-		
-		return 0;
 	}
-	
+
+	@Override
+	public void onPlayInfo(MsgContent msgContent) {
+		if ( null != msgContent.str ) {
+			String[] infos = msgContent.str.split(";");
+
+			if ( infos.length > 0 ) {
+				// 更新播放进度
+				mPlayPosition = parsePlayPosition(infos[0]);
+			}
+		}
+	}
+
+	@Override
+	public void onPlayEnd() {
+		if ( null != mCompletionListener ) {
+			mCompletionListener.onCompletion(null);
+		}
+	}
+
+	@Override
+	public void onPlayBufferBegin() {
+		if ( null != mInfoListener ) {
+			mInfoListener.onInfo(null, MediaPlayer.MEDIA_INFO_BUFFERING_START, mChannel);
+		}
+	}
+
+	@Override
+	public void onPlayBufferEnd() {
+		if ( null != mInfoListener ) {
+			mInfoListener.onInfo(null, MediaPlayer.MEDIA_INFO_BUFFERING_END, mChannel);
+		}
+
+		if ( !mIsPrepared ) {
+			mIsPrepared = true;
+			if ( null != mPreparedListener ) {
+				mPreparedListener.onPrepared(null);
+			}
+		}
+	}
+
+	@Override
+	public void onFrameUsrData(Message msg, MsgContent msgContent) {
+		SDK_FishEyeFrame fishFrame = null;
+		// 获取到帧信息,切换VR模式
+		if (msgContent.pData != null && msgContent.pData.length > 8) {
+			if (msg.arg2 == 0x4) {
+				// // 软校正信息帧处理
+				//dump(msgContent.pData);
+
+				SDK_FishEyeFrameSW fp = new SDK_FishEyeFrameSW();
+				byte[] pFishParam = new byte[msgContent.pData.length - 8];
+				System.arraycopy(msgContent.pData, 8, pFishParam, 0, pFishParam.length);
+
+				G.BytesToObj(fp, pFishParam);
+
+				fishFrame = fp;
+			}else if (msg.arg2 == 0x5){
+				//畸变校正处理
+				SDK_FishEyeFrameCM fp = new SDK_FishEyeFrameCM();
+				byte[] pFishParam = new byte[msgContent.pData.length - 8];
+				System.arraycopy(msgContent.pData, 8, pFishParam, 0, pFishParam.length);
+
+				G.BytesToObj(fp, pFishParam);
+
+				fishFrame = fp;
+			}
+		}
+
+		if ( null != fishFrame ) {
+			if (fishFrame instanceof SDK_FishEyeFrameSW) {
+				// 处理软矫正鱼眼信息
+				mFishEyeFrame = fishFrame;
+			}
+			switchSurfaceview(fishFrame);
+		}
+	}
+
 //	static int __frame_count = 0;
 }

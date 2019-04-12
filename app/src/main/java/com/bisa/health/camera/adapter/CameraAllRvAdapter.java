@@ -13,17 +13,18 @@ import android.widget.TextView;
 
 import com.bisa.health.R;
 import com.bisa.health.camera.CameraDeviceActivity;
+import com.bisa.health.camera.lib.funsdk.support.FunSupport;
 import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CameraAllRvAdapter extends RecyclerView.Adapter<CameraAllRvAdapter.VH> {
     private Context mContext;
-    private ArrayList<FunDevice> cameraList;
+    private List<FunDevice> cameraList;
 
-    public CameraAllRvAdapter(Context context, ArrayList<FunDevice> cameraList) {
+    public CameraAllRvAdapter(Context context) {
         mContext = context;
-        this.cameraList = cameraList;
+        cameraList = FunSupport.getInstance().getDeviceList();
     }
     @NonNull
     @Override
@@ -38,9 +39,9 @@ public class CameraAllRvAdapter extends RecyclerView.Adapter<CameraAllRvAdapter.
         viewHolder.ivBg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FunSupport.getInstance().mCurrDevice = cameraList.get(position);
                 Intent intent = new Intent();
                 intent.setClass(mContext, CameraDeviceActivity.class);
-                intent.putExtra("FUN_DEVICE_SN", cameraList.get(position).getDevSn());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }

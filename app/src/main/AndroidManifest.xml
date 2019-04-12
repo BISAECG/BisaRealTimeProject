@@ -94,7 +94,8 @@
         android:logo="@drawable/menu_back_bg"
         android:persistent="true"
         android:theme="@style/HelathTheme">
-        <activity android:name=".camera.CameraViewImageActivity"></activity>
+        <activity android:name=".camera.CameraViewVideoActivity"></activity>
+        <activity android:name=".camera.CameraViewImageActivity" />
         <activity android:name=".camera.CameraFilesActivity" />
         <activity
             android:name=".camera.CameraDeviceActivity"

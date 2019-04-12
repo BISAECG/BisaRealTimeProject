@@ -12,6 +12,7 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.bisa.health.cache.SharedPersistor;
+import com.bisa.health.camera.lib.funsdk.support.FunSupport;
 import com.bisa.health.ecg.config.ECGConfig;
 import com.bisa.health.model.HealthPath;
 import com.bisa.health.model.HealthServer;
@@ -82,6 +83,7 @@ public class BisaApp extends Application {
 
 	@Override
 	public void onTerminate() {
+		FunSupport.getInstance().term();
 		super.onTerminate();
 		System.exit(0);
 		Log.i(TAG, "onTerminate: ");

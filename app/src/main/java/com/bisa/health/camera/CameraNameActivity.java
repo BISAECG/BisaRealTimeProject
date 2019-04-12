@@ -68,6 +68,6 @@ public class CameraNameActivity extends BaseActivity {
         device.setUser_guid(mUser.getUser_guid());
         device.setIcoflag(DeviceTypeEnum.CAMERA.vlaueOf());
         device.setCustName(funDevice.getDevName());
-        deviceDao.updateOrSave(device);
+        deviceDao.add(device);
     }
 }

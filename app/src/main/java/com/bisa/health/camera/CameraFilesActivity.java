@@ -59,6 +59,11 @@ public class CameraFilesActivity extends BaseActivity {
                     intent.putExtra("filePath", path);
                     startActivity(intent);
                 }
+                else if(path.endsWith("mp4")) {
+                    Intent intent = new Intent(CameraFilesActivity.this, CameraViewVideoActivity.class);
+                    intent.putExtra("filePath", path);
+                    startActivity(intent);
+                }
             }
         });
 

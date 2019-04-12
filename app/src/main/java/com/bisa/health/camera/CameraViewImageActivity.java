@@ -30,10 +30,10 @@ public class CameraViewImageActivity extends BaseActivity {
                 finish();
             }
         });
-        String filePath = getIntent().getStringExtra("filePath");
-        String[] strs = filePath.split("/");
+        String path = getIntent().getStringExtra("filePath");
+        String[] strs = path.split("/");
         tvTitle.setText(strs[strs.length-1]);
-        photoView.setImageDrawable(Drawable.createFromPath(filePath));
+        photoView.setImageDrawable(Drawable.createFromPath(path));
     }
 
 

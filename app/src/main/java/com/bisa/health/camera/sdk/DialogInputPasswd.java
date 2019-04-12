@@ -24,7 +24,6 @@ public abstract class DialogInputPasswd {
 	public TextView mTextTitle;
 	TextView mTextConfirm;
 	TextView mTextCancel;
-	RelativeLayout mLayoutTipShow;
 	LinearLayout mLayoutConfirm;
 	LinearLayout mLayoutCancel;
 	EditText mEditText;
@@ -45,21 +44,15 @@ public abstract class DialogInputPasswd {
 		mTextTitle = (TextView) view.findViewById(R.id.title);
 		mTextConfirm = (TextView) view.findViewById(R.id.confirm);
 		mTextCancel = (TextView) view.findViewById(R.id.cancel);
-		mLayoutTipShow = (RelativeLayout) view.findViewById(R.id.tipShow);
 		mLayoutConfirm = (LinearLayout) view.findViewById(R.id.confirmLayout);
 		mLayoutCancel = (LinearLayout) view.findViewById(R.id.cancelLayout);
 		mEditText = (EditText) view.findViewById(R.id.editPasswd);
-//		mEditText.setKeyListener(DialerKeyListener.getInstance());
+
 		
 		mTextTitle.setText(titleRes);
 		mTextConfirm.setText(confirmRes);
 		mTextCancel.setText(cancelRes);
 
-		RelativeLayout.LayoutParams pointLp = (RelativeLayout.LayoutParams) mLayoutTipShow
-				.getLayoutParams();
-		pointLp.width = UIFactory.dip2px(context, 270);
-		pointLp.height = UIFactory.dip2px(context, 200);
-		mLayoutTipShow.setLayoutParams(pointLp);
 
 		mLayoutConfirm.setOnClickListener(confirmListener);
 		mLayoutCancel.setOnClickListener(cancelListener);

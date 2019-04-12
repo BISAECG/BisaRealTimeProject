@@ -19,6 +19,9 @@ import com.bisa.health.model.User;
 import com.bisa.health.provider.device.DeviceCursor;
 import com.bisa.health.provider.device.DeviceSelection;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class CameraActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -38,7 +41,7 @@ public class CameraActivity extends BaseActivity implements LoaderManager.Loader
 
         rvCameraAll = findViewById(R.id.rv_camera_all);
         rvCameraAll.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CameraAllRvAdapter(this, cameraList);
+        adapter = new CameraAllRvAdapter(this);
         rvCameraAll.setAdapter(adapter);
 
         sharedPersistor = new SharedPersistor(this);
@@ -48,7 +51,7 @@ public class CameraActivity extends BaseActivity implements LoaderManager.Loader
 
         getSupportLoaderManager().initLoader(0, null, this);
 
-        CameraSdkInit.init(this);
+        FunSupport.getInstance().init(this);
 
     }
 
@@ -61,15 +64,23 @@ public class CameraActivity extends BaseActivity implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        cameraList.clear();
+        FunSupport.getInstance().deviceListClear();
 
         if(data!=null && data.moveToFirst()){
             DeviceCursor deviceCursor = new DeviceCursor(data);
+            String devSn;
             do{
                 FunDevice funDevice = new FunDevice();
-                funDevice.devSn = deviceCursor.getDevnum();
-                funDevice.devName = deviceCursor.getCustName();
-                cameraList.add(funDevice);
+                devSn = deviceCursor.getDevnum();
+                String devJsonStr = sharedPref.getString(devSn, "");
+                try {
+                    JSONObject jsonObject = new JSONObject(devJsonStr);
+                    funDevice.initWith(jsonObject);
+                    FunSupport.getInstance().requestDeviceLogin(funDevice);
+                    FunSupport.getInstance().deviceListAdd(funDevice);
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }while(deviceCursor.moveToNext());
         }
         adapter.notifyDataSetChanged();

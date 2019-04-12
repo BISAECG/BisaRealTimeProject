@@ -59,6 +59,8 @@
 	<color name="btn_camera_disabled">#7FCBED</color>
 	<color name="bg_camera_video_ctr">#62708A</color>
 	<color name="bg_camera_func">#E5E5E5</color>
+	<color name="text_camera_playback_date">#A0A0A0</color>
+	<color name="text_camera_playback_date_sel">#ff4e00</color>
 
 	<!--copy-->
 	<color name="theme_color">#ffe97425</color>

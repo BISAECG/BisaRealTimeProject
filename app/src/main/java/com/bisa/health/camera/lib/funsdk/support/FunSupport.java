@@ -2,11 +2,13 @@ package com.bisa.health.camera.lib.funsdk.support;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.net.wifi.ScanResult;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.basic.G;
 import com.bisa.health.camera.lib.funsdk.support.config.AlarmInfo;
@@ -66,6 +68,9 @@ import com.lib.Mps.XPMS_SEARCH_ALARMINFO_REQ;
 import com.lib.MsgContent;
 import com.lib.SDKCONST;
 import com.lib.SDKCONST.SDK_CommTypes;
+import com.lib.sdk.struct.SDK_FishEyeFrame;
+import com.lib.sdk.struct.SDK_FishEyeFrameCM;
+import com.lib.sdk.struct.SDK_FishEyeFrameSW;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -86,12 +91,6 @@ public class FunSupport implements IFunSDKResult {
     private static final String APP_KEY = "39cb860b743947d9837453ead4ad59d9";
     private static final String APP_SECRET = "cb342be4e3714287907715237f88037e";
     private static final int APP_MOVECARD = 6;
-
-
-//    private static final String APP_UUID = "90b4eb2b73c44be28baf8d61cfc4f59e";
-//    private static final String APP_KEY = "103fdcef25eb46de91e6f308e98b5d03";
-//    private static final String APP_SECRET = "de3a0cde5c0f45838cae553a34cfe4ab";
-//    private static final int APP_MOVECARD = 6;
 
     // "42.96.197.189";223.4.33.127
     public static final String SERVER_IP = "223.4.33.127;54.84.132.236;112.124.0.188";
@@ -179,6 +178,13 @@ public class FunSupport implements IFunSDKResult {
         }
 
         return mInstance;
+    }
+
+    public void deviceListAdd(FunDevice funDevice) {
+        mDeviceList.add(funDevice);
+    }
+    public void deviceListClear() {
+        mDeviceList.clear();
     }
 
     public void init(Context context) {
@@ -309,23 +315,7 @@ public class FunSupport implements IFunSDKResult {
         return mLoginType;
     }
 
-    public void registerOnFunLoginListener(OnFunLoginListener l) {
-        if (!mListeners.contains(l)) {
-            mListeners.add(l);
-        }
-    }
 
-    public void registerOnFunRegisterListener(OnFunRegisterListener l) {
-        if (!mListeners.contains(l)) {
-            mListeners.add(l);
-        }
-    }
-
-    public void registerOnFunChangepasswListener(OnFunChangePasswListener l) {
-        if (!mListeners.contains(l)) {
-            mListeners.add(l);
-        }
-    }
 
     public void registerOnFunDeviceListener(OnFunDeviceListener l) {
         if (!mListeners.contains(l)) {
@@ -339,24 +329,6 @@ public class FunSupport implements IFunSDKResult {
         }
     }
 
-
-    public void registerOnFunGetUserInfoListener(OnFunGetUserInfoListener l) {
-        if (!mListeners.contains(l)) {
-            mListeners.add(l);
-        }
-    }
-
-    public void registerOnFunCheckPasswListener(OnFunCheckPasswListener l) {
-        if (!mListeners.contains(l)) {
-            mListeners.add(l);
-        }
-    }
-
-    public void registerOnFunForgetPasswListener(OnFunForgetPasswListener l) {
-        if (!mListeners.contains(l)) {
-            mListeners.add(l);
-        }
-    }
 
     public void registerOnFunDeviceCaptureListener(OnFunDeviceCaptureListener l) {
         if (!mListeners.contains(l)) {
@@ -418,23 +390,19 @@ public class FunSupport implements IFunSDKResult {
         }
     }
 
-    public void removeOnFunLoginListener(OnFunLoginListener l) {
+    public void registerFunVideoViewListener(FunVideoViewListener ls) {
+        if (!mListeners.contains(ls)) {
+            mListeners.add(ls);
+        }
+    }
+
+
+    public void removeFunVideoViewListener(FunVideoViewListener l) {
         if (mListeners.contains(l)) {
             mListeners.remove(l);
         }
     }
 
-    public void removeOnFunRegisterListener(OnFunRegisterListener l) {
-        if (mListeners.contains(l)) {
-            mListeners.remove(l);
-        }
-    }
-
-    public void removeOnFunChangePasswListener(OnFunChangePasswListener l) {
-        if (mListeners.contains(l)) {
-            mListeners.remove(l);
-        }
-    }
 
     public void removeOnFunDeviceListener(OnFunDeviceListener l) {
         if (mListeners.contains(l)) {
@@ -448,23 +416,6 @@ public class FunSupport implements IFunSDKResult {
         }
     }
 
-    public void removeOnFunGetUserInfoListener(OnFunGetUserInfoListener l) {
-        if (mListeners.contains(l)) {
-            mListeners.remove(l);
-        }
-    }
-
-    public void removeOnFunCheckPasswListener(OnFunCheckPasswListener l) {
-        if (mListeners.contains(l)) {
-            mListeners.remove(l);
-        }
-    }
-
-    public void removeOnFunForgetPasswListener(OnFunForgetPasswListener l) {
-        if (mListeners.contains(l)) {
-            mListeners.remove(l);
-        }
-    }
 
     public void removeOnFunDeviceCaptureListener(OnFunDeviceCaptureListener l) {
         if (mListeners.contains(l)) {
@@ -708,277 +659,7 @@ public class FunSupport implements IFunSDKResult {
         }
     }
 
-    /********************************************************************************
-     * 用户登录相关接口
-     */
 
-    /**
-     * 使用上一次成功登录的账号登录
-     *
-     * @return
-     */
-    public boolean loginByLastUser() {
-        String lastUserName = getSavedUserName();
-        String lastPassWord = getSavedPassword();
-        if (null != lastUserName
-                && lastUserName.length() > 0
-                && null != lastPassWord
-                && lastPassWord.length() > 0) {
-            String userName = lastUserName;
-            String passWord = lastPassWord;
-            return login(userName, passWord);
-        }
-
-        return false;
-    }
-
-    /**
-     * 用户登录
-     *
-     * @param username 用户名
-     * @param password 密码
-     * @return 返回是否成功
-     */
-    public boolean login(String username, String password) {
-
-        mTmpLoginUserName = username;
-        mTmpLoginPassword = password;
-
-//		int result = FunSDK.SysLoginToXM(getHandler(), username, password, 0);
-        // return (result == 0);
-
-        // 用户获取设备列表来替代用户登录
-        int result = FunSDK.SysGetDevList(getHandler(),
-                mTmpLoginUserName, mTmpLoginPassword, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 返回是否已经成功登录
-     *
-     * @return
-     */
-    public boolean hasLogin() {
-        return null != mLoginUserName
-                && mLoginUserName.length() > 0
-                && null != mLoginPassword
-                && mLoginPassword.length() > 0;
-    }
-
-    public String getUserName() {
-        if (null == mLoginUserName) {
-            return "";
-        }
-        return mLoginUserName;
-    }
-
-    public String getPassWord() {
-        if (null == mLoginPassword) {
-            return "";
-        }
-        return mLoginPassword;
-    }
-
-
-    /********************************************************************************
-     * 用户注册相关接口
-     */
-    /**
-     * 请求手机短信验证码
-     *
-     * @param userName 用户名
-     * @param phoneNo  手机号
-     * @return
-     */
-    public boolean requestPhoneMsg(String userName, String phoneNo) {
-        int result = FunSDK.SysSendPhoneMsg(getHandler(), userName, phoneNo, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 通过手机号注册用户
-     *
-     * @param userName  用户名
-     * @param passWd    密码
-     * @param checkCode 手机验证码
-     * @param phoneNo   手机号
-     * @return
-     */
-    public boolean registerByPhone(String userName,
-                                   String passWd, String checkCode, String phoneNo) {
-        int result = FunSDK.SysRegUserToXM(getHandler(),
-                userName, passWd, checkCode, phoneNo, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 检验用户名是否已被注册
-     */
-    public boolean checkUserName(String userName) {
-        int result = FunSDK.SysCheckUserRegiste(getHandler(), userName, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 给邮箱发送验证码
-     *
-     * @param email
-     * @return
-     */
-    public boolean requestEmailCode(String email) {
-        int result = FunSDK.SysSendEmailCode(getHandler(), email, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 通过邮箱注册
-     *
-     * @param userName
-     * @param passWd
-     * @param email
-     * @param code
-     * @return
-     */
-    public boolean registerByEmail(String userName, String passWd,
-                                   String code, String email) {
-        int result = FunSDK.SysRegisteByEmail(getHandler(),
-                userName, passWd, email, code, 0);
-        return (result == 0);
-    }
-
-    /********************************************************************************
-     * 密码相关接口
-     */
-    /**
-     * 请求修改密码
-     *
-     * @param userName 用户名
-     * @param oldPassw 旧密码
-     * @param newPassw 新密码
-     * @return
-     */
-    public boolean changePassw(String userName, String oldPassw, String newPassw) {
-//		int result = FunSDK.SysPswChange(getHandler(), userName, oldPassw, newPassw, 0);
-        int result = FunSDK.SysEditPwdXM(getHandler(), userName, oldPassw, newPassw, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 通过服务器验证密码强度
-     *
-     * @param passw 需要验证的密码
-     * @return
-     */
-    public boolean checkPassw(String passw) {
-        int result = FunSDK.SysCheckPwdStrength(getHandler(), passw, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 请求发送用来重设密码的邮件验证码
-     *
-     * @param email 用户注册邮箱
-     * @return
-     */
-    public boolean requestSendEmailCodeForResetPW(String email) {
-        int result = FunSDK.SysSendCodeForEmail(getHandler(), email, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 验证验证码
-     *
-     * @param email      注册邮箱
-     * @param verifyCode 需要验证的验证码
-     * @return
-     */
-    public boolean requestVerifyEmailCode(String email, String verifyCode) {
-        int result = FunSDK.SysCheckCodeForEmail(getHandler(), email, verifyCode, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 通过 Email 重设密码
-     *
-     * @param email    注册邮箱
-     * @param newPassw 新密码
-     * @return
-     */
-    public boolean requestResetPasswByEmail(String email, String newPassw) {
-        int result = FunSDK.SysChangePwdByEmail(getHandler(), email, newPassw, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 请求发送手机验证短信
-     *
-     * @param phone 注册时填写的手机号码
-     * @return
-     */
-    public boolean requestSendPhoneMsgForResetPW(String phone) {
-        int result = FunSDK.SysForgetPwdXM(getHandler(), phone, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 验证验证码
-     *
-     * @param phone      手机号码
-     * @param verifyCode 需要验证的验证码
-     * @return
-     */
-    public boolean requestVerifyPhoneCode(String phone, String verifyCode) {
-        int result = FunSDK.CheckResetCodeXM(getHandler(), phone, verifyCode, 0);
-        return (result == 0);
-    }
-
-    /**
-     * 通过手机号码重设密码
-     *
-     * @param phone    手机号码
-     * @param newPassw 重置的密码
-     * @return
-     */
-    public boolean requestResetPasswByPhone(String phone, String newPassw) {
-        int result = FunSDK.ResetPwdXM(getHandler(), phone, newPassw, 0);
-        return (result == 0);
-    }
-
-    /********************************************************************************
-     * 用户信息关接口
-     */
-    /**
-     * @return
-     */
-    public boolean getUserInfo() {
-        if (TextUtils.isEmpty(mLoginUserName) || TextUtils.isEmpty(mLoginPassword)) {
-            return false;
-        }
-        int result = FunSDK.SysGetUerInfo(getHandler(), mLoginUserName, mLoginPassword, 0);
-        return (result == 0);
-    }
-
-    public boolean logout() {
-        // int result = FunSDK.SysLogout(getHandler(), 0);
-        // return (result ==0);
-
-        // 清除用户数据
-        mLoginUserName = null;
-        mLoginPassword = null;
-        mDeviceList.clear();
-
-        // 设置自动登录为false
-        setAutoLogin(false);
-
-        // 回调
-        for (OnFunListener l : mListeners) {
-            if (l instanceof OnFunLoginListener) {
-                ((OnFunLoginListener) l).onLogout();
-            }
-        }
-
-        return true;
-    }
 
     /********************************************************************************
      * 设备访问相关接口
@@ -1024,63 +705,7 @@ public class FunSupport implements IFunSDKResult {
         FunSDK.DevSetConfigByJson(getHandler(), funDevice.devSn, Command, pconfig, -1, 5000, funDevice.getId());
     }
 
-    /**
-     * 用户删除设备
-     *
-     * @param funDevice
-     * @return
-     */
-    public boolean requestDeviceRemove(FunDevice funDevice) {
-        int result = FunSDK.SysDeleteDev(getHandler(), funDevice.devMac,
-                mLoginUserName, mLoginPassword, 0);
-        return (result == 0);
-    }
 
-    /**
-     * 用户添加设备
-     *
-     * @param funDevice
-     * @return
-     */
-    public boolean requestDeviceAdd(FunDevice funDevice) {
-        SDBDeviceInfo devInfo = new SDBDeviceInfo();
-
-        if (StringUtils.isStringNULL(funDevice.getDevSn())) {
-            Log.e(TAG, "Error Device SN.");
-            return false;
-        }
-
-        // 设备类型
-        devInfo.st_7_nType = funDevice.devType.getDevIndex();
-        // 设备序列号(MAC/SN)
-        G.SetValue(devInfo.st_0_Devmac, funDevice.getDevSn());
-
-        // 设备名称
-        if (StringUtils.isStringNULL(funDevice.devName)) {
-            G.SetValue(devInfo.st_1_Devname, funDevice.getDevSn());
-        } else {
-            G.SetValue(devInfo.st_1_Devname, funDevice.devName);
-        }
-
-        // 设备端口,默认34567
-        devInfo.st_6_nDMZTcpPort = 34567;
-        // 设备登录用户名,默认admin
-        if (StringUtils.isStringNULL(funDevice.loginName)) {
-            G.SetValue(devInfo.st_4_loginName, "admin");
-        } else {
-            G.SetValue(devInfo.st_4_loginName, funDevice.loginName);
-        }
-        // 设备登录密码, 默认为空
-        if (StringUtils.isStringNULL(funDevice.loginPsw)) {
-            G.SetValue(devInfo.st_5_loginPsw, "");
-        } else {
-            G.SetValue(devInfo.st_5_loginPsw, funDevice.loginPsw);
-        }
-
-        int result = FunSDK.SysAddDevice(getHandler(),
-                G.ObjToBytes(devInfo), mLoginUserName, mLoginPassword, 0);
-        return (result == 0);
-    }
 
     /**
      * 请求获取附近的AP设备列表
@@ -2367,234 +1992,8 @@ public class FunSupport implements IFunSDKResult {
                 }
             }
             break;
-            case EUIMSG.SYS_CHECK_USER_REGISTE: {
-                FunLog.i(TAG, "EUIMSG.SYS_CHECK_USER_REGISTE");
-                if (msg.arg1 == FunError.EE_OK) {
-                    //回调
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunRegisterListener) {
-                            ((OnFunRegisterListener) l).onUserNameFine();
-                        }
-                    }
-                } else {
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunRegisterListener) {
-                            ((OnFunRegisterListener) l).onUserNameUnfine(msg.arg1);
-                        }
-                    }
-                }
-            }
-            break;
-            case EUIMSG.SYS_LOGOUT_TO_XM: {
-                FunLog.i(TAG, "EUIMSG.SYS_LOGOUT_TO_XM");
-                FunDevStatus devStatus = null;
-                int idrState = FunSDK.GetDevState(msgContent.str, SDKCONST.EFunDevStateType.IDR);
-                if (idrState == SDKCONST.EFunDevState.SLEEP) {
-                    devStatus = FunDevStatus.STATUS_SLEEP;
-                }else if (idrState == 3) {
-                    devStatus = FunDevStatus.STATUS_CAN_NOT_WAKE_UP;
-                }else {
-                    devStatus = FunDevStatus.STATUS_ONLINE;
-                }
-                if (msg.arg1 == FunError.EE_OK) {
 
-                    // 回调
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunGetUserInfoListener) {
-                            ((OnFunGetUserInfoListener) l).onLogoutSuccess();
-                        }
-                        if (l instanceof OnFunDeviceWakeUpListener) {
-                            ((OnFunDeviceWakeUpListener) l).onSleepResult(true,devStatus);
-                        }
-                    }
-                } else {
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunGetUserInfoListener) {
-                            ((OnFunGetUserInfoListener) l).onLogoutFailed(msg.arg1);
-                        }
-                    }
-                }
-            }
-            break;
-            case EUIMSG.SYS_SEND_EMAIL_CODE:
-                FunLog.i(TAG, "EUIMSG.SYS_SEND_EMAIL_CODE");
-            case EUIMSG.SYS_GET_PHONE_CHECK_CODE: {
-                FunLog.i(TAG, "EUIMSG.SYS_GET_PHONE_CHECK_CODE");
 
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 获取手机验证码成功
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunRegisterListener) {
-                            ((OnFunRegisterListener) l).onRequestSendCodeSuccess();
-                        }
-                    }
-                } else {
-                    // 获取手机验证码失败
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunRegisterListener) {
-                            ((OnFunRegisterListener) l).onRequestSendCodeFailed(msg.arg1);
-                        }
-                    }
-                }
-            }
-            break;
-
-            case EUIMSG.SYS_REGISTE_BY_EMAIL:
-                FunLog.i(TAG, "EUIMSG.SYS_REGISTE_BY_EMAIL");
-            case EUIMSG.SYS_REGISER_USER_XM: {
-                FunLog.i(TAG, "EUIMSG.SYS_REGISER_USER_XM");
-
-                // 通过手机号注册用户
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 通过手机号注册用户成功
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunRegisterListener) {
-                            ((OnFunRegisterListener) l).onRegisterNewUserSuccess();
-                        }
-                    }
-                } else {
-                    // 通过手机号注册用户失败
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunRegisterListener) {
-                            ((OnFunRegisterListener) l).onRegisterNewUserFailed(msg.arg1);
-                        }
-                    }
-                }
-            }
-            break;
-
-            case EUIMSG.SYS_EDIT_PWD_XM: {
-                FunLog.i(TAG, "EUIMSG.SYS_EDIT_PWD_XM");
-
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 更改密码成功
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunChangePasswListener) {
-                            ((OnFunChangePasswListener) l).onChangePasswSuccess();
-                        }
-                    }
-                } else {
-                    // 更改密码失败
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunChangePasswListener) {
-                            ((OnFunChangePasswListener) l).onChangePasswFailed(msg.arg1);
-                        }
-                    }
-                }
-
-            }
-            break;
-            case EUIMSG.SYS_CHECK_PWD_STRENGTH: {
-                FunLog.i(TAG, "EUIMSG.SYS_CHECK_PWD_STRENGTH");
-
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 密码强度符合要求
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunCheckPasswListener) {
-                            ((OnFunCheckPasswListener) l).onCheckPasswSuccess(msgContent.str);
-
-                        }
-                    }
-                } else {
-                    // 密码强度不符合要求
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunCheckPasswListener) {
-                            ((OnFunCheckPasswListener) l).onCheckPasswFailed(msg.arg1, msgContent.str);
-                        }
-                    }
-                }
-            }
-            break;
-            case EUIMSG.SYS_SEND_EMAIL_FOR_CODE:
-                FunLog.i(TAG, "EUIMSG.SYS_SEND_EMAIL_FOR_CODE");
-            case EUIMSG.SYS_FORGET_PWD_XM: {
-                FunLog.i(TAG, "EUIMSG.SYS_FORGET_PWD_XM");
-
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 请求发送重置密码验证码成功
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunForgetPasswListener) {
-                            ((OnFunForgetPasswListener) l).onRequestCodeSuccess();
-                        }
-                    }
-
-                } else {
-                    // 请求发送重置密码验证码失败
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunForgetPasswListener) {
-                            ((OnFunForgetPasswListener) l).onRequestCodeFailed(msg.arg1);
-                        }
-                    }
-                }
-            }
-            break;
-            case EUIMSG.SYS_CHECK_CODE_FOR_EMAIL:
-                FunLog.i(TAG, "EUIMSG.SYS_CHECK_CODE_FOR_EMAIL");
-            case EUIMSG.SYS_REST_PWD_CHECK_XM: {
-                FunLog.i(TAG, "EUIMSG.SYS_REST_PWD_CHECK_XM");
-
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 验证码验证成功
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunForgetPasswListener) {
-                            ((OnFunForgetPasswListener) l).onVerifyCodeSuccess();
-                        }
-                    }
-
-                } else {
-                    // 验证码验证失败
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunForgetPasswListener) {
-                            ((OnFunForgetPasswListener) l).onVerifyFailed(msg.arg1);
-                        }
-                    }
-                }
-            }
-            break;
-            case EUIMSG.SYS_PSW_CHANGE_BY_EMAIL:
-                FunLog.i(TAG, "EUIMSG.SYS_PSW_CHANGE_BY_EMAIL");
-            case EUIMSG.SYS_RESET_PWD_XM: {
-                FunLog.i(TAG, "EUIMSG.SYS_RESET_PWD_XM");
-
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 重置密码成功
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunForgetPasswListener) {
-                            ((OnFunForgetPasswListener) l).onResetPasswSucess();
-                        }
-                    }
-
-                } else {
-                    // 重置密码失败
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunForgetPasswListener) {
-                            ((OnFunForgetPasswListener) l).onResetPasswFailed(msg.arg1);
-                        }
-                    }
-                }
-            }
-            break;
-            case EUIMSG.SYS_GET_USER_INFO: // 获取用户信息
-            {
-                FunLog.i(TAG, "EUIMSG.SYS_GET_USER_INFO");
-
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 获取用户信息成功,将返回用户信息传回到回调方法
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunGetUserInfoListener) {
-                            ((OnFunGetUserInfoListener) l).onGetUserInfoSuccess(msgContent.str);
-                        }
-                    }
-                } else {
-                    // 获取用户信息失败,传回错误代码
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunGetUserInfoListener) {
-                            ((OnFunGetUserInfoListener) l).onGetUserInfoFailed(msg.arg1);
-                        }
-                    }
-                }
-            }
-            break;
             case EUIMSG.SYS_GET_DEV_STATE: // 获取设备在线状态
             {
                 FunLog.i(TAG, "EUIMSG.SYS_GET_DEV_STATE");
@@ -2626,81 +2025,6 @@ public class FunSupport implements IFunSDKResult {
                         }
                         if (l instanceof OnFunDeviceWakeUpListener) {
                             ((OnFunDeviceWakeUpListener) l).onDeviceState(devStatus);
-                        }
-                    }
-                }
-            }
-            break;
-
-            case EUIMSG.SYS_GET_DEV_INFO_BY_USER: // 获取用户设备列表
-            {
-                FunLog.i(TAG, "EUIMSG.SYS_GET_DEV_INFO_BY_USER");
-
-                if (msg.arg1 >= 0) {
-
-                    onUserInfoSavedAfterLoginSuccess();
-
-                    // 回调
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunLoginListener) {
-                            ((OnFunLoginListener) l).onLoginSuccess();
-                        }
-                    }
-
-                    // 获取到设备条数msg.arg1
-                    updateDeviceList(msgContent.pData);
-
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunDeviceListener) {
-                            ((OnFunDeviceListener) l).onDeviceListChanged();
-                        }
-                    }
-                } else {
-                    // 获取用户设备列表失败，同时认为用户登录失败
-                    // 回调
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunLoginListener) {
-                            ((OnFunLoginListener) l).onLoginFailed(msg.arg1);
-                        }
-                    }
-
-                }
-            }
-            break;
-
-            case EUIMSG.SYS_ADD_DEVICE: // 用户添加设备
-            {
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 用户添加设备成功
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunDeviceListener) {
-                            ((OnFunDeviceListener) l).onDeviceAddedSuccess();
-                        }
-                    }
-                } else {
-                    // 用户添加设备失败
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunDeviceListener) {
-                            ((OnFunDeviceListener) l).onDeviceAddedFailed(msg.arg1);
-                        }
-                    }
-                }
-            }
-            break;
-            case EUIMSG.SYS_DELETE_DEV: // 用户删除设备
-            {
-                if (msg.arg1 == FunError.EE_OK) {
-                    // 用户添加设备成功
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunDeviceListener) {
-                            ((OnFunDeviceListener) l).onDeviceRemovedSuccess();
-                        }
-                    }
-                } else {
-                    // 用户添加设备失败
-                    for (OnFunListener l : mListeners) {
-                        if (l instanceof OnFunDeviceListener) {
-                            ((OnFunDeviceListener) l).onDeviceRemovedFailed(msg.arg1);
                         }
                     }
                 }
@@ -3449,6 +2773,67 @@ public class FunSupport implements IFunSDKResult {
                 }
             }
                 break;
+
+
+
+            case EUIMSG.START_PLAY:
+            {
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof FunVideoViewListener) {
+                        ((FunVideoViewListener) l).startPlay(msg, msgContent);
+                    }
+                }
+
+            }
+            break;
+
+            case EUIMSG.ON_PLAY_INFO:
+            {
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof FunVideoViewListener) {
+                        ((FunVideoViewListener) l).onPlayInfo(msgContent);
+                    }
+                }
+            }
+            break;
+            case EUIMSG.ON_PLAY_END:
+            {
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof FunVideoViewListener) {
+                        ((FunVideoViewListener) l).onPlayEnd();
+                    }
+                }
+            }
+            break;
+            case EUIMSG.ON_PLAY_BUFFER_BEGIN:
+            {
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof FunVideoViewListener) {
+                        ((FunVideoViewListener) l).onPlayBufferBegin();
+                    }
+                }
+            }
+            break;
+            case EUIMSG.ON_PLAY_BUFFER_END:
+            {
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof FunVideoViewListener) {
+                        ((FunVideoViewListener) l).onPlayBufferEnd();
+                    }
+                }
+            }
+            break;
+
+            case EUIMSG.ON_FRAME_USR_DATA:
+            {
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof FunVideoViewListener) {
+                        ((FunVideoViewListener) l).onFrameUsrData(msg, msgContent);
+                    }
+                }
+            }
+            break;
+
             default:
                 break;
         }
