@@ -221,37 +221,42 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_camera_playback_date"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#5A5A5A" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="45dp">
 
                 <ImageButton
                     android:id="@+id/ibtn_camera_playback_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:background="@color/transparent"
                     android:src="@drawable/camera_playback_left" />
-                <HorizontalScrollView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-                </HorizontalScrollView>
+                <com.bisa.health.camera.view.PlaybackDaylongView
+                    android:id="@+id/playback_daylong_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/ibtn_camera_playback_left"
+                    android:layout_toLeftOf="@id/ibtn_camera_playback_right"/>
 
                 <ImageButton
                     android:id="@+id/ibtn_camera_playback_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:background="@color/transparent"
                     android:src="@drawable/camera_playback_right" />
-            </LinearLayout>
+            </RelativeLayout>
 
 
 
@@ -321,16 +326,6 @@
             android:layout_height="wrap_content"
             android:background="@color/bg_camera_func"
             android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_camera_detection"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:drawableTop="@drawable/camera_func_detection_selector"
-                android:text="@string/camera_device_detection"
-                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/btn_camera_capture"

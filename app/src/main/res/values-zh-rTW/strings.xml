@@ -144,6 +144,7 @@
     <string name="camera_ld">流畅</string>
     <string name="camera_sd">标清</string>
     <string name="camera_hd">高清</string>
+    <string name="camera_recording_tips">正在录像，请先停止录像</string>
 
     <string name="camera_device_detection">侦测</string>
     <string name="camera_device_capture">拍照</string>

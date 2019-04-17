@@ -3,7 +3,6 @@ package com.bisa.health.camera;
 import android.annotation.SuppressLint;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -15,13 +14,11 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.BottomSheetDialog;
 
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,13 +35,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
 import com.bisa.health.cache.SharedPersistor;
-import com.bisa.health.camera.adapter.CameraDevicesPreviewGvAdapter;
 import com.bisa.health.camera.adapter.CameraPlaybackDateRvAdapter;
+import com.bisa.health.camera.interfaces.OnItemClickListener;
 import com.bisa.health.camera.lib.funsdk.support.FunDevicePassword;
 import com.bisa.health.camera.lib.funsdk.support.FunError;
 
@@ -54,11 +50,9 @@ import com.bisa.health.camera.lib.funsdk.support.OnFunDeviceCaptureListener;
 import com.bisa.health.camera.lib.funsdk.support.OnFunDeviceOptListener;
 import com.bisa.health.camera.lib.funsdk.support.OnFunDeviceRecordListener;
 import com.bisa.health.camera.lib.funsdk.support.config.DevCmdOPSCalendar;
-import com.bisa.health.camera.lib.funsdk.support.config.OPPTZControl;
 import com.bisa.health.camera.lib.funsdk.support.config.OPPTZPreset;
 import com.bisa.health.camera.lib.funsdk.support.config.SystemInfo;
 
-import com.bisa.health.camera.lib.funsdk.support.models.FunDevRecordFile;
 import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 import com.bisa.health.camera.lib.funsdk.support.models.FunStreamType;
 import com.bisa.health.camera.lib.funsdk.support.utils.FileUtils;
@@ -66,9 +60,11 @@ import com.bisa.health.camera.lib.funsdk.support.utils.TalkManager;
 import com.bisa.health.camera.lib.funsdk.support.widget.FunVideoView;
 import com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView;
 import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
-import com.bisa.health.camera.lib.sdk.struct.SDK_SearchByTime;
+import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FINDINFO;
 import com.bisa.health.camera.sdk.DialogInputPasswd;
 import com.bisa.health.camera.sdk.UIFactory;
+import com.bisa.health.camera.view.OnValueChangeListener;
+import com.bisa.health.camera.view.PlaybackDaylongView;
 import com.bisa.health.model.User;
 import com.lib.EPTZCMD;
 import com.lib.FunSDK;
@@ -79,9 +75,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import static com.bisa.health.camera.lib.funsdk.support.models.FunDevType.EE_DEV_SPORTCAMERA;
 
 @SuppressLint("ClickableViewAccessibility")
 public class CameraDeviceActivity extends BaseActivity implements
@@ -127,8 +123,6 @@ public class CameraDeviceActivity extends BaseActivity implements
     private Button mBtnFiles;
 
     private TextView mTextVideoStat;
-    private AlertDialog alert;
-    private AlertDialog.Builder builder;
 
     private LinearLayout linearLayoutPreview;
     private PreviewFunVideoView previewFunVideoView1, previewFunVideoView2, previewFunVideoView3, previewFunVideoView4;
@@ -138,6 +132,7 @@ public class CameraDeviceActivity extends BaseActivity implements
     private ImageButton iBtnPlayback;
     private LinearLayout lLayoutPlayback;
     private RecyclerView rvPlaybackDate;
+    private PlaybackDaylongView playbackDaylongView;
 
     private int mChannelCount;
     private boolean isGetSysFirst = true;
@@ -168,8 +163,11 @@ public class CameraDeviceActivity extends BaseActivity implements
 
     private OnFunDeviceCaptureListener funDeviceCaptureListener;
     private OnFunDeviceRecordListener funDeviceRecordListener;
+
     private List<String> recordDateList = new ArrayList<String>();
     private CameraPlaybackDateRvAdapter recordDateAdapter;
+    private H264_DVR_FILE_DATA[] recordDatas;
+    private int recordDatasIndex = 0;
 
 
     @Override
@@ -203,6 +201,16 @@ public class CameraDeviceActivity extends BaseActivity implements
         mFunVideoView.setOnPreparedListener(this);
         mFunVideoView.setOnErrorListener(this);
         mFunVideoView.setOnInfoListener(this);
+        mFunVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                recordDatasIndex ++;
+                if(recordDatasIndex < recordDatas.length) {
+                    playbackDaylongView.setRecordScale(recordDatasIndex);
+                    playRecordVideoByFile(recordDatasIndex);
+                }
+            }
+        });
 
         mLayoutRecording = findViewById(R.id.layout_recording);
 
@@ -434,19 +442,29 @@ public class CameraDeviceActivity extends BaseActivity implements
         iBtnPlayback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(recordingFlagBl) {
+                    showToast(getString(R.string.camera_recording_tips));
+                    return;
+                }
                 if(!playbackFlagBl) {
                     playbackFlagBl = true;
                     iBtnPlayback.setImageDrawable(getResources().getDrawable(R.drawable.camera_ptz_small));
                     mLayoutDirectionControl.setVisibility(View.GONE);
                     lLayoutPlayback.setVisibility(View.VISIBLE);
-                    onSearchFile();
-                    requestPicDate();
+                    mBtnVoice.setEnabled(false);
+                    mBtnVoice.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_voice_pressed), null, null);
+                    requestRecDate();
+                    onSearchFile(Calendar.getInstance().getTime());
                 }
                 else {
                     playbackFlagBl = false;
                     iBtnPlayback.setImageDrawable(getResources().getDrawable(R.drawable.camera_playback));
                     lLayoutPlayback.setVisibility(View.GONE);
                     mLayoutDirectionControl.setVisibility(View.VISIBLE);
+                    mBtnVoice.setEnabled(true);
+                    mBtnVoice.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_voice_normal), null, null);
+                    mFunVideoView.stopPlayback();
+                    playRealMedia();
                 }
             }
         });
@@ -456,7 +474,27 @@ public class CameraDeviceActivity extends BaseActivity implements
         rvPlaybackDate.setLayoutManager(layoutManager);
         recordDateAdapter = new CameraPlaybackDateRvAdapter(this, recordDateList);
         rvPlaybackDate.setAdapter(recordDateAdapter);
+        recordDateAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(Date date) {
+                onSearchFile(date);
+            }
+        });
 
+        playbackDaylongView = findViewById(R.id.playback_daylong_view);
+        playbackDaylongView.setOnValueChangeListener(new OnValueChangeListener() {
+            @Override
+            public synchronized void playRecordFileWithIndex(int index) {
+                recordDatasIndex = index;
+                playRecordVideoByFile(index);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        playbackDaylongView.setRecordScale(index);
+                    }
+                });
+            }
+        });
 
 
         // 注册设备操作回调
@@ -488,6 +526,9 @@ public class CameraDeviceActivity extends BaseActivity implements
         funDeviceCaptureListener = new OnFunDeviceCaptureListener() {
             @Override
             public void onCaptureSuccess(String picStr) {
+                if(picStr.endsWith(mFunDevice.getDevSn() + ".jpg")) {
+                    return;
+                }
                 toastScreenShotPreview(picStr);
             }
 
@@ -496,32 +537,10 @@ public class CameraDeviceActivity extends BaseActivity implements
                 showToast(FunError.getErrorStr(ErrorCode));
             }
         };
-        funDeviceRecordListener = new OnFunDeviceRecordListener() {
-            @Override
-            public void onRequestRecordListSuccess(List<FunDevRecordFile> files) {
-                if (files == null || files.size() == 0) {
-                    showToast("Today's video list is null,please choice other date");
-                    return;
-                }
 
-                // 3. 在回调中处理录像列表结果 - onRequestRecordListSuccess()
-                // 显示录像文件列表
-
-                // 如果录像存在,默认开始播放第一段录像
-                if ( files.size() > 0 ) {
-                    System.out.println("---------------ttt---" + files.get(0).getRecStartTime() + "---" + files.get(files.size()-1).getRecEndTime());
-
-                }
-            }
-
-            @Override
-            public void onRequestRecordListFailed(Integer errCode) {
-                showToast(FunError.getErrorStr(errCode));
-            }
-        };
 
         FunSupport.getInstance().registerOnFunDeviceCaptureListener(funDeviceCaptureListener);
-        FunSupport.getInstance().registerOnFunDeviceRecordListener(funDeviceRecordListener);
+        //FunSupport.getInstance().registerOnFunDeviceRecordListener(funDeviceRecordListener);
     }
 
 
@@ -545,6 +564,11 @@ public class CameraDeviceActivity extends BaseActivity implements
         super.onDestroy();
     }
 
+    @Override
+    protected void onStop() {
+        lastCapture();
+        super.onStop();
+    }
 
     @Override
     protected void onResume() {
@@ -614,6 +638,15 @@ public class CameraDeviceActivity extends BaseActivity implements
             mLayoutRecording.setVisibility(View.VISIBLE);
             showToast(getResources().getString(R.string.media_record_start));
         }
+
+    }
+
+    private void lastCapture() {
+        if (!mFunVideoView.isPlaying()) {
+            return;
+        }
+
+        mFunVideoView.captureImage(fileDir + mFunDevice.getDevSn() + ".jpg");	//图片异步保存
 
     }
 
@@ -710,6 +743,7 @@ public class CameraDeviceActivity extends BaseActivity implements
         if (getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            //3秒之后设置为根据系统感应
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -718,7 +752,6 @@ public class CameraDeviceActivity extends BaseActivity implements
             }, 3000);
             return;
         }
-
         finish();
     }
 
@@ -792,14 +825,7 @@ public class CameraDeviceActivity extends BaseActivity implements
         FunSupport.getInstance().requestDeviceConfig(mFunDevice, OPPTZPreset.CONFIG_NAME, 0);
     }
 
-    private void startRecordList() {
-        Intent intent = new Intent();
-        intent.putExtra("FUN_DEVICE_ID", mFunDevice.getId());
-        intent.putExtra("FILE_TYPE", "h264;mp4");
-        //intent.setClass(this, ActivityGuideDeviceRecordList.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
+
 
     private void playRealMedia() {
 
@@ -1005,7 +1031,9 @@ public class CameraDeviceActivity extends BaseActivity implements
             for (int i = 0; i < calendar.getData().size(); i++) {
                 recordDateList.add(calendar.getData().get(i).getDispDate());
             }
+            recordDateAdapter.setThisPosition(recordDateList.size() - 1);
             recordDateAdapter.notifyDataSetChanged();
+            rvPlaybackDate.scrollToPosition(recordDateAdapter.getItemCount() - 1);
         }
         mFunDevice.invalidConfig(DevCmdOPSCalendar.CONFIG_NAME);
     }
@@ -1020,18 +1048,13 @@ public class CameraDeviceActivity extends BaseActivity implements
 
 
     @Override
-    public void onDeviceSetConfigSuccess(final FunDevice funDevice,
-                                         final String configName) {
+    public void onDeviceSetConfigSuccess(final FunDevice funDevice, final String configName) {
 
     }
 
 
     @Override
-    public void onDeviceSetConfigFailed(final FunDevice funDevice,
-                                        final String configName, final Integer errCode) {
-        if (OPPTZControl.CONFIG_NAME.equals(configName)) {
-            Toast.makeText(getApplicationContext(), R.string.user_set_preset_fail, Toast.LENGTH_SHORT).show();
-        }
+    public void onDeviceSetConfigFailed(final FunDevice funDevice, final String configName, final Integer errCode) {
     }
 
     @Override
@@ -1056,13 +1079,30 @@ public class CameraDeviceActivity extends BaseActivity implements
 
     @Override
     public void onDeviceFileListChanged(FunDevice funDevice) {
-        // TODO Auto-generated method stub
+
 
     }
 
     @Override
     public void onDeviceFileListChanged(FunDevice funDevice, H264_DVR_FILE_DATA[] datas) {
+        dialogDismiss();
 
+        if (null != funDevice
+                && null != mFunDevice
+                && funDevice.getId() == mFunDevice.getId()) {
+            recordDatas = datas;
+
+            if (datas.length == 0) {
+                showToast("device_camera_video_list_empty");
+            } else {
+                showToast("rec files size" + datas.length);
+                playbackDaylongView.setData(datas);
+                //自动播放第一个
+                recordDatasIndex = 0;
+                playbackDaylongView.setRecordScale(0);
+                playRecordVideoByFile(0);
+            }
+        }
     }
 
 
@@ -1076,9 +1116,7 @@ public class CameraDeviceActivity extends BaseActivity implements
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         // 播放失败
-        //showToast(getResources().getString(R.string.media_play_error)
-                //+ " : "
-                //+ FunError.getErrorStr(extra));
+        showToast(FunError.getErrorStr(extra));
 
         if ( FunError.EE_TPS_NOT_SUP_MAIN == extra
                 || FunError.EE_DSS_NOT_SUP_MAIN == extra ) {
@@ -1236,37 +1274,33 @@ public class CameraDeviceActivity extends BaseActivity implements
     }
 
 
-    private void onSearchFile() {
+    private void onSearchFile(Date date) {
+        showDialog(true);
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
 
         int time[] = { calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE) };
 
-        SDK_SearchByTime search_info = new SDK_SearchByTime();
-        search_info.st_6_nHighStreamType = 0;
-        search_info.st_7_nLowStreamType = 0;
-        search_info.st_1_nLowChannel = MasktoInt(mFunDevice.CurrChannel);
-        search_info.st_2_nFileType = 0;
-        search_info.st_3_stBeginTime.st_0_year = time[0];
-        search_info.st_3_stBeginTime.st_1_month = time[1];
-        search_info.st_3_stBeginTime.st_2_day = time[2];
-        search_info.st_3_stBeginTime.st_4_hour = 0;
-        search_info.st_3_stBeginTime.st_5_minute = 0;
-        search_info.st_3_stBeginTime.st_6_second = 0;
-        search_info.st_4_stEndTime.st_0_year = time[0];
-        search_info.st_4_stEndTime.st_1_month = time[1];
-        search_info.st_4_stEndTime.st_2_day = time[2];
-        search_info.st_4_stEndTime.st_4_hour = 23;
-        search_info.st_4_stEndTime.st_5_minute = 59;
-        search_info.st_4_stEndTime.st_6_second = 59;
-        FunSupport.getInstance().requestDeviceFileListByTime(mFunDevice, search_info);
+        H264_DVR_FINDINFO info = new H264_DVR_FINDINFO();
+        info.st_1_nFileType = SDKCONST.FileType.SDK_RECORD_ALL;
+        info.st_2_startTime.st_0_dwYear = time[0];
+        info.st_2_startTime.st_1_dwMonth = time[1];
+        info.st_2_startTime.st_2_dwDay = time[2];
+        info.st_2_startTime.st_3_dwHour = 0;
+        info.st_2_startTime.st_4_dwMinute = 0;
+        info.st_2_startTime.st_5_dwSecond = 0;
+        info.st_3_endTime.st_0_dwYear = time[0];
+        info.st_3_endTime.st_1_dwMonth = time[1];
+        info.st_3_endTime.st_2_dwDay = time[2];
+        info.st_3_endTime.st_3_dwHour = 23;
+        info.st_3_endTime.st_4_dwMinute = 59;
+        info.st_3_endTime.st_5_dwSecond = 59;
+        info.st_0_nChannelN0 = mFunDevice.CurrChannel;
+        FunSupport.getInstance().requestDeviceFileList(mFunDevice, info);
     }
-    private int MasktoInt(int channel){
-        int MaskofChannel = 0;
-        MaskofChannel = (1 << channel) | MaskofChannel;
-        return MaskofChannel;
-    }
-    private void  requestPicDate(){
+
+    private void  requestRecDate(){
         DevCmdOPSCalendar opsCalendar = (DevCmdOPSCalendar) mFunDevice.checkConfig(DevCmdOPSCalendar.CONFIG_NAME);
         opsCalendar.setEvent("*");
         opsCalendar.setFileType("h264");
@@ -1274,5 +1308,12 @@ public class CameraDeviceActivity extends BaseActivity implements
         opsCalendar.setYear(Calendar.getInstance().get(Calendar.YEAR));
         mFunDevice.setConfig(opsCalendar);
         FunSupport.getInstance().requestDeviceCmdGeneral(mFunDevice, opsCalendar);
+    }
+    private void playRecordVideoByFile(int index) {
+        mFunVideoView.stopPlayback();
+
+        //FunFileData funFileData = new FunFileData(recordDatas[index], new OPCompressPic());
+        mFunVideoView.playRecordByFile(mFunDevice.getDevSn(), recordDatas[index], mFunDevice.CurrChannel);
+        mFunVideoView.setMediaSound(true);
     }
 }

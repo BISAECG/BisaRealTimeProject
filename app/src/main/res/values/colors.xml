@@ -61,6 +61,10 @@
 	<color name="bg_camera_func">#E5E5E5</color>
 	<color name="text_camera_playback_date">#A0A0A0</color>
 	<color name="text_camera_playback_date_sel">#ff4e00</color>
+	<color name="camera_playback_daylong_mid">#FF8820</color>
+	<color name="camera_playback_scale">#B6B6B6</color>
+	<color name="camera_playback_record">#4Dff8820</color>
+
 
 	<!--copy-->
 	<color name="theme_color">#ffe97425</color>

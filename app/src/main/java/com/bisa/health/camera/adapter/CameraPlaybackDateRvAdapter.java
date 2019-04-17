@@ -9,19 +9,32 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bisa.health.R;
+import com.bisa.health.camera.interfaces.OnItemClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CameraPlaybackDateRvAdapter extends RecyclerView.Adapter<CameraPlaybackDateRvAdapter.VH> {
     private Context context;
     private List<String> dateList;
+    private OnItemClickListener onItemClickListener;
+
+    private int thisPosition;
 
     public CameraPlaybackDateRvAdapter(Context context, List<String> dateList) {
         this.context = context;
         this.dateList = dateList;
+        thisPosition = 0;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+    public void setThisPosition(int thisPosition) {
+        this.thisPosition = thisPosition;
     }
 
     @NonNull
@@ -33,29 +46,39 @@ public class CameraPlaybackDateRvAdapter extends RecyclerView.Adapter<CameraPlay
 
     @Override
     public void onBindViewHolder(@NonNull VH viewHolder, int i) {
-        if(i == dateList.size()) {
-            viewHolder.tvDate.setText("实时");
-            viewHolder.tvDate.setTextColor(context.getResources().getColor(R.color.text_camera_playback_date_sel));
-            viewHolder.tvDate.setBackgroundResource(R.drawable.bg_tv_camera_playback_date_cur);
+        SimpleDateFormat sdfS = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat sdfD = new SimpleDateFormat("MM/dd", Locale.getDefault());
+        try {
+            Date date = sdfS.parse(dateList.get(dateList.size()-1-i));//倒序
+            viewHolder.tvDate.setText(sdfD.format(date));
+            viewHolder.tvDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onItemClickListener != null) {
+                        thisPosition = i;
+                        onItemClickListener.onItemClick(date);
+                        notifyDataSetChanged();
+                    }
+                }
+            });
+        }catch (ParseException e) {
+            e.printStackTrace();
         }
-        else {
-            SimpleDateFormat sdfS = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat sdfD = new SimpleDateFormat("MM/dd");
-            try {
-                Date date = sdfS.parse(dateList.get(dateList.size()-1-i));//倒序
-                viewHolder.tvDate.setText(sdfD.format(date));
-                viewHolder.tvDate.setTextColor(context.getResources().getColor(R.color.text_camera_playback_date));
-                viewHolder.tvDate.setBackgroundResource(R.drawable.bg_tv_camera_playback_date);
-            }catch (ParseException e) {
-                e.printStackTrace();
-            }
+        if (i == thisPosition) {
+            //设置选中颜色
+            viewHolder.tvDate.setTextColor(context.getResources().getColor(R.color.text_camera_playback_date_sel));
+            viewHolder.tvDate.setBackgroundResource(R.drawable.bg_tv_camera_playback_date_sel);
+        } else {
+            //设置未选中颜色
+            viewHolder.tvDate.setTextColor(context.getResources().getColor(R.color.text_camera_playback_date));
+            viewHolder.tvDate.setBackgroundResource(R.drawable.bg_tv_camera_playback_date);
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return dateList.size() + 1;
+        return dateList.size();
     }
 
     class VH extends RecyclerView.ViewHolder {
