@@ -2,6 +2,7 @@ package com.bisa.health.camera.lib.funsdk.support;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.wifi.ScanResult;
 import android.os.Handler;
@@ -10,9 +11,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.basic.G;
+import com.bisa.health.cache.SharedPersistor;
+import com.bisa.health.camera.interfaces.CameraUpgradeListener;
 import com.bisa.health.camera.lib.funsdk.support.config.AlarmInfo;
 import com.bisa.health.camera.lib.funsdk.support.config.BaseConfig;
+import com.bisa.health.camera.lib.funsdk.support.config.CameraParam;
 import com.bisa.health.camera.lib.funsdk.support.config.DevCmdGeneral;
 import com.bisa.health.camera.lib.funsdk.support.config.DevCmdOPFileQueryJP;
 import com.bisa.health.camera.lib.funsdk.support.config.DevCmdOPRemoveFileJP;
@@ -54,6 +59,7 @@ import com.bisa.health.camera.lib.sdk.struct.SInitParam;
 
 import com.bisa.health.camera.sdk.MyApplication;
 import com.bisa.health.camera.sdk.XUtils;
+import com.bisa.health.model.User;
 import com.lib.ECONFIG;
 import com.lib.EDEV_ATTR;
 import com.lib.EDEV_JSON_ID;
@@ -112,6 +118,10 @@ public class FunSupport implements IFunSDKResult {
 
     private String mTmpLoginUserName = null; // 临时用户名称,仅用于记录后保存
     private String mTmpLoginPassword = null; // 临时密码,仅用于记录后保存
+
+    private String IS_SAVE_NATIVE_PW = "isSaveNativePw";
+    private SharedPersistor sharedPersistor;
+    private User mUser;
 
     private boolean mSavePasswordAfterLogin; // 登录后是否保存密码
     private boolean mAutoLoginWhenStartup; // App启动后是否自动登录
@@ -172,11 +182,12 @@ public class FunSupport implements IFunSDKResult {
     private List<OnFunListener> mListeners = new ArrayList<OnFunListener>();
 
 
-    public static synchronized FunSupport getInstance() {
+    public static FunSupport getInstance() {
         if (null == mInstance) {
-            mInstance = new FunSupport();
+            synchronized (FunSupport.class) {
+                mInstance = new FunSupport();
+            }
         }
-
         return mInstance;
     }
 
@@ -194,6 +205,11 @@ public class FunSupport implements IFunSDKResult {
 
         // 初始化目录
         FunPath.init(context, context.getPackageName());
+
+        sharedPersistor = new SharedPersistor(context);
+        mUser = sharedPersistor.loadObject(User.class.getName());
+
+
 
         mSharedParam = new SharedParamMng(context);
         // 导入保存的参数配置
@@ -241,7 +257,7 @@ public class FunSupport implements IFunSDKResult {
         result = FunSDK.SetFunIntAttr(EFUN_ATTR.FUN_MSG_HANDLE, mFunUserHandler);
         FunLog.i(TAG, "FunSDK.SetFunIntAttr(EFUN_ATTR.FUN_MSG_HANDLE) : " + result);
 
-        FunSDK.LogInit(mFunUserHandler, "", 1, "", 1);
+        //FunSDK.LogInit(mFunUserHandler, "", 1, "", 1);
 
         /**
          * 以下是登陆设备密码保存模式初始化
@@ -575,14 +591,10 @@ public class FunSupport implements IFunSDKResult {
     }
 
     private void loadParams() {
-
         try {
-            mAutoLoginWhenStartup = mSharedParam.getBooleanUserValue(
-                    SHARED_PARAM_KEY_AUTOLOGIN, true);
-            mSavePasswordAfterLogin = mSharedParam.getBooleanUserValue(
-                    SHARED_PARAM_KEY_SAVEPASSWORD, true);
-            mSaveNativePassword = mSharedParam.getBooleanUserValue(
-                    SHARED_PARAM_KEY_SAVENATIVEPASSWORD, true);
+            mAutoLoginWhenStartup = mSharedParam.getBooleanUserValue(SHARED_PARAM_KEY_AUTOLOGIN, true);
+            mSavePasswordAfterLogin = mSharedParam.getBooleanUserValue(SHARED_PARAM_KEY_SAVEPASSWORD, true);
+            mSaveNativePassword = mSharedParam.getBooleanUserValue(SHARED_PARAM_KEY_SAVENATIVEPASSWORD, true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -914,12 +926,11 @@ public class FunSupport implements IFunSDKResult {
         String loginName = (null == funDevice.loginName) ? "admin" : funDevice.loginName;
         String loginPsd = (null == funDevice.loginPsw) ? "" : funDevice.loginPsw;
         // 使用之前保存的密码,非默认密码了,密码保存的位置,可以根据需求设计,DEMO里面是保存在一个文件中,参考FunDevicePassword.java
-        String devicePasswd = FunDevicePassword.getInstance().getDevicePassword(
-                funDevice.getDevSn());
+        //String devicePasswd = FunDevicePassword.getInstance().getDevicePassword(funDevice.getDevSn());
 
-        if (devicePasswd != null) {
-            loginPsd = devicePasswd;
-        }
+        //if (devicePasswd != null) {
+            //loginPsd = devicePasswd;
+        //}
 
 //			switch (mVerificationPassword) {
 //			case 2:					//验证本地密码
@@ -945,14 +956,13 @@ public class FunSupport implements IFunSDKResult {
 ////				funDevice.loginPsw = loginPsd;
 //			}
 
-        NativeLoginPsw = loginPsd;
+        //NativeLoginPsw = loginPsd;
 
-        if (null == findDeviceById(funDevice.getId())) {
+        //if (null == findDeviceById(funDevice.getId())) {
             // 如果登录的设备不存在,添加一个临时设备在列表里面,方便后续回调处理
-            mTmpSNLoginDeviceList.add(funDevice);
-        }
-        System.out.println("TTTTT----->>>password = " + loginPsd);
-        FunSDK.DevSetLocalPwd(funDevice.getDevSn(),loginName,loginPsd);
+            //mTmpSNLoginDeviceList.add(funDevice);
+        //}
+        //FunSDK.DevSetLocalPwd(funDevice.getDevSn(),loginName,loginPsd);
         int result = FunSDK.DevLogin(getHandler(),
                 funDevice.getDevSn(),
                 loginName, loginPsd,
@@ -2109,9 +2119,7 @@ public class FunSupport implements IFunSDKResult {
                         setDeviceHasLogin(funDev.getDevSn(), true);
 
                         // 临时保存当前登录的设备
-                        mCurrDevice = funDev;
-
-//					mVerificationPassword = 2;
+                        //mCurrDevice = funDev;
 
                         for (OnFunListener l : mListeners) {
                             if (l instanceof OnFunDeviceOptListener) {
@@ -2120,7 +2128,7 @@ public class FunSupport implements IFunSDKResult {
                         }
                     } else {
 
-                        mCurrDevice = null;
+                        //mCurrDevice = null;
 //					if (mVerificationPassword == 0) {
 //						//已全部验证
 //						mVerificationPassword = 2;
@@ -2287,6 +2295,15 @@ public class FunSupport implements IFunSDKResult {
                     // 不是设备发出去的请求回应,暂时不处理
                     FunLog.e(TAG, "Recive -> EUIMSG.DEV_SET_JSON, but no device matched.");
                 }
+
+                if(msgContent.str.equals(JsonConfig.OPERATION_DEFAULT_CONFIG)) {
+                    for (OnFunListener l : mListeners) {
+                        if (l instanceof CameraUpgradeListener) {
+                            ((CameraUpgradeListener) l).devSetJson(msg, msgContent);
+                        }
+                    }
+                }
+
             }
             break;
             case EUIMSG.DEV_GET_CHN_NAME: {                    //获取通道信息
@@ -2834,11 +2851,69 @@ public class FunSupport implements IFunSDKResult {
             }
             break;
 
+
+
+
+            case EUIMSG.DEV_CHECK_UPGRADE:
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof CameraUpgradeListener) {
+                        ((CameraUpgradeListener) l).devCheckUpgrade(msg, msgContent);
+                    }
+                }
+                /* 检查设备升级 */
+                break;
+
+            case EUIMSG.DEV_START_UPGRADE:
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof CameraUpgradeListener) {
+                        ((CameraUpgradeListener) l).devStartUpgrade(msg, msgContent);
+                    }
+                }
+                break;
+            case EUIMSG.DEV_STOP_UPGRADE:
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof CameraUpgradeListener) {
+                        ((CameraUpgradeListener) l).devStopUpgrade();
+                    }
+                }
+                break;
+
+            case EUIMSG.DEV_ON_UPGRADE_PROGRESS:
+                for (OnFunListener l : mListeners) {
+                    if (l instanceof CameraUpgradeListener) {
+                        ((CameraUpgradeListener) l).devOnUpgradeProgress(msg, msgContent);
+                    }
+                }
+                break;
+
             default:
                 break;
         }
 
         return 0;
+    }
+
+
+    public void registerCameraUpgradeListener(CameraUpgradeListener l) {
+        if (!mListeners.contains(l)) {
+            mListeners.add(l);
+        }
+    }
+
+
+    public void removeCameraUpgradeListener(CameraUpgradeListener l) {
+        if (mListeners.contains(l)) {
+            mListeners.remove(l);
+        }
+    }
+
+    public boolean requestDevStartUpgrade(String devSn,  int nType) {
+        int result = FunSDK.DevStartUpgrade(mFunUserHandler, devSn, nType, 0);
+        return result == 0;
+    }
+    public boolean requestDevStopUpgrade(String devSn) {
+        int result = FunSDK.DevStopUpgrade(mFunUserHandler, devSn, 0);
+        return result == 0;
     }
 
 }

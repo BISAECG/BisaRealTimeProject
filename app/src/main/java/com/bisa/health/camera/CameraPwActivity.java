@@ -25,6 +25,7 @@ public class CameraPwActivity extends BaseActivity {
     private Button btnConfirm;
 
     private FunDevice mFunDevice;
+    private OnFunDeviceOptListener onFunDeviceOptListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,17 +58,20 @@ public class CameraPwActivity extends BaseActivity {
             }
         });
 
-        FunSupport.getInstance().registerOnFunDeviceOptListener(new OnFunDeviceOptListener() {
+        onFunDeviceOptListener = new OnFunDeviceOptListener() {
             @Override
             public void onDeviceLoginSuccess(FunDevice funDevice) {
-                //showToast("login success");
-                tryToChangePassw();
+                if(mFunDevice.getId() == funDevice.getId()) {
+                    tryToChangePassw();
+                }
             }
 
             @Override
             public void onDeviceLoginFailed(FunDevice funDevice, Integer errCode) {
-                dialogDismiss();
-                showToast("login fail:" + FunError.getErrorStr(errCode));
+                if(mFunDevice.getId() == funDevice.getId()) {
+                    dialogDismiss();
+                    showToast("login fail:" + FunError.getErrorStr(errCode));
+                }
             }
 
             @Override
@@ -82,18 +86,16 @@ public class CameraPwActivity extends BaseActivity {
 
             @Override
             public void onDeviceSetConfigSuccess(FunDevice funDevice, String configName) {
-                if (ModifyPassword.CONFIG_NAME.equals(configName) ) {
+                if (mFunDevice.getId() == funDevice.getId() && ModifyPassword.CONFIG_NAME.equals(configName) ) {
                     // 修改密码成功,保存新密码,下次登录使用
-                    if ( null != mFunDevice && null != etNewPw ) {
-                        FunDevicePassword.getInstance().saveDevicePassword(
-                                mFunDevice.getDevSn(),
-                                etNewPw.getText().toString());
-                    }
+                    //if ( null != mFunDevice && null != etNewPw ) {
+                    //FunDevicePassword.getInstance().saveDevicePassword(mFunDevice.getDevSn(), etNewPw.getText().toString());
+                    //}
                     // 库函数方式本地保存密码
-                    if (FunSupport.getInstance().getSaveNativePassword()) {
-                        FunSDK.DevSetLocalPwd(mFunDevice.getDevSn(), "admin", etNewPw.getText().toString());
-                        // 如果设置了使用本地保存密码，则将密码保存到本地文件
-                    }
+                    //if (FunSupport.getInstance().getSaveNativePassword()) {
+                    //FunSDK.DevSetLocalPwd(mFunDevice.getDevSn(), "admin", etNewPw.getText().toString());
+                    // 如果设置了使用本地保存密码，则将密码保存到本地文件
+                    //}
                     // 隐藏等待框
                     dialogDismiss();
                     ActivityUtil.startActivity(CameraPwActivity.this, CameraNameActivity.class, ActionEnum.NULL);
@@ -103,8 +105,10 @@ public class CameraPwActivity extends BaseActivity {
 
             @Override
             public void onDeviceSetConfigFailed(FunDevice funDevice, String configName, Integer errCode) {
-                dialogDismiss();
-                showToast(FunError.getErrorStr(errCode));
+                if(mFunDevice.getId() == funDevice.getId() && ModifyPassword.CONFIG_NAME.equals(configName)) {
+                    dialogDismiss();
+                    showToast(FunError.getErrorStr(errCode));
+                }
             }
 
             @Override
@@ -141,7 +145,9 @@ public class CameraPwActivity extends BaseActivity {
             public void onDeviceFileListGetFailed(FunDevice funDevice) {
 
             }
-        });
+        };
+
+        FunSupport.getInstance().registerOnFunDeviceOptListener(onFunDeviceOptListener);
 
     }
 
@@ -170,12 +176,17 @@ public class CameraPwActivity extends BaseActivity {
     }
 
     private void deviceClearNativePws() {
-        FunDevicePassword.getInstance().saveDevicePassword(mFunDevice.getDevSn(), "");
+        //FunDevicePassword.getInstance().saveDevicePassword(mFunDevice.getDevSn(), "");
         // 库函数方式本地保存密码
-        if (FunSupport.getInstance().getSaveNativePassword()) {
+        //if (FunSupport.getInstance().getSaveNativePassword()) {
             FunSDK.DevSetLocalPwd(mFunDevice.getDevSn(), "admin", "");
             // 如果设置了使用本地保存密码，则将密码保存到本地文件
-        }
+        //}
     }
 
+    @Override
+    protected void onDestroy() {
+        FunSupport.getInstance().removeOnFunDeviceOptListener(onFunDeviceOptListener);
+        super.onDestroy();
+    }
 }

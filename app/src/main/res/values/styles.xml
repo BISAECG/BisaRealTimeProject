@@ -169,4 +169,16 @@
     </style>
 
 
+
+    <style name="CameraFileTheme" parent="Widget.AppCompat.ActionBar">
+        <item name="actionOverflowMenuStyle">@style/OverflowMenu</item>
+    </style>
+
+    <style name="OverflowMenu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <!--兼容Api 21之前的版本 -->
+        <item name="overlapAnchor">false</item>
+    </style>
+
+
+
  </resources>

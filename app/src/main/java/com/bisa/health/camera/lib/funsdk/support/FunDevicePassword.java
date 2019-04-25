@@ -139,4 +139,15 @@ public class FunDevicePassword {
 			
 		}
 	}
+
+
+	public void removeDevicePassword(String devSn) {
+		for (DevicePassword devPwd : mSavedDevPasswds) {
+			if (devSn.equals(devPwd.devSn) ) {
+				mSavedDevPasswds.remove(devPwd);
+				break;
+			}
+		}
+		save();
+	}
 }

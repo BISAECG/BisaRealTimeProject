@@ -37,7 +37,7 @@ public class CameraWifiActivity extends BaseActivity {
         String currSSID = getConnectWifiSSID();
         etWifiSsid.setText(currSSID);
 
-        FunSupport.getInstance().init(this);
+        CameraSdkInit.init(this);
 
         btnConfirm = findViewById(R.id.btn_camera_wifi_confirm);
         btnConfirm.setOnClickListener(new View.OnClickListener() {

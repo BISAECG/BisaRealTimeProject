@@ -29,6 +29,7 @@ public class CameraFilesActivity extends BaseActivity {
     private List<File> fileList = new ArrayList<>();
 
     private String fileDir;
+    private File dir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +42,10 @@ public class CameraFilesActivity extends BaseActivity {
         adapter = new CameraFilesLvAdapter(this, fileList);
         lvFiles.setAdapter(adapter);
 
-        File file = new File(fileDir);
-        File[] files = file.listFiles();
+        dir = new File(fileDir);
 
-        for(File file1:files) {
-            fileList.add(0, file1);
-        }
 
-        adapter.notifyDataSetChanged();
+        refreshFiles();
 
         lvFiles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,5 +66,19 @@ public class CameraFilesActivity extends BaseActivity {
 
     }
 
+    private void refreshFiles() {
+        File[] files = dir.listFiles();
+        fileList.clear();
+        for(File file:files) {
+            fileList.add(0, file);
+        }
 
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        refreshFiles();
+        super.onResume();
+    }
 }

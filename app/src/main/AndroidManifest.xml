@@ -94,15 +94,23 @@
         android:logo="@drawable/menu_back_bg"
         android:persistent="true"
         android:theme="@style/HelathTheme">
-        <activity android:name=".camera.CameraViewVideoActivity"></activity>
-        <activity android:name=".camera.CameraViewImageActivity" />
+        <activity android:name=".camera.CameraSettingsCommonActivity"></activity>
+        <activity android:name=".camera.CameraSettingsAdvanceActivity" />
+        <activity android:name=".camera.CameraSettingsStorageActivity" />
+        <activity android:name=".camera.CameraSettingsAlarmActivity" />
+        <activity android:name=".camera.CameraSettingsPwMngActivity" />
+        <activity android:name=".camera.CameraSettingsBasicActivity" />
+        <activity android:name=".camera.CameraSettingsActivity" />
+        <activity android:name=".camera.CameraViewVideoActivity" />
+        <activity android:name=".camera.CameraViewImageActivity"
+            android:theme="@style/CameraFileTheme" />
         <activity android:name=".camera.CameraFilesActivity" />
         <activity
             android:name=".camera.CameraDeviceActivity"
             android:configChanges="orientation|screenLayout|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".camera.CameraActivity"
+            android:name=".camera.CameraAllActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".camera.CameraNameActivity" />
         <activity android:name=".camera.CameraPwActivity" />

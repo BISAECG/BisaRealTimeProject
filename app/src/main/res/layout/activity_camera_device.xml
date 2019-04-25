@@ -150,7 +150,7 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/camera_ctr_pause" />
+                android:src="@drawable/camera_ctr_play_selector" />
 
             <View
                 android:layout_width="0.8dp"
@@ -164,7 +164,7 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/camera_ctr_mute" />
+                android:src="@drawable/camera_ctr_mute_selector" />
 
             <View
                 android:layout_width="0.8dp"
@@ -178,7 +178,7 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:scaleType="centerInside"
-                android:src="@drawable/camera_ctr_channels" />
+                android:src="@drawable/camera_ctr_channels_selector" />
 
             <View
                 android:layout_width="0.8dp"
@@ -277,7 +277,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@color/transparent"
-                android:src="@drawable/camera_playback" />
+                android:src="@drawable/camera_playback_selector" />
 
             <RelativeLayout
                 android:id="@+id/layoutDirectionControl"
@@ -343,7 +343,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/transparent"
-                android:drawableTop="@drawable/camera_func_voice_normal"
+                android:drawableTop="@drawable/camera_func_voice_selector"
                 android:text="@string/camera_device_voice"
                 android:textSize="12sp" />
 

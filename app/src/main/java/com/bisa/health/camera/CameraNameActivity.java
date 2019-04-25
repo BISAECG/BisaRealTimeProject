@@ -54,10 +54,10 @@ public class CameraNameActivity extends BaseActivity {
         if(!StringUtils.isStringNULL(etName.getText().toString())) {
             funDevice.devName = etName.getText().toString();
         }
-        SharedPreferences sharedPref = getSharedPreferences("camera", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(String.valueOf(mUser.getUser_guid()), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(funDevice.getDevSn(), funDevice.toJson().toString());
-        editor.commit();
+        editor.apply();
 
         BleNamePreSuffix bleEnum = BleNamePreSuffix.valueOf(DeviceTypeEnum.CAMERA.vlaueOf());
         Device device = new Device();

@@ -165,10 +165,10 @@ public class PlaybackDaylongView extends View {
             //画刻度数字，最后一条不画
             Rect rect = new Rect();
             String str = halfhours[i];
-            paint.setTextSize(25);
+            paint.setTextSize(23);
             paint.getTextBounds(str, 0, str.length(), rect);
             float w = rect.width();
-            canvas.drawText(str, minX + (i - min) * scaleSpaceUnit - w / 2 - SCALE_WIDTH_BIG / 2, maxScaleStopY + 25, paint);
+            canvas.drawText(str, minX + (i - min) * scaleSpaceUnit - w / 2 - SCALE_WIDTH_BIG / 2, maxScaleStopY + 23, paint);
 
         }
 
@@ -264,7 +264,7 @@ public class PlaybackDaylongView extends View {
             currentValue = originValue - offset;
         }
 
-        if(onValueChangeListener != null) {
+        if(onValueChangeListener != null && recordValueList.size() > 0) {
             //在录像的区域中选择，第一个、最后一个之间
             if(currentValue > recordValueList.get(0).startValue - scaleSpace / 2 && currentValue < recordValueList.get(recordValueList.size() - 1).endValue) {
                 for(int i=0; i<recordValueList.size(); i++) {

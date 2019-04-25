@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="3dp"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp">
+        android:layout_height="175dp">
 
         <ImageView
             android:id="@+id/iv_item_camera_all_bg"
@@ -26,6 +26,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:text="客厅摄像头" />
@@ -42,9 +43,8 @@
             android:paddingEnd="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:background="@drawable/bg_tv_camera_online"
             android:gravity="center"
-            android:text="@string/camera_online" />
+            tools:text="@string/camera_online" />
 
     </RelativeLayout>
 

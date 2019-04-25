@@ -94,6 +94,90 @@
     <string name="camera_share">分享</string>
     <string name="camera_settings">设置</string>
 
+    <string name="camera_settings_title">摄像头设置</string>
+    <string name="camera_settings_basic">基本设置</string>
+    <string name="camera_settings_basic_devName">设备名称</string>
+    <string name="camera_settings_basic_upDown">图像上下翻转</string>
+    <string name="camera_settings_basic_rename">修改设备名称</string>
+    <string name="camera_settings_basic_timeOSD">时间水印</string>
+    <string name="camera_settings_basic_OSD">自定义水印</string>
+    <string name="camera_settings_basic_OSD_tips">该功能将设备名称添加到视频图像中，可以丰富视频图像的信息</string>
+    <string name="camera_settings_basic_confirm">确定</string>
+    <string name="camera_settings_basic_cancel">取消</string>
+    <string name="camera_settings_basic_saveNativePw">保存密码</string>
+    <string name="camera_settings_basic_saveNativePw_tips">选择保存密码，而不用每次都输入密码</string>
+    <string name="camera_settings_pwMng">密码管理</string>
+    <string name="camera_settings_pwMng_oldPw">旧密码</string>
+    <string name="camera_settings_pwMng_newPw">新密码</string>
+    <string name="camera_settings_pwMng_confirmPw">确认密码</string>
+    <string name="camera_settings_pwMng_confirmMod">确认修改</string>
+    <string name="camera_settings_pwMng_modSuccess">修改成功</string>
+    <string name="camera_settings_alarm">报警设置</string>
+    <string name="camera_settings_alarm_open">开启报警</string>
+    <string name="camera_settings_alarm_tips">检测到画面变化时报警</string>
+    <string name="camera_settings_alarm_mode">报警方式</string>
+    <string-array name="camera_settings_alarm_modes">
+        <item>拍照</item>
+        <item>录像</item>
+        <item>响铃</item>
+    </string-array>
+    <string name="camera_settings_alarm_sensitivity">灵敏度</string>
+    <string-array name="camera_settings_alarm_sensitivities">
+        <item>低</item>
+        <item>中</item>
+        <item>高</item>
+    </string-array>
+    <string name="camera_settings_storage">储存管理</string>
+    <string name="camera_settings_storage_capacity">存储容量:</string>
+    <string name="camera_settings_storage_remaining_capacity">剩余容量:</string>
+    <string name="camera_settings_storage_full">录像满时:</string>
+    <string name="camera_settings_storage_stop_record">停止录像</string>
+    <string name="camera_settings_storage_cycle">循环录像</string>
+    <string name="camera_settings_storage_formatting">格式化</string>
+    <string name="camera_settings_storage_formatting_tips">该操作将删除储存卡上的所有文件， 是否格式化？</string>
+    <string name="camera_settings_advance">高级设置</string>
+    <string name="camera_settings_advance_record_set">录像设置</string>
+    <string name="camera_settings_advance_record_audioEnable">录像音频</string>
+    <string name="camera_settings_advance_record_audioEnable_tips">如果关闭，则录下来的文件没有音频</string>
+    <string name="camera_settings_advance_recordMode">录像模式</string>
+    <string name="camera_settings_advance_recordMode_tips">如果选择联动录像，那意味着设备平时是不录像的，当开启报警后有报警产生才开始录像</string>
+    <string-array name="camera_settings_advance_recordModes">
+        <item>联动录像</item>
+        <item>从不录像</item>
+        <item>始终录像</item>
+    </string-array>
+    <string name="camera_settings_advance_other_set">其他设置</string>
+    <string name="camera_settings_advance_other_quality">画质</string>
+    <string-array name="camera_settings_advance_qualities">
+        <item>最好</item>
+        <item>很好</item>
+        <item>好</item>
+        <item>一般</item>
+        <item>较差</item>
+        <item>很差</item>
+    </string-array>
+    <string name="camera_settings_common">通用</string>
+    <string name="camera_settings_common_sn">序列号</string>
+    <string name="camera_settings_common_devVer">设备版本</string>
+    <string name="camera_settings_common_swVer">软件版本</string>
+    <string name="camera_settings_common_pubDate">发布日期</string>
+    <string name="camera_settings_common_devTime">设备时间</string>
+    <string name="camera_settings_common_syncDevTime">同步时间</string>
+    <string name="camera_settings_common_netModel">网络模式</string>
+    <string name="camera_net_connect_type_p2p">P2P</string>
+    <string name="camera_net_connect_type_transmit">转发模式</string>
+    <string name="camera_net_connect_type_ip">IP直连</string>
+    <string name="camera_net_connect_type_rps">RPS</string>
+    <string name="camera_net_connect_type_unknown">未知类型</string>
+    <string name="camera_settings_common_devUpdate">设备升级</string>
+    <string name="camera_settings_common_clickToUpdate">点击更新设备</string>
+    <string name="camera_devcheckupdate_failed">Get Device Hard Version Failed!!!</string>
+    <string name="camera_devcheckupdate_versionlast">已是最新版本</string>
+    <string name="camera_devcheckupdate_clickupdate">点击更新</string>
+    <string name="camera_deviceupdate">设备硬件升级</string>
+    <string name="camera_settings_common_factoryReset">恢复出厂设置</string>
+    <string name="camera_settings_factoryReset_success">恢复出厂设置成功，重启中。。</string>
+
     <string name="device_opt_play">播放</string>
     <string name="device_opt_stop">停止</string>
     <string name="device_opt_capture">截图</string>
@@ -154,6 +238,11 @@
     <string name="camera_device_files">文件</string>
 
     <string name="camera_files_title">储存卡</string>
+    <string name="camera_file_save">保存到相册</string>
+    <string name="camera_file_share">分享</string>
+    <string name="camera_file_delete">删除</string>
+    <string name="camera_file_save_success">保存成功</string>
+    <string name="camera_file_delete_tips">确定要删除吗？</string>
 
     <string-array name="pic_type">
         <item>全部</item>
@@ -173,6 +262,8 @@
         <item>手动录像</item>
         <item>遥控录像</item>
     </string-array>
+    
+    <string name="camera_connection_failed">设备连接失败！</string>
 
     <!--报告类型-->
     <string name="title_not_erect">功能正在建设</string>

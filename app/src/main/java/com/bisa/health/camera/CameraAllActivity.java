@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.bisa.health.R;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.camera.adapter.CameraAllRvAdapter;
 import com.bisa.health.camera.lib.funsdk.support.FunSupport;
+import com.bisa.health.camera.lib.funsdk.support.OnFunDeviceListener;
 import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 import com.bisa.health.model.User;
 import com.bisa.health.provider.device.DeviceCursor;
@@ -24,34 +26,86 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class CameraActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class CameraAllActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private RecyclerView rvCameraAll;
     private CameraAllRvAdapter adapter;
     private ArrayList<FunDevice> cameraList = new ArrayList<>();
 
     private SharedPersistor sharedPersistor;
     private User mUser;
+    private int user_guid;
 
     private SharedPreferences sharedPref;
+
+    private OnFunDeviceListener onFunDeviceListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        rvCameraAll = findViewById(R.id.rv_camera_all);
-        rvCameraAll.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CameraAllRvAdapter(this);
-        rvCameraAll.setAdapter(adapter);
+        CameraSdkInit.init(this);
 
         sharedPersistor = new SharedPersistor(this);
         mUser = sharedPersistor.loadObject(User.class.getName());
 
-        sharedPref = getSharedPreferences("camera", Context.MODE_PRIVATE);
+        user_guid = mUser.getUser_guid();
+
+        rvCameraAll = findViewById(R.id.rv_camera_all);
+        rvCameraAll.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new CameraAllRvAdapter(this, user_guid);
+        rvCameraAll.setAdapter(adapter);
+
+
+        sharedPref = getSharedPreferences(String.valueOf(mUser.getUser_guid()), Context.MODE_PRIVATE);
 
         getSupportLoaderManager().initLoader(0, null, this);
 
-        FunSupport.getInstance().init(this);
+        onFunDeviceListener = new OnFunDeviceListener() {
+            @Override
+            public void onDeviceListChanged() {
+
+            }
+
+            @Override
+            public void onDeviceStatusChanged(FunDevice funDevice) {
+                if(adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onDeviceAddedSuccess() {
+
+            }
+
+            @Override
+            public void onDeviceAddedFailed(Integer errCode) {
+
+            }
+
+            @Override
+            public void onDeviceRemovedSuccess() {
+
+            }
+
+            @Override
+            public void onDeviceRemovedFailed(Integer errCode) {
+
+            }
+
+            @Override
+            public void onAPDeviceListChanged() {
+
+            }
+
+            @Override
+            public void onLanDeviceListChanged() {
+
+            }
+        };
+
+        FunSupport.getInstance().registerOnFunDeviceListener(onFunDeviceListener);
 
     }
 
@@ -76,7 +130,7 @@ public class CameraActivity extends BaseActivity implements LoaderManager.Loader
                 try {
                     JSONObject jsonObject = new JSONObject(devJsonStr);
                     funDevice.initWith(jsonObject);
-                    FunSupport.getInstance().requestDeviceLogin(funDevice);
+                    FunSupport.getInstance().requestDeviceStatus(funDevice);
                     FunSupport.getInstance().deviceListAdd(funDevice);
                 }catch (JSONException e) {
                     e.printStackTrace();
@@ -89,5 +143,17 @@ public class CameraActivity extends BaseActivity implements LoaderManager.Loader
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        //FunSupport.getInstance().requestAllDeviceStatus();
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        FunSupport.getInstance().removeOnFunDeviceListener(onFunDeviceListener);
+        super.onDestroy();
     }
 }

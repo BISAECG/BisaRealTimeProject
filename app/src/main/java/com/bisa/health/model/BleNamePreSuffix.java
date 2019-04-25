@@ -1,12 +1,12 @@
 package com.bisa.health.model;
 
 import com.bisa.health.R;
-import com.bisa.health.camera.CameraActivity;
+import com.bisa.health.camera.CameraAllActivity;
 import com.bisa.health.ecg.ECGActivity;
 
 public enum BleNamePreSuffix {
 
-	BLE_ECG("HC+", R.string.xixin_ecg,0, ECGActivity.class.getName(), R.drawable.ecg_ico), BLE_CAMERA("CC+",  R.string.xixin_camera, 0, CameraActivity.class.getName(),
+	BLE_ECG("HC+", R.string.xixin_ecg,0, ECGActivity.class.getName(), R.drawable.ecg_ico), BLE_CAMERA("CC+",  R.string.xixin_camera, 0, CameraAllActivity.class.getName(),
 			R.drawable.ico_camera);
 	private String PreSuffix;
 	private int DevName;

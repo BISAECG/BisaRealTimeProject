@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F2F2"
+    tools:context=".camera.CameraSettingsPwMngActivity">
+    <com.bisa.health.cust.view.ActionBarView
+        android:id="@+id/abar_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:isPre="true"
+        app:preIco="@drawable/menu_back_bg"
+        app:title="@string/camera_settings_pwMng" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#FFFFFF">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="#0098DC"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/camera_settings_pwmng_pw" />
+
+            <EditText
+                android:id="@+id/et_camera_settings_pwMng_oldPw"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:hint="@string/camera_settings_pwMng_oldPw"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@null"
+                android:singleLine="true" />
+
+            <ImageView
+                android:id="@+id/iv_camera_settings_pwMng_oldPw"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/camera_settings_pwmng_eye_selector" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFFFFF">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="#0098DC"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/camera_settings_pwmng_pw" />
+
+            <EditText
+                android:id="@+id/et_camera_settings_pwMng_newPw"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:hint="@string/camera_settings_pwMng_newPw"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@null"
+                android:singleLine="true" />
+
+            <ImageView
+                android:id="@+id/iv_camera_settings_pwMng_newPw"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/camera_settings_pwmng_eye_selector" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="#FFFFFF">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="#0098DC"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/camera_settings_pwmng_pw" />
+
+            <EditText
+                android:id="@+id/et_camera_settings_pwMng_confirmPw"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:hint="@string/camera_settings_pwMng_confirmPw"
+                android:inputType="textPassword"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@null"
+                android:singleLine="true" />
+
+            <ImageView
+                android:id="@+id/iv_camera_settings_pwMng_confirmPw"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/camera_settings_pwmng_eye_selector" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_camera_settings_pwMng_confirmMod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:layout_marginTop="50dp"
+            android:background="#0098DC"
+            android:text="@string/camera_settings_pwMng_confirmMod"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

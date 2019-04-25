@@ -12,14 +12,14 @@ public class CameraActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Log.i("----","CameraActivity>>>>>onCreate"+"|task:"+getTaskId());
+        Log.i("----","CameraAllActivity>>>>>onCreate"+"|task:"+getTaskId());
         super.onCreate(savedInstanceState);
 
     }
 
     @Override
     protected void onDestroy() {
-        Log.i("----","CameraActivity>>>>>onDestroy"+"|task:"+getTaskId());
+        Log.i("----","CameraAllActivity>>>>>onDestroy"+"|task:"+getTaskId());
         super.onDestroy();
     }
 }
