@@ -195,7 +195,7 @@ public class CameraSettingsBasicActivity extends BaseActivity {
         showDialog(false);
 
         sharedPref = getSharedPreferences(String.valueOf(mUser.getUser_guid()), Context.MODE_PRIVATE);
-        isSaveNativePw = sharedPref.getBoolean("isSaveNativePw" + mFunDevice.getDevSn(), false);
+        isSaveNativePw = sharedPref.getBoolean("isSaveNativePw" + mFunDevice.getDevSn(), true);
         editor = sharedPref.edit();
 
         switchSaveNativePw.setChecked(isSaveNativePw);

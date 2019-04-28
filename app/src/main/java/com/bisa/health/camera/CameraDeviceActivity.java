@@ -24,6 +24,7 @@ import android.support.design.widget.BottomSheetDialog;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -42,13 +43,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
 import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.camera.adapter.CameraPlaybackDateRvAdapter;
 import com.bisa.health.camera.interfaces.OnItemClickListener;
-import com.bisa.health.camera.lib.funsdk.support.FunDevicePassword;
 import com.bisa.health.camera.lib.funsdk.support.FunError;
 
 import com.bisa.health.camera.lib.funsdk.support.FunPath;
@@ -95,12 +96,16 @@ public class CameraDeviceActivity extends BaseActivity implements
 
     private ImageButton mBtnBack;
 
-    private FunDevice mFunDevice = new FunDevice();
+    private FunDevice mFunDevice;
 
     private RelativeLayout rLayoutTop;
 
     private RelativeLayout rLayoutVideoWnd;
     private FunVideoView mFunVideoView;
+
+    private int funStreamTypeId;
+
+    private SharedPreferences.Editor spEditor;
 
     private LinearLayout mLayoutRecording;
 
@@ -139,6 +144,8 @@ public class CameraDeviceActivity extends BaseActivity implements
     private LinearLayout lLayoutPlayback;
     private RecyclerView rvPlaybackDate;
     private PlaybackDaylongView playbackDaylongView;
+    private ImageButton iBtnPlaybackLeft;
+    private ImageButton iBtnPlaybackRight;
 
     private int mChannelCount;
     private boolean isGetSysFirst = true;
@@ -183,9 +190,17 @@ public class CameraDeviceActivity extends BaseActivity implements
         mFunDevice = FunSupport.getInstance().mCurrDevice;
 
         if (null == mFunDevice) {
+            Toast.makeText(this, "Device does not exist!", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
+
+        sharedPersistor = new SharedPersistor(this);
+        mUser = sharedPersistor.loadObject(User.class.getName());
+        SharedPreferences sharedPref = getSharedPreferences(String.valueOf(mUser.getUser_guid()), Context.MODE_PRIVATE);
+        isSaveNativePw = sharedPref.getBoolean("isSaveNativePw" + mFunDevice.getDevSn(), true);
+        funStreamTypeId = sharedPref.getInt("funStreamTypeId" + mFunDevice.getDevSn(), FunStreamType.STREAM_MAIN.getTypeId());
+        spEditor = sharedPref.edit();
 
         rLayoutTop = findViewById(R.id.rlayout_camera_device_top);
 
@@ -200,6 +215,8 @@ public class CameraDeviceActivity extends BaseActivity implements
         rLayoutVideoWnd = findViewById(R.id.rlayoutPlayWnd);
 
         mFunVideoView = findViewById(R.id.funVideoView);
+
+        mFunVideoView.setStreamType(FunStreamType.getStramType(funStreamTypeId));
 
         mFunVideoView.setOnPreparedListener(this);
         mFunVideoView.setOnErrorListener(this);
@@ -224,6 +241,10 @@ public class CameraDeviceActivity extends BaseActivity implements
         mIbtnChannels = findViewById(R.id.ibtn_camera_channels);
         mIbtnFluency = findViewById(R.id.ibtn_camera_fluency);
         mIbtnFullscreen = findViewById(R.id.ibtn_camera_fullscreen);
+
+        if(funStreamTypeId == FunStreamType.STREAM_SECONDARY.getTypeId()) {
+            mIbtnFluency.setSelected(true);
+        }
 
         funDeviceList = FunSupport.getInstance().getDeviceList();
         linearLayoutPreview = findViewById(R.id.lLayout_camera_devicesPreview);
@@ -264,12 +285,10 @@ public class CameraDeviceActivity extends BaseActivity implements
                 if(!mIbtnMute.isSelected()) {
                     mIbtnMute.setSelected(true);
                     mFunVideoView.setMediaSound(false);
-                    //openVoiceChannel();
                 }
                 else {
                     mIbtnMute.setSelected(false);
                     mFunVideoView.setMediaSound(true);
-                    //closeVoiceChannel();
                 }
             }
         });
@@ -344,16 +363,18 @@ public class CameraDeviceActivity extends BaseActivity implements
         btnHD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIbtnFluency.setImageDrawable(getResources().getDrawable(R.drawable.camera_ctr_hd_sim));
                 switchMainMediaStream();
+                funStreamTypeId = FunStreamType.STREAM_MAIN.getTypeId();
+                mIbtnFluency.setSelected(false);
                 fluencyBottomDialog.dismiss();
             }
         });
         btnSD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mIbtnFluency.setImageDrawable(getResources().getDrawable(R.drawable.camera_ctr_sd_sim));
                 switchSecondaryMediaStream();
+                funStreamTypeId = FunStreamType.STREAM_SECONDARY.getTypeId();
+                mIbtnFluency.setSelected(true);
                 fluencyBottomDialog.dismiss();
             }
         });
@@ -449,14 +470,19 @@ public class CameraDeviceActivity extends BaseActivity implements
                     iBtnPlayback.setSelected(true);
                     mLayoutDirectionControl.setVisibility(View.GONE);
                     lLayoutPlayback.setVisibility(View.VISIBLE);
+                    mIbtnChannels.setEnabled(false);
+                    mIbtnFluency.setEnabled(false);
                     mBtnVoice.setEnabled(false);
-                    requestRecDate();
+                    //requestRecDate();
+                    rvPlaybackDate.scrollToPosition(recordDateAdapter.getItemCount()-1);
                     onSearchFile(Calendar.getInstance().getTime());
                 }
                 else {
                     iBtnPlayback.setSelected(false);
                     lLayoutPlayback.setVisibility(View.GONE);
                     mLayoutDirectionControl.setVisibility(View.VISIBLE);
+                    mIbtnChannels.setEnabled(true);
+                    mIbtnFluency.setEnabled(true);
                     mBtnVoice.setEnabled(true);
                     mFunVideoView.stopPlayback();
                     playRealMedia();
@@ -467,7 +493,7 @@ public class CameraDeviceActivity extends BaseActivity implements
         LinearLayoutManager layoutManager = new LinearLayoutManager(this );
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rvPlaybackDate.setLayoutManager(layoutManager);
-        recordDateAdapter = new CameraPlaybackDateRvAdapter(this, recordDateList);
+        recordDateAdapter = new CameraPlaybackDateRvAdapter(this);
         rvPlaybackDate.setAdapter(recordDateAdapter);
         recordDateAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -490,6 +516,34 @@ public class CameraDeviceActivity extends BaseActivity implements
                 });
             }
         });
+        iBtnPlaybackLeft = findViewById(R.id.ibtn_camera_playback_left);
+        iBtnPlaybackRight = findViewById(R.id.ibtn_camera_playback_right);
+        iBtnPlaybackLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recordDatasIndex --;
+                if(recordDatasIndex > recordDatas.length - 1) {
+                    recordDatasIndex = recordDatas.length - 1;
+                }
+                if(recordDatasIndex >= 0) {
+                    playbackDaylongView.setRecordScale(recordDatasIndex);
+                    playRecordVideoByFile(recordDatasIndex);
+                }
+            }
+        });
+        iBtnPlaybackRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recordDatasIndex ++;
+                if(recordDatasIndex < 0) {
+                    recordDatasIndex = 0;
+                }
+                if(recordDatasIndex < recordDatas.length) {
+                    playbackDaylongView.setRecordScale(recordDatasIndex);
+                    playRecordVideoByFile(recordDatasIndex);
+                }
+            }
+        });
 
 
         // 注册设备操作回调
@@ -503,16 +557,13 @@ public class CameraDeviceActivity extends BaseActivity implements
 
         mCanToPlay = false;
 
-        sharedPersistor = new SharedPersistor(this);
-        mUser = sharedPersistor.loadObject(User.class.getName());
+
         fileDir = FunPath.getDefaultPath() + mUser.getUser_guid() + File.separator;
         File file = new File(fileDir);
         if(!file.exists()) {
             file.mkdir();
         }
 
-        SharedPreferences sharedPref = getSharedPreferences(String.valueOf(mUser.getUser_guid()), Context.MODE_PRIVATE);
-        isSaveNativePw = sharedPref.getBoolean("isSaveNativePw" + mFunDevice.getDevSn(), false);
 
 
         // 如果设备未登录,先登录设备
@@ -540,6 +591,8 @@ public class CameraDeviceActivity extends BaseActivity implements
 
         FunSupport.getInstance().registerOnFunDeviceCaptureListener(funDeviceCaptureListener);
         //FunSupport.getInstance().registerOnFunDeviceRecordListener(funDeviceRecordListener);
+
+        FunSupport.getInstance().requestOtherDevicesLogin(mFunDevice);
     }
 
 
@@ -551,14 +604,19 @@ public class CameraDeviceActivity extends BaseActivity implements
         FunSupport.getInstance().removeOnFunDeviceOptListener(this);
         FunSupport.getInstance().removeOnFunDeviceCaptureListener(funDeviceCaptureListener);
 
-		 if ( null != mFunDevice ) {
-		     FunSupport.getInstance().requestDeviceLogout(mFunDevice);
-		 }
+		 //if ( null != mFunDevice ) {
+		     //FunSupport.getInstance().requestDeviceLogout(mFunDevice);
+		 //}
+
+		 recordDateAdapter.setOnItemClickListener(null);
 
         if (null != mHandler) {
             mHandler.removeCallbacksAndMessages(null);
             mHandler = null;
         }
+
+        spEditor.putInt("funStreamTypeId" + mFunDevice.getDevSn(), funStreamTypeId);
+        spEditor.apply();
 
         super.onDestroy();
     }
@@ -714,9 +772,15 @@ public class CameraDeviceActivity extends BaseActivity implements
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent("android.intent.action.VIEW");
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                String type = "video/*";
-                                Uri uri = Uri.fromFile(new File(path));
-                                intent.setDataAndType(uri, type);
+                                Uri uri;
+                                File file = new File(path);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    uri = FileProvider.getUriForFile(CameraDeviceActivity.this, getPackageName() + ".fileProvider", file);
+                                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                } else {
+                                    uri = Uri.fromFile(file);
+                                }
+                                intent.setDataAndType(uri, "video/*");
                                 startActivity(intent);
                             }
                         })
@@ -969,14 +1033,25 @@ public class CameraDeviceActivity extends BaseActivity implements
         // 设备登录失败
         //hideWaitDialog();
         //showToast(FunError.getErrorStr(errCode));
-        dialogDismiss();
+        if(mFunDevice.getId() == funDevice.getId()) {
+            dialogDismiss();
 
-        // 如果账号密码不正确,那么需要提示用户,输入密码重新登录
-        if (errCode == FunError.EE_DVR_PASSWORD_NOT_VALID) {
-            showInputPasswordDialog();
-        }
-        else {
-            showToast("Device connection failed!");
+            // 如果账号密码不正确,那么需要提示用户,输入密码重新登录
+            if (errCode == FunError.EE_DVR_PASSWORD_NOT_VALID) {
+                showInputPasswordDialog();
+            }
+            else {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.camera_connection_failed)
+                        .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).setCancelable(false)
+                        .show();
+                //showToast("Device connection failed!");
+            }
         }
     }
 
@@ -1081,23 +1156,22 @@ public class CameraDeviceActivity extends BaseActivity implements
 
     @Override
     public void onDeviceFileListChanged(FunDevice funDevice) {
-
-
+        if(mFunDevice.getId() == funDevice.getId()) {
+            dialogDismiss();
+        }
     }
 
     @Override
     public void onDeviceFileListChanged(FunDevice funDevice, H264_DVR_FILE_DATA[] datas) {
-        dialogDismiss();
 
-        if (null != funDevice
-                && null != mFunDevice
-                && funDevice.getId() == mFunDevice.getId()) {
+        if (funDevice.getId() == mFunDevice.getId()) {
+            dialogDismiss();
             recordDatas = datas;
 
             if (datas.length == 0) {
                 showToast("device_camera_video_list_empty");
             } else {
-                showToast("rec files size" + datas.length);
+                //showToast("rec files size" + datas.length);
                 playbackDaylongView.setData(datas);
                 //自动播放第一个
                 recordDatasIndex = 0;

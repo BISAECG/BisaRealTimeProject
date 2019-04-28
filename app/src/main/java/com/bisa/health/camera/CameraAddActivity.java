@@ -27,5 +27,12 @@ public class CameraAddActivity extends BaseActivity {
                 finish();
             }
         });
+
+        btnFromShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityUtil.startActivity(CameraAddActivity.this, CameraAddFromSnActivity.class, ActionEnum.NULL);
+            }
+        });
     }
 }

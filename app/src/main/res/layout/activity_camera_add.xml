@@ -27,12 +27,13 @@
             android:layout_height="@dimen/camera_btn_height"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="70dp"
-            android:paddingStart="10dp"
-            android:background="@color/white"
+            android:background="@drawable/bg_shape_camera_add_btn"
             android:drawableStart="@drawable/camera_scan"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:text="@string/camera_add"
-            android:textColor="@color/color_btn_default"
-            android:gravity="center"/>
+            android:textColor="@color/color_btn_default" />
 
         <TextView
             android:layout_width="@dimen/camera_btn_width"
@@ -47,11 +48,12 @@
             android:layout_height="@dimen/camera_btn_height"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="60dp"
-            android:paddingStart="10dp"
-            android:background="@color/white"
+            android:background="@drawable/bg_shape_camera_add_btn"
             android:drawableStart="@drawable/camera_add_keyboard"
-            android:text="@string/camera_add_share"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/camera_add_share" />
 
     </LinearLayout>
 

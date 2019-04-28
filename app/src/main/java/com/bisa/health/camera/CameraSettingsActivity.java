@@ -1,9 +1,9 @@
 package com.bisa.health.camera;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -110,13 +110,13 @@ public class CameraSettingsActivity extends BaseActivity {
                     }
                     else {
                         new AlertDialog.Builder(CameraSettingsActivity.this)
-                                .setMessage(R.string.camera_connection_failed)
+                                .setTitle(R.string.camera_connection_failed)
                                 .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         finish();
                                     }
-                                })
+                                }).setCancelable(false)
                                 .show();
                     }
                 }

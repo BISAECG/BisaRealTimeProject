@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.bisa.health.cust.view.ActionBarView
+        android:id="@+id/abar_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:isPre="true"
+        app:preIco="@drawable/menu_back_bg"
+        app:title="@string/camera_addFromSn_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#309DE2">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/bg_shape_camera_add_from_sn">
+            <EditText
+                android:id="@+id/et_camera_add_from_sn_sn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@null"
+                android:textColor="#FEFEFE"
+                android:hint="@string/camera_addFromeSn_hint"
+                android:textColorHint="#FEFEFE"/>
+            <View
+                android:id="@+id/divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#FEFEFE" />
+
+            <Button
+                android:id="@+id/btn_camera_add_from_sn_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/list_selector_background"
+                android:text="@string/camera_addFromeSn_add"
+                android:textColor="#FEFEFE" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_camera_add_from_sn_qrcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/camera_add_from_sn_qrcode" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:text="@string/camera_addFromeSn_scanTips"
+                android:textColor="#309DE2"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -20,6 +20,8 @@
         android:name="android.hardware.usb.host"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -94,30 +96,84 @@
         android:logo="@drawable/menu_back_bg"
         android:persistent="true"
         android:theme="@style/HelathTheme">
-        <activity android:name=".camera.CameraSettingsCommonActivity"></activity>
-        <activity android:name=".camera.CameraSettingsAdvanceActivity" />
-        <activity android:name=".camera.CameraSettingsStorageActivity" />
-        <activity android:name=".camera.CameraSettingsAlarmActivity" />
-        <activity android:name=".camera.CameraSettingsPwMngActivity" />
-        <activity android:name=".camera.CameraSettingsBasicActivity" />
-        <activity android:name=".camera.CameraSettingsActivity" />
-        <activity android:name=".camera.CameraViewVideoActivity" />
-        <activity android:name=".camera.CameraViewImageActivity"
+        <activity android:name=".camera.CameraAddFromSnActivity" />
+        <activity android:name="com.zbar.lib.CaptureActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".camera.CameraSettingsCommonActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraSettingsAdvanceActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraSettingsStorageActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraSettingsAlarmActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraSettingsPwMngActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".camera.CameraSettingsBasicActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraSettingsActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraViewVideoActivity"
+            android:launchMode="singleTop"
             android:theme="@style/CameraFileTheme" />
-        <activity android:name=".camera.CameraFilesActivity" />
+        <activity
+            android:name=".camera.CameraViewImageActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/CameraFileTheme" />
+        <activity
+            android:name=".camera.CameraFilesActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".camera.CameraDeviceActivity"
             android:configChanges="orientation|screenLayout|screenSize"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".camera.CameraAllActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".camera.CameraNameActivity" />
-        <activity android:name=".camera.CameraPwActivity" />
-        <activity android:name=".camera.CameraSearchActivity" />
-        <activity android:name=".camera.CameraWifiActivity" />
-        <activity android:name=".camera.CameraGuideActivity" />
-        <activity android:name=".camera.CameraAddActivity" />
+        <activity
+            android:name=".camera.CameraNameActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraPwActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraSearchActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraWifiActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".camera.CameraGuideActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.CameraAddActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
 
         <service
             android:name="com.baidu.location.f"

@@ -148,7 +148,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/transparent"
+                android:background="@android:drawable/list_selector_background"
                 android:scaleType="centerInside"
                 android:src="@drawable/camera_ctr_play_selector" />
 
@@ -162,7 +162,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/transparent"
+                android:background="@android:drawable/list_selector_background"
                 android:scaleType="centerInside"
                 android:src="@drawable/camera_ctr_mute_selector" />
 
@@ -176,7 +176,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/transparent"
+                android:background="@android:drawable/list_selector_background"
                 android:scaleType="centerInside"
                 android:src="@drawable/camera_ctr_channels_selector" />
 
@@ -190,9 +190,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/transparent"
+                android:background="@android:drawable/list_selector_background"
                 android:scaleType="centerInside"
-                android:src="@drawable/camera_ctr_sd_sim" />
+                android:src="@drawable/camera_ctr_fluency_selector" />
 
             <View
                 android:layout_width="0.8dp"
@@ -204,7 +204,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/transparent"
+                android:background="@android:drawable/list_selector_background"
                 android:scaleType="centerInside"
                 android:src="@drawable/camera_ctr_fullscreen" />
 
@@ -236,10 +236,11 @@
                 <ImageButton
                     android:id="@+id/ibtn_camera_playback_left"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:background="@color/transparent"
+                    android:background="@android:drawable/list_selector_background"
+                    android:scaleType="centerInside"
                     android:src="@drawable/camera_playback_left" />
                 <com.bisa.health.camera.view.PlaybackDaylongView
                     android:id="@+id/playback_daylong_view"
@@ -251,10 +252,11 @@
                 <ImageButton
                     android:id="@+id/ibtn_camera_playback_right"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@color/transparent"
+                    android:background="@android:drawable/list_selector_background"
+                    android:scaleType="centerInside"
                     android:src="@drawable/camera_playback_right" />
             </RelativeLayout>
 

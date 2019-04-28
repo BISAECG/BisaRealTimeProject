@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/capture_containter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.bisa.health.cust.view.ActionBarView
+        android:id="@+id/abar_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:isPre="true"
+        app:preIco="@drawable/menu_back_bg"
+        app:title="@string/camera_scan_qrcode_title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <SurfaceView
+            android:id="@+id/surfaceView_camera_scan_qrcode_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/top_mask"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/camera_qrcode_scan_mask" />
+
+        <RelativeLayout
+            android:id="@+id/capture_crop_layout"
+            android:layout_width="260dp"
+            android:layout_height="260dp"
+            android:layout_below="@id/top_mask"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/camera_qrcode_scan_capture">
+
+            <ImageView
+                android:id="@+id/capture_scan_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:background="@drawable/camera_qrcode_scan_line" />
+
+            <TextView
+                android:id="@+id/tv_camera_scan_qrcode_capture_error_nocamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="#ffffffff"
+                android:layout_centerInParent="true"
+                android:text="@string/camera_scan_qrcode_failed_open_camera"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/bottom_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/capture_crop_layout"
+            android:background="@drawable/camera_qrcode_scan_mask" />
+
+        <ImageView
+            android:id="@+id/left_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_mask"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/top_mask"
+            android:layout_toStartOf="@id/capture_crop_layout"
+            android:background="@drawable/camera_qrcode_scan_mask" />
+
+        <ImageView
+            android:id="@+id/right_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_mask"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/top_mask"
+            android:layout_toEndOf="@id/capture_crop_layout"
+            android:background="@drawable/camera_qrcode_scan_mask" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llayout_camera_scan_qrcode_result_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#333333"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/camera_settings_common_sn"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/tv_camera_scan_qrcode_sn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/green"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            style="?android:attr/buttonBarStyle">
+
+            <Button
+                android:id="@+id/btn_camera_scan_qrcode_confirm"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/common_confirm" />
+
+            <Button
+                android:id="@+id/btn_camera_scan_qrcode_retry"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/common_retry" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

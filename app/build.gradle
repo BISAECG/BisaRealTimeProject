@@ -98,7 +98,7 @@ dependencies {
     }
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha4'
+    //implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha5'
     //信鸽jar，不包含厂商通道
     //compile 'com.tencent.xinge:xinge:4.0.3-Beta'
     //信鸽jar，包含厂商通道
@@ -116,7 +116,7 @@ dependencies {
     implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.apache.commons:commons-lang3:3.9'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.2'
     implementation 'com.github.hotchemi:permissionsdispatcher:3.3.1'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.3.1'
     implementation 'com.github.mjdev:libaums:0.6.0'

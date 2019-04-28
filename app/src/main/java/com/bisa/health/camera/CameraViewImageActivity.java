@@ -7,8 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -67,13 +69,22 @@ public class CameraViewImageActivity extends Activity {
                 finish();
                 break;
             case R.id.camera_file_menu_save:
-                MediaStore.Images.Media.insertImage(getContentResolver(), BitmapFactory.decodeFile(path), imageFile.getName(), getString(R.string.xixin_camera));
-                Toast.makeText(this, getString(R.string.camera_file_save_success), Toast.LENGTH_LONG).show();
+                String uriStr = MediaStore.Images.Media.insertImage(getContentResolver(), BitmapFactory.decodeFile(path), imageFile.getName(), getString(R.string.xixin_camera));
+                if(uriStr != null) {
+                    Toast.makeText(this, getString(R.string.camera_file_save_success), Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.camera_file_menu_share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
+                Uri fileUri;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    fileUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", imageFile);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                } else {
+                    fileUri = Uri.fromFile(imageFile);
+                }
                 intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_TEXT, uri);
+                intent.putExtra(Intent.EXTRA_STREAM, fileUri);
                 startActivity(Intent.createChooser(intent, getString(R.string.xixin_camera)));
                 break;
             case R.id.camera_file_menu_delete:

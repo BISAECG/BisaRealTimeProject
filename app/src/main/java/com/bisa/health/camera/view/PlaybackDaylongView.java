@@ -266,7 +266,7 @@ public class PlaybackDaylongView extends View {
 
         if(onValueChangeListener != null && recordValueList.size() > 0) {
             //在录像的区域中选择，第一个、最后一个之间
-            if(currentValue > recordValueList.get(0).startValue - scaleSpace / 2 && currentValue < recordValueList.get(recordValueList.size() - 1).endValue) {
+            if(currentValue > recordValueList.get(0).startValue - scaleSpace && currentValue < recordValueList.get(recordValueList.size() - 1).endValue) {
                 for(int i=0; i<recordValueList.size(); i++) {
                     if(currentValue < recordValueList.get(i).endValue) {
                         onValueChangeListener.playRecordFileWithIndex(i);

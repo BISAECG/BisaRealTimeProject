@@ -88,8 +88,15 @@
     <string name="camera_name_headline">添加設備成功，給設備起個名吧</string>
     <string name="camera_name_save">保存</string>
 
+    <string name="camera_addFromSn_title">添加设备</string>
+    <string name="camera_addFromeSn_hint">请输入设备序列号</string>
+    <string name="camera_addFromeSn_add">添加</string>
+    <string name="camera_addFromeSn_already_exists">设备已经被添加！</string>
+    <string name="camera_addFromeSn_scanTips">点击扫描设备的二维码</string>
+    <string name="camera_scan_qrcode_title">扫描设备二维码</string>
+    <string name="camera_scan_qrcode_failed_open_camera">"Can't open camera!"</string>
+
     <string name="camera_all_title">全部攝像頭</string>
-    <string name="camera_online">在線</string>
     <string name="camera_share">分享</string>
     <string name="camera_settings">設置</string>
 
@@ -262,7 +269,9 @@
         <item>遥控录像</item>
     </string-array>
 
-    <string name="camera_connection_failed">设备连接失败！</string>
+    <string name="camera_connection_failed">设备连接失败，可能设备不在线！</string>
+
+    <string name="common_save">保存</string>
 
     <!--報告類型-->
     <string name="title_not_erect">功能正在建設</string>

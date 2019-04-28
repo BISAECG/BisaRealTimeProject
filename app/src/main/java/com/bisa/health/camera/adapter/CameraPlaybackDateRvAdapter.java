@@ -13,21 +13,31 @@ import com.bisa.health.camera.interfaces.OnItemClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class CameraPlaybackDateRvAdapter extends RecyclerView.Adapter<CameraPlaybackDateRvAdapter.VH> {
     private Context context;
-    private List<String> dateList;
+    //private List<String> dateList;
     private OnItemClickListener onItemClickListener;
+    private List<Date> dayList = new ArrayList<>();
 
     private int thisPosition;
 
-    public CameraPlaybackDateRvAdapter(Context context, List<String> dateList) {
+    public CameraPlaybackDateRvAdapter(Context context) {
         this.context = context;
-        this.dateList = dateList;
-        thisPosition = 0;
+        //this.dateList = dateList;
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -30);
+        for(int i=0; i<30; i++) {
+            int j = 1;
+            calendar.add(Calendar.DATE, j);
+            dayList.add(calendar.getTime());
+        }
+        thisPosition = 29;
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -46,10 +56,11 @@ public class CameraPlaybackDateRvAdapter extends RecyclerView.Adapter<CameraPlay
 
     @Override
     public void onBindViewHolder(@NonNull VH viewHolder, int i) {
-        SimpleDateFormat sdfS = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        //SimpleDateFormat sdfS = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat sdfD = new SimpleDateFormat("MM/dd", Locale.getDefault());
-        try {
-            Date date = sdfS.parse(dateList.get(dateList.size()-1-i));//倒序
+        //try {
+            //Date date = sdfS.parse(dateList.get(dateList.size()-1-i));//倒序
+            Date date = dayList.get(i);
             viewHolder.tvDate.setText(sdfD.format(date));
             viewHolder.tvDate.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -61,9 +72,9 @@ public class CameraPlaybackDateRvAdapter extends RecyclerView.Adapter<CameraPlay
                     }
                 }
             });
-        }catch (ParseException e) {
-            e.printStackTrace();
-        }
+        //}catch (ParseException e) {
+            //e.printStackTrace();
+        //}
         if (i == thisPosition) {
             //设置选中颜色
             viewHolder.tvDate.setTextColor(context.getResources().getColor(R.color.text_camera_playback_date_sel));
@@ -78,7 +89,7 @@ public class CameraPlaybackDateRvAdapter extends RecyclerView.Adapter<CameraPlay
 
     @Override
     public int getItemCount() {
-        return dateList.size();
+        return dayList.size();
     }
 
     class VH extends RecyclerView.ViewHolder {

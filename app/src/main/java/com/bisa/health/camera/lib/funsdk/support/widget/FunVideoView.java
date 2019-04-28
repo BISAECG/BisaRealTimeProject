@@ -117,15 +117,6 @@ public class FunVideoView extends LinearLayout implements FunVideoViewListener {
 		mPreparedListener = listener;
 	}
 
-	public void setMediaPlayHD() {
-		FunSDK.MediaSetFluency(mPlayerHandler, EDECODE_TYPE.EDECODE_REAL_TIME_STREAM0, 0);
-	}
-	public void setMediaPlaySD() {
-		FunSDK.MediaSetFluency(mPlayerHandler, EDECODE_TYPE.EDECODE_REAL_TIME_STREAM3, 0);
-	}
-	public void setMediaPlayLD() {
-		FunSDK.MediaSetFluency(mPlayerHandler, EDECODE_TYPE.EDECODE_REAL_TIME_STREAM6, 0);
-	}
 	
 	public void setOnCompletionListener(OnCompletionListener listener) {
 		mCompletionListener = listener;

@@ -194,6 +194,7 @@
                 android:id="@+id/llayout_camera_device_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:drawable/list_selector_background"
                 android:clickable="false"
                 android:onClick="onUpdate"
                 android:orientation="horizontal"

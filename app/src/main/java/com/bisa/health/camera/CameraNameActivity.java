@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
@@ -37,6 +38,12 @@ public class CameraNameActivity extends BaseActivity {
         btnSave = findViewById(R.id.btn_camera_name_save);
 
         funDevice = FunSupport.getInstance().mCurrDevice;
+        if(funDevice == null) {
+            Toast.makeText(this, "Device does not exist!", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
         sharedPersistor = new SharedPersistor(this);
         mUser = sharedPersistor.loadObject(User.class.getName());
         deviceDao = new DeviceDao(this);

@@ -2,22 +2,16 @@ package com.bisa.health.camera.lib.funsdk.support;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.media.MediaPlayer;
+
 import android.net.wifi.ScanResult;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
 import com.basic.G;
-import com.bisa.health.cache.SharedPersistor;
 import com.bisa.health.camera.interfaces.CameraUpgradeListener;
 import com.bisa.health.camera.lib.funsdk.support.config.AlarmInfo;
 import com.bisa.health.camera.lib.funsdk.support.config.BaseConfig;
-import com.bisa.health.camera.lib.funsdk.support.config.CameraParam;
 import com.bisa.health.camera.lib.funsdk.support.config.DevCmdGeneral;
 import com.bisa.health.camera.lib.funsdk.support.config.DevCmdOPFileQueryJP;
 import com.bisa.health.camera.lib.funsdk.support.config.DevCmdOPRemoveFileJP;
@@ -59,7 +53,6 @@ import com.bisa.health.camera.lib.sdk.struct.SInitParam;
 
 import com.bisa.health.camera.sdk.MyApplication;
 import com.bisa.health.camera.sdk.XUtils;
-import com.bisa.health.model.User;
 import com.lib.ECONFIG;
 import com.lib.EDEV_ATTR;
 import com.lib.EDEV_JSON_ID;
@@ -74,9 +67,7 @@ import com.lib.Mps.XPMS_SEARCH_ALARMINFO_REQ;
 import com.lib.MsgContent;
 import com.lib.SDKCONST;
 import com.lib.SDKCONST.SDK_CommTypes;
-import com.lib.sdk.struct.SDK_FishEyeFrame;
-import com.lib.sdk.struct.SDK_FishEyeFrameCM;
-import com.lib.sdk.struct.SDK_FishEyeFrameSW;
+
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -118,10 +109,6 @@ public class FunSupport implements IFunSDKResult {
 
     private String mTmpLoginUserName = null; // 临时用户名称,仅用于记录后保存
     private String mTmpLoginPassword = null; // 临时密码,仅用于记录后保存
-
-    private String IS_SAVE_NATIVE_PW = "isSaveNativePw";
-    private SharedPersistor sharedPersistor;
-    private User mUser;
 
     private boolean mSavePasswordAfterLogin; // 登录后是否保存密码
     private boolean mAutoLoginWhenStartup; // App启动后是否自动登录
@@ -206,11 +193,6 @@ public class FunSupport implements IFunSDKResult {
         // 初始化目录
         FunPath.init(context, context.getPackageName());
 
-        sharedPersistor = new SharedPersistor(context);
-        mUser = sharedPersistor.loadObject(User.class.getName());
-
-
-
         mSharedParam = new SharedParamMng(context);
         // 导入保存的参数配置
         loadParams();
@@ -276,6 +258,16 @@ public class FunSupport implements IFunSDKResult {
         }
 
         FunSDK.MyUnInitNetSDK();
+    }
+
+    public void requestOtherDevicesLogin(FunDevice exceptFunDevice) {
+        for(FunDevice funDevice : mDeviceList) {
+            if(!funDevice.equals(exceptFunDevice)) {
+                if(!funDevice.hasLogin() || !funDevice.hasConnected()) {
+                    requestDeviceLogin(funDevice);
+                }
+            }
+        }
     }
 
     public Context getContext() {

@@ -14,7 +14,7 @@ import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.utils.ActivityUtil;
 
-public class CameraSearchActivity extends BaseActivity {
+public class CameraSearchActivity extends BaseActivity implements OnFunDeviceWiFiConfigListener {
     private ImageView ivQrcode;
     private ProgressBar progressBar;
     private TextView tvTimer;
@@ -65,16 +65,22 @@ public class CameraSearchActivity extends BaseActivity {
             }
         }).start();
 
-        FunSupport.getInstance().registerOnFunDeviceWiFiConfigListener(new OnFunDeviceWiFiConfigListener() {
-            @Override
-            public void onDeviceWiFiConfigSetted(FunDevice funDevice) {
-                isWifiSetted = true;
-                FunSupport.getInstance().mCurrDevice = funDevice;
-                ActivityUtil.startActivity(CameraSearchActivity.this, CameraPwActivity.class, ActionEnum.NULL);
+        FunSupport.getInstance().registerOnFunDeviceWiFiConfigListener(this);
 
-                finish();
-            }
-        });
+    }
 
+    @Override
+    public void onDeviceWiFiConfigSetted(FunDevice funDevice) {
+        isWifiSetted = true;
+        FunSupport.getInstance().mCurrDevice = funDevice;
+        ActivityUtil.startActivity(CameraSearchActivity.this, CameraPwActivity.class, ActionEnum.NULL);
+
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        FunSupport.getInstance().removeOnFunDeviceWiFiConfigListener(this);
+        super.onDestroy();
     }
 }
