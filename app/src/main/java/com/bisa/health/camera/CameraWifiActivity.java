@@ -1,6 +1,8 @@
 package com.bisa.health.camera;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.DhcpInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
@@ -25,6 +28,12 @@ import com.bisa.health.utils.IpUtil;
 public class CameraWifiActivity extends BaseActivity {
     private EditText etWifiSsid, etWifiPw;
     private Button btnConfirm;
+    private Button btnProblem;
+
+    private View view;
+    private ImageButton iBtnClose;
+    private AlertDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +42,25 @@ public class CameraWifiActivity extends BaseActivity {
 
         etWifiSsid = findViewById(R.id.et_camera_wifi_ssid);
         etWifiPw = findViewById(R.id.et_camera_wifi_pw);
+        btnConfirm = findViewById(R.id.btn_camera_wifi_confirm);
+        btnProblem = findViewById(R.id.btn_camera_wifi_problem);
 
         String currSSID = getConnectWifiSSID();
         etWifiSsid.setText(currSSID);
 
         CameraSdkInit.init(this);
 
-        btnConfirm = findViewById(R.id.btn_camera_wifi_confirm);
+        view = getLayoutInflater().inflate(R.layout.dialog_camera_wifi_problem, null);
+        iBtnClose = view.findViewById(R.id.ibtn_camera_wifi_problem_close);
+        dialog = new AlertDialog.Builder(this)
+                .setView(view).create();
+        iBtnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +68,16 @@ public class CameraWifiActivity extends BaseActivity {
             }
         });
 
+        btnProblem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+            }
+        });
+
+
     }
+
 
     private String getConnectWifiSSID() {
         try {
@@ -121,9 +151,11 @@ public class CameraWifiActivity extends BaseActivity {
                     pwdType, 0, mac, -1);
 
             //FunWifiPassword.getInstance().saveWifiPassword(ssid, wifiPwd);
+            String[] wifiConfig = {ssid, data.toString(), info.toString(), IpUtil.formatIpAddress(wifiDhcp.gateway), String.valueOf(pwdType), mac, wifiPwd, scanResult.BSSID};
 
-            ActivityUtil.startActivity(CameraWifiActivity.this, CameraSearchActivity.class, ActionEnum.NULL);
-            finish();
+            Intent intent = new Intent(this, CameraSearchActivity.class);
+            intent.putExtra("wifiConfig", wifiConfig);
+            startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
             showToast("error occur!");

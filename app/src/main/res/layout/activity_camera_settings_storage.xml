@@ -126,8 +126,9 @@
             android:id="@+id/btn_camera_settings_storage_formatting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:background="@android:drawable/list_selector_background"
-            android:minHeight="45dp"
+            android:minHeight="40dp"
             android:text="@string/camera_settings_storage_formatting" />
     </LinearLayout>
 

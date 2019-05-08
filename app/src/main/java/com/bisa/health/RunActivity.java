@@ -2,9 +2,11 @@ package com.bisa.health;
 
 import android.accounts.AccountAuthenticatorResponse;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,10 +24,12 @@ import android.widget.TextView;
 import com.bisa.health.adapter.BisaServerAdapter;
 import com.bisa.health.adapter.IAdapterClickInterFace;
 import com.bisa.health.cache.SharedPersistor;
+import com.bisa.health.camera.CameraAddFromSnActivity;
 import com.bisa.health.cust.view.CustAreaCodePopView;
 import com.bisa.health.model.HServer;
 import com.bisa.health.model.HealthServer;
 import com.bisa.health.model.UpdateVersion;
+import com.bisa.health.model.User;
 import com.bisa.health.model.dto.ServerDto;
 import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.rest.HttpFinal;
@@ -77,6 +81,8 @@ public class RunActivity extends Activity implements View.OnClickListener, Popup
     private int version;
     private UpdateVersion mUv;
     private Handler mHandler = new Handler();
+
+
     @Override
     public synchronized void onCreate(Bundle savedInstanceState) {
 
@@ -96,6 +102,22 @@ public class RunActivity extends Activity implements View.OnClickListener, Popup
 
         if (sharedPersistor == null)
             sharedPersistor = new SharedPersistor(this);
+
+        Uri uri = getIntent().getData();
+        if(uri != null) {
+            String path = uri.getPath();
+            if(path != null && path.equals("/camera")) {
+                User mUser = sharedPersistor.loadObject(User.class.getName());
+                if(mUser != null){
+                    Intent intent = new Intent(this, CameraAddFromSnActivity.class);
+                    intent.setData(uri);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
+            }
+        }
+
 
         mHealthServer = sharedPersistor.loadObject(HealthServer.class.getName());
 

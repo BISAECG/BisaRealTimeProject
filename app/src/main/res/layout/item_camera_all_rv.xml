@@ -14,7 +14,6 @@
             android:id="@+id/iv_item_camera_all_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_camera_all_default"
             android:scaleType="center"
             android:src="@drawable/camera_play" />
 
@@ -44,7 +43,17 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:gravity="center"
-            tools:text="@string/camera_online" />
+            tools:text="@string/device_stauts_online" />
+
+        <CheckBox
+            android:id="@+id/checkbox_item_camera_all_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#D8FFFFFF" />
 
     </RelativeLayout>
 
@@ -55,7 +64,7 @@
         android:background="@color/bg_camera_all_btn">
 
         <Button
-            android:id="@+id/btn_item_camera_share"
+            android:id="@+id/btn_item_camera_all_share"
             android:layout_width="0dp"
             android:layout_height="@dimen/camera_btn_height"
             android:layout_weight="1"
@@ -73,7 +82,7 @@
             android:background="@color/color_line" />
 
         <Button
-            android:id="@+id/btn_item_camera_settings"
+            android:id="@+id/btn_item_camera_all_settings"
             android:layout_width="0dp"
             android:layout_height="@dimen/camera_btn_height"
             android:layout_weight="1"

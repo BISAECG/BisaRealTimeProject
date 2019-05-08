@@ -233,8 +233,8 @@
         android:minHeight="30dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/camera_factory_reset_btn_shape"
         android:text="@string/camera_settings_common_factoryReset"
         android:textColor="@drawable/common_text_selector" />

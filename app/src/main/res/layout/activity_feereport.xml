@@ -12,7 +12,9 @@
         app:title="@string/titl_my_report"
         android:id="@+id/abar_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:isNext="true"
+        app:nextIco="@drawable/share_selector"/>
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"
         android:layout_below="@+id/abar_title"

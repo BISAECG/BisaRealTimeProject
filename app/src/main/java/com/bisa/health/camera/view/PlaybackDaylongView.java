@@ -205,6 +205,11 @@ public class PlaybackDaylongView extends View {
         invalidate();
     }
 
+    public void clearRecordData() {
+        recordValueList.clear();
+        invalidate();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();

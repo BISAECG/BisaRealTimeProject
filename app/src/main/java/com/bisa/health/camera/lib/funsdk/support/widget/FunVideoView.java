@@ -359,6 +359,7 @@ public class FunVideoView extends LinearLayout implements FunVideoViewListener {
 		if ( mInited && mPlayerHandler != 0 ) {
 			FunSDK.MediaPause(mPlayerHandler, 0, 0);
 		}
+		mPlayStat = STAT_PLAYING;
 	}
 	
 	/**

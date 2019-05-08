@@ -223,7 +223,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
                 device.setDevname(deviceCursor.getDevname());
                 device.setIcoflag(deviceCursor.getIcoflag());
                 device.setMacadderss(deviceCursor.getMacadderss());
-                Log.i(TAG,"onLoadFinished:"+device);
+                //Log.i(TAG,"onLoadFinished:"+device);
                 deviceAdapter.addBleDevice(device);
             }while(deviceCursor.moveToNext());
         }

@@ -9,8 +9,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="12dp"
-        android:text="@string/camera_select_definition"
-        android:textSize="14sp" />
+        android:text="@string/camera_select_definition" />
 
     <View
         android:layout_width="match_parent"
@@ -23,8 +22,7 @@
         android:layout_height="wrap_content"
         android:background="@android:drawable/list_selector_background"
         android:text="@string/camera_hd"
-        android:textColor="@color/blue"
-        android:textSize="16sp" />
+        android:textColor="@drawable/camera_fluency_btn_selector"/>
 
     <View
         android:layout_width="match_parent"
@@ -37,8 +35,7 @@
         android:layout_height="wrap_content"
         android:background="@android:drawable/list_selector_background"
         android:text="@string/camera_sd"
-        android:textColor="@color/blue"
-        android:textSize="16sp" />
+        android:textColor="@drawable/camera_fluency_btn_selector"/>
 
 
 </LinearLayout>

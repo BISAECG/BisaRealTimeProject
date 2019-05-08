@@ -8,13 +8,13 @@ import android.widget.TextView;
 
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
-import com.bisa.health.camera.lib.funsdk.support.FunDevicePassword;
 import com.bisa.health.camera.lib.funsdk.support.FunError;
 import com.bisa.health.camera.lib.funsdk.support.FunSupport;
 import com.bisa.health.camera.lib.funsdk.support.OnFunDeviceOptListener;
 import com.bisa.health.camera.lib.funsdk.support.config.ModifyPassword;
 import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
+import com.bisa.health.cust.view.ActionBarView;
 import com.bisa.health.model.enumerate.ActionEnum;
 import com.bisa.health.utils.ActivityUtil;
 import com.lib.FunSDK;
@@ -27,6 +27,10 @@ public class CameraPwActivity extends BaseActivity {
     private FunDevice mFunDevice;
     private OnFunDeviceOptListener onFunDeviceOptListener;
 
+    private ActionBarView actionBarView;
+
+    private long backPressMs = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +41,13 @@ public class CameraPwActivity extends BaseActivity {
         etConfirmPw = findViewById(R.id.et_camera_pw_confirm_pw);
         btnConfirm = findViewById(R.id.btn_camera_pw_confirm);
 
+        actionBarView = findViewById(R.id.abar_title);
 
         mFunDevice = FunSupport.getInstance().mCurrDevice;
 
-        tvSN.setText("SN: " + mFunDevice.getDevSn());
+        String snText = "SN: " + mFunDevice.getDevSn();
+
+        tvSN.setText(snText);
 
         deviceClearNativePws();
 
@@ -99,7 +106,6 @@ public class CameraPwActivity extends BaseActivity {
                     // 隐藏等待框
                     dialogDismiss();
                     ActivityUtil.startActivity(CameraPwActivity.this, CameraNameActivity.class, ActionEnum.NULL);
-                    finish();
                 }
             }
 
@@ -149,6 +155,23 @@ public class CameraPwActivity extends BaseActivity {
 
         FunSupport.getInstance().registerOnFunDeviceOptListener(onFunDeviceOptListener);
 
+        actionBarView.setOnItemSelectListenerBack(new ActionBarView.OnActionClickListener() {
+            @Override
+            public void onActionClick() {
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(System.currentTimeMillis() - backPressMs > 200) {
+            backPressMs = System.currentTimeMillis();
+            showToast(getString(R.string.camera_pw_backPress_tips));
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     private void tryToChangePassw() {
@@ -172,7 +195,7 @@ public class CameraPwActivity extends BaseActivity {
     }
 
     private void loginDevice() {
-        FunSupport.getInstance().requestDeviceLogin(mFunDevice.getDevSn(), "admin", "");
+        FunSupport.getInstance().requestDeviceLogin(mFunDevice);
     }
 
     private void deviceClearNativePws() {
@@ -187,6 +210,7 @@ public class CameraPwActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         FunSupport.getInstance().removeOnFunDeviceOptListener(onFunDeviceOptListener);
+        FunSupport.getInstance().requestDeviceLogout(mFunDevice);
         super.onDestroy();
     }
 }

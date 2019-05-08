@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.design.widget.BottomSheetDialog;
 
 
@@ -38,6 +39,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -107,7 +109,8 @@ public class CameraDeviceActivity extends BaseActivity implements
 
     private SharedPreferences.Editor spEditor;
 
-    private LinearLayout mLayoutRecording;
+    private LinearLayout lLayoutRecording;
+    private Chronometer chronometerRecordTime;
 
     private LinearLayout llCtr;
 
@@ -179,6 +182,8 @@ public class CameraDeviceActivity extends BaseActivity implements
     private H264_DVR_FILE_DATA[] recordDatas;
     private int recordDatasIndex = 0;
 
+    private Handler mHandler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,7 +237,8 @@ public class CameraDeviceActivity extends BaseActivity implements
             }
         });
 
-        mLayoutRecording = findViewById(R.id.layout_recording);
+        lLayoutRecording = findViewById(R.id.layout_recording);
+        chronometerRecordTime = findViewById(R.id.chronometer_camera_device_recordTime);
 
         llCtr = findViewById(R.id.ll_camera_ctr);
 
@@ -242,9 +248,6 @@ public class CameraDeviceActivity extends BaseActivity implements
         mIbtnFluency = findViewById(R.id.ibtn_camera_fluency);
         mIbtnFullscreen = findViewById(R.id.ibtn_camera_fullscreen);
 
-        if(funStreamTypeId == FunStreamType.STREAM_SECONDARY.getTypeId()) {
-            mIbtnFluency.setSelected(true);
-        }
 
         funDeviceList = FunSupport.getInstance().getDeviceList();
         linearLayoutPreview = findViewById(R.id.lLayout_camera_devicesPreview);
@@ -258,10 +261,18 @@ public class CameraDeviceActivity extends BaseActivity implements
         previewFunVideoViewList.add(previewFunVideoView4);
 
         fluencyBottomDialog = new BottomSheetDialog(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_bottom_definition, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.camera_dialog_bottom_fluency, null);
         btnHD = view.findViewById(R.id.btn_camera_hd);
         btnSD = view.findViewById(R.id.btn_camera_sd);
         fluencyBottomDialog.setContentView(view);
+
+        if(funStreamTypeId == FunStreamType.STREAM_SECONDARY.getTypeId()) {
+            mIbtnFluency.setSelected(true);
+            btnSD.setSelected(true);
+        }
+        else {
+            btnHD.setSelected(true);
+        }
 
 
         mIbtnPlay.setOnClickListener(new View.OnClickListener() {
@@ -284,17 +295,21 @@ public class CameraDeviceActivity extends BaseActivity implements
             public void onClick(View v) {
                 if(!mIbtnMute.isSelected()) {
                     mIbtnMute.setSelected(true);
-                    mFunVideoView.setMediaSound(false);
+                    mFunVideoView.setMediaSound(true);
                 }
                 else {
                     mIbtnMute.setSelected(false);
-                    mFunVideoView.setMediaSound(true);
+                    mFunVideoView.setMediaSound(false);
                 }
             }
         });
         mIbtnChannels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mBtnRecord.isSelected()) {
+                    showToast(getString(R.string.camera_recording_tips));
+                    return;
+                }
                 if(!mIbtnChannels.isSelected()) {
                     mIbtnChannels.setSelected(true);
                     mFunVideoView.stopPlayback();
@@ -365,6 +380,8 @@ public class CameraDeviceActivity extends BaseActivity implements
             public void onClick(View v) {
                 switchMainMediaStream();
                 funStreamTypeId = FunStreamType.STREAM_MAIN.getTypeId();
+                btnHD.setSelected(true);
+                btnSD.setSelected(false);
                 mIbtnFluency.setSelected(false);
                 fluencyBottomDialog.dismiss();
             }
@@ -374,6 +391,8 @@ public class CameraDeviceActivity extends BaseActivity implements
             public void onClick(View v) {
                 switchSecondaryMediaStream();
                 funStreamTypeId = FunStreamType.STREAM_SECONDARY.getTypeId();
+                btnSD.setSelected(true);
+                btnHD.setSelected(false);
                 mIbtnFluency.setSelected(true);
                 fluencyBottomDialog.dismiss();
             }
@@ -425,14 +444,6 @@ public class CameraDeviceActivity extends BaseActivity implements
         mBtnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mBtnRecord.isSelected()) {
-                    mBtnRecord.setSelected(true);
-                    mBtnRecord.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_recording), null, null);
-                }
-                else {
-                    mBtnRecord.setSelected(false);
-                    mBtnRecord.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_record_selector), null, null);
-                }
                 tryToRecord();
             }
         });
@@ -462,7 +473,11 @@ public class CameraDeviceActivity extends BaseActivity implements
         iBtnPlayback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mBtnRecord.isSelected()) {
+                if(mIbtnChannels.isSelected()) {
+                    showToast(getString(R.string.camera_channels_preview_tips));
+                    return;
+                }
+                else if(mBtnRecord.isSelected()) {
                     showToast(getString(R.string.camera_recording_tips));
                     return;
                 }
@@ -475,6 +490,7 @@ public class CameraDeviceActivity extends BaseActivity implements
                     mBtnVoice.setEnabled(false);
                     //requestRecDate();
                     rvPlaybackDate.scrollToPosition(recordDateAdapter.getItemCount()-1);
+                    recordDateAdapter.setThisPosition(recordDateAdapter.getItemCount()-1);
                     onSearchFile(Calendar.getInstance().getTime());
                 }
                 else {
@@ -489,6 +505,8 @@ public class CameraDeviceActivity extends BaseActivity implements
                 }
             }
         });
+
+        playbackDaylongView = findViewById(R.id.playback_daylong_view);
         rvPlaybackDate = findViewById(R.id.rv_camera_playback_date);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this );
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -498,11 +516,13 @@ public class CameraDeviceActivity extends BaseActivity implements
         recordDateAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(Date date) {
+                mFunVideoView.stopPlayback();
+                recordDatas = null;
+                playbackDaylongView.clearRecordData();
                 onSearchFile(date);
             }
         });
 
-        playbackDaylongView = findViewById(R.id.playback_daylong_view);
         playbackDaylongView.setOnValueChangeListener(new OnValueChangeListener() {
             @Override
             public synchronized void playRecordFileWithIndex(int index) {
@@ -522,12 +542,17 @@ public class CameraDeviceActivity extends BaseActivity implements
             @Override
             public void onClick(View v) {
                 recordDatasIndex --;
-                if(recordDatasIndex > recordDatas.length - 1) {
-                    recordDatasIndex = recordDatas.length - 1;
-                }
-                if(recordDatasIndex >= 0) {
-                    playbackDaylongView.setRecordScale(recordDatasIndex);
-                    playRecordVideoByFile(recordDatasIndex);
+                if(recordDatas != null) {
+                    if(recordDatasIndex < 0) {
+                        recordDatasIndex = 0;
+                    }
+                    else if(recordDatasIndex > recordDatas.length - 1) {
+                        recordDatasIndex = recordDatas.length - 1;
+                    }
+                    if(recordDatasIndex >= 0) {
+                        playbackDaylongView.setRecordScale(recordDatasIndex);
+                        playRecordVideoByFile(recordDatasIndex);
+                    }
                 }
             }
         });
@@ -535,12 +560,17 @@ public class CameraDeviceActivity extends BaseActivity implements
             @Override
             public void onClick(View v) {
                 recordDatasIndex ++;
-                if(recordDatasIndex < 0) {
-                    recordDatasIndex = 0;
-                }
-                if(recordDatasIndex < recordDatas.length) {
-                    playbackDaylongView.setRecordScale(recordDatasIndex);
-                    playRecordVideoByFile(recordDatasIndex);
+                if(recordDatas != null) {
+                    if(recordDatasIndex < 0) {
+                        recordDatasIndex = 0;
+                    }
+                    else if(recordDatasIndex > recordDatas.length - 1) {
+                        recordDatasIndex = recordDatas.length - 1;
+                    }
+                    if(recordDatasIndex < recordDatas.length) {
+                        playbackDaylongView.setRecordScale(recordDatasIndex);
+                        playRecordVideoByFile(recordDatasIndex);
+                    }
                 }
             }
         });
@@ -558,19 +588,20 @@ public class CameraDeviceActivity extends BaseActivity implements
         mCanToPlay = false;
 
 
-        fileDir = FunPath.getDefaultPath() + mUser.getUser_guid() + File.separator;
-        File file = new File(fileDir);
+        File file = new File(FunPath.getDefaultPath() + mUser.getUser_guid() + File.separator);
         if(!file.exists()) {
             file.mkdir();
         }
-
+        fileDir = FunPath.getDefaultPath() + mUser.getUser_guid() + File.separator + mFunDevice.getDevSn() + File.separator;
 
 
         // 如果设备未登录,先登录设备
         if (!mFunDevice.hasLogin() || !mFunDevice.hasConnected()) {
             loginDevice();
         } else {
-            requestSystemInfo();
+            //requestSystemInfo();
+            mCanToPlay = true;
+            playRealMedia();
         }
 
         funDeviceCaptureListener = new OnFunDeviceCaptureListener() {
@@ -625,7 +656,7 @@ public class CameraDeviceActivity extends BaseActivity implements
     @Override
     protected void onResume() {
 
-        if (mCanToPlay && !mIbtnChannels.isSelected()) {
+        if (mCanToPlay && !mIbtnChannels.isSelected() && !mBtnRecord.isSelected()) {
             playRealMedia();
         }
 //			 resumeMedia();
@@ -640,10 +671,10 @@ public class CameraDeviceActivity extends BaseActivity implements
         lastCapture();
 
         stopTalk(0);
-        closeVoiceChannel();
+        //closeVoiceChannel();
 
         //如果预览的时候stopMedia，会把预览的也关掉
-        if(!mIbtnChannels.isSelected()) {
+        if(!mIbtnChannels.isSelected() && !mBtnRecord.isSelected()) {
             stopMedia();
         }
 //		 pauseMedia();
@@ -683,21 +714,27 @@ public class CameraDeviceActivity extends BaseActivity implements
             return;
         }
 
-
         if (mFunVideoView.bRecord) {
+            mBtnRecord.setSelected(false);
+            mBtnRecord.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_record_selector), null, null);
             mFunVideoView.stopRecordVideo();
-            mLayoutRecording.setVisibility(View.GONE);
+            chronometerRecordTime.stop();
+            lLayoutRecording.setVisibility(View.GONE);
             toastRecordSucess(mFunVideoView.getFilePath());
         } else {
+            mBtnRecord.setSelected(true);
+            mBtnRecord.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_recording), null, null);
             mFunVideoView.startRecordVideo(fileDir + System.currentTimeMillis() + ".mp4");
-            mLayoutRecording.setVisibility(View.VISIBLE);
-            showToast(getResources().getString(R.string.media_record_start));
+            showToast(getString(R.string.media_record_start));
+            lLayoutRecording.setVisibility(View.VISIBLE);
+            chronometerRecordTime.setBase(SystemClock.elapsedRealtime());
+            chronometerRecordTime.start();
         }
 
     }
 
     private void lastCapture() {
-        mFunVideoView.captureImage(FunPath.getDefaultPath() + mUser.getUser_guid() + "last" + mFunDevice.getDevSn() + ".jpg");
+        mFunVideoView.captureImage(getCacheDir().getAbsolutePath() + mUser.getUser_guid() + "last" + mFunDevice.getDevSn() + ".jpg");
     }
 
     /**
@@ -721,12 +758,12 @@ public class CameraDeviceActivity extends BaseActivity implements
      */
     private void toastScreenShotPreview(final String path) {
         View view = getLayoutInflater().inflate(R.layout.screenshot_preview, null, false);
-        ImageView iv = (ImageView) view.findViewById(R.id.iv_screenshot_preview);
+        ImageView iv = view.findViewById(R.id.iv_screenshot_preview);
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = false;
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         options.inDither = true;
-        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
         iv.setImageBitmap(bitmap);
         new AlertDialog.Builder(this)
                 .setTitle(R.string.device_socket_capture_preview)
@@ -754,7 +791,7 @@ public class CameraDeviceActivity extends BaseActivity implements
                                 FunPath.deleteFile(path);
                                 showToast(getString(R.string.device_socket_capture_delete_success));
                             }
-                        })
+                        }).setCancelable(false)
                 .show();
     }
 
@@ -902,14 +939,20 @@ public class CameraDeviceActivity extends BaseActivity implements
         }
 
         // 打开声音
-        mFunVideoView.setMediaSound(true);
-        mIbtnMute.setSelected(false);
+        if(mIbtnMute.isSelected()) {
+            mFunVideoView.setMediaSound(true);
+        }
+        else {
+            mFunVideoView.setMediaSound(false);
+        }
+        //mIbtnMute.setSelected(false);
     }
 
     private void stopMedia() {
         if (null != mFunVideoView) {
             mFunVideoView.stopPlayback();
             mFunVideoView.stopRecordVideo();
+            //mBtnRecord.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_record_selector), null, null);
         }
     }
 
@@ -939,7 +982,6 @@ public class CameraDeviceActivity extends BaseActivity implements
         }
     }
 
-    private Handler mHandler = new Handler();
 
     private void startTalk() {
         if (mTalkManager != null && mFunVideoView != null) {
@@ -957,7 +999,7 @@ public class CameraDeviceActivity extends BaseActivity implements
 
     private void openVoiceChannel(){
         mFunVideoView.setMediaSound(false);			//关闭本地音频
-        mIbtnMute.setSelected(true);
+        mIbtnMute.setSelected(false);
 
         mTalkManager.onStartTalk();
         mTalkManager.setTalkSound(true);
@@ -965,8 +1007,10 @@ public class CameraDeviceActivity extends BaseActivity implements
 
     private void closeVoiceChannel(){
         mTalkManager.onStopTalk();
-        mFunVideoView.setMediaSound(true);
-        mIbtnMute.setSelected(false);
+        //if(mIbtnMute.isSelected()) {
+            mFunVideoView.setMediaSound(true);
+            mIbtnMute.setSelected(true);
+        //}
         //mHandler.sendEmptyMessageDelayed(MESSAGE_OPEN_VOICE, delayTime);
     }
 
@@ -981,16 +1025,15 @@ public class CameraDeviceActivity extends BaseActivity implements
             @Override
             public boolean confirm(String editText) {
                 // 重新以新的密码登录
-                if (null != mFunDevice) {
-                    NativeLoginPsw = editText;
+                NativeLoginPsw = editText;
 
-                    onDeviceSaveNativePws();
+                onDeviceSaveNativePws();
 
-                    // 重新登录
-                    //loginDevice();
-                    showDialog(false);
-                    FunSupport.getInstance().requestDeviceLogin(mFunDevice);
-                }
+                // 重新登录
+                //loginDevice();
+                showDialog(false);
+                FunSupport.getInstance().requestDeviceLogin(mFunDevice);
+
                 return super.confirm(editText);
             }
 
@@ -1024,7 +1067,17 @@ public class CameraDeviceActivity extends BaseActivity implements
             dialogDismiss();
             // 登录成功后立刻获取SystemInfo
             // 如果不需要获取SystemInfo,在这里播放视频也可以:playRealMedia();
-            requestSystemInfo();
+            //requestSystemInfo();
+
+            File file = new File(fileDir);
+            if(!file.exists()) {
+                file.mkdir();
+            }
+
+            // 设置允许播放标志
+            mCanToPlay = true;
+
+            playRealMedia();
         }
     }
 
@@ -1082,6 +1135,7 @@ public class CameraDeviceActivity extends BaseActivity implements
             //hideWaitDialog();
             //dialogDismiss();
 
+
             // 设置允许播放标志
             mCanToPlay = true;
 
@@ -1098,9 +1152,9 @@ public class CameraDeviceActivity extends BaseActivity implements
 //			}
 
             // 如果支持云台控制,在获取到SystemInfo之后,获取预置点信息,如果不需要云台控制/预置点功能功能,可忽略之
-            if (mFunDevice.isSupportPTZ()) {
-                requestPTZPreset();
-            }
+            //if (mFunDevice.isSupportPTZ()) {
+                //requestPTZPreset();
+            //}
         }
         else if (configName.equals(DevCmdOPSCalendar.CONFIG_NAME)) {
             DevCmdOPSCalendar calendar = (DevCmdOPSCalendar) funDevice.getConfig(DevCmdOPSCalendar.CONFIG_NAME);
@@ -1109,7 +1163,6 @@ public class CameraDeviceActivity extends BaseActivity implements
                 recordDateList.add(calendar.getData().get(i).getDispDate());
             }
             recordDateAdapter.setThisPosition(recordDateList.size() - 1);
-            recordDateAdapter.notifyDataSetChanged();
             rvPlaybackDate.scrollToPosition(recordDateAdapter.getItemCount() - 1);
         }
         mFunDevice.invalidConfig(DevCmdOPSCalendar.CONFIG_NAME);
@@ -1156,9 +1209,7 @@ public class CameraDeviceActivity extends BaseActivity implements
 
     @Override
     public void onDeviceFileListChanged(FunDevice funDevice) {
-        if(mFunDevice.getId() == funDevice.getId()) {
-            dialogDismiss();
-        }
+
     }
 
     @Override
@@ -1351,11 +1402,11 @@ public class CameraDeviceActivity extends BaseActivity implements
 
 
     private void onSearchFile(Date date) {
-        showDialog(true);
+        showDialog(false);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
-        int time[] = { calendar.get(Calendar.YEAR),
+        int[] time = { calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE) };
 
         H264_DVR_FINDINFO info = new H264_DVR_FINDINFO();
@@ -1374,6 +1425,12 @@ public class CameraDeviceActivity extends BaseActivity implements
         info.st_3_endTime.st_5_dwSecond = 59;
         info.st_0_nChannelN0 = mFunDevice.CurrChannel;
         FunSupport.getInstance().requestDeviceFileList(mFunDevice, info);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialogDismiss();
+            }
+        }, 5000);
     }
 
     private void  requestRecDate(){
@@ -1390,6 +1447,8 @@ public class CameraDeviceActivity extends BaseActivity implements
 
         //FunFileData funFileData = new FunFileData(recordDatas[index], new OPCompressPic());
         mFunVideoView.playRecordByFile(mFunDevice.getDevSn(), recordDatas[index], mFunDevice.CurrChannel);
-        mFunVideoView.setMediaSound(true);
+        if(mIbtnMute.isSelected()) {
+            mFunVideoView.setMediaSound(true);
+        }
     }
 }

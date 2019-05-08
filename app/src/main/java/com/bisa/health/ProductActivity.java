@@ -53,7 +53,7 @@ public class ProductActivity extends BaseActivity implements View.OnClickListene
                     public void onLayouted() {
                         //界面布局完成添加tipview
                       //  mHightLight.addHighLight(R.id.iv_pecg,R.layout.info_null,new OnTopPosCallback(0),new RectLightShape());
-                        mHightLight.addHighLight(R.id.iv_pecg,R.layout.info_product,new OnBaseCallback(40){
+                        mHightLight.addHighLight(R.id.llayout_product,R.layout.info_product,new OnBaseCallback(40){
 
                             @Override
                             public void getPosition(float rightMargin, float bottomMargin, RectF rectF, HighLight.MarginInfo marginInfo) {

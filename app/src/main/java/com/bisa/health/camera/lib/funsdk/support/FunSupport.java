@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.basic.G;
+import com.bisa.health.BisaApp;
 import com.bisa.health.camera.interfaces.CameraUpgradeListener;
 import com.bisa.health.camera.lib.funsdk.support.config.AlarmInfo;
 import com.bisa.health.camera.lib.funsdk.support.config.BaseConfig;
@@ -51,7 +52,6 @@ import com.bisa.health.camera.lib.sdk.struct.SDK_SearchByTime;
 import com.bisa.health.camera.lib.sdk.struct.SDK_TitleDot;
 import com.bisa.health.camera.lib.sdk.struct.SInitParam;
 
-import com.bisa.health.camera.sdk.MyApplication;
 import com.bisa.health.camera.sdk.XUtils;
 import com.lib.ECONFIG;
 import com.lib.EDEV_ATTR;
@@ -133,8 +133,20 @@ public class FunSupport implements IFunSDKResult {
     // 临时设备列表,用户临时保存通过序列号登录的设备
     private List<FunDevice> mTmpSNLoginDeviceList = new ArrayList<FunDevice>();
 
+
+
+    public void deviceListDelDevice(String sn) {
+        for(FunDevice funDevice : mDeviceList) {
+            if(sn.equals(funDevice.getDevSn())) {
+                mDeviceList.remove(funDevice);
+                return;
+            }
+        }
+    }
+
+
     // 当前登录的或者使用的设备
-    public FunDevice mCurrDevice = null;
+    public FunDevice mCurrDevice;
 
     // 内部使用消息定义
     private final int MESSAGE_AP_DEVICE_LIST_CHANGED = 0x1000;
@@ -204,13 +216,13 @@ public class FunSupport implements IFunSDKResult {
 
         // Please set the password prefix here
 //		result = FunSDK.InitExV2(0, G.ObjToBytes(param), 4, "GIGA_", "cloudgiga.com.br", 8765);
-        FunLog.i(TAG, "FunSDK.Init:" + result);
+        //FunLog.i(TAG, "FunSDK.Init:" + result);
         //set user server IP Port
 //		result = FunSDK.SysSetServerIPPort("MI_SERVER", "cloudgiga.com.br", 80);
 //		FunLog.i(TAG, "FunSDK.InitServerIPPort:" + result);
 
         // 降低隐藏到后台时cpu使用及耗电
-        //FunSDK.SetApplication((MyApplication)mContext.getApplicationContext());
+        FunSDK.SetApplication((BisaApp)mContext.getApplicationContext());
         // 库初始化2
         FunSDK.MyInitNetSDK();
 
@@ -222,7 +234,7 @@ public class FunSupport implements IFunSDKResult {
 		FunSDK.SetFunStrAttr(EFUN_ATTR.CONFIG_PATH,FunPath.getDeviceConfigPath());
         // 设置以互联网的方式访问
         result = FunSDK.SysInitNet(SERVER_IP, SERVER_PORT);
-        FunLog.i(TAG, "FunSDK.SysInitNet : " + result);
+        //FunLog.i(TAG, "FunSDK.SysInitNet : " + result);
 
         // 初始化APP证书(APP启动后调用一次即可)
         FunSDK.XMCloundPlatformInit(
@@ -233,11 +245,11 @@ public class FunSupport implements IFunSDKResult {
 
         // 创建/注册库接口操作句柄
         mFunUserHandler = FunSDK.RegUser(this);
-        FunLog.i(TAG, "FunSDK.RegUser : " + mFunUserHandler);
+        //FunLog.i(TAG, "FunSDK.RegUser : " + mFunUserHandler);
 
         // 注册设备连接和断开的消息监听
         result = FunSDK.SetFunIntAttr(EFUN_ATTR.FUN_MSG_HANDLE, mFunUserHandler);
-        FunLog.i(TAG, "FunSDK.SetFunIntAttr(EFUN_ATTR.FUN_MSG_HANDLE) : " + result);
+        //FunLog.i(TAG, "FunSDK.SetFunIntAttr(EFUN_ATTR.FUN_MSG_HANDLE) : " + result);
 
         //FunSDK.LogInit(mFunUserHandler, "", 1, "", 1);
 
@@ -247,7 +259,7 @@ public class FunSupport implements IFunSDKResult {
         //该保存方式是使用底层库函数将密码保存到本地
         if (getSaveNativePassword()) {
             FunSDK.SetFunStrAttr(EFUN_ATTR.USER_PWD_DB, FunPath.getConfigPassword());
-            System.out.println("NativePasswordFileName" + FunPath.getConfigPassword());
+            //System.out.println("NativePasswordFileName" + FunPath.getConfigPassword());
         }
     }
 
@@ -258,6 +270,7 @@ public class FunSupport implements IFunSDKResult {
         }
 
         FunSDK.MyUnInitNetSDK();
+        FunSDK.UnInit(0);
     }
 
     public void requestOtherDevicesLogin(FunDevice exceptFunDevice) {
@@ -1027,7 +1040,7 @@ public class FunSupport implements IFunSDKResult {
         setDeviceHasLogin(funDevice.getDevSn(), false);
 
         // 清空临时设备变量
-        mCurrDevice = null;
+        //mCurrDevice = null;
 
         return (result == 0);
     }

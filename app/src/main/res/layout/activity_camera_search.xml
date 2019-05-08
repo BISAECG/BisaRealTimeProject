@@ -21,14 +21,14 @@
 
         <ImageView
             android:id="@+id/iv_camera_search_qrcode"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            android:scaleType="center"
-            android:src="@drawable/camera_qrcode_tips" />
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/camera_search_qrcode" />
 
         <RelativeLayout
             android:layout_width="180dp"
@@ -39,28 +39,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:indeterminateBehavior="repeat"
-                android:indeterminateDrawable="@drawable/camera_searching" />
+                android:indeterminateDrawable="@drawable/camera_wifi_searching" />
+
+            <ImageView
+                android:id="@+id/iv_camera_search_circle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/camera_wifi_search"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_camera_search_timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="180s" />
+                android:layout_centerInParent="true" />
         </RelativeLayout>
 
 
-        
-        <Button
-            android:id="@+id/btn_camera_search_cancel"
-            android:layout_width="@dimen/camera_btn_width"
-            android:layout_height="@dimen/camera_btn_height"
-            android:layout_marginBottom="30dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/camera_search_cancel"
-            android:textColor="@color/white"
-            android:background="@color/color_btn_default"/>
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/btn_camera_search_setWifiWithQrcode"
+                android:layout_width="@dimen/camera_btn_width"
+                android:layout_height="@dimen/camera_btn_height"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:text="@string/camera_search_setWifiWithQrcode"
+                android:textColor="@color/white"
+                android:background="@color/color_btn_default"
+                android:visibility="gone"/>
+            <Button
+                android:id="@+id/btn_camera_search_cancel"
+                android:layout_width="@dimen/camera_btn_width"
+                android:layout_height="@dimen/camera_btn_height"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/camera_search_cancel"
+                android:textColor="@color/white"
+                android:background="@drawable/camera_search_btn_selector"/>
+
+        </LinearLayout>
+        
+
     </RelativeLayout>
 
     

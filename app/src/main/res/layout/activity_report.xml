@@ -12,7 +12,7 @@
         app:title="@string/titl_my_report"
         android:id="@+id/abar_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <com.bisa.health.cust.view.ProgressWebView
         android:layout_below="@+id/abar_title"

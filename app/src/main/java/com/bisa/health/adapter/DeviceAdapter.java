@@ -64,9 +64,14 @@ public class DeviceAdapter extends BaseAdapter {
 	}
 
 	public void addBleDevice(Device ch) {
-		if (mBleDevice.contains(ch) == false) {
-			mBleDevice.add(ch);
+		for(Device dev : mBleDevice) {
+			if(dev.getClzName().equals(ch.getClzName())) {
+				return;
+			}
 		}
+		//if (mBleDevice.contains(ch) == false) {
+			mBleDevice.add(ch);
+		//}
 	}
 
 	public void addBleDevice(int index, Device ch) {

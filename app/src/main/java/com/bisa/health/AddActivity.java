@@ -258,7 +258,7 @@ public class AddActivity extends BaseActivity
                     bleDevice.setClzName(bleEnum.getClzName());
                     bleDevice.setIcoflag(DeviceTypeEnum.ECG.vlaueOf());
                     bleDevice.setUser_guid(mUser.getUser_guid());
-                    deviceDao.updateOrSave(bleDevice);
+                    deviceDao.add(bleDevice);
                     ActivityUtil.startActivity(Intent.FLAG_ACTIVITY_CLEAR_TOP,AddActivity.this,MainActivity.class,false,ActionEnum.NULL);
 
 

@@ -59,6 +59,7 @@ public class ReportFreeActivity extends BaseActivity {
         healthServer=sharedObject.loadObject(HealthServer.class.getName());
         iappReportDao=new ReportDaoImpl(this);
         webView = findViewById(R.id.webView);
+
     }
 
     @Override

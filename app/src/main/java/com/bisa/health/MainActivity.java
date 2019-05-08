@@ -1,13 +1,13 @@
 package com.bisa.health;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioButton;
 
 import com.bisa.health.ble.BleWrapper;
 import com.bisa.health.cache.SharedPersistor;
+import com.bisa.health.camera.CameraSdkInit;
 import com.bisa.health.cust.fragment.MyDeviceFragment;
 import com.bisa.health.cust.fragment.UserCenterFragment;
 import com.bisa.health.model.AppNotifiMsg;
@@ -111,32 +111,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         transaction.commit();
     }
 
-    @Override
 
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i(TAG,"onRestart");
-    }
     @Override
     protected void onDestroy() {
+        CameraSdkInit.unInit();
         super.onDestroy();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
 

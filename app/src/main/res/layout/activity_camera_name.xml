@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:isPre="true"
+        app:isPre="false"
         app:preIco="@drawable/menu_back_bg"
         app:title="@string/camera_name_title" />
 
@@ -26,26 +26,49 @@
             android:layout_width="@dimen/camera_btn_width"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:text="@string/camera_name_headline"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/et_camera_name"
+        <LinearLayout
             android:layout_width="@dimen/camera_btn_width"
             android:layout_height="@dimen/camera_btn_height"
-            android:layout_marginTop="50dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
             android:background="@color/white"
-            android:singleLine="true"
-            android:gravity="center_vertical"/>
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_camera_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/camera_name_hint"
+                android:maxLength="10"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:singleLine="true" />
+
+            <ImageButton
+                android:id="@+id/ibtn_camera_name_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingEnd="10dp"
+                android:src="@drawable/camera_name_clear"
+                android:visibility="gone" />
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/btn_camera_name_save"
             android:layout_width="@dimen/camera_btn_width"
             android:layout_height="@dimen/camera_btn_height"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:background="@color/color_btn_default"
             android:text="@string/camera_name_save"
             android:textColor="@color/white"

@@ -45,6 +45,7 @@ public class CameraPlaybackDateRvAdapter extends RecyclerView.Adapter<CameraPlay
     }
     public void setThisPosition(int thisPosition) {
         this.thisPosition = thisPosition;
+        notifyDataSetChanged();
     }
 
     @NonNull

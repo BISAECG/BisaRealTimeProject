@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".camera.CameraPwActivity">
 
     <com.bisa.health.cust.view.ActionBarView
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        app:isPre="true"
+        app:isPre="false"
         app:preIco="@drawable/menu_back_bg"
         app:title="@string/camera_pw_title" />
 

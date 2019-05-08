@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/bg_camera_wifi"
     tools:context=".camera.CameraWifiActivity">
 
@@ -12,21 +11,21 @@
         android:id="@+id/abar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         app:isPre="true"
         app:preIco="@drawable/menu_back_bg"
         app:title="@string/camera_wifi_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="@dimen/camera_btn_width"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
             android:text="@string/camera_wifi_headline"
             android:textSize="17sp" />
 
@@ -40,7 +39,8 @@
             android:drawableStart="@drawable/camera_wifi"
             android:drawablePadding="10dp"
             android:paddingStart="10dp"
-            android:editable="false"
+            android:paddingEnd="10dp"
+            android:inputType="none"
             android:gravity="center_vertical"/>
 
         <EditText
@@ -53,6 +53,7 @@
             android:drawableStart="@drawable/camera_pw"
             android:drawablePadding="10dp"
             android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:hint="@string/camera_wifi_pw"
             android:singleLine="true"
             android:gravity="center_vertical"/>
@@ -71,7 +72,7 @@
             android:layout_height="@dimen/camera_btn_height"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
-            android:background="@android:color/holo_green_dark"
+            android:background="@drawable/bg_camera_wifi_btn"
             android:text="@string/camera_wifi_confirm"
             android:textColor="@color/white"
             android:gravity="center"/>
@@ -80,11 +81,13 @@
 
 
     <Button
+        android:id="@+id/btn_camera_wifi_problem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="10dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:background="@android:drawable/list_selector_background"
         android:text="@string/camera_wifi_problem" />
 
-</LinearLayout>
+</RelativeLayout>

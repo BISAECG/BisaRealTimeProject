@@ -29,6 +29,7 @@ public class CameraSettingsActivity extends BaseActivity {
     private FunDevice mFunDevice;
     private OnFunDeviceOptListener onFunDeviceOptListener;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

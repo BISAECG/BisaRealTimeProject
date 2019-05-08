@@ -96,7 +96,9 @@
         android:logo="@drawable/menu_back_bg"
         android:persistent="true"
         android:theme="@style/HelathTheme">
-        <activity android:name=".camera.CameraAddFromSnActivity" />
+        <activity android:name=".camera.CameraAddFromSnActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name="com.zbar.lib.CaptureActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -164,8 +166,7 @@
         <activity
             android:name=".camera.CameraWifiActivity"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".camera.CameraGuideActivity"
             android:launchMode="singleTop"
@@ -574,6 +575,7 @@
             android:name="com.huawei.hms.client.appid"
             android:value="100390995" />
 
+        <!--
         <activity
             android:name="com.huawei.hms.activity.BridgeActivity"
             android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale"
@@ -585,6 +587,7 @@
                 android:name="hwc-theme"
                 android:value="androidhwext:style/Theme.Emui.Translucent" />
         </activity>
+        -->
 
         <provider
             android:name="com.huawei.hms.update.provider.UpdateProvider"

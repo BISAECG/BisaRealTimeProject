@@ -24,7 +24,6 @@ public class CameraAddActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ActivityUtil.startActivity(CameraAddActivity.this, CameraGuideActivity.class, ActionEnum.NULL);
-                finish();
             }
         });
 

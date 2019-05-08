@@ -16,6 +16,7 @@ public class CameraSdkInit {
     public static void unInit() {
         if(isInited) {
             FunSupport.getInstance().term();
+            isInited = false;
         }
     }
 

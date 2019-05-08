@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bisa.health.R;
@@ -36,7 +35,7 @@ public abstract class DialogInputPasswd {
 		
 		tip = new android.app.AlertDialog.Builder(context).create();
 		tip.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		tip.setCanceledOnTouchOutside(true);
+		tip.setCanceledOnTouchOutside(false);
 		tip.show();
 
 		View view = LayoutInflater.from(context).inflate(R.layout.tip_input_passwd, null);
@@ -60,10 +59,11 @@ public abstract class DialogInputPasswd {
 		Window window = tip.getWindow();
 		window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		window.setLayout(UIFactory.dip2px(context,270), WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setContentView(view);
 		
-		tip.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-		tip.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 	}
 	
 

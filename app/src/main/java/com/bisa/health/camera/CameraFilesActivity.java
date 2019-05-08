@@ -9,18 +9,11 @@ import android.widget.ListView;
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
 import com.bisa.health.camera.adapter.CameraFilesLvAdapter;
-import com.bisa.health.camera.lib.funsdk.support.FunSupport;
-import com.bisa.health.camera.lib.funsdk.support.OnFunDeviceOptListener;
-import com.bisa.health.camera.lib.funsdk.support.config.OPCompressPic;
-import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
-import com.bisa.health.camera.lib.funsdk.support.models.FunFileData;
-import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
-import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FINDINFO;
-import com.lib.SDKCONST;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class CameraFilesActivity extends BaseActivity {
@@ -70,9 +63,22 @@ public class CameraFilesActivity extends BaseActivity {
         File[] files = dir.listFiles();
         fileList.clear();
         for(File file:files) {
-            fileList.add(0, file);
+            fileList.add(file);
         }
 
+        Collections.sort(fileList, new Comparator<File>() {
+            @Override
+            public int compare(File o1, File o2) {
+                long diff = o1.lastModified() - o2.lastModified();
+                if (diff > 0) {
+                    return -1;
+                }
+                else if (diff < 0) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
         adapter.notifyDataSetChanged();
     }
 

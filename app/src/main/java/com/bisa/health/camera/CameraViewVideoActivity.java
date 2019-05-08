@@ -61,18 +61,12 @@ public class CameraViewVideoActivity extends Activity {
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                mediaController.show();
-            }
-        });
-        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mediaController.show(5000);
+                mp.start();
+                mediaController.show(0);
             }
         });
 
-
-        videoView.start();
+        //videoView.start();
 
     }
 

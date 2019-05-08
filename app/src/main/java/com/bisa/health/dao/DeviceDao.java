@@ -38,6 +38,48 @@ public class DeviceDao implements IDeviceDao {
 		return context.getContentResolver().delete(deviceContentValues.uri(),where.sel(),where.args());
 	}
 
+	public int deleteByUserSn(int guid, String sn) {
+		DeviceSelection where=new DeviceSelection();
+		where.userGuid(guid);
+		where.and();
+		where.devnum(sn);
+		DeviceContentValues deviceContentValues=new DeviceContentValues();
+		return context.getContentResolver().delete(deviceContentValues.uri(),where.sel(),where.args());
+	}
+	public Device upOrSaveByUser(Device device) {
+		try{
+			DeviceSelection where=new DeviceSelection();
+			where.userGuid(device.getUser_guid());
+			where.and();
+			where.devnum(device.getDevnum());
+
+			DeviceCursor deviceCursor= where.query(context);
+			int count=deviceCursor.getCount();
+			deviceCursor.close();
+			if(count>0){
+				return upDeviceByUser(device);
+			}else{
+				return add(device);
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public Device upDeviceByUser(Device device) {
+		DeviceSelection where=new DeviceSelection();
+		where.userGuid(device.getUser_guid());
+		where.and();
+		where.devnum(device.getDevnum());
+
+		DeviceContentValues deviceContentValues=device.toDeviceContentValues();
+		int  dbCount=deviceContentValues.update(context,where);
+		if(dbCount<=0){
+			return null;
+		}
+		return device;
+	}
+
 	@Override
 	public Device upDevice(Device device) {
 		DeviceSelection where=new DeviceSelection();

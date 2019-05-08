@@ -1,13 +1,18 @@
 package com.bisa.health.ecg;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.bisa.health.AppManager;
 import com.bisa.health.BaseActivity;
 import com.bisa.health.R;
 import com.bisa.health.cache.SharedPersistor;
+import com.bisa.health.cust.view.ActionBarView;
 import com.bisa.health.cust.view.CustomDownProgressDialog;
 import com.bisa.health.ecg.model.ReportType;
 import com.bisa.health.model.HealthPath;
@@ -38,6 +43,8 @@ public class ReportFeeActivity extends BaseActivity implements ICallDownInterfac
     private PDFView pdfView;
     private File pdfFile;
     private CustomDownProgressDialog proDialog;
+
+    private ActionBarView actionBarView;
 
 
     @Override
@@ -83,6 +90,29 @@ public class ReportFeeActivity extends BaseActivity implements ICallDownInterfac
             }
 
         }
+
+        actionBarView = findViewById(R.id.abar_title);
+        actionBarView.setOnActionClickListenerNext(new ActionBarView.OnActionClickListener() {
+            @Override
+            public void onActionClick() {
+                if(pdfFile != null) {
+                    if(pdfFile.exists()) {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Uri fileUri;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            fileUri = FileProvider.getUriForFile(ReportFeeActivity.this, getPackageName() + ".fileProvider", pdfFile);
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        } else {
+                            fileUri = Uri.fromFile(pdfFile);
+                        }
+                        intent.putExtra(Intent.EXTRA_STREAM, fileUri);  //传输图片或者文件 采用流的方式
+                        intent.setType("*/*");   //分享文件
+                        startActivity(Intent.createChooser(intent, getString(R.string.xixin_ecg)));
+                    }
+                }
+            }
+        });
     }
 
     public void downpdf(){
