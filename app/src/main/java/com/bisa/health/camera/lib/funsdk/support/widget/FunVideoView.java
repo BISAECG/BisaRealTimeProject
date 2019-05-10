@@ -147,6 +147,7 @@ public class FunVideoView extends LinearLayout implements FunVideoViewListener {
 
 	}
 
+
 	public GLSurfaceView getSufaceView() {
 		return mSufaceView;
 	}
@@ -524,7 +525,7 @@ public class FunVideoView extends LinearLayout implements FunVideoViewListener {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
-        if (changed || mInited == false) {
+        if (changed || !mInited) {
         	
         	initSurfaceView();
         	
@@ -647,7 +648,7 @@ public class FunVideoView extends LinearLayout implements FunVideoViewListener {
 			}
 			if ( msgContent.arg3 == 3 ) {
 				// DSS模式播放
-				Toast.makeText(mContext, "DSS", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(mContext, "DSS", Toast.LENGTH_SHORT).show();
 			} else {
 				// 普通模式
 			}

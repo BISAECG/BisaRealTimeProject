@@ -59,7 +59,7 @@ public abstract class DialogInputPasswd {
 		Window window = tip.getWindow();
 		window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		window.setLayout(UIFactory.dip2px(context,270), WindowManager.LayoutParams.WRAP_CONTENT);
+		window.setLayout(UIFactory.dip2px(context,260), WindowManager.LayoutParams.WRAP_CONTENT);
 		window.setContentView(view);
 		
 		window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);

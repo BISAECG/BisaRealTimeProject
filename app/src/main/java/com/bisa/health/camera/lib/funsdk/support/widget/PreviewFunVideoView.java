@@ -1,49 +1,24 @@
 package com.bisa.health.camera.lib.funsdk.support.widget;
 
 import android.content.Context;
-import android.media.MediaPlayer;
+
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnInfoListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.opengl.GLSurfaceView;
-import android.os.Message;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.basic.G;
-import com.bisa.health.camera.CameraSdkInit;
-import com.bisa.health.camera.lib.funsdk.support.FunError;
-import com.bisa.health.camera.lib.funsdk.support.FunLog;
-import com.bisa.health.camera.lib.funsdk.support.FunPath;
+import android.util.AttributeSet;
+
+import android.widget.LinearLayout;
+
 import com.bisa.health.camera.lib.funsdk.support.FunSupport;
-import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
 import com.bisa.health.camera.lib.funsdk.support.models.FunStreamType;
 import com.bisa.health.camera.lib.funsdk.support.utils.MyUtils;
-import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
-import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FINDINFO;
-import com.lib.EFUN_ATTR;
-import com.lib.EUIMSG;
+
 import com.lib.FunSDK;
-import com.lib.IFunSDKResult;
-import com.lib.MsgContent;
-import com.lib.SDKCONST.EDECODE_TYPE;
-import com.lib.sdk.struct.SDK_FishEyeFrame;
-import com.lib.sdk.struct.SDK_FishEyeFrameCM;
-import com.lib.sdk.struct.SDK_FishEyeFrameSW;
-import com.vatics.dewarp.FecCenter;
-import com.vatics.dewarp.GL2JNIView.FecType;
 import com.video.opengl.GLSurfaceView20;
-import com.xmgl.vrsoft.VRSoftDefine.XMVRType;
-import com.xmgl.vrsoft.VRSoftGLView;
 
-import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 //import com.android.gl2jni.GL2JNIView;
 
@@ -57,8 +32,6 @@ public class PreviewFunVideoView extends LinearLayout {
 	private int mPlayStat = STAT_STOPPED;
 	private FunStreamType mStreamType = FunStreamType.STREAM_SECONDARY;
 	private String mVideoUrl = null;
-    private H264_DVR_FILE_DATA mVideoFile = null;
-    private String mDeviceSn = null;
 	private int mPlayerHandler = 0;
 	private int mUserID = -1;
 	private GLSurfaceView mSufaceView = null;
@@ -84,10 +57,6 @@ public class PreviewFunVideoView extends LinearLayout {
     // 是否已经调用过底层接口播放了
 	private boolean mIsPlaying = false;
 
-	// 是否使用鱼眼效果
-	private boolean mIsFishEyeEnable = false;
-
-	private SDK_FishEyeFrame mFishEyeFrame = null;
 
 
 	public PreviewFunVideoView(Context context) {
@@ -117,6 +86,10 @@ public class PreviewFunVideoView extends LinearLayout {
 		mCompletionListener = listener;
 	}
 
+	public void setOnInfoListener(OnInfoListener listener) {
+		mInfoListener = listener;
+	}
+
 
 	private void init() {
         if (!isInEditMode()) {
@@ -125,6 +98,8 @@ public class PreviewFunVideoView extends LinearLayout {
             }
 
             mIsPlaying = false;
+
+			//FunSupport.getInstance().registerFunVideoViewListener(this);
         }
 	}
 
@@ -146,14 +121,17 @@ public class PreviewFunVideoView extends LinearLayout {
             mSufaceView.requestLayout();
          }
 	}
-	
-	private int getUserId() {
-		return mUserID;
-	}
-	
+
+
 	private void release() {
 		stopPlayback();
-		
+
+		if ( -1 != mUserID ) {
+			//FunSupport.getInstance().removeFunVideoViewListener(this);
+
+			mUserID = -1;
+		}
+
 		mSufaceView = null;
 	}
 
@@ -172,23 +150,18 @@ public class PreviewFunVideoView extends LinearLayout {
 	 * 通过设备的IP(如果是AP连接设备)或者设备的序列号SN(如果是互联网连接设备)播放设备视频
 	 * @param devSn 设备的IP(AP连接时)或者设备SN(互联网连接时)
 	 */
-	public void setRealDevice(String devSn, int channel) {
+	public void setRealDevice(String devIp, int channel) {
 		String playUrl = null;
 		mChannel = channel;
-		if ( MyUtils.isIp(devSn) ) {
+		if ( MyUtils.isIp(devIp) ) {
 			// 如果传入的IP地址,需要添加端口
-			playUrl = "real://" + devSn + ":34567";
+			playUrl = "real://" + devIp + ":34567";
 		} else {
-			playUrl = "real://" + devSn;
+			playUrl = "real://" + devIp;
 		}
-		
-		mDeviceSn = devSn;
 		setVideoPath(playUrl);
 	}
 
-	public void setRealDevice(FunDevice funDevice) {
-		setRealDevice(funDevice.getDevSn(), funDevice.CurrChannel);
-	}
 
 	
 	/**
@@ -199,7 +172,6 @@ public class PreviewFunVideoView extends LinearLayout {
 			FunSDK.MediaStop(mPlayerHandler);
 			mPlayerHandler = 0;
 		}
-		mDeviceSn = null;
 		mVideoUrl = null;
 		mIsPlaying = false;
 	}
@@ -228,8 +200,6 @@ public class PreviewFunVideoView extends LinearLayout {
 				|| null == mSufaceView ) {
 			return;
 		}
-
-		mFishEyeFrame = null;
 		
 		mIsPrepared = false;
 		mPlayPosition = 0;
@@ -239,7 +209,7 @@ public class PreviewFunVideoView extends LinearLayout {
 			if ( !mIsPlaying ) {
 				// 播放实时视频
 				mPlayerHandler = FunSDK.MediaRealPlay(
-						getUserId(),
+						mUserID,
 						playPath,
 						mChannel,
 						mStreamType.getTypeId(), mSufaceView, 0);
@@ -253,7 +223,7 @@ public class PreviewFunVideoView extends LinearLayout {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
-        if (changed || mInited == false) {
+        if (changed || !mInited) {
         	
         	initSurfaceView();
         	
@@ -269,7 +239,7 @@ public class PreviewFunVideoView extends LinearLayout {
 	
 	@Override
 	protected void onDetachedFromWindow() {
-		this.release();
+		release();
 		super.onDetachedFromWindow();
 	}
 
@@ -278,5 +248,6 @@ public class PreviewFunVideoView extends LinearLayout {
     public void setMediaSound(boolean bSound) {
         FunSDK.MediaSetSound(mPlayerHandler, bSound ? 100 : 0, 0);
     }
+
 
 }

@@ -35,13 +35,15 @@ public class CameraAllRvAdapter extends RecyclerView.Adapter<CameraAllRvAdapter.
     private boolean isDelMode;
     private List<String> delSnList = new ArrayList<>();
 
-    private final String shareStr = "https://www.bisahealth.com/health-shop/mi/call/camera/share?shareUrl=xixin://www.bisahealth.com/camera?deviceSn=";
+    private final String shareStr;
 
     public CameraAllRvAdapter(Context context, int user_guid) {
         mContext = context;
         cameraList = FunSupport.getInstance().getDeviceList();
         this.user_guid = user_guid;
         isDelMode = false;
+
+        shareStr = mContext.getString(R.string.camera_share_content_title) + "\nhttps://www.bisahealth.com/mi/call/camera/share?deviceid=";
     }
     @NonNull
     @Override
@@ -92,6 +94,7 @@ public class CameraAllRvAdapter extends RecyclerView.Adapter<CameraAllRvAdapter.
                 public void onClick(View v) {
                     FunSupport.getInstance().mCurrDevice = camera;
                     Intent intent = new Intent(mContext, CameraDeviceActivity.class);
+                    intent.putExtra("position", position);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(intent);
                 }

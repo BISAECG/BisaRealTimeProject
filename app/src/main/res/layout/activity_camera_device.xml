@@ -68,59 +68,101 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/lLayout_camera_devicesPreview"
+        <android.support.v7.widget.GridLayout
+            android:id="@+id/gLayout_camera_devicesPreview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <LinearLayout
-                android:layout_width="match_parent"
+            android:visibility="gone"
+            app:columnCount="2"
+            app:rowCount="2">
+
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1">
                 <com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView
-                    android:id="@+id/previewFunVideoView1"
-                    android:layout_width="0dp"
+                    android:id="@+id/funVideoView_preview1"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="2dp">
+                    android:padding="0.2dp"
+                    android:background="@drawable/camera_preview_item_bg_selector"/>
+                <ProgressBar
+                    android:id="@+id/pgb_camera_preview1"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
 
-                </com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView>
-                <com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView
-                    android:id="@+id/previewFunVideoView2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="2dp">
+            </RelativeLayout>
 
-                </com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1">
                 <com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView
-                    android:id="@+id/previewFunVideoView3"
-                    android:layout_width="0dp"
+                    android:id="@+id/funVideoView_preview2"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="2dp">
+                    android:padding="0.2dp"
+                    android:background="@drawable/camera_preview_item_bg_selector"/>
+                <ProgressBar
+                    android:id="@+id/pgb_camera_preview2"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
 
-                </com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1">
+
                 <com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView
-                    android:id="@+id/previewFunVideoView4"
-                    android:layout_width="0dp"
+                    android:id="@+id/funVideoView_preview3"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="2dp">
+                    android:padding="0.2dp"
+                    android:background="@drawable/camera_preview_item_bg_selector"/>
 
-                </com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView>
-            </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/pgb_camera_preview3"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+            </RelativeLayout>
 
-        </LinearLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_columnWeight="1"
+                app:layout_rowWeight="1">
+
+                <com.bisa.health.camera.lib.funsdk.support.widget.PreviewFunVideoView
+                    android:id="@+id/funVideoView_preview4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="0.2dp"
+                    android:background="@drawable/camera_preview_item_bg_selector"/>
+
+                <ProgressBar
+                    android:id="@+id/pgb_camera_preview4"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.GridLayout>
 
         <ImageButton
             android:id="@+id/ibtn_camera_device_back"
@@ -332,6 +374,16 @@
             android:layout_height="wrap_content"
             android:background="@color/bg_camera_func"
             android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_camera_detection"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:drawableTop="@drawable/camera_func_detection_selector"
+                android:text="@string/camera_device_detection"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/btn_camera_capture"

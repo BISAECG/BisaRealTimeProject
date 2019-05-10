@@ -113,6 +113,7 @@
     <string name="camera_all_title">All Cameras</string>
     <string name="camera_share">Share</string>
     <string name="camera_settings">Settings</string>
+    <string name="camera_share_content_title">【碧沙康健】请点击下方链接按照提示获取分享的摄像头设备。</string>
 
     <string name="camera_settings_title">摄像头设置</string>
     <string name="camera_settings_basic">基本设置</string>
@@ -251,6 +252,7 @@
 
     <string name="camera_recording_tips">Recording, please stop recording first</string>
     <string name="camera_channels_preview_tips">请先退出多通道预览</string>
+    <string name="camera_play_pause">暂停中&#8230;</string>
 
     <string name="camera_device_detection">侦测</string>
     <string name="camera_device_capture">拍照</string>
