@@ -53,6 +53,7 @@ public class CameraSettingsCommonActivity extends BaseActivity {
     private TextView tvDevUpdate;
 
     private Button btnFactoryReset;
+    private Button btnReboot;
 
     private FunDevice mFunDevice;
     private OnFunDeviceOptListener onFunDeviceOptListener;
@@ -80,6 +81,7 @@ public class CameraSettingsCommonActivity extends BaseActivity {
         tvDevNetModel = findViewById(R.id.tv_camera_settings_common_netModel);
         tvDevUpdate = findViewById(R.id.tv_camera_settings_common_devUpdate);
         btnFactoryReset = findViewById(R.id.btn_camera_settings_common_factoryReset);
+        btnReboot = findViewById(R.id.btn_camera_settings_common_reboot);
 
         mFunDevice = FunSupport.getInstance().mCurrDevice;
         if(mFunDevice == null) {
@@ -115,7 +117,7 @@ public class CameraSettingsCommonActivity extends BaseActivity {
             public void onDeviceGetConfigFailed(FunDevice funDevice, Integer errCode) {
                 if(mFunDevice.getId() == funDevice.getId()) {
                     dialogDismiss();
-                    Toast.makeText(CameraSettingsCommonActivity.this, FunError.getErrorStr(errCode), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(CameraSettingsCommonActivity.this, FunError.getErrorStr(errCode), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -279,6 +281,31 @@ public class CameraSettingsCommonActivity extends BaseActivity {
 
                             }
                         }).show();
+            }
+        });
+        btnReboot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(CameraSettingsCommonActivity.this)
+                        .setTitle(R.string.camera_settings_common_reboot)
+                        .setPositiveButton(R.string.common_confirm, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                JSONObject object = new JSONObject();
+                                object.put("Action", "Reboot");
+                                FunSDK.DevCmdGeneral(FunSupport.getInstance().getHandler(), mFunDevice.getDevSn(), EDEV_JSON_ID.OPMACHINE, JsonConfig.OPERATION_MACHINE, 1024, 5000,
+                                        HandleConfigData.getSendData(JsonConfig.OPERATION_MACHINE, "0x1", object).getBytes(), -1, 0);
+                                Toast.makeText(CameraSettingsCommonActivity.this, R.string.camera_settings_common_rebooting, Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton(R.string.common_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+
             }
         });
 

@@ -24,7 +24,8 @@
         <Button
             android:id="@+id/btn_camera_add"
             android:layout_width="@dimen/camera_btn_width"
-            android:layout_height="@dimen/camera_btn_height"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/camera_btn_height"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/bg_shape_camera_add_btn"
             android:drawableStart="@drawable/camera_scan"

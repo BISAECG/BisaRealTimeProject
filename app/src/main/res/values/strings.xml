@@ -78,14 +78,14 @@
     <string name="camera_wifi_confirm">确定</string>
     <string name="camera_wifi_problem">联网遇到问题？</string>
     <string name="camera_wifi_problem_title">以下问题可能导致设备联网失败</string>
-    <string name="camera_wifi_problem_body">1 、检查是否开启 WIFi 防蹭网（此设置可能会导致设备无法正常连网），可临时关闭，设备联网成功后再开启；\n2 、如果您家是双频路由器，请检查摄像连接的 WiFi 是否是 5GHz 频段的 WiFi ，请切换连接 2.4GHz 频段的 WiFi ；\n3 、如果您家的 WiFi 是桥接的（因为桥接的原因可能会导致网络不稳定），建议连接非桥接 WiFi ；\n4 、如果您的设备、路由器、手机，距离过远，或者中间有墙壁等障碍物，建议尽可能靠近。</string>
-    <string name="camera_wifi_problem_tips">温馨提示：选择较强信号的 WiFi ，可快速让设备联网</string>
+    <string name="camera_wifi_problem_body">1、检查是否开启WiFi防蹭网（此设置可能会导致设备无法正常连网），可临时关闭，设备联网成功后再开启；\n2、如果您家是双频路由器，请检查摄像连接的WiFi是否是 5GHz 频段的WiFi，请切换连接 2.4GHz 频段的WiFi；\n3、如果您家的WiFi是桥接的（因为桥接的原因可能会导致网络不稳定），建议连接非桥接WiFi；\n4、如果您的设备、路由器、手机，距离过远，或者中间有墙壁等障碍物，建议尽可能靠近。</string>
+    <string name="camera_wifi_problem_tips">温馨提示：选择较强信号的WiFi，可快速让设备联网</string>
     <string name="camera_wifi_pw">密码</string>
     <string name="camera_search_timer">180s</string>
     <string name="camera_search_setWifiWithQrcode">使用二维码配置设备WiFi</string>
     <string name="camera_search_retry">重试</string>
     <string name="camera_search_cancel">取消</string>
-    <string name="camera_search_dialog_body">① 请将二维码朝向设备镜头；\n② 保持 20 一 30 公分的距离，等待扫描；\n③ 听到正在配置 Wi 一 Fi 提示音后移开手机；\n④ 听到配置成功提示音表示设备 Wi 一 Fi 配置已完成。</string>
+    <string name="camera_search_dialog_body">① 请将二维码朝向设备镜头；\n② 保持 20 一 30 公分的距离，等待扫描；\n③ 听到正在配置 WiFi 提示音后移开手机；\n④ 听到配置成功提示音表示设备 WiFi 配置已完成。</string>
     <string name="camera_search_dialog_iKnow">我知道了</string>
     <string name="camera_pw_title">设置摄像头密码</string>
     <string name="camera_pw_headline">为了您的设备安全，请修改默认密码</string>
@@ -93,7 +93,7 @@
     <string name="camera_pw_confirm_pw">请确认新密码</string>
     <string name="camera_pw_tips">⊙如果密码设置不成功，请长按设备后方的reset键，进行恢复出厂默认。恢复出厂默认后，需要重新添加设备，重新设置密码</string>
     <string name="camera_pw_confirm">确定</string>
-    <string name="camera_pw_backPress_tips">设备未保存，如果退出得重新添加设备！ 双击退出</string>
+    <string name="camera_pw_backPress_tips">设备未保存，如果退出将重新添加设备！ 双击退出</string>
     <string name="camera_name_title">摄像机取名</string>
     <string name="camera_name_headline">添加设备成功，给设备起个名吧</string>
     <string name="camera_name_hint">最多10个字符</string>
@@ -104,12 +104,12 @@
     <string name="camera_addFromeSn_add">添加</string>
     <string name="camera_addFromeSn_scanTips">点击扫描设备二维码</string>
     <string name="camera_scan_qrcode_title">扫描设备二维码</string>
-    <string name="camera_scan_qrcode_failed_open_camera">"Can't open camera!"</string>
+    <string name="camera_scan_qrcode_failed_open_camera">不能打开摄像头！</string>
 
     <string name="camera_all_title">全部摄像头</string>
     <string name="camera_share">分享</string>
     <string name="camera_settings">设置</string>
-    <string name="camera_share_content_title">【碧沙康健】请点击下方链接按照提示获取分享的摄像头设备。</string>
+    <string name="camera_share_content_title">【碧沙康健】请点击下方链接按照提示获取分享的摄像头。</string>
 
     <string name="camera_settings_title">摄像头设置</string>
     <string name="camera_settings_basic">基本设置</string>
@@ -151,7 +151,7 @@
     <string name="camera_settings_storage_stop_record">停止录像</string>
     <string name="camera_settings_storage_cycle">循环录像</string>
     <string name="camera_settings_storage_formatting">格式化</string>
-    <string name="camera_settings_storage_formatting_tips">该操作将删除储存卡上的所有文件， 是否格式化？</string>
+    <string name="camera_settings_storage_formatting_tips">该操作将删除储存卡上的所有文件，是否格式化？</string>
     <string name="camera_settings_advance">高级设置</string>
     <string name="camera_settings_advance_record_set">录像设置</string>
     <string name="camera_settings_advance_record_audioEnable">录像音频</string>
@@ -188,12 +188,14 @@
     <string name="camera_net_connect_type_unknown">未知类型</string>
     <string name="camera_settings_common_devUpdate">设备升级</string>
     <string name="camera_settings_common_clickToUpdate">点击更新设备</string>
-    <string name="camera_devcheckupdate_failed">Get Device Hard Version Failed!!!</string>
+    <string name="camera_devcheckupdate_failed">获取设备硬件版本失败！</string>
     <string name="camera_devcheckupdate_versionlast">已是最新版本</string>
     <string name="camera_devcheckupdate_clickupdate">点击更新</string>
     <string name="camera_deviceupdate">设备硬件升级</string>
     <string name="camera_settings_common_factoryReset">恢复出厂设置</string>
     <string name="camera_settings_factoryReset_success">恢复出厂设置成功，重启中&#8230;</string>
+    <string name="camera_settings_common_reboot">设备重启</string>
+    <string name="camera_settings_common_rebooting">重启中&#8230;</string>
 
     <string name="device_opt_play">播放</string>
     <string name="device_opt_stop">停止</string>
@@ -221,7 +223,7 @@
     <string name="device_camera_channels_preview_title">多通道预览</string>
     <string name="device_opt_smallscreen">视频小窗口</string>
     <string name="device_sport_camera_record_success_cancel">取消</string>
-    <string name="device_sport_camera_record_success">录像成功,是否打开？</string>
+    <string name="device_sport_camera_record_success">录像成功，是否打开？</string>
     <string name="device_sport_camera_record_success_open">打开</string>
     <string name="device_socket_capture_delete">删除</string>
     <string name="device_socket_capture_preview">预览</string>
@@ -238,7 +240,9 @@
     <string name="device_socket_capture_save_success">保存成功</string>
     <string name="device_socket_capture_delete_success">删除成功</string>
 
-    <string name="wifi_not_connected">WIFI 未连接！</string>
+    <string name="camera_preview_select_tips">请先选择摄像头</string>
+
+    <string name="wifi_not_connected">WiFi 未连接！</string>
     <string name="camera_pw_confirm_error">两次密码不一样！</string>
     <string name="camera_select_definition">请选择视频清晰度</string>
     <string name="camera_definition_auto">自动</string>
@@ -256,12 +260,16 @@
     <string name="camera_device_record">录像</string>
     <string name="camera_device_files">文件</string>
 
-    <string name="camera_files_title">储存卡</string>
+    <string name="camera_files_title">储存列表</string>
+    <string name="camera_files_tab_phone">手机</string>
+    <string name="camera_files_tab_camera">摄像头</string>
     <string name="camera_file_save">保存到相册</string>
     <string name="camera_file_share">分享</string>
     <string name="camera_file_delete">删除</string>
     <string name="camera_file_save_success">保存成功</string>
     <string name="camera_file_delete_tips">确定要删除吗？</string>
+    <string name="camera_files_calendar_title">选择日期</string>
+    <string name="camera_files_calendar_chosen">选中日期</string>
 
     <string-array name="pic_type">
         <item>全部</item>
@@ -282,9 +290,12 @@
         <item>遥控录像</item>
     </string-array>
 
-    <string name="camera_connection_failed">设备连接失败，或设备不在线！</string>
+    <string name="camera_connection_failed">设备连接失败，设备可能不在线！</string>
 
     <string name="common_save">保存</string>
+    
+    <string name="month">月</string>
+    <string name="day">日</string>
 
     <!--报告类型-->
     <string name="title_not_erect">功能正在建设</string>

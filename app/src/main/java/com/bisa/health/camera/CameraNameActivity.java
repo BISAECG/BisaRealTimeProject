@@ -134,7 +134,7 @@ public class CameraNameActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(System.currentTimeMillis() - backPressMs > 200) {
+        if(System.currentTimeMillis() - backPressMs > 300) {
             backPressMs = System.currentTimeMillis();
             showToast(getString(R.string.camera_pw_backPress_tips));
         }

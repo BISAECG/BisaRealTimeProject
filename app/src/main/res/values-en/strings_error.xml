@@ -103,7 +103,7 @@
     <string name="EE_AS_FORGET_PWD_CODE1">Interface authentication failed</string>
     <string name="EE_AS_FORGET_PWD_CODE2">Parameter error</string>
     <string name="EE_AS_FORGET_PWD_CODE3">Each number to send a registration authentication information can only be sent three times 1 days</string>
-    <string name="EE_AS_FORGET_PWD_CODE4">Send failed（ there is infomation in msg）</string>
+    <string name="EE_AS_FORGET_PWD_CODE4">Send failed（ there is information in msg ）</string>
     <string name="EE_AS_FORGET_PWD_CODE5">Cell phone number does not exist</string>
     <string name="EE_AS_RESET_PWD_CODE1">Interface authentication failed</string>
     <string name="EE_AS_RESET_PWD_CODE2">Parameter error</string>

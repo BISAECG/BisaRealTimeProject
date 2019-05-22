@@ -2,20 +2,94 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llayout_camera_files"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".camera.CameraFilesActivity">
-    <com.bisa.health.cust.view.ActionBarView
-        android:id="@+id/abar_title"
+    <RelativeLayout
+        android:background="@color/color_default_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:isPre="true"
-        app:preIco="@drawable/menu_back_bg"
-        app:title="@string/camera_files_title" />
-    <ListView
-        android:id="@+id/lv_camera_files"
+        android:layout_height="47dp">
+        <ImageButton
+            android:id="@+id/ibtn_camera_files_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="14dp"
+            android:background="@drawable/menu_back_bg" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/camera_files_title"
+            android:textColor="@color/color_search_title"
+            android:textSize="16sp" />
+        <ImageButton
+            android:id="@+id/ibtn_camera_files_calendar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="14dp"
+            android:background="@drawable/camera_files_calendar"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <TabHost
+        android:id="@+id/tabhost_camera_files"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/lv_camera_files_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </ListView>
+
+                <LinearLayout
+                    android:id="@+id/tab2_camera_files"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_camera_files_camera_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#FFA500"
+                        android:gravity="center"
+                        android:padding="6dp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <ListView
+                        android:id="@+id/lv_camera_files_camera"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </ListView>
+
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
 
 </LinearLayout>

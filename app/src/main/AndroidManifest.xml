@@ -20,8 +20,7 @@
         android:name="android.hardware.usb.host"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -96,11 +95,13 @@
         android:logo="@drawable/menu_back_bg"
         android:persistent="true"
         android:theme="@style/HelathTheme">
-        <activity android:name=".camera.CameraAddFromSnActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name="com.zbar.lib.CaptureActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".camera.CameraFilesViewRecordActivity"></activity>
+        <activity
+            android:name=".camera.CameraAddFromSnActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.zbar.lib.CaptureActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".camera.CameraSettingsCommonActivity"
             android:launchMode="singleTop"
@@ -574,7 +575,6 @@
         <meta-data
             android:name="com.huawei.hms.client.appid"
             android:value="100390995" />
-
         <!--
         <activity
             android:name="com.huawei.hms.activity.BridgeActivity"
@@ -588,7 +588,6 @@
                 android:value="androidhwext:style/Theme.Emui.Translucent" />
         </activity>
         -->
-
         <provider
             android:name="com.huawei.hms.update.provider.UpdateProvider"
             android:authorities="com.bisa.health.hms.update.provider"

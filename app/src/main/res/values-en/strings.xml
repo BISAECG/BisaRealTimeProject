@@ -64,7 +64,7 @@
 
     <!--camera-->
     <string name="camera_add_title">Add Camera</string>
-    <string name="camera_add">Add My Camera(Recommend)</string>
+    <string name="camera_add">Add My Camera (Recommend)</string>
     <string name="camera_add_tips">If the device has ever added a router, restore the device to factory Settings.</string>
     <string name="camera_add_share">Add Shared devices</string>
     <string name="camera_guide_title">Camera Connection Guidance</string>
@@ -74,167 +74,165 @@
     <string name="next_step">Next Step</string>
     <string name="camera_wifi_title">Find Camera</string>
     <string name="camera_wifi_headline">Please enter the current WiFi password:</string>
-    <string name="camera_wifi_tips">*Select WiFi with strong signal and fill in the WIFI password correctly to quickly connect the device to the Internet.</string>
+    <string name="camera_wifi_tips">*Select WiFi with strong signal and fill in the WiFi password correctly to quickly connect the device to the Internet.</string>
     <string name="camera_wifi_confirm">Confirm</string>
     <string name="camera_wifi_problem">Connection problems?</string>
-    <string name="camera_wifi_problem_title">以下问题可能导致设备联网失败</string>
-    <string name="camera_wifi_problem_body">1 、检查是否开启 WIFi 防蹭网（此设置可能会导致设备无法正常连网），可临时关闭，设备联网成功后再开启；\n
-        2 、如果您家是双频路由器，请检查摄像连接的 WiFi 是否是 5GHz 频段的 WiFi ，请切换连接 2.4GHz 频段的 WiFi ； \n
-        3 、如果您家的 WiFi 是桥接的（因为桥接的原因可能会导致网络不稳定），建议连接非桥接 WiFi ；\n
-        4 、如果您的设备、路由器、手机，距离过远，或者中间有墙壁等障碍物，建议尽可能靠近。</string>
-    <string name="camera_wifi_problem_tips">温馨提示：选择较强信号的 WiFi ，可快速让设备联网</string>
+    <string name="camera_wifi_problem_title">Connect Network Failed</string>
+    <string name="camera_wifi_problem_body">1. Check the WiFi open the anti-rub function(it may affect the device connecting to Internet), turn this function off until the device connect to Internet;\n2. lf your router in dual band router, please check if the device was connected with 5GHz band WiFi, If yes, please switch to 2.4GHz band WiFi;\n3. If your home WiFi is bridged connection, please use Non-bridged connection WiFi;\n4. If the device, mobile phone, router are away from each other or there is wall or any other barrier, the connection will be bad, please put the devices as close as possible.</string>
+    <string name="camera_wifi_problem_tips">Tips: Choosing Stronger WiFi Signal will accelerate device connect to Internet.</string>
     <string name="camera_wifi_pw">Password</string>
     <string name="camera_search_timer">180s</string>
-    <string name="camera_search_setWifiWithQrcode">使用二维码配置设备WIFI</string>
-    <string name="camera_search_retry">重试</string>
+    <string name="camera_search_setWifiWithQrcode">Click the upper right button to display the WiFi configuration QR code</string>
+    <string name="camera_search_retry">Retry</string>
     <string name="camera_search_cancel">Cancel</string>
-    <string name="camera_search_dialog_body">① 请将二维码朝向设备镜头；\n② 保持 20 一 30 公分的距离，等待扫描；\n③ 听到正在配置 Wi 一 Fi 提示音后移开手机；\n
-        ④ 听到配置成功提示音表示设备 Wi 一 Fi 配置已完成。</string>
-    <string name="camera_search_dialog_iKnow">我知道了</string>
+    <string name="camera_search_dialog_body">① Please put the QRcode toward the device;\n② To keep a distance of 20 to 30 cm, waiting for the scan;\n③ And hear the device prompt,take the phone;\n④ If you hear the device prompt configuration successful.</string>
+    <string name="camera_search_dialog_iKnow">I see</string>
     <string name="camera_pw_title">Set Camera Password</string>
     <string name="camera_pw_headline">For the security of your device, please change the default password</string>
     <string name="camera_pw_new_pw">Please enter a new password</string>
     <string name="camera_pw_confirm_pw">Please confirm the new password</string>
-    <string name="camera_pw_tips">⊙If the password setting is unsuccessful, long press the reset button at the rear of the device to restore the factory default.After the factory default is restored, you need to add the device again and reset the password</string>
+    <string name="camera_pw_tips">⊙If the password setting is unsuccessful, long press the reset button at the rear of the device to restore the factory default. After the factory default is restored, you need to add the device again and reset the password.</string>
     <string name="camera_pw_confirm">Confirm</string>
-    <string name="camera_pw_backPress_tips">设备未保存，如果退出得重新添加设备！</string>
+    <string name="camera_pw_backPress_tips">The device is not saved, once quit, need to re-add it.</string>
     <string name="camera_name_title">Name the Camera</string>
     <string name="camera_name_headline">Add succeeded. Please name the device</string>
-    <string name="camera_name_hint">最多10个字符</string>
+    <string name="camera_name_hint">10-digit</string>
     <string name="camera_name_save">Save</string>
 
-    <string name="camera_addFromSn_title">添加设备</string>
-    <string name="camera_addFromeSn_hint">请输入设备序列号</string>
-    <string name="camera_addFromeSn_add">添加</string>
-    <string name="camera_addFromeSn_scanTips">点击扫描设备的二维码</string>
-    <string name="camera_scan_qrcode_title">扫描设备二维码</string>
-    <string name="camera_scan_qrcode_failed_open_camera">"Can't open camera!"</string>
+    <string name="camera_addFromSn_title">Add Device</string>
+    <string name="camera_addFromeSn_hint">Enter serial number or shared</string>
+    <string name="camera_addFromeSn_add">Add Device</string>
+    <string name="camera_addFromeSn_scanTips">Scan Device QR Code</string>
+    <string name="camera_scan_qrcode_title">Align QR/Bar code within the frame to scan</string>
+    <string name="camera_scan_qrcode_failed_open_camera">Can\'t open camera!</string>
 
     <string name="camera_all_title">All Cameras</string>
     <string name="camera_share">Share</string>
     <string name="camera_settings">Settings</string>
-    <string name="camera_share_content_title">【碧沙康健】请点击下方链接按照提示获取分享的摄像头设备。</string>
+    <string name="camera_share_content_title">[BISA]Please click the link below and follow instructions to freely share our Webcam\'s information.</string>
 
-    <string name="camera_settings_title">摄像头设置</string>
-    <string name="camera_settings_basic">基本设置</string>
-    <string name="camera_settings_basic_devName">设备名称</string>
-    <string name="camera_settings_basic_upDown">图像上下翻转</string>
-    <string name="camera_settings_basic_rename">修改设备名称</string>
-    <string name="camera_settings_basic_timeOSD">时间水印</string>
-    <string name="camera_settings_basic_OSD">自定义水印</string>
-    <string name="camera_settings_basic_OSD_tips">该功能将设备名称添加到视频图像中，可以丰富视频图像的信息</string>
-    <string name="camera_settings_basic_confirm">确定</string>
-    <string name="camera_settings_basic_cancel">取消</string>
-    <string name="camera_settings_basic_saveNativePw">保存密码</string>
-    <string name="camera_settings_basic_saveNativePw_tips">选择保存密码，而不用每次都输入密码</string>
-    <string name="camera_settings_pwMng">密码管理</string>
-    <string name="camera_settings_pwMng_oldPw">旧密码</string>
-    <string name="camera_settings_pwMng_newPw">新密码</string>
-    <string name="camera_settings_pwMng_confirmPw">确认密码</string>
-    <string name="camera_settings_pwMng_confirmMod">确认修改</string>
-    <string name="camera_settings_pwMng_modSuccess">修改成功</string>
-    <string name="camera_settings_alarm">报警设置</string>
-    <string name="camera_settings_alarm_open">开启报警</string>
-    <string name="camera_settings_alarm_tips">检测到画面变化时报警</string>
-    <string name="camera_settings_alarm_mode">报警方式</string>
+    <string name="camera_settings_title">Settings</string>
+    <string name="camera_settings_basic">Basic Settings</string>
+    <string name="camera_settings_basic_devName">Device Name</string>
+    <string name="camera_settings_basic_upDown">Flip Upside-Down</string>
+    <string name="camera_settings_basic_rename">Modify Device Name</string>
+    <string name="camera_settings_basic_timeOSD">Time watermark</string>
+    <string name="camera_settings_basic_OSD">Custom watermark</string>
+    <string name="camera_settings_basic_OSD_tips">This function to add the name of device to video image, enrich video content.</string>
+    <string name="camera_settings_basic_confirm">Confirm</string>
+    <string name="camera_settings_basic_cancel">Cancel</string>
+    <string name="camera_settings_basic_saveNativePw">Save password</string>
+    <string name="camera_settings_basic_saveNativePw_tips">Save password if you do not want to enter your password every time.</string>
+    <string name="camera_settings_pwMng">Set Password</string>
+    <string name="camera_settings_pwMng_oldPw">Current Password</string>
+    <string name="camera_settings_pwMng_newPw">New Password</string>
+    <string name="camera_settings_pwMng_confirmPw">Confirm Password</string>
+    <string name="camera_settings_pwMng_confirmMod">Save</string>
+    <string name="camera_settings_pwMng_modSuccess">Password change successfully</string>
+    <string name="camera_settings_alarm">Motion Alarm</string>
+    <string name="camera_settings_alarm_open">Open Alarm</string>
+    <string name="camera_settings_alarm_tips">Trigger alarm when there is a motion.</string>
+    <string name="camera_settings_alarm_mode">Alarm Action</string>
     <string-array name="camera_settings_alarm_modes">
-        <item>拍照</item>
-        <item>录像</item>
-        <item>响铃</item>
+        <item>Snapshot</item>
+        <item>Take a Video</item>
+        <item>Device Beep</item>
     </string-array>
-    <string name="camera_settings_alarm_sensitivity">灵敏度</string>
+    <string name="camera_settings_alarm_sensitivity">Sensitivity</string>
     <string-array name="camera_settings_alarm_sensitivities">
-        <item>低</item>
-        <item>中</item>
-        <item>高</item>
+        <item>Low level</item>
+        <item>Middle level</item>
+        <item>High level</item>
     </string-array>
-    <string name="camera_settings_storage">储存管理</string>
-    <string name="camera_settings_storage_capacity">存储容量:</string>
-    <string name="camera_settings_storage_remaining_capacity">剩余容量:</string>
-    <string name="camera_settings_storage_full">录像满时:</string>
-    <string name="camera_settings_storage_stop_record">停止录像</string>
-    <string name="camera_settings_storage_cycle">循环录像</string>
-    <string name="camera_settings_storage_formatting">格式化</string>
-    <string name="camera_settings_storage_formatting_tips">该操作将删除储存卡上的所有文件， 是否格式化？</string>
-    <string name="camera_settings_advance">高级设置</string>
-    <string name="camera_settings_advance_record_set">录像设置</string>
-    <string name="camera_settings_advance_record_audioEnable">录像音频</string>
-    <string name="camera_settings_advance_record_audioEnable_tips">如果关闭，则录下来的文件没有音频</string>
-    <string name="camera_settings_advance_recordMode">录像模式</string>
-    <string name="camera_settings_advance_recordMode_tips">如果选择联动录像，那意味着设备平时是不录像的，当开启报警后有报警产生才开始录像</string>
+    <string name="camera_settings_storage">Storage Management</string>
+    <string name="camera_settings_storage_capacity">Storage Capacity:</string>
+    <string name="camera_settings_storage_remaining_capacity">Storage Remain Capacity:</string>
+    <string name="camera_settings_storage_full">Storage:</string>
+    <string name="camera_settings_storage_stop_record">Stop</string>
+    <string name="camera_settings_storage_cycle">Overwrite</string>
+    <string name="camera_settings_storage_formatting">Format SD Card</string>
+    <string name="camera_settings_storage_formatting_tips">This will delete all the files on the memory card, Do you want to format it?</string>
+    <string name="camera_settings_advance">Advanced Settings</string>
+    <string name="camera_settings_advance_record_set">Record Settings</string>
+    <string name="camera_settings_advance_record_audioEnable">Audio</string>
+    <string name="camera_settings_advance_record_audioEnable_tips">Audio will not be recorded when turn it off.</string>
+    <string name="camera_settings_advance_recordMode">Record Mode</string>
+    <string name="camera_settings_advance_recordMode_tips">Trigger by alarm recording.</string>
     <string-array name="camera_settings_advance_recordModes">
-        <item>联动录像</item>
-        <item>从不录像</item>
-        <item>始终录像</item>
+        <item>Alarm Recording</item>
+        <item>Stop recording</item>
+        <item>Continuous Recording</item>
     </string-array>
-    <string name="camera_settings_advance_other_set">其他设置</string>
-    <string name="camera_settings_advance_other_quality">画质</string>
+    <string name="camera_settings_advance_other_set">Other Settings</string>
+    <string name="camera_settings_advance_other_quality">Record quality</string>
     <string-array name="camera_settings_advance_qualities">
-        <item>最好</item>
-        <item>很好</item>
-        <item>好</item>
-        <item>一般</item>
-        <item>较差</item>
-        <item>很差</item>
+        <item>Best</item>
+        <item>Better</item>
+        <item>Good</item>
+        <item>Normal</item>
+        <item>Bad</item>
+        <item>Worst</item>
     </string-array>
-    <string name="camera_settings_common">通用</string>
-    <string name="camera_settings_common_sn">序列号</string>
-    <string name="camera_settings_common_devVer">设备版本</string>
-    <string name="camera_settings_common_swVer">软件版本</string>
-    <string name="camera_settings_common_pubDate">发布日期</string>
-    <string name="camera_settings_common_devTime">设备时间</string>
-    <string name="camera_settings_common_syncDevTime">同步时间</string>
-    <string name="camera_settings_common_netModel">网络模式</string>
+    <string name="camera_settings_common">General About Device</string>
+    <string name="camera_settings_common_sn">Serial Number</string>
+    <string name="camera_settings_common_devVer">Device Version</string>
+    <string name="camera_settings_common_swVer">Software Version</string>
+    <string name="camera_settings_common_pubDate">Release Date</string>
+    <string name="camera_settings_common_devTime">Device Time</string>
+    <string name="camera_settings_common_syncDevTime">Sync Time</string>
+    <string name="camera_settings_common_netModel">Network Mode</string>
     <string name="camera_net_connect_type_p2p">P2P</string>
     <string name="camera_net_connect_type_transmit">Transmit mode</string>
     <string name="camera_net_connect_type_ip">IP</string>
     <string name="camera_net_connect_type_rps">RPS</string>
     <string name="camera_net_connect_type_unknown">Unknown type</string>
-    <string name="camera_settings_common_devUpdate">设备升级</string>
-    <string name="camera_settings_common_clickToUpdate">请点击更新设备</string>
+    <string name="camera_settings_common_devUpdate">Device Upgrade</string>
+    <string name="camera_settings_common_clickToUpdate">Click to upgrade</string>
     <string name="camera_devcheckupdate_failed">Get Device Hard Version Failed!!!</string>
-    <string name="camera_devcheckupdate_versionlast">Already the Lstest!</string>
+    <string name="camera_devcheckupdate_versionlast">Already the Latest!</string>
     <string name="camera_devcheckupdate_clickupdate">Click to Update</string>
     <string name="camera_deviceupdate">Device Hardware Update</string>
-    <string name="camera_settings_common_factoryReset">恢复出厂设置</string>
-    <string name="camera_settings_factoryReset_success">Restore Successfully!!ReBoot&#8230;</string>
+    <string name="camera_settings_common_factoryReset">Restore factory settings</string>
+    <string name="camera_settings_factoryReset_success">Restore Successfully!! ReBoot&#8230;</string>
+    <string name="camera_settings_common_reboot">Device reboot</string>
+    <string name="camera_settings_common_rebooting">Rebooting&#8230;</string>
 
-    <string name="device_opt_play">播放</string>
-    <string name="device_opt_stop">停止</string>
-    <string name="device_opt_capture">截图</string>
-    <string name="device_opt_record">录制</string>
-    <string name="device_opt_fullscreen">全屏</string>
-    <string name="device_opt_fisheye_info">信息</string>
+    <string name="device_opt_play">Play</string>
+    <string name="device_opt_stop">Stop</string>
+    <string name="device_opt_capture">Photo</string>
+    <string name="device_opt_record">Video</string>
+    <string name="device_opt_fullscreen">Full screen</string>
+    <string name="device_opt_fisheye_info">Information</string>
     <string name="device_opt_get_preset">预设点列表</string>
     <string name="device_opt_set_preset">设置预设点</string>
     <string name="media_stream_switch">码流切换</string>
-    <string name="common_confirm">确定</string>
-    <string name="common_cancel">取消</string>
-    <string name="common_skip">跳转</string>
-    <string name="common_delete">删除</string>
-    <string name="common_retry">重试</string>
+    <string name="common_confirm">Confirm</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_skip">Jump</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_retry">Retry</string>
     <string name="user_input_preset_number">请输入要设置的预置点编号</string>
     <string name="user_input_preset_number_warn">请设置数字小于200的预设点</string>
-    <string name="device_login_input_password">请输入设备登录密码</string>
+    <string name="device_login_input_password">Please enter password</string>
     <string name="user_set_preset_succeed">预设点操作成功</string>
     <string name="user_set_preset_fail">预设点操作失败</string>
-    <string name="media_play_error">视频播放失败</string>
-    <string name="media_player_buffering">正在缓冲...</string>
+    <string name="media_play_error">Video open failed!</string>
+    <string name="media_player_buffering">Buffering&#8230;</string>
     <string name="media_stream_main">主码流</string>
     <string name="media_stream_secondary">辅码流</string>
-    <string name="device_camera_channels_preview_title">多通道预览</string>
+    <string name="device_camera_channels_preview_title">Camera preview</string>
     <string name="device_opt_smallscreen">视频小窗口</string>
-    <string name="device_sport_camera_record_success_cancel">取消</string>
-    <string name="device_sport_camera_record_success">录像成功,是否打开?</string>
-    <string name="device_sport_camera_record_success_open">打开</string>
-    <string name="device_socket_capture_delete">删除</string>
-    <string name="device_socket_capture_preview">预览</string>
-    <string name="device_socket_capture_save">保存</string>
+    <string name="device_sport_camera_record_success_cancel">Cancel</string>
+    <string name="device_sport_camera_record_success">Record successfully, need to open? </string>
+    <string name="device_sport_camera_record_success_open">Open</string>
+    <string name="device_socket_capture_delete">Delete</string>
+    <string name="device_socket_capture_preview">Preview</string>
+    <string name="device_socket_capture_save">Save</string>
     <string name="user_select_preset">请选择预设点</string>
     <string name="common_correct">Correct</string>
-    <string name="media_record_stop">停止录像,文件保存在:</string>
-    <string name="media_player_opening">正在打开视频...</string>
-    <string name="device_opt_channel">通道:</string>
+    <string name="media_record_stop">Stop recording, file saved:</string>
+    <string name="media_player_opening">Opening video&#8230;</string>
+    <string name="device_opt_channel">Preview:</string>
     <string name="media_record_failure_need_playing">Only the video playing，so can video&#8230;</string>
     <string name="media_capture_failure_need_playing">Only the video playing，so can screenshot&#8230;</string>
     <string name="media_record_start">Start</string>
@@ -242,30 +240,36 @@
     <string name="device_socket_capture_save_success">Saved success</string>
     <string name="device_socket_capture_delete_success">Delete success</string>
 
+    <string name="camera_preview_select_tips">Please select Camera</string>
+
     <string name="wifi_not_connected">WiFi Not Connected!</string>
-    <string name="camera_pw_confirm_error">两次密码不一样！</string>
-    <string name="camera_select_definition">请选择视频清晰度</string>
+    <string name="camera_pw_confirm_error">Both passwords are different!</string>
+    <string name="camera_select_definition">Please select video resolution</string>
     <string name="camera_definition_auto">Auto</string>
-    <string name="camera_ld">流畅</string>
-    <string name="camera_sd">标清</string>
-    <string name="camera_hd">高清</string>
+    <string name="camera_ld">LD</string>
+    <string name="camera_sd">SD</string>
+    <string name="camera_hd">HD</string>
 
-    <string name="camera_recording_tips">Recording, please stop recording first</string>
-    <string name="camera_channels_preview_tips">请先退出多通道预览</string>
-    <string name="camera_play_pause">暂停中&#8230;</string>
+    <string name="camera_recording_tips">Recording, please stop recording first.</string>
+    <string name="camera_channels_preview_tips">Please exit the preview first.</string>
+    <string name="camera_play_pause">Hold&#8230;</string>
 
-    <string name="camera_device_detection">侦测</string>
-    <string name="camera_device_capture">拍照</string>
-    <string name="camera_device_voice">长按喊话</string>
-    <string name="camera_device_record">录像</string>
-    <string name="camera_device_files">文件</string>
+    <string name="camera_device_detection">Detect</string>
+    <string name="camera_device_capture">Photo</string>
+    <string name="camera_device_voice">Long press to speak</string>
+    <string name="camera_device_record">Video</string>
+    <string name="camera_device_files">Gallery</string>
 
-    <string name="camera_files_title">储存卡</string>
-    <string name="camera_file_save">保存到相册</string>
-    <string name="camera_file_share">分享</string>
-    <string name="camera_file_delete">删除</string>
-    <string name="camera_file_save_success">保存成功</string>
-    <string name="camera_file_delete_tips">确定要删除吗？</string>
+    <string name="camera_files_title">Record files</string>
+    <string name="camera_files_tab_phone">Phone</string>
+    <string name="camera_files_tab_camera">Camera</string>
+    <string name="camera_file_save">Save to album</string>
+    <string name="camera_file_share">Share</string>
+    <string name="camera_file_delete">Delete</string>
+    <string name="camera_file_save_success">Saved</string>
+    <string name="camera_file_delete_tips">Delete?</string>
+    <string name="camera_files_calendar_title">Select the date</string>
+    <string name="camera_files_calendar_chosen">Chosen date</string>
 
     <string-array name="pic_type">
         <item>全部</item>
@@ -286,9 +290,12 @@
         <item>遥控录像</item>
     </string-array>
 
-    <string name="camera_connection_failed">设备连接失败，可能设备不在线！</string>
+    <string name="camera_connection_failed">Fail to connect, the device may not online!</string>
 
-    <string name="common_save">保存</string>
+    <string name="common_save">Save</string>
+
+    <string name="month">Month</string>
+    <string name="day">Day</string>
 
     <!--报告类型-->
     <string name="title_not_erect">Not open</string>

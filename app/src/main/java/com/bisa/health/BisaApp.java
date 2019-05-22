@@ -21,6 +21,8 @@ import com.tencent.android.otherPush.StubAppUtils;
 import com.tencent.android.tpush.XGPushConfig;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,6 +46,7 @@ public class BisaApp extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		disableAPIDialog();
 
 		if(sharedPersistor==null)
 			sharedPersistor=new SharedPersistor(this.getApplicationContext());
@@ -73,6 +76,25 @@ public class BisaApp extends Application {
 		//CrashHandler.getInstance().init(this);
 		
 	}
+
+	/**
+	 * android 9.0 调用私有api弹框的解决方案
+	 */
+	private void disableAPIDialog(){
+		try {
+			Class clazz = Class.forName("android.app.ActivityThread");
+			Method currentActivityThread = clazz.getDeclaredMethod("currentActivityThread");
+			currentActivityThread.setAccessible(true);
+			Object activityThread = currentActivityThread.invoke(null);
+			Field mHiddenApiWarningShown = clazz.getDeclaredField("mHiddenApiWarningShown");
+			mHiddenApiWarningShown.setAccessible(true);
+			mHiddenApiWarningShown.setBoolean(activityThread, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {

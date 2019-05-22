@@ -129,8 +129,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 
+            if(myDeviceFragment.isVisible() && myDeviceFragment.getTopDelBtn().isChecked()) {
+                myDeviceFragment.getTopDelBtn().setChecked(false);
+                return true;
+            }
+
             long exit_offset=System.currentTimeMillis();
-            if(exit_offset-exit_offset_temp>5000){
+            if(exit_offset-exit_offset_temp>3000){
                 exit_count=2;
             }
             if (exit_count == 2) {
@@ -140,7 +145,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             exit_count--;
             exit_offset_temp=exit_offset;
             if (exit_count <= 0) {
-                exit_count = 2;
+                //exit_count = 2;
                 exitApp();
             }
 
@@ -185,7 +190,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
     }
-
-
 
 }

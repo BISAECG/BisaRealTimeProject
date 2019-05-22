@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="@string/camera_files_calendar_title"
+        android:textSize="16sp" />
+
+    <CalendarView
+        android:id="@+id/calendarView_camera_files"
+        style="@android:style/Widget.DeviceDefault.Light.CalendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp">
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/camera_files_calendar_day_color_tips"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:text="@string/camera_files_calendar_chosen" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="1dp"
+        android:background="#13B5B1">
+        <Button
+            android:id="@+id/btn_camera_files_calendar_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/list_selector_background"
+            android:minHeight="40dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="@string/common_cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>

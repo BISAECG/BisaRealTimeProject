@@ -73,22 +73,18 @@
     <string name="next_step">下一步</string>
     <string name="camera_wifi_title">搜索設備</string>
     <string name="camera_wifi_headline">請輸入當前路由器密碼：</string>
-    <string name="camera_wifi_tips">*選擇較強信號的WIFI，正確填寫WIFI密碼，可快速讓設備聯網。</string>
+    <string name="camera_wifi_tips">*選擇較強信號的WiFi，正確填寫WiFi密碼，可快速讓設備聯網。</string>
     <string name="camera_wifi_confirm">確定</string>
     <string name="camera_wifi_problem">聯網遇到問題？</string>
-    <string name="camera_wifi_problem_title">以下问题可能导致设备联网失败</string>
-    <string name="camera_wifi_problem_body">1 、检查是否开启 WIFi 防蹭网（此设置可能会导致设备无法正常连网），可临时关闭，设备联网成功后再开启；\n
-        2 、如果您家是双频路由器，请检查摄像连接的 WiFi 是否是 5GHz 频段的 WiFi ，请切换连接 2.4GHz 频段的 WiFi ； \n
-        3 、如果您家的 WiFi 是桥接的（因为桥接的原因可能会导致网络不稳定），建议连接非桥接 WiFi ；\n
-        4 、如果您的设备、路由器、手机，距离过远，或者中间有墙壁等障碍物，建议尽可能靠近。</string>
-    <string name="camera_wifi_problem_tips">温馨提示：选择较强信号的 WiFi ，可快速让设备联网</string>
+    <string name="camera_wifi_problem_title">以下問題可能導致設備聯網失敗</string>
+    <string name="camera_wifi_problem_body">1 、檢查是否開啟WiFi防蹭網（此設置可能會導致設備無法正常連網），可臨時關閉，設備聯網成功後再開啟；\n2 、如果您家是雙頻路由器，請檢查攝像連接的WiFi是否是 5GHz 頻段的WiFi，請切換連接 2.4GHz 頻段的WiFi；\n3 、如果您家的WiFi是橋接的（因為橋接的原因可能會導致網絡不穩定），建議連接非橋接WiFi；\n4 、如果您的設備、路由器、手機，距離過遠，或者中間有牆壁等障礙物，建議儘可能靠近。</string>
+    <string name="camera_wifi_problem_tips">溫馨提示：選擇較強信號的WiFi，可快速讓設備聯網</string>
     <string name="camera_wifi_pw">密碼</string>
     <string name="camera_search_timer">180s</string>
-    <string name="camera_search_setWifiWithQrcode">使用二维码配置设备WIFI</string>
-    <string name="camera_search_retry">重试</string>
+    <string name="camera_search_setWifiWithQrcode">使用二維碼配置設備WiFi</string>
+    <string name="camera_search_retry">重試</string>
     <string name="camera_search_cancel">取消</string>
-    <string name="camera_search_dialog_body">① 请将二维码朝向设备镜头；\n② 保持 20 一 30 公分的距离，等待扫描；\n③ 听到正在配置 Wi 一 Fi 提示音后移开手机；\n
-        ④ 听到配置成功提示音表示设备 Wi 一 Fi 配置已完成。</string>
+    <string name="camera_search_dialog_body">① 請將二維碼朝向設備鏡頭；\n② 保持 20 一 30 公分的距離，等待掃描；\n③ 聽到正在配置 WiFi 提示音後移開手機；\\n④ 聽到配置成功提示音表示設備 WiFi 配置已完成。</string>
     <string name="camera_search_dialog_iKnow">我知道了</string>
     <string name="camera_pw_title">設置攝像頭密碼</string>
     <string name="camera_pw_headline">為了您的設備安全，請修改默認密碼</string>
@@ -96,198 +92,209 @@
     <string name="camera_pw_confirm_pw">請確認新密碼</string>
     <string name="camera_pw_tips">⊙如果密碼設置不成功，請長按設備後方的reset鍵，進行恢復出廠默認。恢復出廠默認後，需要重新添加設備，重新設置密碼</string>
     <string name="camera_pw_confirm">確定</string>
-    <string name="camera_pw_backPress_tips">设备未保存，如果退出得重新添加设备！</string>
+    <string name="camera_pw_backPress_tips">設備未保存，如果退出將重新添加設備！ 雙擊退出</string>
     <string name="camera_name_title">攝像機取名</string>
     <string name="camera_name_headline">添加設備成功，給設備起個名吧</string>
-    <string name="camera_name_hint">最多10个字符</string>
+    <string name="camera_name_hint">最多10個字符</string>
     <string name="camera_name_save">保存</string>
 
-    <string name="camera_addFromSn_title">添加设备</string>
-    <string name="camera_addFromeSn_hint">请输入设备序列号</string>
+    <string name="camera_addFromSn_title">添加設備</string>
+    <string name="camera_addFromeSn_hint">請輸入設備序列號</string>
     <string name="camera_addFromeSn_add">添加</string>
-    <string name="camera_addFromeSn_scanTips">点击扫描设备的二维码</string>
-    <string name="camera_scan_qrcode_title">扫描设备二维码</string>
-    <string name="camera_scan_qrcode_failed_open_camera">"Can't open camera!"</string>
+    <string name="camera_addFromeSn_scanTips">點擊掃描設備二維碼</string>
+    <string name="camera_scan_qrcode_title">掃描設備二維碼</string>
+    <string name="camera_scan_qrcode_failed_open_camera">不能打開攝像頭！</string>
 
     <string name="camera_all_title">全部攝像頭</string>
     <string name="camera_share">分享</string>
     <string name="camera_settings">設置</string>
-    <string name="camera_share_content_title">【碧沙康健】请点击下方链接按照提示获取分享的摄像头设备。</string>
+    <string name="camera_share_content_title">【碧沙康健】請點擊下方鏈接按照提示獲取分享的攝像頭。</string>
 
-    <string name="camera_settings_title">摄像头设置</string>
-    <string name="camera_settings_basic">基本设置</string>
-    <string name="camera_settings_basic_devName">设备名称</string>
-    <string name="camera_settings_basic_upDown">图像上下翻转</string>
-    <string name="camera_settings_basic_rename">修改设备名称</string>
-    <string name="camera_settings_basic_timeOSD">时间水印</string>
-    <string name="camera_settings_basic_OSD">自定义水印</string>
-    <string name="camera_settings_basic_OSD_tips">该功能将设备名称添加到视频图像中，可以丰富视频图像的信息</string>
-    <string name="camera_settings_basic_confirm">确定</string>
+    <string name="camera_settings_title">攝像頭設置</string>
+    <string name="camera_settings_basic">基本設置</string>
+    <string name="camera_settings_basic_devName">設備名稱</string>
+    <string name="camera_settings_basic_upDown">圖像上下翻轉</string>
+    <string name="camera_settings_basic_rename">修改設備名稱</string>
+    <string name="camera_settings_basic_timeOSD">時間水印</string>
+    <string name="camera_settings_basic_OSD">自定義水印</string>
+    <string name="camera_settings_basic_OSD_tips">該功能將設備名稱添加到視頻圖像中，可以豐富視頻圖像的信息</string>
+    <string name="camera_settings_basic_confirm">確定</string>
     <string name="camera_settings_basic_cancel">取消</string>
-    <string name="camera_settings_basic_saveNativePw">保存密码</string>
-    <string name="camera_settings_basic_saveNativePw_tips">选择保存密码，而不用每次都输入密码</string>
-    <string name="camera_settings_pwMng">密码管理</string>
-    <string name="camera_settings_pwMng_oldPw">旧密码</string>
-    <string name="camera_settings_pwMng_newPw">新密码</string>
-    <string name="camera_settings_pwMng_confirmPw">确认密码</string>
-    <string name="camera_settings_pwMng_confirmMod">确认修改</string>
+    <string name="camera_settings_basic_saveNativePw">保存密碼</string>
+    <string name="camera_settings_basic_saveNativePw_tips">選擇保存密碼，而不用每次都輸入密碼</string>
+    <string name="camera_settings_pwMng">密碼管理</string>
+    <string name="camera_settings_pwMng_oldPw">舊密碼</string>
+    <string name="camera_settings_pwMng_newPw">新密碼</string>
+    <string name="camera_settings_pwMng_confirmPw">確認密碼</string>
+    <string name="camera_settings_pwMng_confirmMod">確認修改</string>
     <string name="camera_settings_pwMng_modSuccess">修改成功</string>
-    <string name="camera_settings_alarm">报警设置</string>
-    <string name="camera_settings_alarm_open">开启报警</string>
-    <string name="camera_settings_alarm_tips">检测到画面变化时报警</string>
-    <string name="camera_settings_alarm_mode">报警方式</string>
+    <string name="camera_settings_alarm">報警設置</string>
+    <string name="camera_settings_alarm_open">開啟報警</string>
+    <string name="camera_settings_alarm_tips">檢測到畫面變化時報警</string>
+    <string name="camera_settings_alarm_mode">報警方式</string>
     <string-array name="camera_settings_alarm_modes">
         <item>拍照</item>
-        <item>录像</item>
-        <item>响铃</item>
+        <item>錄像</item>
+        <item>響鈴</item>
     </string-array>
-    <string name="camera_settings_alarm_sensitivity">灵敏度</string>
+    <string name="camera_settings_alarm_sensitivity">靈敏度</string>
     <string-array name="camera_settings_alarm_sensitivities">
         <item>低</item>
         <item>中</item>
         <item>高</item>
     </string-array>
-    <string name="camera_settings_storage">储存管理</string>
-    <string name="camera_settings_storage_capacity">存储容量:</string>
-    <string name="camera_settings_storage_remaining_capacity">剩余容量:</string>
-    <string name="camera_settings_storage_full">录像满时:</string>
-    <string name="camera_settings_storage_stop_record">停止录像</string>
-    <string name="camera_settings_storage_cycle">循环录像</string>
+    <string name="camera_settings_storage">儲存管理</string>
+    <string name="camera_settings_storage_capacity">存儲容量:</string>
+    <string name="camera_settings_storage_remaining_capacity">剩餘容量:</string>
+    <string name="camera_settings_storage_full">錄像滿時:</string>
+    <string name="camera_settings_storage_stop_record">停止錄像</string>
+    <string name="camera_settings_storage_cycle">循環錄像</string>
     <string name="camera_settings_storage_formatting">格式化</string>
-    <string name="camera_settings_storage_formatting_tips">该操作将删除储存卡上的所有文件， 是否格式化？</string>
-    <string name="camera_settings_advance">高级设置</string>
-    <string name="camera_settings_advance_record_set">录像设置</string>
-    <string name="camera_settings_advance_record_audioEnable">录像音频</string>
-    <string name="camera_settings_advance_record_audioEnable_tips">如果关闭，则录下来的文件没有音频</string>
-    <string name="camera_settings_advance_recordMode">录像模式</string>
-    <string name="camera_settings_advance_recordMode_tips">如果选择联动录像，那意味着设备平时是不录像的，当开启报警后有报警产生才开始录像</string>
+    <string name="camera_settings_storage_formatting_tips">該操作將刪除儲存卡上的所有文件，是否格式化？</string>
+    <string name="camera_settings_advance">高級設置</string>
+    <string name="camera_settings_advance_record_set">錄像設置</string>
+    <string name="camera_settings_advance_record_audioEnable">錄像音頻</string>
+    <string name="camera_settings_advance_record_audioEnable_tips">如果關閉，則錄下來的文件沒有音頻</string>
+    <string name="camera_settings_advance_recordMode">錄像模式</string>
+    <string name="camera_settings_advance_recordMode_tips">如果選擇聯動錄像，那意味着設備平時是不錄像的，當開啟報警後有報警產生才開始錄像</string>
     <string-array name="camera_settings_advance_recordModes">
-        <item>联动录像</item>
-        <item>从不录像</item>
-        <item>始终录像</item>
+        <item>聯動錄像</item>
+        <item>從不錄像</item>
+        <item>始終錄像</item>
     </string-array>
-    <string name="camera_settings_advance_other_set">其他设置</string>
-    <string name="camera_settings_advance_other_quality">画质</string>
+    <string name="camera_settings_advance_other_set">其他設置</string>
+    <string name="camera_settings_advance_other_quality">畫質</string>
     <string-array name="camera_settings_advance_qualities">
         <item>最好</item>
         <item>很好</item>
         <item>好</item>
         <item>一般</item>
-        <item>较差</item>
+        <item>較差</item>
         <item>很差</item>
     </string-array>
     <string name="camera_settings_common">通用</string>
-    <string name="camera_settings_common_sn">序列号</string>
-    <string name="camera_settings_common_devVer">设备版本</string>
-    <string name="camera_settings_common_swVer">软件版本</string>
-    <string name="camera_settings_common_pubDate">发布日期</string>
-    <string name="camera_settings_common_devTime">设备时间</string>
-    <string name="camera_settings_common_syncDevTime">同步时间</string>
-    <string name="camera_settings_common_netModel">网络模式</string>
+    <string name="camera_settings_common_sn">序列號</string>
+    <string name="camera_settings_common_devVer">設備版本</string>
+    <string name="camera_settings_common_swVer">軟件版本</string>
+    <string name="camera_settings_common_pubDate">發佈日期</string>
+    <string name="camera_settings_common_devTime">設備時間</string>
+    <string name="camera_settings_common_syncDevTime">同步時間</string>
+    <string name="camera_settings_common_netModel">網絡模式</string>
     <string name="camera_net_connect_type_p2p">P2P</string>
-    <string name="camera_net_connect_type_transmit">转发模式</string>
-    <string name="camera_net_connect_type_ip">IP直连</string>
+    <string name="camera_net_connect_type_transmit">轉發模式</string>
+    <string name="camera_net_connect_type_ip">IP直連</string>
     <string name="camera_net_connect_type_rps">RPS</string>
-    <string name="camera_net_connect_type_unknown">未知类型</string>
-    <string name="camera_settings_common_devUpdate">设备升级</string>
-    <string name="camera_settings_common_clickToUpdate">点击更新设备</string>
-    <string name="camera_devcheckupdate_failed">Get Device Hard Version Failed!!!</string>
+    <string name="camera_net_connect_type_unknown">未知類型</string>
+    <string name="camera_settings_common_devUpdate">設備升級</string>
+    <string name="camera_settings_common_clickToUpdate">點擊更新設備</string>
+    <string name="camera_devcheckupdate_failed">獲取設備硬件版本失敗！</string>
     <string name="camera_devcheckupdate_versionlast">已是最新版本</string>
-    <string name="camera_devcheckupdate_clickupdate">点击更新</string>
-    <string name="camera_deviceupdate">设备硬件升级</string>
-    <string name="camera_settings_common_factoryReset">恢复出厂设置</string>
-    <string name="camera_settings_factoryReset_success">恢复出厂设置成功，重启中。。</string>
+    <string name="camera_devcheckupdate_clickupdate">點擊更新</string>
+    <string name="camera_deviceupdate">設備硬件升級</string>
+    <string name="camera_settings_common_factoryReset">恢復出廠設置</string>
+    <string name="camera_settings_factoryReset_success">恢復出廠設置成功，重啟中&#8230;</string>
+    <string name="camera_settings_common_reboot">設備重啟</string>
+    <string name="camera_settings_common_rebooting">重啟中&#8230;</string>
 
     <string name="device_opt_play">播放</string>
     <string name="device_opt_stop">停止</string>
-    <string name="device_opt_capture">截图</string>
-    <string name="device_opt_record">录制</string>
+    <string name="device_opt_capture">截圖</string>
+    <string name="device_opt_record">錄製</string>
     <string name="device_opt_fullscreen">全屏</string>
     <string name="device_opt_fisheye_info">信息</string>
-    <string name="device_opt_get_preset">预设点列表</string>
-    <string name="device_opt_set_preset">设置预设点</string>
-    <string name="media_stream_switch">码流切换</string>
-    <string name="common_confirm">确定</string>
+    <string name="device_opt_get_preset">預設點列表</string>
+    <string name="device_opt_set_preset">設置預設點</string>
+    <string name="media_stream_switch">碼流切換</string>
+    <string name="common_confirm">確定</string>
     <string name="common_cancel">取消</string>
-    <string name="common_skip">跳转</string>
-    <string name="common_delete">删除</string>
-    <string name="common_retry">重试</string>
-    <string name="user_input_preset_number">请输入要设置的预置点编号</string>
-    <string name="user_input_preset_number_warn">请设置数字小于200的预设点</string>
-    <string name="device_login_input_password">请输入设备登录密码</string>
-    <string name="user_set_preset_succeed">预设点操作成功</string>
-    <string name="user_set_preset_fail">预设点操作失败</string>
-    <string name="media_play_error">视频播放失败</string>
-    <string name="media_player_buffering">正在缓冲...</string>
-    <string name="media_stream_main">主码流</string>
-    <string name="media_stream_secondary">辅码流</string>
-    <string name="device_camera_channels_preview_title">多通道预览</string>
-    <string name="device_opt_smallscreen">视频小窗口</string>
+    <string name="common_skip">跳轉</string>
+    <string name="common_delete">刪除</string>
+    <string name="common_retry">重試</string>
+    <string name="user_input_preset_number">請輸入要設置的預置點編號</string>
+    <string name="user_input_preset_number_warn">請設置數字小於200的預設點</string>
+    <string name="device_login_input_password">請輸入設備登錄密碼</string>
+    <string name="user_set_preset_succeed">預設點操作成功</string>
+    <string name="user_set_preset_fail">預設點操作失敗</string>
+    <string name="media_play_error">視頻播放失敗</string>
+    <string name="media_player_buffering">正在緩衝&#8230;</string>
+    <string name="media_stream_main">主碼流</string>
+    <string name="media_stream_secondary">輔碼流</string>
+    <string name="device_camera_channels_preview_title">多通道預覽</string>
+    <string name="device_opt_smallscreen">視頻小窗口</string>
     <string name="device_sport_camera_record_success_cancel">取消</string>
-    <string name="device_sport_camera_record_success">录像成功,是否打开?</string>
-    <string name="device_sport_camera_record_success_open">打开</string>
-    <string name="device_socket_capture_delete">删除</string>
-    <string name="device_socket_capture_preview">预览</string>
+    <string name="device_sport_camera_record_success">錄像成功，是否打開？</string>
+    <string name="device_sport_camera_record_success_open">打開</string>
+    <string name="device_socket_capture_delete">刪除</string>
+    <string name="device_socket_capture_preview">預覽</string>
     <string name="device_socket_capture_save">保存</string>
-    <string name="user_select_preset">请选择预设点</string>
+    <string name="user_select_preset">請選擇預設點</string>
     <string name="common_correct">Correct</string>
-    <string name="media_record_stop">停止录像,文件保存在:</string>
-    <string name="media_player_opening">正在打开视频...</string>
+    <string name="media_record_stop">停止錄像,文件保存在:</string>
+    <string name="media_player_opening">正在打開視頻&#8230;</string>
     <string name="device_opt_channel">通道:</string>
-    <string name="media_record_failure_need_playing">视频在播放状态下，才能录像...</string>
-    <string name="media_capture_failure_need_playing">视频在播放状态下，才能截图...</string>
-    <string name="media_record_start">开始录像</string>
-    <string name="device_socket_capture_exist">该图片已保存</string>
+    <string name="media_record_failure_need_playing">視頻在播放狀態下，才能錄像&#8230;</string>
+    <string name="media_capture_failure_need_playing">視頻在播放狀態下，才能截圖&#8230;</string>
+    <string name="media_record_start">開始錄像</string>
+    <string name="device_socket_capture_exist">該圖片已保存</string>
     <string name="device_socket_capture_save_success">保存成功</string>
-    <string name="device_socket_capture_delete_success">删除成功</string>
+    <string name="device_socket_capture_delete_success">刪除成功</string>
 
-    <string name="wifi_not_connected">WIFI 未连接！</string>
-    <string name="camera_pw_confirm_error">两次密码不一样！</string>
-    <string name="camera_select_definition">请选择视频清晰度</string>
-    <string name="camera_definition_auto">自动</string>
-    <string name="camera_ld">流畅</string>
-    <string name="camera_sd">标清</string>
+    <string name="camera_preview_select_tips">請先選擇攝像頭</string>
+
+    <string name="wifi_not_connected">WiFi 未連接！</string>
+    <string name="camera_pw_confirm_error">兩次密碼不一樣！</string>
+    <string name="camera_select_definition">請選擇視頻清晰度</string>
+    <string name="camera_definition_auto">自動</string>
+    <string name="camera_ld">流暢</string>
+    <string name="camera_sd">標清</string>
     <string name="camera_hd">高清</string>
 
-    <string name="camera_recording_tips">正在录像，请先停止录像</string>
-    <string name="camera_channels_preview_tips">请先退出多通道预览</string>
-    <string name="camera_play_pause">暂停中&#8230;</string>
+    <string name="camera_recording_tips">正在錄像，請先停止錄像</string>
+    <string name="camera_channels_preview_tips">請先退出多通道預覽</string>
+    <string name="camera_play_pause">暫停中&#8230;</string>
 
-    <string name="camera_device_detection">侦测</string>
+    <string name="camera_device_detection">偵測</string>
     <string name="camera_device_capture">拍照</string>
-    <string name="camera_device_voice">长按喊话</string>
-    <string name="camera_device_record">录像</string>
+    <string name="camera_device_voice">長按喊話</string>
+    <string name="camera_device_record">錄像</string>
     <string name="camera_device_files">文件</string>
 
-    <string name="camera_files_title">储存卡</string>
-    <string name="camera_file_save">保存到相册</string>
+    <string name="camera_files_title">儲存列表</string>
+    <string name="camera_files_tab_phone">手機</string>
+    <string name="camera_files_tab_camera">攝像頭</string>
+    <string name="camera_file_save">保存到相冊</string>
     <string name="camera_file_share">分享</string>
-    <string name="camera_file_delete">删除</string>
+    <string name="camera_file_delete">刪除</string>
     <string name="camera_file_save_success">保存成功</string>
-    <string name="camera_file_delete_tips">确定要删除吗？</string>
+    <string name="camera_file_delete_tips">確定要刪除嗎？</string>
+    <string name="camera_files_calendar_title">選擇日期</string>
+    <string name="camera_files_calendar_chosen">選中日期</string>
 
     <string-array name="pic_type">
         <item>全部</item>
-        <item>报警</item>
-        <item>侦测</item>
+        <item>報警</item>
+        <item>偵測</item>
         <item>普通</item>
-        <item>遥控</item>
-        <item>关键</item>
-        <item>延时拍</item>
-        <item>连拍</item>
+        <item>遙控</item>
+        <item>關鍵</item>
+        <item>延時拍</item>
+        <item>連拍</item>
     </string-array>
     <string-array name="record_type">
-        <item>全部录像</item>
-        <item>报警录像</item>
-        <item>侦测录像</item>
-        <item>普通录像</item>
-        <item>手动录像</item>
-        <item>遥控录像</item>
+        <item>全部錄像</item>
+        <item>報警錄像</item>
+        <item>偵測錄像</item>
+        <item>普通錄像</item>
+        <item>手動錄像</item>
+        <item>遙控錄像</item>
     </string-array>
 
-    <string name="camera_connection_failed">设备连接失败，可能设备不在线！</string>
+    <string name="camera_connection_failed">設備連接失敗，設備可能不在線！</string>
 
     <string name="common_save">保存</string>
+
+    <string name="month">月</string>
+    <string name="day">日</string>
 
     <!--報告類型-->
     <string name="title_not_erect">功能正在建設</string>

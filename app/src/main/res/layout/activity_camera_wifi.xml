@@ -38,10 +38,11 @@
             android:background="@color/white"
             android:drawableStart="@drawable/camera_wifi"
             android:drawablePadding="10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:editable="false"
+            android:gravity="center_vertical"
             android:inputType="none"
-            android:gravity="center_vertical"/>
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
 
         <EditText
             android:id="@+id/et_camera_wifi_pw"
@@ -79,14 +80,13 @@
     </LinearLayout>
 
 
-
     <Button
         android:id="@+id/btn_camera_wifi_problem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:background="@android:drawable/list_selector_background"
         android:text="@string/camera_wifi_problem" />
 

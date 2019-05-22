@@ -16,11 +16,10 @@
 
     <ImageView
         android:id="@+id/iv_camera_settings_common_qrCode"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="5dp"
-        android:scaleType="centerInside" />
+        android:scaleType="fitCenter" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -230,13 +229,27 @@
         android:id="@+id/btn_camera_settings_common_factoryReset"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:minHeight="30dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/camera_factory_reset_btn_shape"
         android:gravity="center"
+        android:minHeight="25dp"
+        android:text="@string/camera_settings_common_factoryReset"
+        android:textColor="@drawable/common_text_selector"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_camera_settings_common_reboot"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/camera_factory_reset_btn_shape"
-        android:text="@string/camera_settings_common_factoryReset"
-        android:textColor="@drawable/common_text_selector" />
+        android:gravity="center"
+        android:minHeight="25dp"
+        android:text="@string/camera_settings_common_reboot"
+        android:textColor="@drawable/common_text_selector"
+        android:textSize="14sp" />
 
 </LinearLayout>

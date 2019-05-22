@@ -69,7 +69,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.i(TAG, "onAttach: ");
+        //Log.i(TAG, "onAttach: ");
         deviceDao=new DeviceDao(context);
         sharedPersistor=new SharedPersistor(context);
         mUser=sharedPersistor.loadObject(User.class.getName());
@@ -91,7 +91,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
     @Override
     public void onResume() {
         getLoaderManager().initLoader(0, null, this);
-        Log.i(TAG, "onResume: ");
+        //Log.i(TAG, "onResume: ");
         super.onResume();
         isDel=false;
     }
@@ -101,7 +101,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        Log.i(TAG, "onCreateView: ");
+        //Log.i(TAG, "onCreateView: ");
 
         view=inflater.inflate(R.layout.fragment_my_device, container, false);
 
@@ -238,14 +238,14 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.i(TAG, "onCheckedChanged: check"+isChecked);
+                //Log.i(TAG, "onCheckedChanged: check"+isChecked);
                 if (isChecked) {
-                    Log.i(TAG, "onCheckedChanged: gone");
+                    //Log.i(TAG, "onCheckedChanged: gone");
                     llDel.setVisibility(View.VISIBLE);
                     isDel = true;
 
                 } else {
-                    Log.i(TAG, "onCheckedChanged: VISIBLE");
+                    //Log.i(TAG, "onCheckedChanged: VISIBLE");
                     llDel.setVisibility(View.GONE);
                     isDel = false;
                 }
@@ -259,7 +259,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
     @Override
     public void onItemClick(int selectSize, int maxSize) {
 
-        Log.i(TAG, "onItemClick: "+selectSize+"|"+maxSize);
+        //Log.i(TAG, "onItemClick: "+selectSize+"|"+maxSize);
          if(selectSize==maxSize){
             allSelect.setChecked(true);
         }else{
@@ -335,6 +335,10 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
 
             deviceAdapter.notifyDataSetChanged();
         }
+    }
+
+    public CheckBox getTopDelBtn() {
+        return ibtn_back;
     }
 
 }

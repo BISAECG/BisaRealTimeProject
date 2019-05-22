@@ -9,28 +9,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bisa.health.R;
-import com.bisa.health.camera.lib.funsdk.support.models.FunFileData;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class CameraFilesLvAdapter extends BaseAdapter {
+public class CameraFilesPhoneLvAdapter extends BaseAdapter {
     private Context context;
     private List<File> fileList;
+    private String country;
 
-    public CameraFilesLvAdapter(Context context, List<File> fileList) {
+    public CameraFilesPhoneLvAdapter(Context context, List<File> fileList) {
         this.context = context;
         this.fileList = fileList;
+        country = context.getResources().getConfiguration().locale.getCountry();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         VH vh;
         if(convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_camera_files_lv, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_camera_files_phone, null);
             vh = new VH(convertView);
             convertView.setTag(vh);
         }
@@ -46,8 +48,14 @@ public class CameraFilesLvAdapter extends BaseAdapter {
             vh.ivIcon.setImageResource(R.drawable.icon_camera_file_record);
         }
         Date date = new Date(file.lastModified());
-        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
-        SimpleDateFormat sdfDate = new SimpleDateFormat("MM月dd日");
+        SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat sdfDate;
+        if(country.equals("CN") || country.equals("HK") || country.equals("TW")) {
+            sdfDate = new SimpleDateFormat("MM" + context.getString(R.string.month) + "dd" + context.getString(R.string.day), Locale.getDefault());
+        }
+        else {
+            sdfDate = new SimpleDateFormat("MM/dd", Locale.getDefault());
+        }
         vh.tvTime.setText(sdfTime.format(date));
         vh.tvDate.setText(sdfDate.format(date));
         return convertView;

@@ -375,6 +375,7 @@
             android:background="@color/bg_camera_func"
             android:orientation="horizontal">
 
+            <!--
             <Button
                 android:id="@+id/btn_camera_detection"
                 android:layout_width="0dp"
@@ -384,6 +385,7 @@
                 android:drawableTop="@drawable/camera_func_detection_selector"
                 android:text="@string/camera_device_detection"
                 android:textSize="12sp" />
+            !-->
 
             <Button
                 android:id="@+id/btn_camera_capture"

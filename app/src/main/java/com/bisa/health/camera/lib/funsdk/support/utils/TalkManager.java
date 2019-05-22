@@ -180,5 +180,8 @@ public class TalkManager implements OnFunDeviceTalkListener {
     }
 
 
+    public void setFunDevice(FunDevice funDevice) {
+        mFunDevice = funDevice;
+    }
 
 }

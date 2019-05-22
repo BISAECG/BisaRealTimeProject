@@ -1,68 +1,46 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e0e0e0"
+    android:orientation="vertical"
     tools:context="com.bisa.health.MainActivity">
 
-    <LinearLayout
-        android:layout_above="@+id/ll_main"
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
-        <FrameLayout
-            android:id="@+id/fl_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+        android:background="@color/color_main_footer_bg"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/ll_main"
-        android:orientation="vertical"
-        android:layout_marginBottom="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/btn_my_dev"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/my_dev"
+            android:gravity="center"
+            android:text="@string/tab_page_device"
+            android:textColor="@color/color_ecg_title" />
 
-        <LinearLayout
-            android:id="@+id/ll_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/color_main_footer_bg"
-            android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/btn_my_center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/my_center"
+            android:gravity="center"
+            android:text="@string/tab_page_user"
+            android:textColor="@color/color_ecg_title" />
+    </RadioGroup>
 
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/btn_my_dev"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:checked="true"
-                    android:drawableTop="@drawable/my_dev"
-                    android:gravity="center"
-                    android:text="@string/tab_page_device"
-                    android:textColor="@color/color_ecg_title" />
-
-                <RadioButton
-                    android:id="@+id/btn_my_center"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:drawableTop="@drawable/my_center"
-                    android:gravity="center"
-                    android:text="@string/tab_page_user"
-                    android:textColor="@color/color_ecg_title" />
-            </RadioGroup>
-
-        </LinearLayout>
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
