@@ -9,15 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bisa.health.R;
+import com.bisa.health.camera.lib.funsdk.support.models.FunFileData;
 import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
 
 import java.util.List;
 
 public class CameraFilesCameraLvAdapter extends BaseAdapter {
     private Context context;
-    private List<H264_DVR_FILE_DATA> picDataList;
+    private List<FunFileData> picDataList;
 
-    public CameraFilesCameraLvAdapter(Context context, List<H264_DVR_FILE_DATA> picDataList) {
+    public CameraFilesCameraLvAdapter(Context context, List<FunFileData> picDataList) {
         this.context = context;
         this.picDataList = picDataList;
     }
@@ -42,7 +43,7 @@ public class CameraFilesCameraLvAdapter extends BaseAdapter {
             //}
 
         vh.ivType.setImageResource(R.drawable.icon_camera_file_capture);
-        vh.tvTime.setText(picDataList.get(position).getStartTimeOfDay());
+        vh.tvTime.setText(picDataList.get(position).getBeginTimeStr());
         //}
 
         return convertView;
@@ -54,8 +55,8 @@ public class CameraFilesCameraLvAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public FunFileData getItem(int position) {
+        return picDataList.get(position);
     }
 
     @Override

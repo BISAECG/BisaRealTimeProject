@@ -65,6 +65,8 @@
 	<color name="camera_playback_scale">#B6B6B6</color>
 	<color name="camera_playback_record">#4Dff8820</color>
 
+	<color name="camera_thumbnail_bg_color">#FF7640</color>
+
 
 	<!--copy-->
 	<color name="theme_color">#ffe97425</color>

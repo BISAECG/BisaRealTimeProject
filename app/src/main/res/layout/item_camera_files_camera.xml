@@ -8,7 +8,7 @@
         android:layout_width="90dp"
         android:layout_height="57dp"
         android:layout_margin="10dp"
-        android:background="#FF7640"
+        android:src="#FF7640"
         android:scaleType="centerCrop"/>
 
     <LinearLayout

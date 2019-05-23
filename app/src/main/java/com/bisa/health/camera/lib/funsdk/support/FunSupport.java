@@ -31,6 +31,7 @@ import com.bisa.health.camera.lib.funsdk.support.models.FunDeviceBuilder;
 import com.bisa.health.camera.lib.funsdk.support.models.FunDeviceSocket;
 import com.bisa.health.camera.lib.funsdk.support.models.FunLoginType;
 import com.bisa.health.camera.lib.funsdk.support.utils.DeviceWifiManager;
+import com.bisa.health.camera.lib.funsdk.support.utils.FileUtils;
 import com.bisa.health.camera.lib.funsdk.support.utils.MyUtils;
 import com.bisa.health.camera.lib.funsdk.support.utils.SharedParamMng;
 import com.bisa.health.camera.lib.funsdk.support.utils.StringUtils;
@@ -270,6 +271,9 @@ public class FunSupport implements IFunSDKResult {
         }
 
         FunSDK.MyUnInitNetSDK();
+
+        FileUtils.cleanFolder(FunPath.PATH_CAPTURE_TEMP);
+
         FunSDK.UnInit(0);
     }
 

@@ -95,7 +95,8 @@
         android:logo="@drawable/menu_back_bg"
         android:persistent="true"
         android:theme="@style/HelathTheme">
-        <activity android:name=".camera.CameraFilesViewRecordActivity"></activity>
+        <activity android:name=".camera.CameraFilesViewPicActivity"></activity>
+        <activity android:name=".camera.CameraFilesViewRecordActivity" />
         <activity
             android:name=".camera.CameraAddFromSnActivity"
             android:screenOrientation="portrait" />

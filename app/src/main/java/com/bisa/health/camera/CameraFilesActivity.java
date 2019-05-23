@@ -24,8 +24,10 @@ import com.bisa.health.camera.adapter.CameraFilesPhoneLvAdapter;
 import com.bisa.health.camera.lib.funsdk.support.FunSupport;
 import com.bisa.health.camera.lib.funsdk.support.OnFunDeviceOptListener;
 import com.bisa.health.camera.lib.funsdk.support.OnFunDeviceRecordListener;
+import com.bisa.health.camera.lib.funsdk.support.config.OPCompressPic;
 import com.bisa.health.camera.lib.funsdk.support.models.FunDevRecordFile;
 import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
+import com.bisa.health.camera.lib.funsdk.support.models.FunFileData;
 import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
 import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FINDINFO;
 import com.bisa.health.camera.lib.sdk.struct.SDK_SearchByTime;
@@ -56,8 +58,9 @@ public class CameraFilesActivity extends BaseActivity {
     private TextView tvCameraDate;
     private ListView lvFilesCamera;
     private CameraFilesCameraLvAdapter cameraAdapter;
-    private List<H264_DVR_FILE_DATA> picDataList = new ArrayList<>();
+    private List<FunFileData> picDataList = new ArrayList<>();
     private View viewCamLvHeader;
+    private ImageView ivThumbCamLvHeader;
     private TextView tvTimeCamLvHeader;
     private ImageView ivTypeCamLvHeader;
 
@@ -100,12 +103,13 @@ public class CameraFilesActivity extends BaseActivity {
                     case "camera":
                         ibtnCalendar.setVisibility(View.VISIBLE);
                         tvCameraDate.setText(sdf.format(calendar.getTime()));
-                        onSearchRecordFile();
-                        onSearchPicture();
 
                         lvFilesCamera.removeHeaderView(viewCamLvHeader);
                         picDataList.clear();
                         cameraAdapter.notifyDataSetChanged();
+
+                        onSearchRecordFile();
+                        onSearchPicture();
                         break;
                 }
             }
@@ -162,12 +166,20 @@ public class CameraFilesActivity extends BaseActivity {
                 if(position < lvFilesCamera.getHeaderViewsCount()) {
                     Intent intent = new Intent(CameraFilesActivity.this, CameraFilesViewRecordActivity.class);
                     intent.putExtra("calendar", calendar.getTimeInMillis());
+                    intent.putExtra("fileDir", fileDir);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(CameraFilesActivity.this, CameraFilesViewPicActivity.class);
+                    intent.putExtra("position", position - lvFilesCamera.getHeaderViewsCount());
+                    intent.putExtra("fileDir", fileDir);
                     startActivity(intent);
                 }
             }
         });
 
         viewCamLvHeader = LayoutInflater.from(this).inflate(R.layout.item_camera_files_camera, null);
+        ivThumbCamLvHeader = viewCamLvHeader.findViewById(R.id.iv_item_camera_files_camera_thumbnail);
         tvTimeCamLvHeader = viewCamLvHeader.findViewById(R.id.tv_item_camera_files_camera_time);
         ivTypeCamLvHeader = viewCamLvHeader.findViewById(R.id.iv_item_camera_files_camera_typeicon);
 
@@ -187,12 +199,14 @@ public class CameraFilesActivity extends BaseActivity {
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 calendar.set(year, month, dayOfMonth);
                 tvCameraDate.setText(sdf.format(calendar.getTime()));
-                onSearchRecordFile();
-                onSearchPicture();
+
                 bottomSheetDialog.dismiss();
                 lvFilesCamera.removeHeaderView(viewCamLvHeader);
                 picDataList.clear();
                 cameraAdapter.notifyDataSetChanged();
+
+                onSearchRecordFile();
+                onSearchPicture();
             }
         });
 
@@ -203,16 +217,13 @@ public class CameraFilesActivity extends BaseActivity {
         onFunDeviceRecordListener = new OnFunDeviceRecordListener() {
             @Override
             public void onRequestRecordListSuccess(List<FunDevRecordFile> files) {
-                if (files == null || files.size() == 0) {
-                    showToast("camera_record_list_empty");
-                }
-                else {
+                if (files.size() > 0) {
                     String str = files.get(0).getRecStartTime() + "  -  " + files.get(0).getRecEndTime();
+                    ivThumbCamLvHeader.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    ivThumbCamLvHeader.setImageResource(R.drawable.icon_media);
                     tvTimeCamLvHeader.setText(str);
                     ivTypeCamLvHeader.setImageResource(R.drawable.icon_camera_file_record);
                     lvFilesCamera.addHeaderView(viewCamLvHeader);
-
-                    //cameraAdapter.notifyDataSetChanged();
                 }
 
             }
@@ -281,11 +292,12 @@ public class CameraFilesActivity extends BaseActivity {
             @Override
             public void onDeviceFileListChanged(FunDevice funDevice, H264_DVR_FILE_DATA[] datas) {
                 if (funDevice.getId() == mFunDevice.getId()) {
-                    if ( datas.length == 0 ) {
-                        showToast("pic_list_empty");
+
+                    for(H264_DVR_FILE_DATA data : datas) {
+                        picDataList.add(new FunFileData(data, new OPCompressPic()));
                     }
 
-                    Collections.addAll(picDataList, datas);
+                    mFunDevice.mDatas = picDataList;
 
                     cameraAdapter.notifyDataSetChanged();
                 }

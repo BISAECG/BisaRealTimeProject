@@ -502,6 +502,7 @@ public class RecordFunVideoView extends LinearLayout implements IFunSDKResult {
 						}
 						
 					}
+
                     if ( msgContent.arg3 == 3 ) {
                         // DSS模式播放
                         //Toast.makeText(mContext, "DSS", Toast.LENGTH_SHORT).show();
@@ -564,13 +565,14 @@ public class RecordFunVideoView extends LinearLayout implements IFunSDKResult {
 				if ( null != mInfoListener ) {
 					mInfoListener.onInfo(null, MediaPlayer.MEDIA_INFO_BUFFERING_END, mChannel);
 				}
-				
+
 				if ( !mIsPrepared ) {
 					mIsPrepared = true;
 					if ( null != mPreparedListener ) {
 						mPreparedListener.onPrepared(null);
 					}
 				}
+
 			}
 			break;
 		case EUIMSG.SAVE_IMAGE_FILE:

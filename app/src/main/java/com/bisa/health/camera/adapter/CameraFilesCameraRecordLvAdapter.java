@@ -9,27 +9,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bisa.health.R;
-import com.bisa.health.camera.lib.funsdk.support.models.FunDevRecordFile;
+import com.bisa.health.camera.lib.funsdk.support.config.OPCompressPic;
+import com.bisa.health.camera.lib.funsdk.support.models.FunFileData;
 import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
+import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class CameraFilesCameraRecordLvAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<H264_DVR_FILE_DATA> fileList;
+    private List<FunFileData> fileList = new ArrayList<>();
     private int mPlayingIndex = -1;
 
     public CameraFilesCameraRecordLvAdapter(Context context, List<H264_DVR_FILE_DATA> files) {
         mContext = context;
-        fileList = files;
+        for(H264_DVR_FILE_DATA file : files) {
+            fileList.add(new FunFileData(file, new OPCompressPic()));
+        }
     }
 
 
     public void setPlayingIndex(int index) {
     	mPlayingIndex = index;
     	notifyDataSetChanged();
+    }
+    public void setBitmapTempPath(String path){
+        fileList.get(mPlayingIndex).setCapTempPath(path);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -39,7 +48,7 @@ public class CameraFilesCameraRecordLvAdapter extends BaseAdapter {
 
     @Override
     public H264_DVR_FILE_DATA getItem(int position) {
-        return fileList.get(position);
+        return fileList.get(position).getFileData();
     }
 
     @Override
@@ -60,16 +69,22 @@ public class CameraFilesCameraRecordLvAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        H264_DVR_FILE_DATA data = fileList.get(position);
+        FunFileData data = fileList.get(position);
 
-        String str = data.getStartTimeOfDay() + " - " + data.getEndTimeOfDay();
+        String str = data.getBeginTimeStr() + " - " + data.getEndTimeStr();
         viewHolder.tvRecordTime.setText(str);
         
         // 当前正在播放的高亮显示
         if ( mPlayingIndex == position ) {
-        	viewHolder.tvRecordTime.setTextColor(mContext.getResources().getColor(R.color.red));
+        	viewHolder.tvRecordTime.setTextColor(mContext.getResources().getColor(R.color.green));
         } else {
         	viewHolder.tvRecordTime.setTextColor(mContext.getResources().getColor(R.color.black));
+        }
+        if(data.getCapTempPath() != null) {
+            Glide.with(mContext).load(data.getCapTempPath()).thumbnail(0.1f).into(viewHolder.ivRecordShot);
+        }
+        else {
+            viewHolder.ivRecordShot.setImageResource(R.color.camera_thumbnail_bg_color);
         }
 
         return convertView;
@@ -77,7 +92,6 @@ public class CameraFilesCameraRecordLvAdapter extends BaseAdapter {
 
 
     class ViewHolder {
-
         ImageView ivRecordShot;
         TextView tvRecordTime;
 

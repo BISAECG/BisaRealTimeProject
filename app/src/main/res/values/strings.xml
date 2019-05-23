@@ -270,6 +270,11 @@
     <string name="camera_file_delete_tips">确定要删除吗？</string>
     <string name="camera_files_calendar_title">选择日期</string>
     <string name="camera_files_calendar_chosen">选中日期</string>
+    <string name="download_start">开始下载！</string>
+    <string name="download_faile">下载失败！</string>
+    <string name="download_complete">下载完成！</string>
+    <string name="camera_file_downloadToPhone">下载到手机</string>
+    <string name="camera_file_load_first">请先加载图片！</string>
 
     <string-array name="pic_type">
         <item>全部</item>
@@ -293,7 +298,9 @@
     <string name="camera_connection_failed">设备连接失败，设备可能不在线！</string>
 
     <string name="common_save">保存</string>
-    
+    <string name="common_download">下载</string>
+    <string name="common_file_exist">文件已存在！</string>
+
     <string name="month">月</string>
     <string name="day">日</string>
 

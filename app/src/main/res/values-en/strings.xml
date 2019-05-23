@@ -270,6 +270,11 @@
     <string name="camera_file_delete_tips">Delete?</string>
     <string name="camera_files_calendar_title">Select the date</string>
     <string name="camera_files_calendar_chosen">Chosen date</string>
+    <string name="download_start">Download Start!</string>
+    <string name="download_faile">Download Faile!</string>
+    <string name="download_complete">Download Complete!</string>
+    <string name="camera_file_downloadToPhone">Download to phone</string>
+    <string name="camera_file_load_first">Please load the picture first!</string>
 
     <string-array name="pic_type">
         <item>全部</item>
@@ -293,6 +298,8 @@
     <string name="camera_connection_failed">Fail to connect, the device may not online!</string>
 
     <string name="common_save">Save</string>
+    <string name="common_download">Download</string>
+    <string name="common_file_exist">File already exists!</string>
 
     <string name="month">Month</string>
     <string name="day">Day</string>
