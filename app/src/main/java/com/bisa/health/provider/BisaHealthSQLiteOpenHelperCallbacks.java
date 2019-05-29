@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.bisa.health.BuildConfig;
+import com.bisa.health.provider.device.DeviceColumns;
 
 /**
  * Implement your custom database creation or upgrade code here.
@@ -34,5 +35,9 @@ public class BisaHealthSQLiteOpenHelperCallbacks {
     public void onUpgrade(final Context context, final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         if (BuildConfig.DEBUG) Log.i(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
         // Insert your upgrading code here.
+        //version 2，增加一列:DeviceColumns.CUSTNAME
+        if(oldVersion == 1 && newVersion == 2) {
+            db.execSQL("ALTER TABLE " + DeviceColumns.TABLE_NAME + " ADD COLUMN " + DeviceColumns.CUSTNAME + " TEXT;");
+        }
     }
 }

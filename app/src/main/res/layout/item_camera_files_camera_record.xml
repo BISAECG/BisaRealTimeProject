@@ -12,8 +12,7 @@
         android:layout_height="57dp"
         android:layout_gravity="center_vertical"
         android:layout_margin="10dp"
-        android:scaleType="centerCrop"
-        android:src="#FF7640" />
+        android:scaleType="centerInside" />
 
 
     <TextView

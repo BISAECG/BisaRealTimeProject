@@ -229,7 +229,7 @@
     <string name="device_socket_capture_save">保存</string>
     <string name="user_select_preset">請選擇預設點</string>
     <string name="common_correct">Correct</string>
-    <string name="media_record_stop">停止錄像,文件保存在:</string>
+    <string name="media_record_stop">停止錄像，文件保存在：</string>
     <string name="media_player_opening">正在打開視頻&#8230;</string>
     <string name="device_opt_channel">通道:</string>
     <string name="media_record_failure_need_playing">視頻在播放狀態下，才能錄像&#8230;</string>

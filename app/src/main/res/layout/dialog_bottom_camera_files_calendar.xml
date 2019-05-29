@@ -14,7 +14,7 @@
 
     <CalendarView
         android:id="@+id/calendarView_camera_files"
-        style="@android:style/Widget.DeviceDefault.Light.CalendarView"
+        style="@android:style/Widget.DeviceDefault.CalendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

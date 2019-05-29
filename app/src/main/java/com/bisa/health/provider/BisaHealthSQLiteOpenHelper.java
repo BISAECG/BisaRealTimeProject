@@ -20,7 +20,8 @@ public class BisaHealthSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = BisaHealthSQLiteOpenHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "bisahealth.db";
-    private static final int DATABASE_VERSION = 1;
+    //private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static BisaHealthSQLiteOpenHelper sInstance;
     private final Context mContext;
     private final BisaHealthSQLiteOpenHelperCallbacks mOpenHelperCallbacks;

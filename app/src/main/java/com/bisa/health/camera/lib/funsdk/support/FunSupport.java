@@ -86,18 +86,18 @@ public class FunSupport implements IFunSDKResult {
 
     // 应用证书,请在开放平台注册应用之后替换以下4个字段
     private static final String APP_UUID = "0f16ed53820847ddb0b148ffa876e7d8";
-    private static final String APP_KEY = "39cb860b743947d9837453ead4ad59d9";
-    private static final String APP_SECRET = "cb342be4e3714287907715237f88037e";
-    private static final int APP_MOVECARD = 6;
+    private static final String APP_KEY = "aea2d15387514d09bc86d6b29c9e1c0e";
+    private static final String APP_SECRET = "7eace38822b54272acee15de6726f764";
+    private static final int APP_MOVECARD = 5;
 
     // "42.96.197.189";223.4.33.127
     public static final String SERVER_IP = "223.4.33.127;54.84.132.236;112.124.0.188";
     public static final int SERVER_PORT = 15010; // 更新版本的服务器端口
 
-    private static FunSupport mInstance = null;
+    private static FunSupport mInstance;
 
-    private Context mContext = null;
-    private SharedParamMng mSharedParam = null;
+    private Context mContext;
+    private SharedParamMng mSharedParam;
 
     private final String SHARED_PARAM_KEY_AUTOLOGIN = "SHARED_PARAM_KEY_AUTOLOGIN";
     private final String SHARED_PARAM_KEY_SAVEPASSWORD = "SHARED_PARAM_KEY_SAVEPASSWORD";
@@ -1970,6 +1970,7 @@ public class FunSupport implements IFunSDKResult {
 
     @Override
     public int OnFunSDKResult(Message msg, MsgContent msgContent) {
+        /*
         FunLog.d(TAG, "msg.what : " + msg.what);
         FunLog.d(TAG, "msg.arg1 : " + msg.arg1 + " [" + FunError.getErrorStr(msg.arg1) + "]");
         FunLog.d(TAG, "msg.arg2 : " + msg.arg2);
@@ -1980,6 +1981,7 @@ public class FunSupport implements IFunSDKResult {
             FunLog.d(TAG, "msgContent.arg3 : " + msgContent.arg3);
             FunLog.d(TAG, "msgContent.pData : " + msgContent.pData);
         }
+        */
         switch (msg.what) {
             case EUIMSG.SYS_GET_DEV_INFO_BY_USER_XM: {
                 FunLog.i(TAG, "EUIMSG.SYS_GET_DEV_INFO_BY_USER_XM");
@@ -2799,6 +2801,8 @@ public class FunSupport implements IFunSDKResult {
                 }
             }
                 break;
+
+
 
 
 

@@ -616,6 +616,7 @@ public class CameraDeviceActivity extends BaseActivity implements
 
                     mFunVideoView.stopPlayback();
                     mBtnVoice.setEnabled(false);
+                    mBtnFiles.setEnabled(false);
                     //requestRecDate();
                     rvPlaybackDate.scrollToPosition(recordDateAdapter.getItemCount()-1);
                     recordDateAdapter.setThisPosition(recordDateAdapter.getItemCount()-1);
@@ -625,10 +626,13 @@ public class CameraDeviceActivity extends BaseActivity implements
                     iBtnPlayback.setSelected(false);
                     mFunVideoView.stopPlayback();
 
+                    recordDatas = null;
+                    playbackDaylongView.clearRecordData();
                     lLayoutPlayback.setVisibility(View.GONE);
                     mLayoutDirectionControl.setVisibility(View.VISIBLE);
 
                     mBtnVoice.setEnabled(true);
+                    mBtnFiles.setEnabled(true);
 
                     playRealMedia();
                 }
@@ -736,7 +740,7 @@ public class CameraDeviceActivity extends BaseActivity implements
         funDeviceCaptureListener = new OnFunDeviceCaptureListener() {
             @Override
             public void onCaptureSuccess(String picStr) {
-                if(picStr.endsWith(mFunDevice.getDevSn() + ".jpg")) {
+                if(picStr.endsWith("last.jpg")) {
                     return;
                 }
                 toastScreenShotPreview(picStr);
@@ -791,7 +795,15 @@ public class CameraDeviceActivity extends BaseActivity implements
     protected void onResume() {
 
         if (mCanToPlay && !mIbtnChannels.isSelected() && !mBtnRecord.isSelected() && !iBtnPlayback.isSelected()) {
-            playRealMedia();
+            //神代码，接口有尿性，先预热一下
+            prePlayRealMedia();
+            stopMedia();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    playRealMedia();
+                }
+            }, 300);
         }
 //			 resumeMedia();
 
@@ -882,13 +894,19 @@ public class CameraDeviceActivity extends BaseActivity implements
             mFunVideoView.stopRecordVideo();
             chronometerRecordTime.stop();
             lLayoutRecording.setVisibility(View.GONE);
+
+            mBtnFiles.setEnabled(true);
+
             toastRecordSucess(mFunVideoView.getFilePath());
         } else {
             mBtnRecord.setSelected(true);
             //mBtnRecord.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.camera_func_recording), null, null);
+            mBtnFiles.setEnabled(false);
+
             mFunVideoView.startRecordVideo(fileDir + System.currentTimeMillis() + ".mp4");
-            showToast(getString(R.string.media_record_start));
+            //showToast(getString(R.string.media_record_start));
             lLayoutRecording.setVisibility(View.VISIBLE);
+
             chronometerRecordTime.setBase(SystemClock.elapsedRealtime());
             chronometerRecordTime.start();
         }
@@ -896,7 +914,7 @@ public class CameraDeviceActivity extends BaseActivity implements
     }
 
     private void lastCapture() {
-        mFunVideoView.captureImage(getCacheDir().getAbsolutePath() + mUser.getUser_guid() + "last" + mFunDevice.getDevSn() + ".jpg");
+        mFunVideoView.captureImage(getCacheDir().getAbsolutePath() + mUser.getUser_guid() + mFunDevice.getDevSn() + "last.jpg");
     }
 
     /**
@@ -964,7 +982,7 @@ public class CameraDeviceActivity extends BaseActivity implements
     private void toastRecordSucess(final String path) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.device_sport_camera_record_success)
-                .setMessage(getString(R.string.media_record_stop) + path)
+                .setMessage(getString(R.string.media_record_stop) + " " + getString(R.string.camera_device_files))
                 .setPositiveButton(R.string.device_sport_camera_record_success_open,
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -983,12 +1001,7 @@ public class CameraDeviceActivity extends BaseActivity implements
                                 startActivity(intent);
                             }
                         })
-                .setNegativeButton(R.string.device_sport_camera_record_success_cancel,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
+                .setNegativeButton(R.string.device_sport_camera_record_success_cancel, null)
                 .show();
     }
 
@@ -1106,6 +1119,16 @@ public class CameraDeviceActivity extends BaseActivity implements
         }
         else {
             mFunVideoView.setMediaSound(false);
+        }
+
+    }
+    private void prePlayRealMedia() {
+
+        if (mFunDevice.isRemote) {
+            mFunVideoView.setRealDevice(mFunDevice.getDevSn(), mFunDevice.CurrChannel);
+        } else {
+            String deviceIp = FunSupport.getInstance().getDeviceWifiManager().getGatewayIp();
+            mFunVideoView.setRealDevice(deviceIp, mFunDevice.CurrChannel);
         }
 
     }

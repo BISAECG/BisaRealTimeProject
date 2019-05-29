@@ -160,7 +160,7 @@ public class FunVideoView extends LinearLayout implements FunVideoViewListener {
      		mSufaceView = new GLSurfaceView20(getContext());
      		//mSufaceView.setLongClickable(true);
 
-             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+             LayoutParams lp = new LayoutParams(
                      LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
              this.addView(mSufaceView, lp);
             //不加下面这句，部分7.0 以上系统不布局及绘制自定义的SufaceView
@@ -182,7 +182,7 @@ public class FunVideoView extends LinearLayout implements FunVideoViewListener {
 				mSufaceView = new GLSurfaceView20(getContext());
 				mSufaceView.setLongClickable(true);
 
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+				LayoutParams lp = new LayoutParams(
 	                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 	             this.addView(mSufaceView, lp);
 
@@ -225,7 +225,7 @@ public class FunVideoView extends LinearLayout implements FunVideoViewListener {
                         ((VRSoftGLView)mSufaceView).setType(XMVRType.XMVR_TYPE_SPE_CAM01);
                     }
                 }
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+				LayoutParams lp = new LayoutParams(
 	                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 	             this.addView(mSufaceView, lp);
 

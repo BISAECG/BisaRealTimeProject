@@ -5,20 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bisa.health.R;
-import com.bisa.health.camera.lib.funsdk.support.models.FunFileData;
 import com.bisa.health.camera.lib.sdk.struct.H264_DVR_FILE_DATA;
 
 import java.util.List;
 
 public class CameraFilesCameraLvAdapter extends BaseAdapter {
     private Context context;
-    private List<FunFileData> picDataList;
+    private List<H264_DVR_FILE_DATA> picDataList;
 
-    public CameraFilesCameraLvAdapter(Context context, List<FunFileData> picDataList) {
+    public CameraFilesCameraLvAdapter(Context context, List<H264_DVR_FILE_DATA> picDataList) {
         this.context = context;
         this.picDataList = picDataList;
     }
@@ -35,16 +33,7 @@ public class CameraFilesCameraLvAdapter extends BaseAdapter {
             vh = (VH)convertView.getTag();
         }
 
-        //if(funDevRecordFileTime != null) {
-            //if(position == 0) {
-            //vh.ivType.setImageResource(R.drawable.icon_camera_file_record);
-            //String str = funDevRecordFileTime.getRecStartTime() + "  -  " + funDevRecordFileTime.getRecEndTime();
-            //vh.tvTime.setText(str);
-            //}
-
-        vh.ivType.setImageResource(R.drawable.icon_camera_file_capture);
-        vh.tvTime.setText(picDataList.get(position).getBeginTimeStr());
-        //}
+        vh.tvTime.setText(picDataList.get(position).getStartTimeOfDay());
 
         return convertView;
     }
@@ -55,7 +44,7 @@ public class CameraFilesCameraLvAdapter extends BaseAdapter {
     }
 
     @Override
-    public FunFileData getItem(int position) {
+    public Object getItem(int position) {
         return picDataList.get(position);
     }
 
@@ -66,10 +55,9 @@ public class CameraFilesCameraLvAdapter extends BaseAdapter {
 
     class VH {
         TextView tvTime;
-        ImageView ivType;
+
         VH(View view) {
             tvTime = view.findViewById(R.id.tv_item_camera_files_camera_time);
-            ivType = view.findViewById(R.id.iv_item_camera_files_camera_typeicon);
         }
     }
 }

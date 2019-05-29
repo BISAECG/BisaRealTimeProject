@@ -275,12 +275,8 @@ public class CameraSettingsCommonActivity extends BaseActivity {
                                 FunSDK.DevSetConfigByJson(FunSupport.getInstance().getHandler(), mFunDevice.getDevSn(), JsonConfig.OPERATION_DEFAULT_CONFIG, HandleConfigData.getSendData(JsonConfig.OPERATION_DEFAULT_CONFIG, "0x1", mdefault), -1 , 20000, mFunDevice.getId());
                             }
                         })
-                        .setNeutralButton(R.string.common_cancel, new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
+                        .setNeutralButton(R.string.common_cancel, null)
+                        .show();
             }
         });
         btnReboot.setOnClickListener(new View.OnClickListener() {
@@ -298,12 +294,7 @@ public class CameraSettingsCommonActivity extends BaseActivity {
                                 Toast.makeText(CameraSettingsCommonActivity.this, R.string.camera_settings_common_rebooting, Toast.LENGTH_LONG).show();
                             }
                         })
-                        .setNegativeButton(R.string.common_cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
+                        .setNegativeButton(R.string.common_cancel, null)
                         .show();
 
             }
@@ -423,12 +414,8 @@ public class CameraSettingsCommonActivity extends BaseActivity {
                         syncDevZone(cal);
                     }
                 })
-                .setNeutralButton(R.string.common_cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).show();
+                .setNeutralButton(R.string.common_cancel, null)
+                .show();
     }
     //同步设备时间（这个时间同步 设备端如果开启了NTP服务器同步的话，
     // 这个设置是不起作通的，因为设备会到服务器那边同步时间，

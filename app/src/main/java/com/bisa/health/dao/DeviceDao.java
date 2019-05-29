@@ -46,7 +46,7 @@ public class DeviceDao implements IDeviceDao {
 		DeviceContentValues deviceContentValues=new DeviceContentValues();
 		return context.getContentResolver().delete(deviceContentValues.uri(),where.sel(),where.args());
 	}
-	public Device upOrSaveByUser(Device device) {
+	public Device upOrSaveBySn(Device device) {
 		try{
 			DeviceSelection where=new DeviceSelection();
 			where.userGuid(device.getUser_guid());
@@ -57,7 +57,7 @@ public class DeviceDao implements IDeviceDao {
 			int count=deviceCursor.getCount();
 			deviceCursor.close();
 			if(count>0){
-				return upDeviceByUser(device);
+				return upDeviceBySn(device);
 			}else{
 				return add(device);
 			}
@@ -66,7 +66,7 @@ public class DeviceDao implements IDeviceDao {
 			return null;
 		}
 	}
-	public Device upDeviceByUser(Device device) {
+	public Device upDeviceBySn(Device device) {
 		DeviceSelection where=new DeviceSelection();
 		where.userGuid(device.getUser_guid());
 		where.and();
@@ -179,5 +179,40 @@ public class DeviceDao implements IDeviceDao {
 			return null;
 		}
 
+	}
+
+
+
+	public Device updateOrSaveEcg(Device device) {
+		try{
+			DeviceSelection where=new DeviceSelection();
+			where.userGuid(device.getUser_guid());
+			where.and();
+			where.clzname(device.getClzName());
+			DeviceCursor deviceCursor= where.query(context);
+			int count=deviceCursor.getCount();
+			deviceCursor.close();
+			if(count>0){
+				return upDeviceEcg(device);
+			}else{
+				return add(device);
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public Device upDeviceEcg(Device device) {
+		DeviceSelection where=new DeviceSelection();
+		where.userGuid(device.getUser_guid());
+		where.and();
+		where.clzname(device.getClzName());
+
+		DeviceContentValues deviceContentValues=device.toDeviceContentValues();
+		int  dbCount=deviceContentValues.update(context,where);
+		if(dbCount<=0){
+			return null;
+		}
+		return device;
 	}
 }

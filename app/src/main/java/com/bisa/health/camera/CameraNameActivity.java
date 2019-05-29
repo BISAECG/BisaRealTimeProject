@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -129,7 +127,7 @@ public class CameraNameActivity extends BaseActivity {
         device.setUser_guid(mUser.getUser_guid());
         device.setIcoflag(DeviceTypeEnum.CAMERA.vlaueOf());
         device.setCustName(funDevice.getDevName());
-        deviceDao.upOrSaveByUser(device);
+        deviceDao.upOrSaveBySn(device);
     }
 
     @Override

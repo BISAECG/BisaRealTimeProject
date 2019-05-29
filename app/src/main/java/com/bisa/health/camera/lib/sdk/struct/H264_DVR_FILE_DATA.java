@@ -61,7 +61,7 @@ public class H264_DVR_FILE_DATA implements Serializable {
 	}
 
 	public String getStartTimeOfYear() {
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:dd").format(new Date(
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(
 				st_3_beginTime.st_0_year - 1900, st_3_beginTime.st_1_month - 1,
 				st_3_beginTime.st_2_day, st_3_beginTime.st_4_hour,
 				st_3_beginTime.st_5_minute, st_3_beginTime.st_6_second));
@@ -83,7 +83,7 @@ public class H264_DVR_FILE_DATA implements Serializable {
 	}
 
 	public String getEndTimeOfYear() {
-		return new SimpleDateFormat("yyyy-MM-dd HH:mm:dd").format(new Date(
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(
 				st_4_endTime.st_0_year - 1900, st_4_endTime.st_1_month - 1,
 				st_4_endTime.st_2_day, st_4_endTime.st_4_hour,
 				st_4_endTime.st_5_minute, st_4_endTime.st_6_second));

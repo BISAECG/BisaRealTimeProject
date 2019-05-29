@@ -54,7 +54,7 @@ public class AddActivity extends BaseActivity
 
     private int findDeviceIndex = -1;
 
-    private IDeviceDao deviceDao;
+    private DeviceDao deviceDao;
 
     private SharedPersistor sharedPersistor;
     private User mUser;
@@ -258,7 +258,7 @@ public class AddActivity extends BaseActivity
                     bleDevice.setClzName(bleEnum.getClzName());
                     bleDevice.setIcoflag(DeviceTypeEnum.ECG.vlaueOf());
                     bleDevice.setUser_guid(mUser.getUser_guid());
-                    deviceDao.add(bleDevice);
+                    deviceDao.updateOrSaveEcg(bleDevice);
                     ActivityUtil.startActivity(Intent.FLAG_ACTIVITY_CLEAR_TOP,AddActivity.this,MainActivity.class,false,ActionEnum.NULL);
 
 

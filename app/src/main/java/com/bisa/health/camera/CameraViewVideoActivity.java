@@ -129,12 +129,7 @@ public class CameraViewVideoActivity extends Activity {
                                 }
                             }
                         })
-                        .setNegativeButton(R.string.common_cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
+                        .setNegativeButton(R.string.common_cancel, null)
                         .show();
 
                 break;

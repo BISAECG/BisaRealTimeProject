@@ -60,9 +60,13 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
     private final int MESSAGE_SEEK_PROGRESS = 0x101;
     private final int MESSAGE_SET_IMAGE = 0x102;
 
-    private int maxProgress;
+    private int maxProgress = 100;
 
     private String fileDir;
+
+    private String[] items;
+
+    private boolean isFirstTime = true;
 
 
     private Handler mHandler = new Handler() {
@@ -114,17 +118,26 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
         mFunVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                refreshPlayInfo();
-                String path = mFunVideoView.captureImage(null);
-                Message message = new Message();
-                message.what = MESSAGE_SET_IMAGE;
-                message.obj = path;
-                mHandler.sendMessageDelayed(message, 200);
+                if(isFirstTime) {
+                    mFunVideoView.stopPlayback();
+                    isFirstTime = false;
+                    dialogDismiss();
+                }
+                else {
+                    refreshPlayInfo();
+                    String path = mFunVideoView.captureImage(null);
+                    Message message = new Message();
+                    message.what = MESSAGE_SET_IMAGE;
+                    message.obj = path;
+                    mHandler.sendMessageDelayed(message, 200);
+                }
+
             }
         });
         mFunVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
+                dialogDismiss();
                 showToast(getResources().getString(R.string.media_play_error) + " : " + FunError.getErrorStr(extra));
                 return true;
             }
@@ -161,6 +174,8 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
         });
 
         fileDir = getIntent().getStringExtra("fileDir");
+        items = new String[]{getString(R.string.common_download)};
+
         lvRecords = findViewById(R.id.lv_camera_files_camera_records);
         lvRecords.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -172,7 +187,6 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
         lvRecords.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String[] items = {getString(R.string.common_download)};
 
                 new AlertDialog.Builder(CameraFilesViewRecordActivity.this)
                         .setItems(items, new DialogInterface.OnClickListener() {
@@ -182,7 +196,7 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
                                     H264_DVR_FILE_DATA recordFile = recordAdapter.getItem(position);
                                     if (recordFile != null) {
                                         byte[] data = G.ObjToBytes(recordFile);
-                                        String path = fileDir + recordFile.getLongStartTime() + ".mp4";
+                                        String path = fileDir + recordFile.getStartTimeOfYear() + ".mp4";
                                         File file = new File(path);
                                         if (file.exists()) {
                                             Toast.makeText(CameraFilesViewRecordActivity.this, getString(R.string.common_file_exist), Toast.LENGTH_SHORT).show();
@@ -260,21 +274,17 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
             @Override
             public void onDeviceFileListChanged(FunDevice funDevice, H264_DVR_FILE_DATA[] datas) {
                 if (funDevice.getId() == mFunDevice.getId()) {
-                    dialogDismiss();
 
                     List<H264_DVR_FILE_DATA> files = new ArrayList<>();
 
                     Collections.addAll(files, datas);
 
-                    if (files.size() == 0) {
-                        showToast("Today's record is empty.");
-                    } else {
-                        recordAdapter = new CameraFilesCameraRecordLvAdapter(CameraFilesViewRecordActivity.this, files);
-                        lvRecords.setAdapter(recordAdapter);
-                        //playRecordVideoByFile(files.get(0));
-                        //recordAdapter.setPlayingIndex(0);
+                    recordAdapter = new CameraFilesCameraRecordLvAdapter(CameraFilesViewRecordActivity.this, files);
+                    lvRecords.setAdapter(recordAdapter);
 
-                    }
+                    playRecordVideoByFile(files.get(0));
+
+                    //recordAdapter.setPlayingIndex(0);
 
                 }
             }
@@ -361,7 +371,7 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
     private void resetProgressInterval() {
         if ( null != mHandler ) {
             mHandler.removeMessages(MESSAGE_REFRESH_PROGRESS);
-            mHandler.sendEmptyMessageDelayed(MESSAGE_REFRESH_PROGRESS, 300);
+            mHandler.sendEmptyMessageDelayed(MESSAGE_REFRESH_PROGRESS, 500);
         }
     }
     private void cleanProgressInterval() {

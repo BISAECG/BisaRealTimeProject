@@ -84,7 +84,7 @@ public class CameraFilesCameraRecordLvAdapter extends BaseAdapter {
             Glide.with(mContext).load(data.getCapTempPath()).thumbnail(0.1f).into(viewHolder.ivRecordShot);
         }
         else {
-            viewHolder.ivRecordShot.setImageResource(R.color.camera_thumbnail_bg_color);
+            viewHolder.ivRecordShot.setImageResource(R.drawable.icon_media);
         }
 
         return convertView;

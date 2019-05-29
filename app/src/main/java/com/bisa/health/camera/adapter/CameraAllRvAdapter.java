@@ -55,7 +55,7 @@ public class CameraAllRvAdapter extends RecyclerView.Adapter<CameraAllRvAdapter.
     @Override
     public void onBindViewHolder(@NonNull VH viewHolder, int position) {
         FunDevice camera = cameraList.get(position);
-        File file = new File(mContext.getCacheDir().getAbsolutePath() + user_guid + "last" + camera.getDevSn() + ".jpg");
+        File file = new File(mContext.getCacheDir().getAbsolutePath() + user_guid + camera.getDevSn() + "last.jpg");
         if(file.exists()) {
             viewHolder.ivBg.setBackground(Drawable.createFromPath(file.getAbsolutePath()));
         }
