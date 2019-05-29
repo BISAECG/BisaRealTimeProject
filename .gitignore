@@ -1,0 +1,7 @@
+/build
+*.impl
+*.apk
+/release
+/debug
+/.gradle
+/.idea
