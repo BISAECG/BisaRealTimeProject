@@ -118,10 +118,10 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
         mFunVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                dialogDismiss();
                 if(isFirstTime) {
                     mFunVideoView.stopPlayback();
                     isFirstTime = false;
-                    dialogDismiss();
                 }
                 else {
                     refreshPlayInfo();
@@ -410,6 +410,9 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
     }
 
     private void playRecordVideoByFile(H264_DVR_FILE_DATA data) {
+
+        showDialog(true);
+
         mFunVideoView.stopPlayback();
 
         mFunVideoView.playRecordByFile(mFunDevice.getDevSn(), data, mFunDevice.CurrChannel);

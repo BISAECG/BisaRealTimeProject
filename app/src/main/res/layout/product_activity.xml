@@ -21,24 +21,26 @@
             android:id="@+id/llayout_product"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
             <ImageView
-                android:layout_marginTop="14dp"
-                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:id="@+id/iv_pecg"
-                android:src="@drawable/pecgcn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/pecg"
+                android:scaleType="fitCenter"
+                android:layout_width="match_parent"
+                android:layout_height="160dp" />
 
             <ImageView
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="center"
-                    android:id="@+id/iv_camera"
-                    android:src="@drawable/cameracn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"/>
+                android:layout_marginTop="10dp"
+                android:id="@+id/iv_camera"
+                android:src="@drawable/camera"
+                android:scaleType="fitCenter"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginBottom="10dp"/>
 
         </LinearLayout>
 

@@ -65,12 +65,13 @@
     <!--camera-->
     <string name="camera_add_title">Add Camera</string>
     <string name="camera_add">Add My Camera (Recommend)</string>
-    <string name="camera_add_tips">If the device has ever added a router, restore the device to factory Settings.</string>
-    <string name="camera_add_share">Add Shared devices</string>
+    <string name="camera_add_tips">If the device has ever added a router, restore the device to factory settings.</string>
+    <string name="camera_add_share">Add Shared Device</string>
+    <string name="camera_add_share_tips">Add device by serial number.</string>
     <string name="camera_guide_title">Camera Connection Guidance</string>
     <string name="camera_guide_headline">XiXin Smart Camera</string>
     <string name="camera_guide_body">Press the reset button on the back of the bottom of the camera for about 5 seconds until the camera sends out a voice prompt to restore the factory settings, that is, the reset is successful.</string>
-    <string name="camera_guide_tips">After the operation according to the diagram, you will hear the prompt "start quick configuration"</string>
+    <string name="camera_guide_tips">After the operation according to the diagram, you will hear the prompt \"start quick configuration\", then click Next Step.</string>
     <string name="next_step">Next Step</string>
     <string name="camera_wifi_title">Find Camera</string>
     <string name="camera_wifi_headline">Please enter the current WiFi password:</string>
@@ -79,16 +80,16 @@
     <string name="camera_wifi_problem">Connection problems?</string>
     <string name="camera_wifi_problem_title">Connect Network Failed</string>
     <string name="camera_wifi_problem_body">1. Check the WiFi open the anti-rub function(it may affect the device connecting to Internet), turn this function off until the device connect to Internet;\n2. lf your router in dual band router, please check if the device was connected with 5GHz band WiFi, If yes, please switch to 2.4GHz band WiFi;\n3. If your home WiFi is bridged connection, please use Non-bridged connection WiFi;\n4. If the device, mobile phone, router are away from each other or there is wall or any other barrier, the connection will be bad, please put the devices as close as possible.</string>
-    <string name="camera_wifi_problem_tips">Tips: Choosing Stronger WiFi Signal will accelerate device connect to Internet.</string>
+    <string name="camera_wifi_problem_tips">Tips: Choosing stronger WiFi signal will accelerate device connect to Internet.</string>
     <string name="camera_wifi_pw">Password</string>
     <string name="camera_search_timer">180s</string>
-    <string name="camera_search_setWifiWithQrcode">Click the upper right button to display the WiFi configuration QR code</string>
+    <string name="camera_search_setWifiWithQrcode">Click to display the WiFi configuration QR code</string>
     <string name="camera_search_retry">Retry</string>
     <string name="camera_search_cancel">Cancel</string>
-    <string name="camera_search_dialog_body">① Please put the QRcode toward the device;\n② To keep a distance of 20 to 30 cm, waiting for the scan;\n③ And hear the device prompt,take the phone;\n④ If you hear the device prompt configuration successful.</string>
+    <string name="camera_search_dialog_body">① Please put the QRcode toward the device;\n② To keep a distance of 20 to 30 cm, waiting for the scan;\n③ And hear the device prompt, take the phone;\n④ If you hear the device prompt configuration successful.</string>
     <string name="camera_search_dialog_iKnow">I see</string>
     <string name="camera_pw_title">Set Camera Password</string>
-    <string name="camera_pw_headline">For the security of your device, please change the default password</string>
+    <string name="camera_pw_headline">For the security of your device, please change the default password.</string>
     <string name="camera_pw_new_pw">Please enter a new password</string>
     <string name="camera_pw_confirm_pw">Please confirm the new password</string>
     <string name="camera_pw_tips">⊙If the password setting is unsuccessful, long press the reset button at the rear of the device to restore the factory default. After the factory default is restored, you need to add the device again and reset the password.</string>
@@ -103,7 +104,7 @@
     <string name="camera_addFromeSn_hint">Enter serial number or shared</string>
     <string name="camera_addFromeSn_add">Add Device</string>
     <string name="camera_addFromeSn_scanTips">Scan Device QR Code</string>
-    <string name="camera_scan_qrcode_title">Align QR/Bar code within the frame to scan</string>
+    <string name="camera_scan_qrcode_title">Align QR code within the frame to scan</string>
     <string name="camera_scan_qrcode_failed_open_camera">Can\'t open camera!</string>
 
     <string name="camera_all_title">All Cameras</string>
@@ -193,7 +194,7 @@
     <string name="camera_devcheckupdate_clickupdate">Click to Update</string>
     <string name="camera_deviceupdate">Device Hardware Update</string>
     <string name="camera_settings_common_factoryReset">Restore factory settings</string>
-    <string name="camera_settings_factoryReset_success">Restore Successfully!! ReBoot&#8230;</string>
+    <string name="camera_settings_factoryReset_success">Restore Successfully!! Rebooting&#8230;</string>
     <string name="camera_settings_common_reboot">Device reboot</string>
     <string name="camera_settings_common_rebooting">Rebooting&#8230;</string>
 
@@ -252,7 +253,7 @@
 
     <string name="camera_recording_tips">Recording, please stop recording first.</string>
     <string name="camera_channels_preview_tips">Please exit the preview first.</string>
-    <string name="camera_play_pause">Hold&#8230;</string>
+    <string name="camera_play_pause">Holding&#8230;</string>
 
     <string name="camera_device_detection">Detect</string>
     <string name="camera_device_capture">Photo</string>
@@ -303,6 +304,8 @@
 
     <string name="month">Month</string>
     <string name="day">Day</string>
+
+    <string name="no_more">No More&#8230;</string>
 
     <!--报告类型-->
     <string name="title_not_erect">Not open</string>

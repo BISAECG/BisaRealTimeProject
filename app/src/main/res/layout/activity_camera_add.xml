@@ -55,6 +55,13 @@
             android:paddingEnd="20dp"
             android:text="@string/camera_add_share" />
 
+        <TextView
+            android:layout_width="@dimen/camera_btn_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/camera_add_share_tips"/>
+
     </LinearLayout>
 
 </RelativeLayout>

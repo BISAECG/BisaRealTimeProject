@@ -1,13 +1,10 @@
 package com.bisa.health.camera;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,7 +12,6 @@ import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -46,7 +42,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class CameraFilesActivity extends BaseActivity {
-    private LinearLayout lLayout;
     private ImageButton ibtnBack;
     private ImageButton ibtnCalendar;
     private TabHost tabHost;
@@ -66,6 +61,8 @@ public class CameraFilesActivity extends BaseActivity {
     private ImageView ivThumbCamLvHeader;
     private TextView tvTimeCamLvHeader;
 
+    private View viewCamLvFooter;
+
     private FunDevice mFunDevice;
     private OnFunDeviceRecordListener onFunDeviceRecordListener;
     private OnFunDeviceOptListener onFunDeviceOptListener;
@@ -74,9 +71,10 @@ public class CameraFilesActivity extends BaseActivity {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     private BottomSheetDialog bottomSheetDialog;
-    private CalendarView calendarView;
 
     private int dialogCount;
+
+    private boolean isFirstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +83,6 @@ public class CameraFilesActivity extends BaseActivity {
 
         fileDir = getIntent().getStringExtra("fileDir");
 
-        lLayout = findViewById(R.id.llayout_camera_files);
         ibtnBack = findViewById(R.id.ibtn_camera_files_back);
         ibtnCalendar = findViewById(R.id.ibtn_camera_files_calendar);
 
@@ -106,16 +103,16 @@ public class CameraFilesActivity extends BaseActivity {
                         break;
                     case "camera":
                         ibtnCalendar.setVisibility(View.VISIBLE);
-                        tvCameraDate.setText(sdf.format(calendar.getTime()));
 
-                        lvFilesCamera.removeHeaderView(viewCamLvHeader);
-                        picDataList.clear();
-                        cameraAdapter.notifyDataSetChanged();
+                        if(isFirstTime) {
+                            showDialog(false);
+                            dialogCount = 2;
+                            onSearchRecordFile();
+                            onSearchPicture();
 
-                        showDialog(false);
-                        dialogCount = 2;
-                        onSearchRecordFile();
-                        onSearchPicture();
+                            isFirstTime = false;
+                        }
+
                         break;
                 }
             }
@@ -142,6 +139,7 @@ public class CameraFilesActivity extends BaseActivity {
                             tvCameraDate.setText(sdf.format(calendar.getTime()));
 
                             lvFilesCamera.removeHeaderView(viewCamLvHeader);
+                            lvFilesCamera.removeFooterView(viewCamLvFooter);
                             picDataList.clear();
                             cameraAdapter.notifyDataSetChanged();
 
@@ -184,6 +182,7 @@ public class CameraFilesActivity extends BaseActivity {
 
 
         tvCameraDate = findViewById(R.id.tv_camera_files_camera_date);
+        tvCameraDate.setText(sdf.format(calendar.getTime()));
         tvCameraDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,7 +202,7 @@ public class CameraFilesActivity extends BaseActivity {
                     intent.putExtra("fileDir", fileDir);
                     startActivity(intent);
                 }
-                else {
+                else if(position < lvFilesCamera.getCount() - lvFilesCamera.getFooterViewsCount()){
                     Intent intent = new Intent(CameraFilesActivity.this, CameraFilesViewPicActivity.class);
                     intent.putExtra("position", position - lvFilesCamera.getHeaderViewsCount());
                     intent.putExtra("fileDir", fileDir);
@@ -214,13 +213,15 @@ public class CameraFilesActivity extends BaseActivity {
             }
         });
 
-        viewCamLvHeader = LayoutInflater.from(this).inflate(R.layout.item_camera_files_camera, null);
+        viewCamLvHeader = getLayoutInflater().inflate(R.layout.item_camera_files_camera, null);
         ivThumbCamLvHeader = viewCamLvHeader.findViewById(R.id.iv_item_camera_files_camera_thumbnail);
         tvTimeCamLvHeader = viewCamLvHeader.findViewById(R.id.tv_item_camera_files_camera_time);
 
+        viewCamLvFooter = getLayoutInflater().inflate(R.layout.footer_view_camera_files_camera, null);
+
         bottomSheetDialog = new BottomSheetDialog(this);
         View view = getLayoutInflater().inflate(R.layout.dialog_bottom_camera_files_calendar, null);
-        calendarView = view.findViewById(R.id.calendarView_camera_files);
+        CalendarView calendarView = view.findViewById(R.id.calendarView_camera_files);
         Button btnCancel = view.findViewById(R.id.btn_camera_files_calendar_cancel);
         bottomSheetDialog.setContentView(view);
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -237,6 +238,7 @@ public class CameraFilesActivity extends BaseActivity {
 
                 bottomSheetDialog.dismiss();
                 lvFilesCamera.removeHeaderView(viewCamLvHeader);
+                lvFilesCamera.removeFooterView(viewCamLvFooter);
                 picDataList.clear();
                 cameraAdapter.notifyDataSetChanged();
 
@@ -254,16 +256,19 @@ public class CameraFilesActivity extends BaseActivity {
         onFunDeviceRecordListener = new OnFunDeviceRecordListener() {
             @Override
             public void onRequestRecordListSuccess(List<FunDevRecordFile> files) {
-                dialogCount --;
-                if(dialogCount == 0) {
-                    dialogDismiss();
-                }
+
                 if (files.size() > 0) {
                     lvFilesCamera.removeHeaderView(viewCamLvHeader);
                     String str = files.get(0).getRecStartTime() + "  -  " + files.get(0).getRecEndTime();
                     ivThumbCamLvHeader.setImageResource(R.drawable.camera_files_video);
                     tvTimeCamLvHeader.setText(str);
                     lvFilesCamera.addHeaderView(viewCamLvHeader);
+                }
+
+                dialogCount --;
+                if(dialogCount == 0) {
+                    dialogDismiss();
+                    lvFilesCamera.addFooterView(viewCamLvFooter);
                 }
 
             }
@@ -273,6 +278,7 @@ public class CameraFilesActivity extends BaseActivity {
                 dialogCount --;
                 if(dialogCount == 0) {
                     dialogDismiss();
+                    lvFilesCamera.addFooterView(viewCamLvFooter);
                 }
             }
         };
@@ -336,11 +342,6 @@ public class CameraFilesActivity extends BaseActivity {
             public void onDeviceFileListChanged(FunDevice funDevice, H264_DVR_FILE_DATA[] datas) {
                 if (funDevice.getId() == mFunDevice.getId()) {
 
-                    dialogCount --;
-                    if(dialogCount == 0) {
-                        dialogDismiss();
-                    }
-
                     picDataList.clear();
 
                     Collections.addAll(picDataList, datas);
@@ -349,6 +350,12 @@ public class CameraFilesActivity extends BaseActivity {
                     //mFunDevice.mDatas = picDataList;
 
                     cameraAdapter.notifyDataSetChanged();
+
+                    dialogCount --;
+                    if(dialogCount == 0) {
+                        dialogDismiss();
+                        lvFilesCamera.addFooterView(viewCamLvFooter);
+                    }
                 }
             }
 
@@ -358,6 +365,7 @@ public class CameraFilesActivity extends BaseActivity {
                     dialogCount --;
                     if(dialogCount == 0) {
                         dialogDismiss();
+                        lvFilesCamera.addFooterView(viewCamLvFooter);
                     }
                 }
             }
@@ -409,27 +417,6 @@ public class CameraFilesActivity extends BaseActivity {
         super.onPause();
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK) {
-                calendar.setTimeInMillis(data.getLongExtra("calendar", 0));
-
-                tvCameraDate.setText(sdf.format(calendar.getTime()));
-
-                lvFilesCamera.removeHeaderView(viewCamLvHeader);
-                picDataList.clear();
-                cameraAdapter.notifyDataSetChanged();
-
-                showDialog(false);
-                dialogCount = 2;
-                onSearchRecordFile();
-                onSearchPicture();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     private void onSearchRecordFile() {
         int[] time = { calendar.get(Calendar.YEAR),

@@ -66,10 +66,11 @@
     <string name="camera_add">添加我的攝像頭(推薦)</string>
     <string name="camera_add_tips">如果設備曾經添加過路由器，請將設備恢復出廠設置。</string>
     <string name="camera_add_share">添加分享的設備</string>
-    <string name="camera_guide_title">攝像機連接引導</string>
-    <string name="camera_guide_headline">悉心智能攝像機</string>
-    <string name="camera_guide_body">長按攝像機底部背面重置按鍵，保持5秒左右，至攝像機發出語音提示恢復出廠設置，即重置成功。</string>
-    <string name="camera_guide_tips">按圖示操作後，聽到「開始快速配置」提示語</string>
+    <string name="camera_add_share_tips">通過序列號添加設備。</string>
+    <string name="camera_guide_title">攝像頭連接引導</string>
+    <string name="camera_guide_headline">悉心智能攝像頭</string>
+    <string name="camera_guide_body">長按攝像頭底部背面重置按鍵，保持5秒左右，至攝像頭發出語音提示「恢復出廠設置」，即重置成功。</string>
+    <string name="camera_guide_tips">按圖示操作後，聽到「開始快速配置」提示語，點擊下一步</string>
     <string name="next_step">下一步</string>
     <string name="camera_wifi_title">搜索設備</string>
     <string name="camera_wifi_headline">請輸入當前路由器密碼：</string>
@@ -77,7 +78,7 @@
     <string name="camera_wifi_confirm">確定</string>
     <string name="camera_wifi_problem">聯網遇到問題？</string>
     <string name="camera_wifi_problem_title">以下問題可能導致設備聯網失敗</string>
-    <string name="camera_wifi_problem_body">1 、檢查是否開啟WiFi防蹭網（此設置可能會導致設備無法正常連網），可臨時關閉，設備聯網成功後再開啟；\n2 、如果您家是雙頻路由器，請檢查攝像連接的WiFi是否是 5GHz 頻段的WiFi，請切換連接 2.4GHz 頻段的WiFi；\n3 、如果您家的WiFi是橋接的（因為橋接的原因可能會導致網絡不穩定），建議連接非橋接WiFi；\n4 、如果您的設備、路由器、手機，距離過遠，或者中間有牆壁等障礙物，建議儘可能靠近。</string>
+    <string name="camera_wifi_problem_body">1 、檢查是否開啟WiFi防蹭網（此設置可能會導致設備無法正常連網），可臨時關閉，設備聯網成功後再開啟；\n2 、如果您家是雙頻路由器，請檢查攝像頭連接的WiFi是否是 5GHz 頻段的WiFi，請切換連接 2.4GHz 頻段的WiFi；\n3 、如果您家的WiFi是橋接的（因為橋接的原因可能會導致網絡不穩定），建議連接非橋接WiFi；\n4 、如果您的設備、路由器、手機，距離過遠，或者中間有牆壁等障礙物，建議儘可能靠近。</string>
     <string name="camera_wifi_problem_tips">溫馨提示：選擇較強信號的WiFi，可快速讓設備聯網</string>
     <string name="camera_wifi_pw">密碼</string>
     <string name="camera_search_timer">180s</string>
@@ -93,7 +94,7 @@
     <string name="camera_pw_tips">⊙如果密碼設置不成功，請長按設備後方的reset鍵，進行恢復出廠默認。恢復出廠默認後，需要重新添加設備，重新設置密碼</string>
     <string name="camera_pw_confirm">確定</string>
     <string name="camera_pw_backPress_tips">設備未保存，如果退出將重新添加設備！ 雙擊退出</string>
-    <string name="camera_name_title">攝像機取名</string>
+    <string name="camera_name_title">攝像頭取名</string>
     <string name="camera_name_headline">添加設備成功，給設備起個名吧</string>
     <string name="camera_name_hint">最多10個字符</string>
     <string name="camera_name_save">保存</string>
@@ -302,6 +303,8 @@
 
     <string name="month">月</string>
     <string name="day">日</string>
+
+    <string name="no_more">沒有更多了&#8230;</string>
 
     <!--報告類型-->
     <string name="title_not_erect">功能正在建設</string>
