@@ -215,7 +215,7 @@ public class CameraFilesViewPicActivity extends BaseActivity {
 
     private void downloadToPhone() {
         //String fileName = mImageInfo.getBeginDateStr() + "_" + mImageInfo.getBeginTimeStr() + ".jpg";
-        String fileName = fileData.getStartTimeOfYear() + ".jpg";
+        String fileName = fileData.getLongStartTime() + fileData.getLongEndTime() + ".jpg";
         String newPath = fileDir + fileName;
         if (FunPath.isFileExists(path) > 0) {
             File oldFile = new File(path);

@@ -186,7 +186,7 @@ public class CameraFilesActivity extends BaseActivity {
         tvCameraDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ibtnCalendar.callOnClick();
+                lvFilesCamera.smoothScrollToPosition(0);
             }
         });
         lvFilesCamera = findViewById(R.id.lv_camera_files_camera);
@@ -216,6 +216,7 @@ public class CameraFilesActivity extends BaseActivity {
         viewCamLvHeader = getLayoutInflater().inflate(R.layout.item_camera_files_camera, null);
         ivThumbCamLvHeader = viewCamLvHeader.findViewById(R.id.iv_item_camera_files_camera_thumbnail);
         tvTimeCamLvHeader = viewCamLvHeader.findViewById(R.id.tv_item_camera_files_camera_time);
+        ivThumbCamLvHeader.setImageResource(R.drawable.camera_files_video);
 
         viewCamLvFooter = getLayoutInflater().inflate(R.layout.footer_view_camera_files_camera, null);
 
@@ -260,7 +261,6 @@ public class CameraFilesActivity extends BaseActivity {
                 if (files.size() > 0) {
                     lvFilesCamera.removeHeaderView(viewCamLvHeader);
                     String str = files.get(0).getRecStartTime() + "  -  " + files.get(0).getRecEndTime();
-                    ivThumbCamLvHeader.setImageResource(R.drawable.camera_files_video);
                     tvTimeCamLvHeader.setText(str);
                     lvFilesCamera.addHeaderView(viewCamLvHeader);
                 }

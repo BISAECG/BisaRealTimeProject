@@ -3,7 +3,6 @@ package com.bisa.health.camera.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import com.bisa.health.R;
 import com.bisa.health.camera.CameraDeviceActivity;
 import com.bisa.health.camera.CameraSettingsActivity;
-import com.bisa.health.camera.lib.funsdk.support.FunPath;
 import com.bisa.health.camera.lib.funsdk.support.FunSupport;
 import com.bisa.health.camera.lib.funsdk.support.models.FunDevStatus;
 import com.bisa.health.camera.lib.funsdk.support.models.FunDevice;
@@ -88,6 +86,8 @@ public class CameraAllRvAdapter extends RecyclerView.Adapter<CameraAllRvAdapter.
             viewHolder.btnSettings.setOnClickListener(null);
         }
         else {
+            viewHolder.checkBoxDel.setOnCheckedChangeListener(null);
+            viewHolder.checkBoxDel.setChecked(false);
             viewHolder.checkBoxDel.setVisibility(View.GONE);
             viewHolder.ivBg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,8 +130,11 @@ public class CameraAllRvAdapter extends RecyclerView.Adapter<CameraAllRvAdapter.
 
     public void setDelMode(boolean isDelMode) {
         this.isDelMode = isDelMode;
-        //delSnList.clear();
+        if(!isDelMode) {
+            delSnList.clear();
+        }
         notifyDataSetChanged();
+
     }
 
     class VH extends RecyclerView.ViewHolder {
@@ -141,7 +144,7 @@ public class CameraAllRvAdapter extends RecyclerView.Adapter<CameraAllRvAdapter.
         Button btnShare, btnSettings;
         CheckBox checkBoxDel;
 
-        public VH(View v) {
+        VH(View v) {
             super(v);
             ivBg = v.findViewById(R.id.iv_item_camera_all_bg);
             tvName = v.findViewById(R.id.tv_item_camera_all_name);

@@ -86,7 +86,7 @@
     <string name="camera_search_setWifiWithQrcode">Click to display the WiFi configuration QR code</string>
     <string name="camera_search_retry">Retry</string>
     <string name="camera_search_cancel">Cancel</string>
-    <string name="camera_search_dialog_body">① Please put the QRcode toward the device;\n② To keep a distance of 20 to 30 cm, waiting for the scan;\n③ And hear the device prompt, take the phone;\n④ If you hear the device prompt configuration successful.</string>
+    <string name="camera_search_dialog_body">① Please put the QR code toward the device;\n② To keep a distance of 20 to 30 cm, waiting for the scan;\n③ And hear the device prompt, take the phone;\n④ If you hear the device prompt configuration successful.</string>
     <string name="camera_search_dialog_iKnow">I see</string>
     <string name="camera_pw_title">Set Camera Password</string>
     <string name="camera_pw_headline">For the security of your device, please change the default password.</string>
@@ -96,7 +96,7 @@
     <string name="camera_pw_confirm">Confirm</string>
     <string name="camera_pw_backPress_tips">The device is not saved, once quit, need to re-add it.</string>
     <string name="camera_name_title">Name the Camera</string>
-    <string name="camera_name_headline">Add succeeded. Please name the device</string>
+    <string name="camera_name_headline">Add successful, please name the device.</string>
     <string name="camera_name_hint">10-digit</string>
     <string name="camera_name_save">Save</string>
 

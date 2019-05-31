@@ -196,7 +196,7 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
                                     H264_DVR_FILE_DATA recordFile = recordAdapter.getItem(position);
                                     if (recordFile != null) {
                                         byte[] data = G.ObjToBytes(recordFile);
-                                        String path = fileDir + recordFile.getStartTimeOfYear() + ".mp4";
+                                        String path = fileDir + recordFile.getLongStartTime() + recordFile.getLongEndTime() + ".mp4";
                                         File file = new File(path);
                                         if (file.exists()) {
                                             Toast.makeText(CameraFilesViewRecordActivity.this, getString(R.string.common_file_exist), Toast.LENGTH_SHORT).show();

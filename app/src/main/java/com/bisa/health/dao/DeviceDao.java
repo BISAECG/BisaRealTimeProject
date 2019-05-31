@@ -183,7 +183,7 @@ public class DeviceDao implements IDeviceDao {
 
 
 
-	public Device updateOrSaveEcg(Device device) {
+	public Device updateOrSaveByClzName(Device device) {
 		try{
 			DeviceSelection where=new DeviceSelection();
 			where.userGuid(device.getUser_guid());
@@ -193,7 +193,7 @@ public class DeviceDao implements IDeviceDao {
 			int count=deviceCursor.getCount();
 			deviceCursor.close();
 			if(count>0){
-				return upDeviceEcg(device);
+				return upDeviceByClzName(device);
 			}else{
 				return add(device);
 			}
@@ -202,7 +202,7 @@ public class DeviceDao implements IDeviceDao {
 			return null;
 		}
 	}
-	public Device upDeviceEcg(Device device) {
+	public Device upDeviceByClzName(Device device) {
 		DeviceSelection where=new DeviceSelection();
 		where.userGuid(device.getUser_guid());
 		where.and();
