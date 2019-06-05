@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -59,6 +60,8 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
     private final int MESSAGE_REFRESH_PROGRESS = 0x100;
     private final int MESSAGE_SEEK_PROGRESS = 0x101;
     private final int MESSAGE_SET_IMAGE = 0x102;
+
+    private SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
 
     private int maxProgress = 100;
 
@@ -130,6 +133,8 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
                     message.what = MESSAGE_SET_IMAGE;
                     message.obj = path;
                     mHandler.sendMessageDelayed(message, 200);
+
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 }
 
             }
@@ -139,7 +144,14 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 dialogDismiss();
                 showToast(getResources().getString(R.string.media_play_error) + " : " + FunError.getErrorStr(extra));
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
                 return true;
+            }
+        });
+        mFunVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         });
 
@@ -196,7 +208,7 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
                                     H264_DVR_FILE_DATA recordFile = recordAdapter.getItem(position);
                                     if (recordFile != null) {
                                         byte[] data = G.ObjToBytes(recordFile);
-                                        String path = fileDir + recordFile.getLongStartTime() + recordFile.getLongEndTime() + ".mp4";
+                                        String path = fileDir + recordFile.st_3_beginTime.getDate().getTime() + ".mp4";
                                         File file = new File(path);
                                         if (file.exists()) {
                                             Toast.makeText(CameraFilesViewRecordActivity.this, getString(R.string.common_file_exist), Toast.LENGTH_SHORT).show();
@@ -300,6 +312,7 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
         onFunDeviceFileListener = new OnFunDeviceFileListener() {
             @Override
             public void onDeviceFileDownCompleted(FunDevice funDevice, String path, int nSeq) {
+                dialogDismiss();
                 Toast.makeText(CameraFilesViewRecordActivity.this, getString(R.string.download_complete), Toast.LENGTH_LONG).show();
             }
 
@@ -312,6 +325,7 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
             public void onDeviceFileDownStart(boolean isStartSuccess, int nSeq) {
                 if (isStartSuccess){
                     Toast.makeText(CameraFilesViewRecordActivity.this, getString(R.string.download_start), Toast.LENGTH_LONG).show();
+                    showDialog(true);
                 }else{
                     Toast.makeText(CameraFilesViewRecordActivity.this, getString(R.string.download_faile), Toast.LENGTH_LONG).show();
                 }
@@ -346,9 +360,8 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
         maxProgress = endTm - startTm;
 
         if (startTm > 0 && endTm > startTm) {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
-            tvCurrTime.setText(sdf.format(new Date((long) startTm * 1000)));
-            tvDuration.setText(sdf.format(new Date((long) endTm * 1000)));
+            tvCurrTime.setText(sdf1.format(new Date((long) startTm * 1000)));
+            tvDuration.setText(sdf1.format(new Date((long) endTm * 1000)));
             seekBar.setMax(endTm - startTm);
             seekBar.setProgress(0);
 
@@ -362,8 +375,7 @@ public class CameraFilesViewRecordActivity extends BaseActivity {
     private void refreshProgress() {
         int posTm = mFunVideoView.getPosition();
         if ( posTm > 0 ) {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
-            tvCurrTime.setText(sdf.format(new Date((long) posTm*1000)));
+            tvCurrTime.setText(sdf1.format(new Date((long) posTm*1000)));
 
             seekBar.setProgress(posTm - mFunVideoView.getStartTime());
         }

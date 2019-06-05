@@ -55,7 +55,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:padding="10dp"
         android:text="@string/camera_wifi_problem_tips"
         android:textColor="#20B9B5"
         android:textSize="16sp" />

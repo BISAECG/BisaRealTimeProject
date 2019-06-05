@@ -895,7 +895,9 @@ public class CameraDeviceActivity extends BaseActivity implements
             chronometerRecordTime.stop();
             lLayoutRecording.setVisibility(View.GONE);
 
-            mBtnFiles.setEnabled(true);
+            if(!iBtnPlayback.isSelected()) {
+                mBtnFiles.setEnabled(true);
+            }
 
             toastRecordSucess(mFunVideoView.getFilePath());
         } else {
@@ -953,15 +955,16 @@ public class CameraDeviceActivity extends BaseActivity implements
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 File file = new File(path);
-                                File imgPath = new File(FunPath.PATH_PHOTO + File.separator
-                                        + file.getName());
-                                if (imgPath.exists()) {
-                                    showToast(getString(R.string.device_socket_capture_exist));
-                                } else {
-                                    FileUtils.copyFile(path, FunPath.PATH_PHOTO + File.separator
-                                            + file.getName());
+                                if(file.exists()) {
                                     showToast(getString(R.string.device_socket_capture_save_success));
                                 }
+                                //File imgPath = new File(FunPath.PATH_PHOTO + File.separator + file.getName());
+                                //if (imgPath.exists()) {
+                                    //showToast(getString(R.string.device_socket_capture_exist));
+                                //} else {
+                                    //FileUtils.copyFile(path, FunPath.PATH_PHOTO + File.separator + file.getName());
+                                    //showToast(getString(R.string.device_socket_capture_save_success));
+                                //}
                             }
                         })
                 .setNegativeButton(R.string.device_socket_capture_delete,

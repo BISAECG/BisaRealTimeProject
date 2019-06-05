@@ -215,4 +215,13 @@ public class DeviceDao implements IDeviceDao {
 		}
 		return device;
 	}
+
+	public int deleteByUserClz(Device device) {
+		DeviceSelection where=new DeviceSelection();
+		where.userGuid(device.getUser_guid());
+		where.and();
+		where.clzname(device.getClzName());
+		DeviceContentValues deviceContentValues=new DeviceContentValues();
+		return context.getContentResolver().delete(deviceContentValues.uri(),where.sel(),where.args());
+	}
 }

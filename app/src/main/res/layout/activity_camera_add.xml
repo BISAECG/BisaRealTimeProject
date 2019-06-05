@@ -47,7 +47,7 @@
             android:layout_width="@dimen/camera_btn_width"
             android:layout_height="@dimen/camera_btn_height"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="80dp"
             android:background="@drawable/bg_shape_camera_add_btn"
             android:drawableStart="@drawable/camera_add_keyboard"
             android:gravity="center"

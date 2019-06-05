@@ -12,19 +12,20 @@
         app:title="@string/title_menu_adddev"
         android:id="@+id/abar_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
 
 
-    <RelativeLayout
-        android:layout_below="@+id/abar_title"
+    <LinearLayout
         android:id="@+id/rl_nav_title"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_productnum"
-            android:layout_width="wrap_content"
+            android:layout_width="309dp"
             android:layout_height="wrap_content"
             android:text="@string/title_product_num"
             android:textColor="@color/color_search_title"
@@ -34,62 +35,46 @@
             android:id="@+id/tv_productnum_value"
             android:layout_width="309dp"
             android:layout_height="41dp"
-            android:layout_alignLeft="@+id/tv_productnum"
-            android:layout_below="@+id/tv_productnum"
             android:layout_marginTop="13dp"
-            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:background="@drawable/dev_view_bg"
             android:ellipsize="end"
-            android:gravity="left|center"
+            android:gravity="start|center_vertical"
             android:enabled="true"
             android:hint="@string/tip_click_find_device"
             android:singleLine="true"
             android:textColor="@color/color_search_title"
             android:textSize="16sp" />
-    </RelativeLayout>
-
-        <LinearLayout
-            android:layout_marginTop="180dp"
-            android:layout_below="@+id/rl_nav_title"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btn_dev_pair"
-                android:layout_width="309dp"
-                android:layout_height="41dp"
-                android:layout_gravity="center"
-                android:textColor="@color/white"
-                android:text="@string/title_pair_device"
-                android:background="@drawable/pair_enabled" />
-
-            <Button
-                android:id="@+id/img_warning_tip"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="21dp"
-                android:layout_marginTop="24dp"
-                android:textColor="@color/color_search_title"
-                android:background="@color/white"
-                android:text="@string/title_search_tip"
-                android:textSize="14sp"
-                />
-
-            <Button
-                android:id="@+id/btn_pair_commit"
-                android:layout_gravity="center"
-                android:layout_width="309dp"
-                android:layout_height="41dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/white"
-                android:text="@string/title_pair_device_commit"
-                android:background="@drawable/dev_pair_commit"/>
-
-        </LinearLayout>
 
 
-        
+        <Button
+            android:id="@+id/btn_dev_pair"
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="80dp"
+            android:textColor="@color/white"
+            android:text="@string/title_pair_device"
+            android:background="@drawable/pair_enabled" />
 
+        <Button
+            android:id="@+id/img_warning_tip"
+            android:layout_width="309dp"
+            android:layout_height="21dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/color_search_title"
+            android:background="@color/white"
+            android:text="@string/title_search_tip"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_pair_commit"
+            android:layout_width="309dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="80dp"
+            android:textColor="@color/white"
+            android:text="@string/title_pair_device_commit"
+            android:background="@drawable/dev_pair_commit"/>
+    </LinearLayout>
 
 </RelativeLayout>

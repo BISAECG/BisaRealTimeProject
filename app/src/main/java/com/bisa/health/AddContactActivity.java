@@ -53,6 +53,7 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
     private HealthServer mHealthServer;
     private User mUser;
     private List<ServerDto> mListType;
+    private List<ServerDto> mListTypeHK;
     private boolean isValidation = false;
     private LinearLayout ll_layout;
     private Button spiner_img;
@@ -92,6 +93,7 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
         mHealthServer = sharedObjectPersistor.loadObject(HealthServer.class.getName());
         mUser = sharedObjectPersistor.loadObject(User.class.getName());
         mListType = AreaUtil.getListArea(this);
+        mListTypeHK = AreaUtil.getListAreaHK(this);
         actionBarView = findViewById(R.id.abar_title);
         actionBarView.setOnActionClickListenerNext(new ActionBarView.OnActionClickListener() {
             @Override
@@ -175,9 +177,9 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
         tv_contact_value = (EditText) this.findViewById(R.id.tv_contact_value);
         tv_contact_num = (EditText) this.findViewById(R.id.tv_contact_num);
         tv_contact_email = (EditText) this.findViewById(R.id.tv_contact_email);
-        tv_value = (TextView) this.findViewById(R.id.tv_value);
+
         countryAdapter = new CountryAdapter(this);
-        countryAdapter.setmObjects(mListType);
+        countryAdapter.setmObjects(mListTypeHK);
         custCountrySpinerPop = new CustCountrySpinerPopWindow(this);
         custCountrySpinerPop.setItemListener(this);
         custCountrySpinerPop.setAdatper(countryAdapter);
@@ -222,7 +224,6 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
             tv_contact_email.setText(event.getEvent_mail());
         } catch (Exception e) {
             e.printStackTrace();
-            return;
         }
 
 
@@ -239,7 +240,7 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
     @Override
     public void onItemClick(int pos) {
         if (pos >= 0) {
-            areaDto = mListType.get(pos);
+            areaDto = mListTypeHK.get(pos);
             tv_value.setText(areaDto.getCountry() + "(" + areaDto.getPhoneCode() + ")");
         }
     }
@@ -248,8 +249,9 @@ public class AddContactActivity extends BaseActivity implements IAdapterClickInt
     public void onClick(View v) {
 
         if (v == rl_country || v == spiner_img) {
-
-            custCountrySpinerPop.showAsDropDown(ll_layout);
+            if(mHealthServer.getAreaCode().equals("852")) {
+                custCountrySpinerPop.showAsDropDown(ll_layout);
+            }
         }
         if (v == btn_commit) {
             validator.validate();

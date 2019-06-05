@@ -53,7 +53,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
     private View view;
     private ListView listDeviceView;
     private DeviceAdapter deviceAdapter = null;
-    private IDeviceDao deviceDao;
+    private DeviceDao deviceDao;
     private ImageButton ibtn_del;
     private Button dell_all_dev;
     private RelativeLayout llDel;
@@ -290,7 +290,7 @@ public class MyDeviceFragment extends android.support.v4.app.Fragment implements
                             if (mBleDevice.get(i).getCheckbox()==1) {
                                 final  Device _device=mBleDevice.get(i);
                                 Log.i(TAG,_device.getDevname());
-                                deviceDao.delete(_device.getDevname());
+                                deviceDao.deleteByUserClz(_device);
                                 deviceAdapter.getmBleDevice().remove(i);
                             }
                         }
