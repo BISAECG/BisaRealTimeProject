@@ -177,6 +177,7 @@ public class CameraDeviceActivity extends BaseActivity implements
     private User mUser;
     private String fileDir;
 
+    private boolean isReverseMovement;
     private boolean isSaveNativePw;
 
 
@@ -209,8 +210,9 @@ public class CameraDeviceActivity extends BaseActivity implements
         sharedPersistor = new SharedPersistor(this);
         mUser = sharedPersistor.loadObject(User.class.getName());
         sharedPref = getSharedPreferences(String.valueOf(mUser.getUser_guid()), Context.MODE_PRIVATE);
-        isSaveNativePw = sharedPref.getBoolean("isSaveNativePw" + mFunDevice.getDevSn(), true);
-        funStreamTypeId = sharedPref.getInt("funStreamTypeId" + mFunDevice.getDevSn(), FunStreamType.STREAM_MAIN.getTypeId());
+        isReverseMovement = sharedPref.getBoolean(mFunDevice.getDevSn() + "isReverseMovement", false);
+        isSaveNativePw = sharedPref.getBoolean(mFunDevice.getDevSn() + "isSaveNativePw", true);
+        funStreamTypeId = sharedPref.getInt(mFunDevice.getDevSn() + "funStreamTypeId", FunStreamType.STREAM_MAIN.getTypeId());
 
         rLayoutTop = findViewById(R.id.rlayout_camera_device_top);
 
@@ -590,11 +592,19 @@ public class CameraDeviceActivity extends BaseActivity implements
         mPtz_left = findViewById(R.id.ptz_left);
         mPtz_right = findViewById(R.id.ptz_right);
 
+        if(!isReverseMovement) {
+            mPtz_up.setOnTouchListener(onPtz_up);
+            mPtz_down.setOnTouchListener(onPtz_down);
+            mPtz_left.setOnTouchListener(onPtz_right);
+            mPtz_right.setOnTouchListener(onPtz_left);
+        }
+        else {
+            mPtz_up.setOnTouchListener(onPtz_down);
+            mPtz_down.setOnTouchListener(onPtz_up);
+            mPtz_left.setOnTouchListener(onPtz_left);
+            mPtz_right.setOnTouchListener(onPtz_right);
+        }
 
-        mPtz_up.setOnTouchListener(onPtz_up);
-        mPtz_down.setOnTouchListener(onPtz_down);
-        mPtz_left.setOnTouchListener(onPtz_right);
-        mPtz_right.setOnTouchListener(onPtz_left);
 
         lLayoutPlayback = findViewById(R.id.llayout_camera_playback);
         iBtnPlayback = findViewById(R.id.ibtn_camera_playback);
@@ -784,7 +794,7 @@ public class CameraDeviceActivity extends BaseActivity implements
         }
 
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("funStreamTypeId" + mFunDevice.getDevSn(), funStreamTypeId);
+        editor.putInt(mFunDevice.getDevSn() + "funStreamTypeId", funStreamTypeId);
         editor.apply();
 
         super.onDestroy();

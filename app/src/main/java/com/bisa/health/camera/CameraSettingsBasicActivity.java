@@ -35,8 +35,10 @@ public class CameraSettingsBasicActivity extends BaseActivity {
     private LinearLayout viewDevRename;
     private TextView tvDevRename;
     private Switch switchUpDown;
+    private Switch switchLeftRight;
     private Switch switchTimeOSD;
     private Switch switchOSD;
+    private Switch switchReverseMovement;
     private Switch switchSaveNativePw;
 
     private TextView tvOSD;
@@ -52,6 +54,7 @@ public class CameraSettingsBasicActivity extends BaseActivity {
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 
+    private boolean isReverseMovement;
     private boolean isSaveNativePw;
 
     @Override
@@ -62,8 +65,10 @@ public class CameraSettingsBasicActivity extends BaseActivity {
         viewDevRename = findViewById(R.id.llayout_camera_settings_basic_rename);
         tvDevRename = findViewById(R.id.tv_camera_settings_basic_rename);
         switchUpDown = findViewById(R.id.switch_camera_settings_basic_upDown);
+        switchLeftRight = findViewById(R.id.switch_camera_settings_basic_leftRight);
         switchTimeOSD = findViewById(R.id.switch_camera_settings_basic_timeOSD);
         switchOSD = findViewById(R.id.switch_camera_settings_basic_OSD);
+        switchReverseMovement = findViewById(R.id.switch_camera_settings_basic_reverseMovement);
         switchSaveNativePw = findViewById(R.id.switch_camera_settings_basic_saveNativePw);
         tvOSD = findViewById(R.id.tv_camera_settings_basic_osd);
 
@@ -72,6 +77,11 @@ public class CameraSettingsBasicActivity extends BaseActivity {
             switchUpDown.setTextOff("");
             switchUpDown.setThumbResource(R.drawable.camera_settings_switch_thumb_selector);
             switchUpDown.setTrackResource(R.drawable.camera_settings_switch_track_selector);
+
+            switchLeftRight.setTextOn("");
+            switchLeftRight.setTextOff("");
+            switchLeftRight.setThumbResource(R.drawable.camera_settings_switch_thumb_selector);
+            switchLeftRight.setTrackResource(R.drawable.camera_settings_switch_track_selector);
 
             switchTimeOSD.setTextOn("");
             switchTimeOSD.setTextOff("");
@@ -82,6 +92,11 @@ public class CameraSettingsBasicActivity extends BaseActivity {
             switchOSD.setTextOff("");
             switchOSD.setThumbResource(R.drawable.camera_settings_switch_thumb_selector);
             switchOSD.setTrackResource(R.drawable.camera_settings_switch_track_selector);
+
+            switchReverseMovement.setTextOn("");
+            switchReverseMovement.setTextOff("");
+            switchReverseMovement.setThumbResource(R.drawable.camera_settings_switch_thumb_selector);
+            switchReverseMovement.setTrackResource(R.drawable.camera_settings_switch_track_selector);
 
             switchSaveNativePw.setTextOn("");
             switchSaveNativePw.setTextOff("");
@@ -195,9 +210,11 @@ public class CameraSettingsBasicActivity extends BaseActivity {
         showDialog(false);
 
         sharedPref = getSharedPreferences(String.valueOf(mUser.getUser_guid()), Context.MODE_PRIVATE);
-        isSaveNativePw = sharedPref.getBoolean("isSaveNativePw" + mFunDevice.getDevSn(), true);
+        isReverseMovement = sharedPref.getBoolean(mFunDevice.getDevSn() + "isReverseMovement", false);
+        isSaveNativePw = sharedPref.getBoolean(mFunDevice.getDevSn() + "isSaveNativePw", true);
         editor = sharedPref.edit();
 
+        switchReverseMovement.setChecked(isReverseMovement);
         switchSaveNativePw.setChecked(isSaveNativePw);
 
         viewDevRename.setOnClickListener(new View.OnClickListener() {
@@ -254,6 +271,18 @@ public class CameraSettingsBasicActivity extends BaseActivity {
                 }
             }
         });
+        switchLeftRight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                CameraParam cameraParam = (CameraParam)mFunDevice.getConfig(CameraParam.CONFIG_NAME);
+                if(cameraParam != null) {
+                    if(cameraParam.getPictureMirror() != isChecked) {
+                        cameraParam.setPictureMirror(isChecked);
+                        FunSupport.getInstance().requestDeviceSetConfig(mFunDevice, cameraParam);
+                    }
+                }
+            }
+        });
         switchTimeOSD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -288,12 +317,22 @@ public class CameraSettingsBasicActivity extends BaseActivity {
                 }
             }
         });
+        switchReverseMovement.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isReverseMovement != isChecked) {
+                    isReverseMovement = isChecked;
+                    editor.putBoolean(mFunDevice.getDevSn() + "isReverseMovement", isReverseMovement);
+                    editor.apply();
+                }
+            }
+        });
         switchSaveNativePw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isSaveNativePw != isChecked) {
                     isSaveNativePw = isChecked;
-                    editor.putBoolean("isSaveNativePw" + mFunDevice.getDevSn(), isSaveNativePw);
+                    editor.putBoolean(mFunDevice.getDevSn() + "isSaveNativePw", isSaveNativePw);
                     editor.apply();
                     if(isSaveNativePw == false) {
                         FunDevicePassword.getInstance().removeDevicePassword(mFunDevice.getDevSn());
@@ -308,6 +347,8 @@ public class CameraSettingsBasicActivity extends BaseActivity {
         if (null != cameraParam) {
             // 图像上下翻转
             switchUpDown.setChecked(cameraParam.getPictureFlip());
+            // 图像左右翻转
+            switchLeftRight.setChecked(cameraParam.getPictureMirror());
         }
 
         AVEncVideoWidget avEnc = (AVEncVideoWidget)mFunDevice.getConfig(AVEncVideoWidget.CONFIG_NAME);

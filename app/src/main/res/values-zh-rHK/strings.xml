@@ -115,12 +115,14 @@
     <string name="camera_settings_basic">基本設置</string>
     <string name="camera_settings_basic_devName">設備名稱</string>
     <string name="camera_settings_basic_upDown">圖像上下翻轉</string>
+    <string name="camera_settings_basic_leftRight">圖像左右翻轉</string>
     <string name="camera_settings_basic_rename">修改設備名稱</string>
     <string name="camera_settings_basic_timeOSD">時間水印</string>
     <string name="camera_settings_basic_OSD">自定義水印</string>
     <string name="camera_settings_basic_OSD_tips">該功能將設備名稱添加到視頻圖像中，可以豐富視頻圖像的信息</string>
     <string name="camera_settings_basic_confirm">確定</string>
     <string name="camera_settings_basic_cancel">取消</string>
+    <string name="camera_settings_basic_reverseMovement">反向移動</string>
     <string name="camera_settings_basic_saveNativePw">保存密碼</string>
     <string name="camera_settings_basic_saveNativePw_tips">選擇保存密碼，而不用每次都輸入密碼</string>
     <string name="camera_settings_pwMng">密碼管理</string>
